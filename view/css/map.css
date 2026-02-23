@@ -1,0 +1,24 @@
+.map {
+    display: flex;
+    align-items: center;
+    height: calc(var(--size)*3);
+    width: calc(var(--size)*5);
+    position: relative;
+    overflow: hidden;
+}
+
+.map-container {
+    position: absolute;
+    top: calc((var(--size)*3/2));
+    left: var(--width-ground);
+}
+
+.map-item {
+    display: flex;
+    height: calc( var(--height-ground)*60/100);
+    position: absolute;
+    top: calc((var(--i) - var(--j)) * (var(--width-ground) / 4));
+    right: calc((var(--i) + var(--j)) * (var(--width-ground) / 2) * -1);
+    z-index: calc(3000 - (var(--j) * 100));
+    align-items: flex-end;
+}

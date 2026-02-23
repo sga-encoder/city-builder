@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+*.log
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+.env

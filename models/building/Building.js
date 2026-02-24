@@ -19,7 +19,7 @@ class Building {
   }
 
   constructor(dict) {
-    const { id, type, subtype, cost, energyUsage, waterUsage } = dict;
+    const { id, type, subtype, cost, energyUsage, waterUsage } = dict; 
     this.id = id;
     this.type = type;
     this.subtype = subtype;

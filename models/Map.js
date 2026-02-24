@@ -33,7 +33,7 @@ class Map {
         let id = `${i}-${j}`;
         let type = layout[i][j][0];
         let subtype = layout[i][j][1] === undefined ? "" : layout[i][j][1];
-
+ 
         const ground = Building.create({
           id,
           type,

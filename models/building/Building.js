@@ -19,10 +19,11 @@ class Building {
   }
 
   constructor(dict) {
-    const { id, type, subtype, cost, energyUsage, waterUsage } = dict; 
+    const { id, type, subtype, cost, energyUsage, waterUsage, model} = dict; 
     this.id = id;
     this.type = type;
     this.subtype = subtype;
+    this.model = model;
 
     // Obtener datos de la configuración si no están en el diccionario
     const configData = Building.getSubtypeData(type, subtype);
@@ -58,10 +59,8 @@ class Building {
   build() {
     const building = document.createElement("div");
     building.id = `building-${this.id}`;
-    building.classList.add("g");
-    if (this.type !== "g") {
-      building.classList.add(`${this.type}${this.subtype}`);
-    }
+    building.classList.add("building", `${this.type}${this.subtype}`);
+    building.innerHTML = this.model;
     return building;
   }
 }

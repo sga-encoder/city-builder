@@ -1,0 +1,111 @@
+<svg id="g energy" width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g class="ground">
+        <path class="ground-top" d="M1000 650L500 900L0 650L500 400L1000 650Z" fill="#333333" />
+        <path class="ground-right" d="M500 900V1000L0 750V650L500 900Z" fill="black" />
+        <path class="ground-left" d="M500 900V1000L1000 750V650L500 900Z" fill="#555555" />
+    </g>
+    <g class="building-01">
+        <g class="base">
+            <path class="base-top" d="M122 368.291L248 431.101L626 242.67L500 179.859L122 368.291Z" fill="#F04949"/>
+            <path class="base-right" d="M248 431.101L122 368.291V649.443L248 712.253V431.101Z" fill="#CA2B2B"/>
+            <path class="base-left" d="M248 712.253V431.102L626 242.67V524.32L248 712.253Z" fill="#E67070"/>
+        </g>
+        <g class="windows-group">
+            <g class="window-01">
+                <path class="window-background" d="M475 349.35L589 292.521V365.302L475 422.131V349.35Z" fill="#CAFFFF"/>
+                <g class="window-frame">
+                    <path class="window-frame-top" d="M475 422.128L475 426.116L593 367.293L589 365.298L475 422.128Z" fill="#676767"/>
+                    <path class="window-frame-top" d="M467.002 345.362L471.002 347.356L597.001 284.543L593.001 282.55L467.002 345.362Z" fill="#676767"/>
+                    <path class="window-frame-right" d="M467 430.104L471 432.098V347.353L467 345.359V430.104Z" fill="#3B3B3B"/>
+                    <path class="window-frame-right" d="M589 365.3L593 367.294V290.525L589 292.52V365.3Z" fill="#3B3B3B"/>
+                    <path class="window-frame-left" fill-rule="evenodd" clip-rule="evenodd" d="M597 369.287V284.543L471 347.354V432.098L597 369.287ZM593 290.525V367.293L475 426.116V349.347L593 290.525Z" fill="#A6A6A6"/>
+                </g>
+            </g>
+            <g class="window-01">
+                <path class="window-background" d="M301 436.088L415 379.26V452.04L301 508.869V436.088Z" fill="#CAFFFF"/>
+                <g class="window-frame">
+                    <path class="window-frame-top" d="M301 508.866L301 512.854L419 454.031L415 452.036L301 508.866Z" fill="#676767"/>
+                    <path class="window-frame-top" d="M293.002 432.1L297.002 434.094L423.001 371.281L419.001 369.289L293.002 432.1Z" fill="#676767"/>
+                    <path class="window-frame-right" d="M293 516.842L297 518.836V434.092L293 432.098V516.842Z" fill="#3B3B3B"/>
+                    <path class="window-frame-right" d="M415 452.039L419 454.033V377.264L415 379.258V452.039Z" fill="#3B3B3B"/>
+                    <path class="window-frame-left" fill-rule="evenodd" clip-rule="evenodd" d="M423 456.026V371.281L297 434.092V518.836L423 456.026ZM419 377.263V454.032L301 512.854V436.086L419 377.263Z" fill="#A6A6A6"/>
+                </g>
+            </g>
+        </g>
+        <g class="garage">
+            <path class="garage-background" d="M311 547.975L453 476.975V610.975L311 681.975V547.975Z" fill="#D9D9D9"/>
+            <g class="garage-frame">
+                <path class="garage-frame-right" d="M303.031 681.287L307.03 683.216V550.126L303.031 548.197V681.287Z" fill="#3B3B3B"/>
+                <path class="garage-frame-right" d="M453.002 612.813L457.001 610.884V481.652L453.002 483.581V612.813Z" fill="#3B3B3B"/>
+                <path class="garage-frame-top" d="M303.032 548.198L307.031 550.127L461 475.866L457 473.937L303.032 548.198Z" fill="#676767"/>
+                <path class="garage-frame-left" d="M461 608.957L457.001 610.886V481.654L311.031 552.056V681.288L307.031 683.217V550.127L461 475.867V608.957Z" fill="#A6A6A6"/>
+            </g>
+            <g class="garage-decorations-group">
+                <line class="garage-decorations" y1="-0.5" x2="149.91" y2="-0.5" transform="matrix(-0.894965 0.446137 0.448292 0.893887 449 514.848)" stroke="#3B3B3B"/>
+                <line class="garage-decorations" y1="-0.5" x2="149.91" y2="-0.5" transform="matrix(-0.894965 0.446137 0.448292 0.893887 449 536.781)" stroke="#3B3B3B"/>
+                <line class="garage-decorations" y1="-0.5" x2="149.91" y2="-0.5" transform="matrix(-0.894965 0.446137 0.448292 0.893887 449 555.725)" stroke="#3B3B3B"/>
+                <line class="garage-decorations" y1="-0.5" x2="149.91" y2="-0.5" transform="matrix(-0.894965 0.446137 0.448292 0.893887 449 575.664)" stroke="#3B3B3B"/>
+                <line class="garage-decorations" y1="-0.5" x2="149.91" y2="-0.5" transform="matrix(-0.894965 0.446137 0.448292 0.893887 449 596.602)" stroke="#3B3B3B"/>
+                <line class="garage-decorations" y1="-0.5" x2="149.91" y2="-0.5" transform="matrix(-0.894965 0.446137 0.448292 0.893887 449 612.553)" stroke="#3B3B3B"/>
+            </g>
+        </g>
+        <g class="chimney-group">
+            <g class="chimney-01">
+                <path class="chimney-top" d="M484 133L444 152.94L484 172.88L524 152.94L484 133Z" fill="#676767"/>
+                <path class="chimney-left" d="M524 152.939L484 172.879V276.068L524 255.63V152.939Z" fill="#A6A6A6"/>
+                <path class="chimney-left" d="M484 164.903V139.979L459 152.441L484 164.903Z" fill="#A6A6A6" />
+                <path class="chimney-right" d="M444 152.939L484 172.879V276.068L444 255.63V152.939Z" fill="#3B3B3B"/>
+                <path class="chimney-right" d="M509 152.441L484 164.903V139.979L509 152.441Z" fill="#3B3B3B"/>
+            </g>
+            <g class="chimney-02">
+                <path class="chimney-top" d="M377 185.84L337 205.78L377 225.72L417 205.78L377 185.84Z" fill="#676767"/>
+                <path class="chimney-left" d="M417 205.779L377 225.719V328.908L417 308.47V205.779Z" fill="#A6A6A6"/>
+                <path class="chimney-right" d="M337 205.779L377 225.719V328.908L337 308.47V205.779Z" fill="#3B3B3B"/>
+                <path class="chimney-left" d="M377 217.743V192.818L352 205.281L377 217.743Z" fill="#A6A6A6"/>
+                <path class="chimney-right" d="M402 205.281L377 217.743V192.818L402 205.281Z" fill="#3B3B3B"/>
+            </g>
+            <g class="chimney-03">
+                <path class="chimney-top" d="M263 243.666L223 263.606L263 283.546L303 263.606L263 243.666Z" fill="#676767"/>
+                <path class="chimney-left" d="M303 263.605L263 283.545V386.734L303 366.296V263.605Z" fill="#A6A6A6"/>
+                <path class="chimney-right" d="M223 263.605L263 283.545V386.734L223 366.296V263.605Z" fill="#3B3B3B"/>
+                <path class="chimney-left" d="M263 275.569V250.645L238 263.107L263 275.569Z" fill="#A6A6A6"/>
+                <path class="chimney-right" d="M288 263.107L263 275.569V250.645L288 263.107Z" fill="#3B3B3B"/>
+            </g>
+        </g>
+    </g>
+    <g class="building-02">
+        <g class="base">
+            <path class="base-top" d="M879 507.869L627 382.248L501 445.059L753 570.68L879 507.869Z" fill="#F04949"/>
+            <path class="base-left" d="M753 570.68L879 507.869V648.445L753 711.256V570.68Z" fill="#E67070"/>
+            <path class="base-right" d="M753 570.68L501 445.059V586.632L753 711.256V570.68Z" fill="#CA2B2B"/>
+        </g>
+        <g class="hoarding">
+            <path class="hoarding-background" d="M774 490.922V424.121L608 341.373V408.172L774 490.922Z" fill="#D9D9D9"/>
+            <g class="hoarding-frame">
+                <path class="hoarding-frame-top" d="M774 490.92L774 494.908L604 410.164L608 408.169L774 490.92Z" fill="#676767"/>
+                <path class="hoarding-frame-top"  d="M782.001 420.135L778.001 422.129L600 333.397L604.001 331.402L782.001 420.135Z" fill="#676767"/>
+                <path class="hoarding-frame-right" fill-rule="evenodd" clip-rule="evenodd" d="M778 500.891L736 479.954V512.855L732 510.861V477.96L628 426.117V459.018L624 457.024V424.123L600 412.159V333.396L778 422.129V500.891ZM604 410.165L774 494.909V424.123L604 339.378V410.165Z" fill="#3B3B3B"/>
+                <path class="hoarding-frame-left" d="M740 510.862L736 512.856V479.955L740 477.961V510.862Z" fill="#A6A6A6"/>
+                <path class="hoarding-frame-left" d="M632 457.024L628 459.018V426.117L632 424.123V457.024Z" fill="#A6A6A6"/>
+                <path class="hoarding-frame-left" d="M782 498.897L778 500.891V422.129L782 420.135V498.897Z" fill="#A6A6A6" />
+                <path class="hoarding-frame-left" d="M608 408.171L604 410.165V339.379L608 341.373V408.171Z" fill="#A6A6A6"/>
+            </g>
+        </g>
+        <g class="door-01">
+            <path class="door-background" d="M646.23 573.479V659.221L588.23 630.308V544.566L646.23 573.479Z" fill="#7B4C00"/>
+            <g class="door-frame">
+                <path class="door-frame-top" d="M654.231 569.491L650.232 571.486L580.231 536.59L584.231 534.597L654.231 569.491Z" fill="#676767"/>
+                <path class="door-frame-right" d="M646.23 659.22L650.23 661.214V571.485L580.23 536.59V626.319L584.23 628.313V542.572L646.23 573.479V659.22Z" fill="#3B3B3B"/>
+                <path class="door-frame-left" d="M588.23 630.308L584.23 628.314V542.572L588.23 544.566V630.308Z" fill="#A6A6A6"/>
+                <path class="door-frame-left" d="M654.23 663.208L650.23 661.214V571.484L654.23 569.49V663.208Z" fill="#A6A6A6"/>
+            </g>
+        </g>
+    </g>
+    <g class="power-tower">
+        <path class="tower-base" d="M324.129 710L501 797.441L677.872 710L501 622.558L324.129 710Z" fill="#A7A7A7" stroke="black"/>
+        <path class="tower-top" d="M449 556.016L499 531L549 556.016L499 581.033L449 556.016Z" fill="#1D009E"/>
+        <path class="tower-right" d="M449 556.016L499 581.032V748.999L449 723.983V556.016Z" fill="#1B0E55"/>
+        <path class="tower-left" d="M499 581.032L549 556.016V723.983L499 748.999V581.032Z" fill="#380BFF"/>
+    </g>
+
+</svg>

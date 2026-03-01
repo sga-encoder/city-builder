@@ -1,0 +1,71 @@
+
+
+
+
+.R1 svg .ground .ground-top {
+    fill: var(--ground-top);
+}
+
+.R1 svg .ground .ground-right {
+    fill: var(--ground-right);
+}
+
+.R1 svg .ground .ground-left {
+    fill: var(--ground-left);
+}
+
+.R1 svg .base .base-top {
+    fill:  var(--base-top);
+}
+
+.R1 svg .base .base-left {
+    fill: var(--base-left);
+}
+
+.R1 svg .base .base-right {
+    fill: var(--base-right);
+}
+
+.R1 svg .window-01 .window-frame-left {
+    fill: var(--window-frame-left);
+}
+
+.R1 svg .window-01 .window-frame-right {
+    fill: var(--window-frame-right);
+}
+
+.R1 svg .window-01 .window-frame-top {
+    fill: var(--window-frame-top);
+}
+
+.R1 svg .window-01 .window-background {
+    fill: var(--window-background);
+}
+
+.R1 svg .decorations .brush .bush-top {
+    fill: var(--brush-top);
+}
+
+.R1 svg .decorations .brush .bush-left {
+    fill: var(--brush-left);
+}
+
+.R1 svg .decorations .brush .bush-right {
+    fill: var(--brush-right);
+}
+
+.R1 svg .decorations .decorations-path {
+    fill: var(--decorations-path);
+}
+
+.R1 svg .door-01 .door-frame .door-frame-top {
+    fill: var(--door-frame-top);
+}
+
+.R1 svg .door-01 .door-frame .door-frame-left {
+    fill: var(--door-frame-left);
+}
+
+.R1 svg .door-01 .door-frame .door-frame-right {
+    fill: var(--door-frame-right);
+}

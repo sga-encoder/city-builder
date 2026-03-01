@@ -3,7 +3,7 @@ class FileManager {
         try {
             const response = await fetch(filePath);
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`no se encontro el json ${response.status}`);
             }
             const data = await response.json();
             return data;

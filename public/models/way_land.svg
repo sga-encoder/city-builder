@@ -1,0 +1,5 @@
+<svg id="g way" width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1000 650L500 900L0 650L500 400L1000 650Z" fill="#0B1042"/>
+<path d="M500 900V1000L0 750V650L500 900Z" fill="#010424"/>
+<path d="M500 900V1000L1000 750V650L500 900Z" fill="#000A7C"/>
+</svg>

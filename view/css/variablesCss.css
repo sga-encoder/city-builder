@@ -1,0 +1,62 @@
+:root {
+  /* ===== Grupo 1 ===== */
+  --right-color-1: #CA2B2B;
+  --top-color-1: #F04949;
+  --left-color-1: #E67070;
+
+  /* ===== Grupo 2 ===== */
+  --right-color-2: #1B0E55;
+  --top-color-2: #1D009E;
+  --left-color-2: #380BFF;
+
+  /* ===== Grupo 3 ===== */
+  --right-color-3: #3B3B3B;
+  --top-color-3: #676767;
+  --left-color-3: #A6A6A6;
+
+  /* ===== Grupo 4 ===== */
+  --right-color-4: #2E6820;
+  --top-color-4: #309C15;
+  --left-color-4: #28C900;
+
+  /* ===== Grupo 5 ===== */
+  --right-color-5: #830789;
+  --top-color-5: #BF00C8;
+  --left-color-5: #F400FF;
+
+  /* ===== Grupo 6 ===== */
+  --right-color-6: #676767;
+  --top-color-6: #CCCCCC;
+  --left-color-6: #FFFFFF;
+
+  /* ===== Grupo 7 ===== */
+  --right-color-7: #000000;
+  --top-color-7: #333333;
+  --left-color-7: #555555;
+
+  /* ===== Grupo 8 ===== */
+  --right-color-8: #010424;
+  --top-color-8: #0B1042;
+  --left-color-8: #000A7C;
+
+  /* ===== Grupo 9 ===== */
+  --right-color-9: #C2B202;
+  --top-color-9: #CFC909;
+  --left-color-9: #FFF600;
+
+  /* ===== Grupo 10 ===== */
+  --right-color-10: #843700;
+  --top-color-10: #B44C01;
+  --left-color-10: #F56700;
+
+  /* ===== Grupo 11 ===== */
+  --right-color-11: #432606;
+  --top-color-11: #804400;
+  --left-color-11: #B66100;
+
+  /* ===== Otros ===== */
+  --other-1: #D9D9D9;
+  --other-2: #CAFFFF;
+  --other-3: #7B4C00;
+  --other-4: #A7A7A7;
+}

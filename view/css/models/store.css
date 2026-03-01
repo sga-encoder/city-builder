@@ -1,0 +1,93 @@
+.C1 svg .ground .ground-top {
+    fill: var(--ground-top);
+}
+
+.C1 svg .ground .ground-left {
+    fill: var(--ground-left);
+}
+
+.C1 svg .ground .ground-right {
+    fill: var(--ground-right);
+}
+
+.C1 svg .base .base-top {
+    fill: var(--base-top);
+}
+
+.C1 svg .base .base-left {
+    fill: var(--base-left);
+}
+
+.C1 svg .base .base-right {
+    fill: var(--base-right);
+}
+
+.C1 svg .window .window-background {
+    fill: var(--window-background);
+}
+
+.C1 svg .window .window-frame-left {
+    fill: var(--window-frame-left);
+}
+
+.C1 svg .window .window-frame-right {
+    fill: var(--window-frame-right);
+}
+
+.C1 svg .window .window-frame-top {
+    fill: var(--window-frame-top);
+}
+
+.C1 svg .brush .brush-top {
+    fill: var(--brush-top);
+}
+
+.C1 svg .brush .brush-left {
+    fill: var(--brush-left);
+}
+
+.C1 svg .brush .brush-right {
+    fill: var(--brush-right);
+}
+
+.C1 svg .decorations .decorations-path {
+    fill: var(--decorations-path);
+}
+
+.C1 svg .door .door-background {
+    fill: var(--door-background);
+}
+
+.C1 svg .door .door-frame-top {
+    fill: var(--door-frame-top);
+}
+
+.C1 svg .door .door-frame-left {
+    fill: var(--door-frame-left);
+}
+
+.C1 svg .door .door-frame-right {
+    fill: var(--door-frame-right);
+}
+
+.C1 svg .hoarding .hoarding-background,
+.C1 svg .hoarding-stand .hoarding-background {
+    fill: var(--hoarding-background);
+}
+
+.C1 svg .hoarding .hoarding-frame-top, 
+.C1 svg .hoarding-stand .hoarding-frame-top {
+    fill: var(--hoarding-frame-top);
+}
+
+.C1 svg .hoarding .hoarding-frame-left, 
+.C1 svg .hoarding-stand .hoarding-frame-left
+{
+    fill: var(--hoarding-frame-left);
+}
+
+.C1 svg .hoarding .hoarding-frame-right
+.C1 svg .hoarding-stand .hoarding-frame-right
+{
+    fill: var(--hoarding-frame-right);
+}

@@ -1,21 +1,36 @@
+.building {
+    height: var(--height-ground);
+    width: var(--width-ground);
+    pointer-events: none;
+    display: block;
+}
+
+.building svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+
 .map {
     display: flex;
     align-items: center;
     height: calc(var(--size)*3);
     width: calc(var(--size)*5);
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .map-container {
     position: absolute;
-    top: calc((var(--size)*3/2));
+    top: calc((var(--size)*25));
+    /* top: calc((var(--size)*2.5/2)); */
     left: var(--width-ground);
 }
 
 .map-item {
     display: flex;
-    height: calc( var(--height-ground)*60/100);
+    height: calc( var(--height-ground)*61.5/100);
     position: absolute;
     top: calc((var(--i) - var(--j)) * (var(--width-ground) / 4));
     right: calc((var(--i) + var(--j)) * (var(--width-ground) / 2) * -1);

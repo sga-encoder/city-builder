@@ -1,0 +1,87 @@
+.I1  svg .ground .ground-top {
+    fill: var(--ground-top);
+}
+
+.I1  svg .ground .ground-right {
+    fill: var(--ground-right);
+}
+
+.I1  svg .ground .ground-left {
+    fill: var(--ground-left);
+}
+
+.I1  svg .base .base-top {
+    fill: var(--base-top);
+}
+
+.I1  svg .base .base-left {
+    fill: var(--base-left);
+}
+
+.I1  svg .base .base-right {
+    fill: var(--base-right);
+}
+
+.I1 svg .window-01 .window-background {
+    fill: var(--window-background);
+}
+
+.I1 svg .window-01 .window-frame-left {
+    fill: var(--window-frame-left);
+}
+
+.I1 svg .window-01 .window-frame-right {
+    fill: var(--window-frame-right);
+}
+
+.I1 svg .window-01 .window-frame-top {
+    fill: var(--window-frame-top);
+}
+
+.I1 svg .door-01 .door-background {
+    fill: var(--door-background)
+}
+
+.I1 svg .door-01 .door-frame-left {
+    fill: var(--door-frame-left);
+}
+
+.I1 svg .door-01 .door-frame-right {
+    fill: var(--door-frame-right);
+}
+
+.I1 svg .door-01 .door-frame-top {
+    fill: var(--door-frame-top);
+}
+
+.I1 svg .garage .garage-background {
+    fill: var(--garage-background);
+}
+
+.I1 svg .garage .garage-frame-top {
+    fill: var(--garage-frame-top);
+}
+
+.I1 svg .garage .garage-frame-left {
+    fill: var(--garage-frame-left);
+}
+
+.I1 svg .garage .garage-frame-right {
+    fill: var(--garage-frame-right);
+}
+
+.I1 svg .chimney .chimney-left {
+    fill: var(--chimney-left);
+}
+
+.I1 svg .chimney .chimney-right {
+    fill: var(--chimney-right);
+}
+
+.I1 svg .chimney .chimney-top {
+    fill: var(--chimney-top);
+}
+
+.I1 svg .platform .platform-base {
+    fill: var(--plataform-base);
+}

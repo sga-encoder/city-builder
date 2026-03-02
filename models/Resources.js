@@ -61,4 +61,6 @@ class Resources {
         
         return this.foodAmount;
     }
+
+    
 }

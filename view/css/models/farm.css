@@ -1,0 +1,151 @@
+.I2 svg .ground .ground-top {
+    fill: var(--ground-top);
+}
+
+.I2 svg .ground .ground-right {
+    fill: var(--ground-right);
+}
+
+.I2 svg .ground .ground-left {
+    fill: var(--ground-left);
+}
+
+.I2 svg .base .base-top, .I2 svg .farm-window .base-top {
+    fill: var(--base-top);
+}
+
+.I2 svg .base .base-left{
+    fill: var(--base-left);
+}
+
+.I2 svg .base .base-right, .I2 svg .farm-window .base-right {
+    fill: var(--base-right);
+}
+
+.I2 svg .pergola .railing-left {
+    fill: var(--railing-left);
+}
+
+.I2 svg .pergola .railing-right {
+    fill: var(--railing-right);
+}
+
+.I2 svg .pergola .pergola-top {
+    fill: var(--pergola-top);
+}
+
+.I2 svg .pergola .pergola-right {
+    fill: var(--pergola-right);
+}
+
+.I2 svg .base .roof-top {
+    fill: var(--roof-top);
+}
+
+.I2 svg .base .roof-left {
+    fill: var(--roof-left);
+}
+
+.I2 svg .water-tank .railing-left {
+    fill: var(--railing-left);
+}
+
+.I2 svg .water-tank .railing-right {
+    fill: var(--railing-right);
+}
+
+.I2 svg .water-tank .water-tank-top {
+    fill: var(--water-tank-top);
+}
+
+.I2 svg .water-tank .water-tank-left {
+    fill: var(--water-tank-left);
+}
+
+.I2 svg .water-tank .water-tank-right {
+    fill: var(--water-tank-right);
+}
+
+.I2 svg .water-tank .water-tank-highlight-left {
+    fill: white;
+    fill-opacity: 0.1;
+}
+
+.I2 svg .water-tank .water-tank-highlight-right {
+    fill: black;
+    fill-opacity: 0.1;
+}
+
+.I2 svg .water-tank .water-tank-divicion-left {
+    fill: var(--water-tank-divicion-left);
+}
+
+.I2 svg .water-tank .water-tank-divicion-right {
+    fill: var(--water-tank-divicion-right);
+}
+
+.I2 svg .farm-window .farm-window-base-top {
+    fill: var(--farm-window-base-top);
+}
+
+.I2 svg .farm-window .farm-window-frame-right {
+    fill: var(--farm-window-frame-right);
+}
+
+.I2 svg .farm-window .farm-window-frame-top {
+    fill: var(--window-frame-top);
+}
+
+.I2 svg .window-03 .window-background {
+    fill: var(--window-frame-left);
+}
+
+.I2 svg .window-03 .farm-window-frame-top{
+    fill: var(--window-frame-top);
+}
+
+.I2 svg .window-03 .farm-window-frame-left {
+    fill: var(--window-frame-left);
+}
+
+.I2 svg .window-03 .farm-window-frame-right {
+    fill: var(--window-frame-right);
+}
+
+.I2 svg .door-02 .door-background {
+    fill: var(--door-background);
+}
+
+.I2 svg .door-02 .door-frame-left {
+    fill: var(--door-frame-left);
+}
+
+.I2 svg .door-02 .door-frame-right {
+    fill: var(--door-frame-right);
+}
+
+.I2 svg .door-02 .door-frame-top {
+    fill: var(--door-frame-top);
+}
+
+.I2 svg .tree .tree-trunk-left {
+    fill: var(--tree-trunk-left);
+}
+
+.I2 svg .tree .tree-trunk-right {
+    fill: var(--tree-trunk-right);
+}
+
+.I2 svg .tree .tree-foliage-left {
+    fill: var(--tree-foliage-left);
+}
+
+.I2 svg .tree .tree-foliage-right {
+    fill: var(--tree-foliage-right);
+}
+
+.I2 svg .tree .tree-foliage-top {
+    fill: var(--tree-foliage-top);
+}
+
+

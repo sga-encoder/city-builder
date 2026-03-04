@@ -9,7 +9,6 @@ class SVGInjector {
         data[`${type[i]}${subtype[j]}`] = config[type[i]][subtype[j]].model;
       }
     }
-    console.log("🔑 Claves SVG disponibles:", Object.keys(data));
     this.data = data;
     this.models = {};
   }
@@ -41,14 +40,12 @@ class SVGInjector {
               "</svg>",
             );
             this.models[key] = cleanedContent;
-            console.log(`modelo ${key} cargado exitosamente`);
           });
 
         loadPromises.push(promise);
       }
 
       await Promise.all(loadPromises);
-      console.log("todos los modelos svg se han cargado exitosamente");
     } catch (error) {
       console.error(`error al encontrar el svg: ${error}`);
       throw error;

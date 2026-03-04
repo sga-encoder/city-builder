@@ -1,9 +1,11 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>city builder</title>
+    <link rel="stylesheet" href="../css/rest.css">
     <link rel="stylesheet" href="../css/themes/default.css">
     <link rel="stylesheet" href="../css/map.css">
     <link rel="stylesheet" href="../css/models/apartaments.css">
@@ -19,11 +21,12 @@
     <link rel="stylesheet" href="../css/models/store.css">
     <link rel="stylesheet" href="../css/models/water.css">
     <link rel="stylesheet" href="../css/models/way.css">
-
-
+    <link rel="stylesheet" href="../css/slide-left.css">
+    <link rel="stylesheet" href="../css/index.css">
     
     <script src="../../domain/utilis/svgInjector.js" defer></script>
     <script src="../../domain/utilis/fileManager.js" defer></script>
+    <script src="../../domain/utilis/localStorage.js" defer></script>
     <script src="../../models/Resources.js" defer></script>
     <script src="../../models/Map.js" defer></script>
     <script src="../../models/person/Person.js" defer></script>
@@ -37,12 +40,71 @@
     <script src="../../models/building/ServicesBuilding.js" defer></script>
     <script src="../../models/building/UtilityPlants.js" defer></script>
     <script src="../../models/City.js" defer></script>
+    <script src="../../domain/componets/slide-left.js" defer></script>
     <script src="../../domain/main.js" defer></script>
+    <script src="../../domain/controllers/slideLeftController.js" defer></script>
+    <script src="../../domain/controllers/mapController.js" defer></script>
 </head>
 
 <body>
-    <main>
-        <div class="container">
+    <main class="main-container">
+        <div id="slide-left">
+            <div class="container">
+                <div class="resources">
+                    <ul>
+                        <li id="money" class="resource" style="--i: 1">
+                            <div class="img-container">
+                                <img src="../../public/icons/money.svg" alt="money">
+                            </div>
+                            <p class="content">$100.000</p>
+                        </li>
+                        <li id="energy" class="resource" style="--i: 2">
+                            <div class="img-container">
+                                <img src="../../public/icons/energy.svg" alt="energy">
+                            </div>
+                            <p class="content">120/200</p>
+    
+                        </li>
+                        <li id="water" class="resource" style="--i: 3">
+                            <div class="img-container">
+                                <img src="../../public/icons/water.svg" alt="water">
+                            </div>
+                            <p class="content">50/100</p>
+                        </li>
+                        <li id="food" class="resource" style="--i: 4">
+                            <div class="img-container">
+                                <img src="../../public/icons/food.svg" alt="food">
+                            </div>
+                            <p class="content">200.000</p>
+                        </li>
+                    </ul>
+                    <div id="resource" class="resource">
+                        <div class="img-container">
+                            <img src="../../public/icons/resource.svg" alt="resource">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="map"></div>
+        <div id="slide-right">
+            <div class="container">
+                        <div id="statistics" class="button">
+                            <div class="img-container">
+                                <img src="../../public/icons/statistics.svg" alt="statistics">
+                            </div>
+                        </div>
+                        <div id="weather" class="button">
+                            <div class="img-container">
+                                <img src="../../public/icons/weather/weather-partly-cloudy-night.svg" alt="weather">
+                            </div>
+                        </div>
+                        <div id="news" class="button">
+                            <div class="img-container">
+                                <img src="../../public/icons/news.svg" alt="news">
+                            </div>
+                        </div>
+                        </div>
         </div>
     </main>
 </body>

@@ -1,154 +1,154 @@
-<svg id="g water" width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g id="ground">
-        <path id="ground-top" d="M1000 650L500 900L0 650L500 400L1000 650Z" fill="#333333" />
-        <path id="ground-right" d="M500 900V1000L0 750V650L500 900Z" fill="black"/>
-        <path id="ground-left" d="M500 900V1000L1000 750V650L500 900Z" fill="#555555" />
+<svg class="g water" width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g class="ground">
+        <path class="ground-top" d="M1000 650L500 900L0 650L500 400L1000 650Z" fill="#333333" />
+        <path class="ground-right" d="M500 900V1000L0 750V650L500 900Z" fill="black"/>
+        <path class="ground-left" d="M500 900V1000L1000 750V650L500 900Z" fill="#555555" />
     </g>
-    <g id="pergola">
-        <path id="railing-left" d="M304 463L308 465V589L304 587V463Z" fill="#A6A6A6" />
-        <path id="railing-right" d="M312 467L308 465V589L312 587V467Z" fill="#3B3B3B"/>
-        <path id="pergola-right" d="M430 509V526L304 463V446L430 509Z" fill="#3B3B3B"/>
-        <path id="pergola-top" d="M430 509V383L304 446L430 509Z" fill="#676767"/>
+    <g class="pergola">
+        <path class="railing-left" d="M304 463L308 465V589L304 587V463Z" fill="#A6A6A6" />
+        <path class="railing-right" d="M312 467L308 465V589L312 587V467Z" fill="#3B3B3B"/>
+        <path class="pergola-right" d="M430 509V526L304 463V446L430 509Z" fill="#3B3B3B"/>
+        <path class="pergola-top" d="M430 509V383L304 446L430 509Z" fill="#676767"/>
     </g>
 
-    <g id="water-tank">
-        <path id="water-tank-left" d="M430 331L490 301.033V392.033L430 422V331Z" fill="#380BFF"/>
-        <path id="water-tank-right" d="M430 330.999V421.999L370 392.033V301.033L430 330.999Z" fill="#1B0E55"/>
-        <path id="water-tank-top" d="M490 301L430 331L370 301L430 271L490 301Z" fill="#1D009E" />
-        <path id="water-tank-highlight-left" d="M430 308.923V331L490 301L468 290L430 308.923Z" fill="white" fill-opacity="0.1"/>
-        <path id="water-tank-highlight-right" d="M430 308.923V331L370 301L392 290L430 308.923Z" fill="black" fill-opacity="0.1"/>
-        <path id="water-tank-divicion-right" d="M370 323L430 353V371L370 341V323Z" fill="#C2B202" />
-        <path id="water-tank-divicion-right" d="M370 356L430 386V404L370 374V356Z" fill="#C2B202" />
-        <path id="water-tank-divicion-left" d="M490 323L430 353V371L490 341V323Z" fill="#FFF700" />
-        <path id="water-tank-divicion-left" d="M490 356L430 386V404L490 374V356Z" fill="#FFF700" />
-        <path id="railing-left" d="M432 475V421L430 422V476L432 475Z" fill="#A7A7A7"/>
-        <path id="railing-left" d="M490 446V392L488 393V447L490 446Z" fill="#A7A7A7" />
-        <path id="railing-left" d="M374 446V394L372 393V447L374 446Z" fill="#A7A7A7" />
-        <path id="railing-right" d="M428 475V421L430 422V476L428 475Z" fill="#3B3B3B" />
-        <path id="railing-right" d="M486 446V394L488 393V447L486 446Z" fill="#3B3B3B"/>
-        <path id="railing-right" d="M370 446V392L372 393V447L370 446Z" fill="#3B3B3B" />
+    <g class="water-tank">
+        <path class="water-tank-left" d="M430 331L490 301.033V392.033L430 422V331Z" fill="#380BFF"/>
+        <path class="water-tank-right" d="M430 330.999V421.999L370 392.033V301.033L430 330.999Z" fill="#1B0E55"/>
+        <path class="water-tank-top" d="M490 301L430 331L370 301L430 271L490 301Z" fill="#1D009E" />
+        <path class="water-tank-highlight-left" d="M430 308.923V331L490 301L468 290L430 308.923Z" fill="white" fill-opacity="0.1"/>
+        <path class="water-tank-highlight-right" d="M430 308.923V331L370 301L392 290L430 308.923Z" fill="black" fill-opacity="0.1"/>
+        <path class="water-tank-divicion-right" d="M370 323L430 353V371L370 341V323Z" fill="#C2B202" />
+        <path class="water-tank-divicion-right" d="M370 356L430 386V404L370 374V356Z" fill="#C2B202" />
+        <path class="water-tank-divicion-left" d="M490 323L430 353V371L490 341V323Z" fill="#FFF700" />
+        <path class="water-tank-divicion-left" d="M490 356L430 386V404L490 374V356Z" fill="#FFF700" />
+        <path class="railing-left" d="M432 475V421L430 422V476L432 475Z" fill="#A7A7A7"/>
+        <path class="railing-left" d="M490 446V392L488 393V447L490 446Z" fill="#A7A7A7" />
+        <path class="railing-left" d="M374 446V394L372 393V447L374 446Z" fill="#A7A7A7" />
+        <path class="railing-right" d="M428 475V421L430 422V476L428 475Z" fill="#3B3B3B" />
+        <path class="railing-right" d="M486 446V394L488 393V447L486 446Z" fill="#3B3B3B"/>
+        <path class="railing-right" d="M370 446V392L372 393V447L370 446Z" fill="#3B3B3B" />
     </g>
-    <g id="base">
-        <path id="base-left" d="M682 494L934 368V650L682 776V494Z" fill="#E67070"/>
-        <path id="base-right" d ="M682 493.999V776L430 650V368L682 493.999Z" fill="#CA2B2B"/>
-        <path id="base-top" d="M934 368L682 494L430 368L682 242L934 368Z" fill="#F04949"/>
+    <g class="base">
+        <path class="base-left" d="M682 494L934 368V650L682 776V494Z" fill="#E67070"/>
+        <path class="base-right" d ="M682 493.999V776L430 650V368L682 493.999Z" fill="#CA2B2B"/>
+        <path class="base-top" d="M934 368L682 494L430 368L682 242L934 368Z" fill="#F04949"/>
     </g>
-    <g id="door-02">
-        <path id="door-background" d="M594 605V732L518 694V567L594 605Z" fill="#D9D9D9"/>
-        <g id="door-frame">
-            <path id="door-frame-left" d="M598 734L602 736V601L598 603V734Z" fill="#A6A6A6"/>
-            <path id="door-frame-left" d="M514 692L518 694V559L514 561V692Z" fill="#A6A6A6"/>
-            <path id="door-fram-top" d="M514 557L602 601L598 603L510 559L514 557Z" fill="#676767"/>
-            <path id="door-frame-right" d="M594 732L598 734V603L510 559V690L514 692V565L594 605V732Z" fill="#3B3B3B"/>
+    <g class="door-02">
+        <path class="door-background" d="M594 605V732L518 694V567L594 605Z" fill="#D9D9D9"/>
+        <g class="door-frame">
+            <path class="door-frame-left" d="M598 734L602 736V601L598 603V734Z" fill="#A6A6A6"/>
+            <path class="door-frame-left" d="M514 692L518 694V559L514 561V692Z" fill="#A6A6A6"/>
+            <path class="door-fram-top" d="M514 557L602 601L598 603L510 559L514 557Z" fill="#676767"/>
+            <path class="door-frame-right" d="M594 732L598 734V603L510 559V690L514 692V565L594 605V732Z" fill="#3B3B3B"/>
         </g>
     </g>
-    <g id="windows-group">
-        <g id="window-03">
-            <path id="window-background" d="M916 586V545L832 587V628L916 586Z" fill="#CAFFFF"/>
-            <g id="window-frame">
-                <path id="window-frame-left" d="M916 586L920 588V543L916 545V586Z" fill="#3B3B3B"/>
-                <path id="window-frame-left" d="M824 636L828 638V581L824 583V636Z" fill="#3B3B3B"/>
-                <path id="window-frame-top" d="M920 535L924 537L828 585L824 583L920 535Z" fill="#676767"/>
-                <path id="window-frame-top" d="M916 586L920 588L832 632V628L916 586Z" fill="#676767"/>
-                <path id="window-frame-right" fill-rule="evenodd" clip-rule="evenodd" d="M924 590V537L828 585V638L924 590ZM920 543V588L832 632V587L920 543Z" fill="#A6A6A6"/>
+    <g class="windows-group">
+        <g class="window-03">
+            <path class="window-background" d="M916 586V545L832 587V628L916 586Z" fill="#CAFFFF"/>
+            <g class="window-frame">
+                <path class="window-frame-left" d="M916 586L920 588V543L916 545V586Z" fill="#3B3B3B"/>
+                <path class="window-frame-left" d="M824 636L828 638V581L824 583V636Z" fill="#3B3B3B"/>
+                <path class="window-frame-top" d="M920 535L924 537L828 585L824 583L920 535Z" fill="#676767"/>
+                <path class="window-frame-top" d="M916 586L920 588L832 632V628L916 586Z" fill="#676767"/>
+                <path class="window-frame-right" fill-rule="evenodd" clip-rule="evenodd" d="M924 590V537L828 585V638L924 590ZM920 543V588L832 632V587L920 543Z" fill="#A6A6A6"/>
             </g>
         </g>
-        <g id="window-03">
-            <path id="window-background" d="M785 651V610L701 652V693L785 651Z" fill="#CAFFFF"/>
-            <g id="window-frame">
-                <path id="window-frame-left" d="M785 651L789 653V608L785 610V651Z" fill="#3B3B3B"/>
-                <path id="window-frame-left" d="M693 701L697 703V646L693 648V701Z" fill="#3B3B3B"/>
-                <path id="window-frame-top" d="M789 600L793 602L697 650L693 648L789 600Z" fill="#676767"/>
-                <path id="window-frame-top" d="M785 651L789 653L701 697V693L785 651Z" fill="#676767"/>
-                <path id="window-frame-right" fill-rule="evenodd" clip-rule="evenodd" d="M793 655V602L697 650V703L793 655ZM789 608V653L701 697V652L789 608Z" fill="#A6A6A6"/>
+        <g class="window-03">
+            <path class="window-background" d="M785 651V610L701 652V693L785 651Z" fill="#CAFFFF"/>
+            <g class="window-frame">
+                <path class="window-frame-left" d="M785 651L789 653V608L785 610V651Z" fill="#3B3B3B"/>
+                <path class="window-frame-left" d="M693 701L697 703V646L693 648V701Z" fill="#3B3B3B"/>
+                <path class="window-frame-top" d="M789 600L793 602L697 650L693 648L789 600Z" fill="#676767"/>
+                <path class="window-frame-top" d="M785 651L789 653L701 697V693L785 651Z" fill="#676767"/>
+                <path class="window-frame-right" fill-rule="evenodd" clip-rule="evenodd" d="M793 655V602L697 650V703L793 655ZM789 608V653L701 697V652L789 608Z" fill="#A6A6A6"/>
             </g>
         </g>
     </g>
-    <g id="hoarding">
-        <path id="hoarding-background" d="M646.398 613V493L480.398 411V530L646.398 613Z" fill="#D9D9D9"/>
-        <g id="hoarding-frame">
-            <path id="hoarding-frame-left" d="M612.398 633L608.398 635L608.411 602.006L612.424 604L612.398 633Z" fill="#A6A6A6"/>
-            <path id="hoarding-frame-left" d="M504.424 579.114L500.398 581.001L500.411 548.006L504.424 550V579.114Z" fill="#A6A6A6"/>
-            <path id="hoarding-frame-left" d="M654.398 620.999L650.398 622.999V491L654.398 489V620.999Z" fill="#A6A6A6"/>
-            <path id="hoarding-frame-right" fill-rule="evenodd" clip-rule="evenodd" d="M650.412 623.039L650.398 623L608.398 602V635L604.398 633V600L500.398 548V581L496.398 579V546L472.398 534V403L650.412 491V623.039ZM476.398 532L646.398 617V493L476.398 409V532Z" fill="#3B3B3B"/>
-            <path id="hoarding-frame-top" d="M646.398 613L646.398 617L476.398 532L480.398 530L646.398 613Z" fill="#676767"/>
-            <path id="hoarding-frame-left" d="M480.398 530.001L476.398 532.001L476.398 409L480.398 411.001V530.001Z" fill="#A6A6A6"/>
-            <path id="hoarding-frame-top" d="M654.398 489L650.398 491L472.398 403.001L476.398 401L654.398 489Z" fill="#676767"/>
+    <g class="hoarding">
+        <path class="hoarding-background" d="M646.398 613V493L480.398 411V530L646.398 613Z" fill="#D9D9D9"/>
+        <g class="hoarding-frame">
+            <path class="hoarding-frame-left" d="M612.398 633L608.398 635L608.411 602.006L612.424 604L612.398 633Z" fill="#A6A6A6"/>
+            <path class="hoarding-frame-left" d="M504.424 579.114L500.398 581.001L500.411 548.006L504.424 550V579.114Z" fill="#A6A6A6"/>
+            <path class="hoarding-frame-left" d="M654.398 620.999L650.398 622.999V491L654.398 489V620.999Z" fill="#A6A6A6"/>
+            <path class="hoarding-frame-right" fill-rule="evenodd" clip-rule="evenodd" d="M650.412 623.039L650.398 623L608.398 602V635L604.398 633V600L500.398 548V581L496.398 579V546L472.398 534V403L650.412 491V623.039ZM476.398 532L646.398 617V493L476.398 409V532Z" fill="#3B3B3B"/>
+            <path class="hoarding-frame-top" d="M646.398 613L646.398 617L476.398 532L480.398 530L646.398 613Z" fill="#676767"/>
+            <path class="hoarding-frame-left" d="M480.398 530.001L476.398 532.001L476.398 409L480.398 411.001V530.001Z" fill="#A6A6A6"/>
+            <path class="hoarding-frame-top" d="M654.398 489L650.398 491L472.398 403.001L476.398 401L654.398 489Z" fill="#676767"/>
         </g>
 
     </g>
-    <g id="water-tank">
-        <path id="water-tank-left" d="M684 217L744 187.033V278.033L684 308V217Z" fill="#380BFF" />
-        <path id="water-tank-right" d="M684 216.999V307.999L624 278.033V187.033L684 216.999Z" fill="#1B0E55" />
-        <path id="water-tank-top" d="M744 187L684 217L624 187L684 157L744 187Z" fill="#1D009E" />
-        <path id="water-tank-highlight-left" d="M684 194.923V217L744 187L722 176L684 194.923Z" fill="white" fill-opacity="0.1" />
-        <path id="water-tank-highlight-right" d="M684 194.923V217L624 187L646 176L684 194.923Z" fill="black" fill-opacity="0.1" />
-        <path id="water-tank-divicion-left" d="M744 209L684 239V257L744 227V209Z" fill="#FFF700" />
-        <path id="water-tank-divicion-right" d="M624 209L684 239V257L624 227V209Z" fill="#C2B202" />
-        <path id="water-tank-divicion-left" d="M744 242L684 272V290L744 260V242Z" fill="#FFF700" />
-        <path id="water-tank-divicion-right" d="M624 242L684 272V290L624 260V242Z" fill="#C2B202" />
-        <path id="railing-right" d="M682 361V307L684 308V362L682 361Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M686 361V307L684 308V362L686 361Z" fill="#A7A7A7" />
-        <path id="railing-right" d="M740 332V280L742 279V333L740 332Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M744 332V278L742 279V333L744 332Z" fill="#A7A7A7" />
-        <path id="railing-right" d="M624 332V278L626 279V333L624 332Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M628 332V280L626 279V333L628 332Z" fill="#A7A7A7" />
+    <g class="water-tank">
+        <path class="water-tank-left" d="M684 217L744 187.033V278.033L684 308V217Z" fill="#380BFF" />
+        <path class="water-tank-right" d="M684 216.999V307.999L624 278.033V187.033L684 216.999Z" fill="#1B0E55" />
+        <path class="water-tank-top" d="M744 187L684 217L624 187L684 157L744 187Z" fill="#1D009E" />
+        <path class="water-tank-highlight-left" d="M684 194.923V217L744 187L722 176L684 194.923Z" fill="white" fill-opacity="0.1" />
+        <path class="water-tank-highlight-right" d="M684 194.923V217L624 187L646 176L684 194.923Z" fill="black" fill-opacity="0.1" />
+        <path class="water-tank-divicion-left" d="M744 209L684 239V257L744 227V209Z" fill="#FFF700" />
+        <path class="water-tank-divicion-right" d="M624 209L684 239V257L624 227V209Z" fill="#C2B202" />
+        <path class="water-tank-divicion-left" d="M744 242L684 272V290L744 260V242Z" fill="#FFF700" />
+        <path class="water-tank-divicion-right" d="M624 242L684 272V290L624 260V242Z" fill="#C2B202" />
+        <path class="railing-right" d="M682 361V307L684 308V362L682 361Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M686 361V307L684 308V362L686 361Z" fill="#A7A7A7" />
+        <path class="railing-right" d="M740 332V280L742 279V333L740 332Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M744 332V278L742 279V333L744 332Z" fill="#A7A7A7" />
+        <path class="railing-right" d="M624 332V278L626 279V333L624 332Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M628 332V280L626 279V333L628 332Z" fill="#A7A7A7" />
     </g>
-    <g id="water-tank">
-        <path id="water-tank-left" d="M804 256L864 226.033V317.033L804 347V256Z" fill="#380BFF" />
-        <path id="water-tank-right" d="M804 255.999V346.999L744 317.033V226.033L804 255.999Z" fill="#1B0E55" />
-        <path id="water-tank-top" d="M864 226L804 256L744 226L804 196L864 226Z" fill="#1D009E" />
-        <path id="water-tank-highlight-left" d="M804 233.923V256L864 226L842 215L804 233.923Z" fill="white" fill-opacity="0.1" />
-        <path id="water-tank-highlight-right" d="M804 233.923V256L744 226L766 215L804 233.923Z" fill="black" fill-opacity="0.1" />
-        <path id="water-tank-divicion-left" d="M864 248L804 278V296L864 266V248Z" fill="#FFF700" />
-        <path id="water-tank-divicion-right" d="M744 248L804 278V296L744 266V248Z" fill="#C2B202" />
-        <path id="water-tank-divicion-left" d="M864 281L804 311V329L864 299V281Z" fill="#FFF700" />
-        <path id="water-tank-divicion-right" d="M744 281L804 311V329L744 299V281Z" fill="#C2B202" />
-        <path id="railing-right" d="M802 400V346L804 347V401L802 400Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M806 400V346L804 347V401L806 400Z" fill="#A7A7A7" />
-        <path id="railing-right" d="M860 371V319L862 318V372L860 371Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M864 371V317L862 318V372L864 371Z" fill="#A7A7A7" />
-        <path id="railing-right" d="M744 371V317L746 318V372L744 371Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M748 371V319L746 318V372L748 371Z" fill="#A7A7A7" />
+    <g class="water-tank">
+        <path class="water-tank-left" d="M804 256L864 226.033V317.033L804 347V256Z" fill="#380BFF" />
+        <path class="water-tank-right" d="M804 255.999V346.999L744 317.033V226.033L804 255.999Z" fill="#1B0E55" />
+        <path class="water-tank-top" d="M864 226L804 256L744 226L804 196L864 226Z" fill="#1D009E" />
+        <path class="water-tank-highlight-left" d="M804 233.923V256L864 226L842 215L804 233.923Z" fill="white" fill-opacity="0.1" />
+        <path class="water-tank-highlight-right" d="M804 233.923V256L744 226L766 215L804 233.923Z" fill="black" fill-opacity="0.1" />
+        <path class="water-tank-divicion-left" d="M864 248L804 278V296L864 266V248Z" fill="#FFF700" />
+        <path class="water-tank-divicion-right" d="M744 248L804 278V296L744 266V248Z" fill="#C2B202" />
+        <path class="water-tank-divicion-left" d="M864 281L804 311V329L864 299V281Z" fill="#FFF700" />
+        <path class="water-tank-divicion-right" d="M744 281L804 311V329L744 299V281Z" fill="#C2B202" />
+        <path class="railing-right" d="M802 400V346L804 347V401L802 400Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M806 400V346L804 347V401L806 400Z" fill="#A7A7A7" />
+        <path class="railing-right" d="M860 371V319L862 318V372L860 371Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M864 371V317L862 318V372L864 371Z" fill="#A7A7A7" />
+        <path class="railing-right" d="M744 371V317L746 318V372L744 371Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M748 371V319L746 318V372L748 371Z" fill="#A7A7A7" />
     </g>
-    <g id="water-tank">
-        <path id="water-tank-left" d="M575 269L635 239.033V330.033L575 360V269Z" fill="#380BFF" />
-        <path id="water-tank-right" d="M575 268.999V359.999L515 330.033V239.033L575 268.999Z" fill="#1B0E55" />
-        <path id="water-tank-top" d="M635 239L575 269L515 239L575 209L635 239Z" fill="#1D009E" />
-        <path id="water-tank-highlight-left" d="M575 246.923V269L635 239L613 228L575 246.923Z" fill="white" fill-opacity="0.1" />
-        <path id="water-tank-highlight-right" d="M575 246.923V269L515 239L537 228L575 246.923Z" fill="black" fill-opacity="0.1" />
-        <path id="water-tank-divicion-left" d="M635 261L575 291V309L635 279V261Z" fill="#FFF700" />
-        <path id="water-tank-divicion-right" d="M515 261L575 291V309L515 279V261Z" fill="#C2B202" />
-        <path id="water-tank-divicion-left" d="M635 294L575 324V342L635 312V294Z" fill="#FFF700" />
-        <path id="water-tank-divicion-right" d="M515 294L575 324V342L515 312V294Z" fill="#C2B202" />
-        <path id="railing-right" d="M573 413V359L575 360V414L573 413Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M577 413V359L575 360V414L577 413Z" fill="#A7A7A7" />
-        <path id="railing-right" d="M631 384V332L633 331V385L631 384Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M635 384V330L633 331V385L635 384Z" fill="#A7A7A7" />
-        <path id="railing-right" d="M515 384V330L517 331V385L515 384Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M519 384V332L517 331V385L519 384Z" fill="#A7A7A7" />
+    <g class="water-tank">
+        <path class="water-tank-left" d="M575 269L635 239.033V330.033L575 360V269Z" fill="#380BFF" />
+        <path class="water-tank-right" d="M575 268.999V359.999L515 330.033V239.033L575 268.999Z" fill="#1B0E55" />
+        <path class="water-tank-top" d="M635 239L575 269L515 239L575 209L635 239Z" fill="#1D009E" />
+        <path class="water-tank-highlight-left" d="M575 246.923V269L635 239L613 228L575 246.923Z" fill="white" fill-opacity="0.1" />
+        <path class="water-tank-highlight-right" d="M575 246.923V269L515 239L537 228L575 246.923Z" fill="black" fill-opacity="0.1" />
+        <path class="water-tank-divicion-left" d="M635 261L575 291V309L635 279V261Z" fill="#FFF700" />
+        <path class="water-tank-divicion-right" d="M515 261L575 291V309L515 279V261Z" fill="#C2B202" />
+        <path class="water-tank-divicion-left" d="M635 294L575 324V342L635 312V294Z" fill="#FFF700" />
+        <path class="water-tank-divicion-right" d="M515 294L575 324V342L515 312V294Z" fill="#C2B202" />
+        <path class="railing-right" d="M573 413V359L575 360V414L573 413Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M577 413V359L575 360V414L577 413Z" fill="#A7A7A7" />
+        <path class="railing-right" d="M631 384V332L633 331V385L631 384Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M635 384V330L633 331V385L635 384Z" fill="#A7A7A7" />
+        <path class="railing-right" d="M515 384V330L517 331V385L515 384Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M519 384V332L517 331V385L519 384Z" fill="#A7A7A7" />
     </g>
-    <g id="water-tank">
-        <path id="water-tank-left" d="M684 327L744 297.033V388.033L684 418V327Z" fill="#380BFF" />
-        <path id="water-tank-right" d="M684 326.999V417.999L624 388.033V297.033L684 326.999Z" fill="#1B0E55" />
-        <path id="water-tank-top" d="M744 297L684 327L624 297L684 267L744 297Z" fill="#1D009E" />
-        <path id="water-tank-highlight-left" d="M684 304.923V327L744 297L722 286L684 304.923Z" fill="white" fill-opacity="0.1" />
-        <path id="water-tank-highlight-right" d="M684 304.923V327L624 297L646 286L684 304.923Z" fill="black" fill-opacity="0.1" />
-        <path id="water-tank-divicion-left" d="M744 319L684 349V367L744 337V319Z" fill="#FFF700" />
-        <path id="water-tank-divicion-right" d="M624 319L684 349V367L624 337V319Z" fill="#C2B202" />
-        <path id="water-tank-divicion-left" d="M744 352L684 382V400L744 370V352Z" fill="#FFF700" />
-        <path id="water-tank-divicion-right" d="M624 352L684 382V400L624 370V352Z" fill="#C2B202" />
-        <path id="railing-right" d="M682 471V417L684 418V472L682 471Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M686 471V417L684 418V472L686 471Z" fill="#A7A7A7" />
-        <path id="railing-right" d="M740 442V390L742 389V443L740 442Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M744 442V388L742 389V443L744 442Z" fill="#A7A7A7" />
-        <path id="railing-right" d="M624 442V388L626 389V443L624 442Z" fill="#3B3B3B" />
-        <path id="railing-left" d="M628 442V390L626 389V443L628 442Z" fill="#A7A7A7" />
+    <g class="water-tank">
+        <path class="water-tank-left" d="M684 327L744 297.033V388.033L684 418V327Z" fill="#380BFF" />
+        <path class="water-tank-right" d="M684 326.999V417.999L624 388.033V297.033L684 326.999Z" fill="#1B0E55" />
+        <path class="water-tank-top" d="M744 297L684 327L624 297L684 267L744 297Z" fill="#1D009E" />
+        <path class="water-tank-highlight-left" d="M684 304.923V327L744 297L722 286L684 304.923Z" fill="white" fill-opacity="0.1" />
+        <path class="water-tank-highlight-right" d="M684 304.923V327L624 297L646 286L684 304.923Z" fill="black" fill-opacity="0.1" />
+        <path class="water-tank-divicion-left" d="M744 319L684 349V367L744 337V319Z" fill="#FFF700" />
+        <path class="water-tank-divicion-right" d="M624 319L684 349V367L624 337V319Z" fill="#C2B202" />
+        <path class="water-tank-divicion-left" d="M744 352L684 382V400L744 370V352Z" fill="#FFF700" />
+        <path class="water-tank-divicion-right" d="M624 352L684 382V400L624 370V352Z" fill="#C2B202" />
+        <path class="railing-right" d="M682 471V417L684 418V472L682 471Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M686 471V417L684 418V472L686 471Z" fill="#A7A7A7" />
+        <path class="railing-right" d="M740 442V390L742 389V443L740 442Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M744 442V388L742 389V443L744 442Z" fill="#A7A7A7" />
+        <path class="railing-right" d="M624 442V388L626 389V443L624 442Z" fill="#3B3B3B" />
+        <path class="railing-left" d="M628 442V390L626 389V443L628 442Z" fill="#A7A7A7" />
     </g>
 
-<g id="pool">
-    <path id="pool-top" d="M663 786L501 867L65 649L227 568L663 786Z" fill="#1D009E"/>
-    <path id="pool-right" d="M227 659V568L663 786L572 831.5L227 659Z" fill="#1B0E55"/>
-    <path id="pool-left" d="M227 659V568L65 649L156 694.5L227 659Z" fill="#380BFF"/>
+<g class="pool">
+    <path class="pool-top" d="M663 786L501 867L65 649L227 568L663 786Z" fill="#1D009E"/>
+    <path class="pool-right" d="M227 659V568L663 786L572 831.5L227 659Z" fill="#1B0E55"/>
+    <path class="pool-left" d="M227 659V568L65 649L156 694.5L227 659Z" fill="#380BFF"/>
 </g>
 </svg>

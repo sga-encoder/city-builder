@@ -3,10 +3,26 @@
 // y se hara la funcion de crga y descarga de los datos a localStorage para su uso en el juego
 // mediante la clase de fileManager
 
-class localStorage {
-    constructor(dict) {
-        this.storage = window.localStorage 
+class LocalStorage {
+    static saveData(clave, data) {
+         try {
+            localStorage.setItem(clave,data);
+            return true;
+        } catch (error) {
+            console.error("Error guardando en localStorage:", error);
+            return false;
         }
+    }
+
+    static loadData(clave) {
+        try {
+            const data = localStorage.getItem(clave);
+            return data
+        } catch (error) {
+            console.error("Error cargando desde localStorage:", error);
+            return null;
+        }
+    }
 
     
 }

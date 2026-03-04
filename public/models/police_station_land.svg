@@ -2,52 +2,52 @@
     xmlns="http://www.w3.org/2000/svg">
     <g class="ground">
         <path class="ground-top" d="M1000 650L500 900L0 650L500 400L1000 650Z" fill="#333333" />
-        <path class="ground-right" d="M500 900V1000L0 750V650L500 900Z" fill="black" />
-        <path class="ground-left" d="M500 900V1000L1000 750V650L500 900Z" fill="#555555" />
+        <path class="ground-left" d="M500 900V1000L0 750V650L500 900Z" fill="black" />
+        <path class="ground-right" d="M500 900V1000L1000 750V650L500 900Z" fill="#555555" />
     </g>
     <g class="platform">
         <path class="platform-base" d="M676.871 718L500 805.441L323.128 718L500 630.558L676.871 718Z"
-            fill="#A7A7A7" stroke="black" />
+            fill="#A7A7A7" />
     </g>
     <g class="building-01">
         <g class="base">
-            <path class="base-left" d="M500 589L374 526V244L500 307V589Z" fill="#E67070" />
-            <path class="base-right" d="M626 244L500 307V589L626 526V244Z" fill="#CA2B2B" />
+            <path class="base-right" d="M500 589L374 526V244L500 307V589Z" fill="#E67070" />
+            <path class="base-left" d="M626 244L500 307V589L626 526V244Z" fill="#CA2B2B" />
             <path class="base-top" d="M626 244L500 181L374 244L500 307L626 244Z" fill="#F04949" />
         </g>
         <g class="railing">
-            <path class="railing-right" d="M500 153V151L378 212V214L410 198V228L411 228.5L412 228V197L440 183V214L442 213V182L470 168V199L472 198.138V167L500 153Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M470 260L472 261V290L470 291V260Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M440 245L442 246V275L440 276V245Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M410 230L412 231V260L410 261V230Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M378 214L380 215V244L378 245V214Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M500 306V273L594 226V259L592 260V229L564 243V274L562 275V244L534 258V289L532 290V259L502 274V305L500 306Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M622 210L624 211V244L622 245V210Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M500 153L502 153.999V182.999L500 183.999V153Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M532 169L534 170V199L532 200V169Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M562 184L564 185V214L562 215V184Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M592 199L594 200V229L592 230V199Z" fill="#3B3B3B" />
-            <path class="railing-left" d="M470 199L468 198V169L470 168V199Z" fill="#A6A6A6" />
-            <path class="railing-left" d="M440 214L438 213V184L440 183V214Z" fill="#A6A6A6" />
-            <path class="railing-left" d="M500 306L498 305V274L470 260V291L468 290V259L440 245V276L438 275V244L410 230V261L408 260V229L378 214V245L376 244V211L500 273V306Z" fill="#A6A6A6" />
-            <path class="railing-left" d="M592 260L590 259V230L592 229V260Z" fill="#A6A6A6" />
-            <path class="railing-left" d="M562 275L560 274V245L562 244V275Z" fill="#A6A6A6" />
-            <path class="railing-left" d="M410 229L408 228V199L410 198V229Z" fill="#A6A6A6" />
-            <path class="railing-left" d="M532 290.001L530 289.001V260.001L532 259V290.001Z" fill="#A6A6A6" />
-            <path class="railing-left" d="M622 245L620 244V213L592 199V227L590 228V198L562 184V215L560 214V183L532 169V200L530 199V168L500 153V184L498 183V152L500 151L622 212V245Z" fill="#A6A6A6" />
+            <path class="railing-left" d="M500 153V151L378 212V214L410 198V228L411 228.5L412 228V197L440 183V214L442 213V182L470 168V199L472 198.138V167L500 153Z" fill="#3B3B3B" />
+            <path class="railing-left" d="M470 260L472 261V290L470 291V260Z" fill="#3B3B3B" />
+            <path class="railing-left" d="M440 245L442 246V275L440 276V245Z" fill="#3B3B3B" />
+            <path class="railing-left" d="M410 230L412 231V260L410 261V230Z" fill="#3B3B3B" />
+            <path class="railing-left" d="M378 214L380 215V244L378 245V214Z" fill="#3B3B3B" />
+            <path class="railing-left" d="M500 306V273L594 226V259L592 260V229L564 243V274L562 275V244L534 258V289L532 290V259L502 274V305L500 306Z" fill="#3B3B3B" />
+            <path class="railing-left" d="M622 210L624 211V244L622 245V210Z" fill="#3B3B3B" />
+            <path class="railing-left" d="M500 153L502 153.999V182.999L500 183.999V153Z" fill="#3B3B3B" />
+            <path class="railing-left" d="M532 169L534 170V199L532 200V169Z" fill="#3B3B3B" />
+            <path class="railing-left" d="M562 184L564 185V214L562 215V184Z" fill="#3B3B3B" />
+            <path class="railing-left" d="M592 199L594 200V229L592 230V199Z" fill="#3B3B3B" />
+            <path class="railing-right" d="M470 199L468 198V169L470 168V199Z" fill="#A6A6A6" />
+            <path class="railing-right" d="M440 214L438 213V184L440 183V214Z" fill="#A6A6A6" />
+            <path class="railing-right" d="M500 306L498 305V274L470 260V291L468 290V259L440 245V276L438 275V244L410 230V261L408 260V229L378 214V245L376 244V211L500 273V306Z" fill="#A6A6A6" />
+            <path class="railing-right" d="M592 260L590 259V230L592 229V260Z" fill="#A6A6A6" />
+            <path class="railing-right" d="M562 275L560 274V245L562 244V275Z" fill="#A6A6A6" />
+            <path class="railing-right" d="M410 229L408 228V199L410 198V229Z" fill="#A6A6A6" />
+            <path class="railing-right" d="M532 290.001L530 289.001V260.001L532 259V290.001Z" fill="#A6A6A6" />
+            <path class="railing-right" d="M622 245L620 244V213L592 199V227L590 228V198L562 184V215L560 214V183L532 169V200L530 199V168L500 153V184L498 183V152L500 151L622 212V245Z" fill="#A6A6A6" />
             <path class="railing-top" d="M594 226L500 273L376 211L500 149L624 211L622 212L500 151L380 211L500 271L592 225L594 226Z" fill="#676767" />
         </g>
     </g>
     <g class="building-02">
         <g class="base">
-            <path class="base-right" d="M752 573L878 510V651L752 714V573Z" fill="#CA2B2B" />
-            <path class="base-left" d="M752 573L500 447V589L752 714V573Z" fill="#E67070" />
+            <path class="base-left" d="M752 573L878 510V651L752 714V573Z" fill="#CA2B2B" />
+            <path class="base-right" d="M752 573L500 447V589L752 714V573Z" fill="#E67070" />
             <path class="base-top" d="M878 510L626 384L500 447L752 573L878 510Z" fill="#F04949" />
         </g>
         <g class="stairs-down">
-            <path class="base-left" d="M814 532L856 511L802 484V526L814 532Z" fill="#E67070" />
+            <path class="base-right" d="M814 532L856 511L802 484V526L814 532Z" fill="#E67070" />
             <path class="base-left" d="M802 538V484L694 538L748 565L802 538Z" fill="#CA2B2B" />
-            <path class="railing-right" d="M791 525.5L793 526.5L785 546.5H783L791 525.5Z" fill="#3B3B3B" />
+            <path class="railing-left" d="M791 525.5L793 526.5L785 546.5H783L791 525.5Z" fill="#3B3B3B" />
             <path class="railing-top" d="M789 525.5L791 526.5L782.5 547.5H780.5L789 525.5Z" fill="#676767" />
             <g class="steps-group">
                 <path class="step-left" d="M834 522V518.5L802 534.5V538L834 522Z" fill="#676767" />
@@ -62,9 +62,9 @@
             <path class="door-background" d="M645.028 576V662L587.028 633V547L645.028 576Z" fill="#7B4C00" />
             <g class="door-frame">
                 <path class="door-frame-top" d="M653.028 572L649.029 574.001L579.028 539L583.028 537.001L653.028 572Z" fill="#676767" />
-                <path class="door-frame-left" d="M587.028 633L583.028 631V545L587.028 547V633Z" fill="#3B3B3B" />
-                <path class="door-frame-left" d="M653.028 666L649.028 664V574L653.028 572V666Z" fill="#3B3B3B" />
-                <path class="door-frame-right" d="M645.028 662L649.028 664V574L579.028 539V629L583.028 631V545L645.028 576V662Z" fill="#A6A6A6" />
+                <path class="door-frame-right" d="M587.028 633L583.028 631V545L587.028 547V633Z" fill="#3B3B3B" />
+                <path class="door-frame-right" d="M653.028 666L649.028 664V574L653.028 572V666Z" fill="#3B3B3B" />
+                <path class="door-frame-left" d="M645.028 662L649.028 664V574L579.028 539V629L583.028 631V545L645.028 576V662Z" fill="#A6A6A6" />
             </g>
         </g>
         <g class="railings-group">
@@ -74,24 +74,24 @@
             <path class="railing-left" d="M548 384L550 385L541 408L539 407L548 384Z" fill="#A6A6A6" />
             <path class="railing-left" d="M541 420L539 421L548 444L550 443L541 420Z" fill="#A6A6A6" />
             <path class="railing-left" d="M613 281L615 282L606 305L604 304L613 281Z" fill="#A6A6A6" />
-            <path class="railing-left" d="M563 460L561 459V443H563V460Z" fill="#A6A6A6" />
-            <path class="railing-right" d="M581 336L583 337L574 360L572 359L581 336Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M566 360L568 361L559 384L557 383L566 360Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M598 308L600 309L591 332L589 331L598 308Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M550 384L552 385L543 408L541 407L550 384Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M543 420L541 421L550 444L552 443L543 420Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M615 281L617 282L608 305L606 304L615 281Z" fill="#3B3B3B" />
-            <path class="railing-right" d="M563 442L565 443V459L563 460V442Z" fill="#3B3B3B" />
+            <path class="railing-right" d="M563 460L561 459V443H563V460Z" fill="#A6A6A6" />
+            <path class="railing-top" d="M581 336L583 337L574 360L572 359L581 336Z" fill="#3B3B3B" />
+            <path class="railing-top" d="M566 360L568 361L559 384L557 383L566 360Z" fill="#3B3B3B" />
+            <path class="railing-top" d="M598 308L600 309L591 332L589 331L598 308Z" fill="#3B3B3B" />
+            <path class="railing-top" d="M550 384L552 385L543 408L541 407L550 384Z" fill="#3B3B3B" />
+            <path class="railing-top" d="M543 420L541 421L550 444L552 443L543 420Z" fill="#3B3B3B" />
+            <path class="railing-top" d="M615 281L617 282L608 305L606 304L615 281Z" fill="#3B3B3B" />
+            <path class="railing-top" d="M563 442L565 443V459L563 460V442Z" fill="#3B3B3B" />
         </g>
         <g class="stairs">
             <g class="step">
-                <path class="step-left" d="M578 318L562 326L594 342L610 334L578 318Z" fill="#CCCCCC" />
-                <path class="step-left" d="M562 344L546 352L578 368L594 360L562 344Z" fill="#CCCCCC" />
-                <path class="step-left" d="M546 370L530 378L562 394L578 386L546 370Z" fill="#CCCCCC" />
-                <path class="step-left" d="M500 411L532 427L562 412L530 396L500 411Z" fill="#CCCCCC" />
-                <path class="step-left" d="M564 429L580 437L548 453L532 445L564 429Z" fill="#CCCCCC" />
-                <path class="step-left" d="M594 292L578 300L610 316L626 308L594 292Z" fill="#CCCCCC" />
-                <path class="step-left" d="M594 274L626 258L658 274L626 290L594 274Z" fill="#CCCCCC" />
+                <path class="step-top" d="M578 318L562 326L594 342L610 334L578 318Z" fill="#CCCCCC" />
+                <path class="step-top" d="M562 344L546 352L578 368L594 360L562 344Z" fill="#CCCCCC" />
+                <path class="step-top" d="M546 370L530 378L562 394L578 386L546 370Z" fill="#CCCCCC" />
+                <path class="step-top" d="M500 411L532 427L562 412L530 396L500 411Z" fill="#CCCCCC" />
+                <path class="step-top" d="M564 429L580 437L548 453L532 445L564 429Z" fill="#CCCCCC" />
+                <path class="step-top" d="M594 292L578 300L610 316L626 308L594 292Z" fill="#CCCCCC" />
+                <path class="step-top" d="M594 274L626 258L658 274L626 290L594 274Z" fill="#CCCCCC" />
                 <path class="step-right" d="M594 346V342L562 326V330L594 346Z" fill="white" />
                 <path class="step-right" d="M578 372V368L546 352V356L578 372Z" fill="white" />
                 <path class="step-right" d="M562 398V394L530 378V382L562 398Z" fill="white" />
@@ -99,27 +99,27 @@
                 <path class="step-right" d="M532 449L548 457V453L532 445V449Z" fill="white" />
                 <path class="step-right" d="M610 320V316L578 300V304L610 320Z" fill="white" />
                 <path class="step-right" d="M626 294V290L594 274V278L626 294Z" fill="white" />
-                <path class="step-top" d="M610 338V334L594 342V346L610 338Z" fill="#676767" />
-                <path class="step-top" d="M594 364V360L578 368V372L594 364Z" fill="#676767" />
-                <path class="step-top" d="M562 416V412L532 427V431L562 416Z" fill="#676767" />
-                <path class="step-top" d="M578 390V386L562 394V398L578 390Z" fill="#676767" />
-                <path class="step-top" d="M580 441V437L548 453V457L580 441Z" fill="#676767" />
-                <path class="step-top" d="M626 312V308L610 316V320L626 312Z" fill="#676767" />
-                <path class="step-top" d="M658 278V274L626 290V294L658 278Z" fill="#676767" />
+                <path class="step-left" d="M610 338V334L594 342V346L610 338Z" fill="#676767" />
+                <path class="step-left" d="M594 364V360L578 368V372L594 364Z" fill="#676767" />
+                <path class="step-left" d="M562 416V412L532 427V431L562 416Z" fill="#676767" />
+                <path class="step-left" d="M578 390V386L562 394V398L578 390Z" fill="#676767" />
+                <path class="step-left" d="M580 441V437L548 453V457L580 441Z" fill="#676767" />
+                <path class="step-left" d="M626 312V308L610 316V320L626 312Z" fill="#676767" />
+                <path class="step-left" d="M658 278V274L626 290V294L658 278Z" fill="#676767" />
             </g>
             <g class="railing-group">
-                <path class="railing-right" d="M504 379L506 379.999V410.999L504 411.999V379Z" fill="#3B3B3B" />
-                <path class="railing-right" d="M552 473V440L534 398V425L532 426V393L534 392L554 439V472L552 473Z" fill="#3B3B3B" />
-                <path class="railing-right" d="M576 461V428L560 385V412L558 413V380L638 250L656 241V274L654 275V244L640 251V282L638 283V254L624 277V308L622 309V280L608 303V334L606 335V306L592 329V360L590 361V332L576 355V386L574 387V358L560.5 380L578 427V460L576 461Z" fill="#3B3B3B" />
-                <path class="railing-right" d="M638 236L640 237V266L638 267V236Z" fill="#3B3B3B" />
-                <path class="railing-left" d="M552 473L550 472V440L532 398V426L530 425V394L504 381V412L502 411V380L500 379V377L532 393L552 440V473Z" fill="#A6A6A6" />
-                <path class="railing-left" d="M638 283L636 282V257.285L638 254V283Z" fill="#A6A6A6" />
-                <path class="railing-left" d="M606 335L604 334V309.285L606 306V335Z" fill="#A6A6A6" />
-                <path class="railing-left" d="M590 361L588 360V335.287L590 332V361Z" fill="#A6A6A6" />
-                <path class="railing-left" d="M574 387L572 386V361.262L574 358V387Z" fill="#A6A6A6" />
-                <path class="railing-left" d="M622 309L620 308V283.288L622 280V309Z" fill="#A6A6A6" />
-                <path class="railing-left" d="M576 461L574 460V427.999L558 384.999V412.999L556 411.999V379L558 379.999L576 428V461Z" fill="#A6A6A6" />
-                <path class="railing-left" d="M654 275.001L652 274.001V243L638 236V267L636 266V235L622 228V226L654 242V275.001Z" fill="#A6A6A6" />
+                <path class="railing-right" d="M638 283L636 282V257.285L638 254V283Z" fill="#A6A6A6" />
+                <path class="railing-right" d="M606 335L604 334V309.285L606 306V335Z" fill="#A6A6A6" />
+                <path class="railing-right" d="M590 361L588 360V335.287L590 332V361Z" fill="#A6A6A6" />
+                <path class="railing-right" d="M574 387L572 386V361.262L574 358V387Z" fill="#A6A6A6" />
+                <path class="railing-right" d="M622 309L620 308V283.288L622 280V309Z" fill="#A6A6A6" />
+                <path class="railing-right" d="M576 461L574 460V427.999L558 384.999V412.999L556 411.999V379L558 379.999L576 428V461Z" fill="#A6A6A6" />
+                <path class="railing-right" d="M654 275.001L652 274.001V243L638 236V267L636 266V235L622 228V226L654 242V275.001Z" fill="#A6A6A6" />
+                <path class="railing-left" d="M504 379L506 379.999V410.999L504 411.999V379Z" fill="#3B3B3B" />
+                <path class="railing-left" d="M552 473V440L534 398V425L532 426V393L534 392L554 439V472L552 473Z" fill="#3B3B3B" />
+                <path class="railing-left" d="M576 461V428L560 385V412L558 413V380L638 250L656 241V274L654 275V244L640 251V282L638 283V254L624 277V308L622 309V280L608 303V334L606 335V306L592 329V360L590 361V332L576 355V386L574 387V358L560.5 380L578 427V460L576 461Z" fill="#3B3B3B" />
+                <path class="railing-left" d="M638 236L640 237V266L638 267V236Z" fill="#3B3B3B" />
+                <path class="railing-right" d="M552 473L550 472V440L532 398V426L530 425V394L504 381V412L502 411V380L500 379V377L532 393L552 440V473Z" fill="#A6A6A6" />
                 <path class="railing-top" d="M532 393L534 392L502 376L500 377L532 393Z" fill="#676767" />
                 <path class="railing-top" d="M622 226L652 241L636 249L556 379L558 380L638 250L656 241L624 225L622 226Z" fill="#676767" />
             </g>
@@ -127,30 +127,30 @@
     </g>
     <g class="building-03">
         <g class="base">
-            <path class="base-left" d="M248 573L122 510V651L248 714V573Z" fill="#E67070" />
-            <path class="base-right" d="M248 573L500 447V589L248 714V573Z" fill="#CA2B2B" />
+            <path class="base-right" d="M248 573L122 510V651L248 714V573Z" fill="#E67070" />
+            <path class="base-left" d="M248 573L500 447V589L248 714V573Z" fill="#CA2B2B" />
             <path class="base-top" d="M122 510L374 384L500 447L248 573L122 510Z" fill="#F04949" />
         </g>
         <g class="windows-02">
             <path class="window-background" d="M286.251 594L460.251 507V580L286.251 667V594Z" fill="#CAFFFF" />
             <g class="window-frame">
                 <path class="window-frame-top" d="M286.251 667L286.251 671L464.251 582L460.251 580.001L286.251 667Z" fill="#676767" />
-                <path class="window-frame-right" d="M278.251 675L282.251 677V592L278.251 590V675Z" fill="#A6A6A6" />
-                <path class="window-frame-right" d="M460.251 580L464.251 582V505L460.251 507V580Z" fill="#A6A6A6" />
+                <path class="window-frame-left" d="M278.251 675L282.251 677V592L278.251 590V675Z" fill="#A6A6A6" />
+                <path class="window-frame-left" d="M460.251 580L464.251 582V505L460.251 507V580Z" fill="#A6A6A6" />
                 <path class="window-frame-top" d="M278.251 590.001L282.251 592.001L468.251 499L464.251 497.001L278.251 590.001Z" fill="#676767" />
-                <path class="window-frame-left" fill-rule="evenodd" clip-rule="evenodd" d="M468.251 584V499L282.251 592V677L468.251 584ZM464.251 505V582L286.251 671V594L464.251 505Z" fill="#3B3B3B" />
+                <path class="window-frame-right" fill-rule="evenodd" clip-rule="evenodd" d="M468.251 584V499L282.251 592V677L468.251 584ZM464.251 505V582L286.251 671V594L464.251 505Z" fill="#3B3B3B" />
             </g>
         </g>
         <g class="hoarding">
             <path class="hoarding-background" d="M227 489V421.998L393 339V406L227 489Z" fill="#D9D9D9" />
             <g class="hoarding-frame">
-                <path class="hoarding-frame-left" d="M261 509L265 511V478L261 476V509Z" fill="#A6A6A6" />
-                <path class="hoarding-frame-left" d="M369 455L373 457V424L369 422V455Z" fill="#A6A6A6" />
-                <path class="hoarding-frame-left" d="M219 497L223 499V420L219 418V497Z" fill="#A6A6A6" />
-                <path class="hoarding-frame-left" d="M393 406L397 408V337L393 339V406Z" fill="#A6A6A6" />
+                <path class="hoarding-frame-right" d="M261 509L265 511V478L261 476V509Z" fill="#A6A6A6" />
+                <path class="hoarding-frame-right" d="M369 455L373 457V424L369 422V455Z" fill="#A6A6A6" />
+                <path class="hoarding-frame-right" d="M219 497L223 499V420L219 418V497Z" fill="#A6A6A6" />
+                <path class="hoarding-frame-right" d="M393 406L397 408V337L393 339V406Z" fill="#A6A6A6" />
                 <path class="hoarding-frame-top" d="M218.999 418L222.999 420L401 331L396.999 328.999L218.999 418Z" fill="#676767" />
                 <path class="hoarding-frame-top" d="M227 488.999L227 492.999L397 408L393 405.999L227 488.999Z" fill="#676767" />
-                <path class="hoarding-frame-right" fill-rule="evenodd" clip-rule="evenodd" d="M223 499L265 478V511L269 509V476L373 424V457L377 455V422L401 410V331L223 420V499ZM397 408L227 493V422L397 337V408Z" fill="#3B3B3B" />
+                <path class="hoarding-frame-left" fill-rule="evenodd" clip-rule="evenodd" d="M223 499L265 478V511L269 509V476L373 424V457L377 455V422L401 410V331L223 420V499ZM397 408L227 493V422L397 337V408Z" fill="#3B3B3B" />
             </g>
         </g>
     </g>

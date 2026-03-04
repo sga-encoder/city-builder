@@ -1,0 +1,110 @@
+.U2 svg .ground .ground-top {
+    fill: var(--ground-top);
+}
+
+.U2 svg .ground .ground-right {
+    fill: var(--ground-right);
+}
+
+.U2 svg .ground .ground-left {
+    fill: var(--ground-left);
+}
+
+.U2 svg .base .base-top {
+    fill: var(--base-top);
+}
+
+.U2 svg .base .base-left {
+    fill: var(--base-left);
+}
+
+.U2 svg .base .base-right {
+    fill: var(--base-right);
+}
+
+.U2 svg .door-02 .door-background {
+    fill: var(--door-background);
+}
+
+.U2 svg .door-02 .door-frame .door-frame-top {
+    fill: var(--door-frame-top);
+}
+
+.U2 svg .door-02 .door-frame .door-frame-left {
+    fill: var(--door-frame-left);
+}
+
+.U2 svg .door-02 .door-frame .door-frame-right {
+    fill: var(--door-frame-right);
+}
+
+.U2 svg .windows-group .window-03 .window-background {
+    fill: var(--window-background);
+}
+
+.U2 svg .windows-group .window-03 .window-frame .window-frame-top {
+    fill: var(--window-frame-top);
+}
+
+.U2 svg .windows-group .window-03 .window-frame .window-frame-left {
+    fill: var(--window-frame-left);
+}
+
+.U2 svg .windows-group .window-03 .window-frame .window-frame-right {
+    fill: var(--window-frame-right);
+}
+
+.U2 svg .pergola .railing-left {
+    fill: var(--railing-left);
+}
+
+.U2 svg .pergola .railing-right {
+    fill: var(--railing-right);
+}
+
+.U2 svg .pergola .pergola-top {
+    fill: var(--pergola-top);
+}
+
+.U2 svg .pergola .pergola-right {
+    fill: var(--pergola-right);
+}
+
+.U2 svg .water-tank .railing-left {
+    fill: var(--railing-left);
+}
+
+.U2 svg .water-tank .railing-right {
+    fill: var(--railing-right);
+}
+
+/* Water tank elements */
+.U2 svg .water-tank .water-tank-top {
+    fill: var(--water-tank-top);
+}
+
+.U2 svg .water-tank .water-tank-left {
+    fill: var(--water-tank-left);
+}
+
+.U2 svg .water-tank .water-tank-right {
+    fill: var(--water-tank-right);
+}
+
+.U2 svg .water-tank .water-tank-highlight-left {
+    fill: var(--water-tank-highlight-left);
+    fill-opacity: 0.1;
+}
+
+.U2 svg .water-tank .water-tank-highlight-right {
+    fill: var(--water-tank-highlight-right);
+    fill-opacity: 0.1;
+}
+
+.U2 svg .water-tank .water-tank-divicion-left {
+    fill: var(--water-tank-divicion-left);
+}
+
+.U2 svg .water-tank .water-tank-divicion-right {
+    fill: var(--water-tank-divicion-right);
+}

@@ -1,0 +1,130 @@
+/* Energy Plant CSS - Utility Buildings */
+/* Note: Variables for ground, base, windows, garage, chimney, door and hoarding should be defined in themes */
+
+.U1 svg .ground .ground-top {
+    fill: var(--ground-top);
+}
+
+.U1 svg .ground .ground-right {
+    fill: var(--ground-right);
+}
+
+.U1 svg .ground .ground-left {
+    fill: var(--ground-left);
+}
+
+.U1 svg .base .base-top {
+    fill: var(--base-top);
+}
+
+.U1 svg .base .base-left {
+    fill: var(--base-left);
+}
+
+.U1 svg .base .base-right {
+    fill: var(--base-right);
+}
+
+.U1 svg .window-01 .window-background {
+    fill: var(--window-background);
+}
+
+.U1 svg .window-01 .window-frame .window-frame-top {
+    fill: var(--window-frame-top);
+}
+
+.U1 svg .window-01 .window-frame .window-frame-left {
+    fill: var(--window-frame-left);
+}
+
+.U1 svg .window-01 .window-frame .window-frame-right {
+    fill: var(--window-frame-right);
+}
+
+.U1 svg .garage .garage-background {
+    fill: var(--garage-background);
+}
+
+.U1 svg .garage .garage-frame .garage-frame-top {
+    fill: var(--garage-frame-top);
+}
+
+.U1 svg .garage .garage-frame .garage-frame-left {
+    fill: var(--garage-frame-left);
+}
+
+.U1 svg .garage .garage-frame .garage-frame-right {
+    fill: var(--garage-frame-right);
+}
+
+.U1 svg .garage-decorations-group .garage-decorations {
+    stroke: var(--garage-decorations);
+}
+
+.U1 svg .chimney-01 .chimney-top,
+.U1 svg .chimney-02 .chimney-top,
+.U1 svg .chimney-03 .chimney-top {
+    fill: var(--chimney-top);
+}
+
+.U1 svg .chimney-01 .chimney-left,
+.U1 svg .chimney-02 .chimney-left,
+.U1 svg .chimney-03 .chimney-left {
+    fill: var(--chimney-left);
+}
+
+.U1 svg .chimney-01 .chimney-right,
+.U1 svg .chimney-02 .chimney-right,
+.U1 svg .chimney-03 .chimney-right {
+    fill: var(--chimney-right);
+}
+
+.U1 svg .door-01 .door-background {
+    fill: var(--door-background);
+}
+
+.U1 svg .door-01 .door-frame .door-frame-top {
+    fill: var(--door-frame-top);
+}
+
+.U1 svg .door-01 .door-frame .door-frame-left {
+    fill: var(--door-frame-left);
+}
+
+.U1 svg .door-01 .door-frame .door-frame-right {
+    fill: var(--door-frame-right);
+}
+
+.U1 svg .hoarding .hoarding-background {
+    fill: var(--hoarding-background);
+}
+
+.U1 svg .hoarding .hoarding-frame .hoarding-frame-top {
+    fill: var(--hoarding-frame-top);
+}
+
+.U1 svg .hoarding .hoarding-frame .hoarding-frame-left {
+    fill: var(--hoarding-frame-left);
+}
+
+.U1 svg .hoarding .hoarding-frame .hoarding-frame-right {
+    fill: var(--hoarding-frame-right);
+}
+
+/* Power tower elements */
+.U1 svg .power-tower .tower-base {
+    fill: var(--tower-base);
+    stroke: var(--tower-stroke);
+}
+
+.U1 svg .power-tower .tower-top {
+    fill: var(--tower-top);
+}
+
+.U1 svg .power-tower .tower-left {
+    fill: var(--tower-left);
+}
+
+.U1 svg .power-tower .tower-right {
+    fill: var(--tower-right);
+}

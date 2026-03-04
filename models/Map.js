@@ -27,17 +27,18 @@ class Map {
       let aux = [];
       for (let j = 0; j < layout.length; j++) {
         const col = document.createElement("div");
-        col.classList.add("map-item");
+        let id = `${String(i).padStart(2, "0")}${String(j).padStart(2, "0")}`;
+
+        col.classList.add(`map-item`);
+        col.classList.add(`map-item-${id}`);
         col.style.setProperty("--i", i);
         col.style.setProperty("--j", j);
-        
-        let id = `${i}-${j}`;
+
         let type = layout[i][j][0];
         let subtype = layout[i][j][1] === undefined ? "" : layout[i][j][1];
- 
+
         const modelKey = `${type}${subtype}`;
         const model = this.SVGInjector.getModel(modelKey);
-        console.log(`🏗️ Building ${modelKey}:`, model ? "✅ SVG cargado" : "❌ NULL - no encontrado");
         
         const ground = Building.create({
           id,
@@ -52,7 +53,7 @@ class Map {
       }
       instance.push(aux);
       }
-    console.log(instance);
+    LocalStorage.saveData("map", JSON.stringify(instance));
     return instance;
   }
 }

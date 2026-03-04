@@ -10,7 +10,7 @@
         <path class="pergola-right" d="M599 508.5V525.5L725 462.5V445.5L599 508.5Z" fill="#A6A6A6"/>
         <path class="pergola-top" d="M599 508.5V382.5L725 445.5L599 508.5Z" fill="#D9D9D9"/>
     </g>
-    <g class="water-tank-01">
+    <g class="water-tank">
         <path class="water-tank-left" d="M599 330.5L659 300.533V391.533L599 421.5V330.5Z" fill="#380BFF"/>
         <path class="water-tank-right" d="M599 330.499V421.499L539 391.533V300.533L599 330.499Z" fill="#1B0E55"/>
         <path class="water-tank-top" d="M659 300.5L599 330.5L539 300.5L599 270.5L659 300.5Z" fill="#1D009E"/>
@@ -33,7 +33,7 @@
         <path class="base-top" d="M599 367.5L347 493.5L95 367.5L347 241.5L599 367.5Z" fill="#F04949"/>
         <path class="roof-left" d="M231 220L95 367.5L347 493.5L483 346L231 220Z" fill="#A7A7A7"/>
         <path class="roof-top" d="M347 241.5L231 220.5L483 346L599 367.5L347 241.5Z" fill="#D9D9D9"/>
-        <path class="roof-right" d="M483 346L347 493.5L599 367.5L483 346Z" fill="#E67070"/>
+        <path class="base-left" d="M483 346L347 493.5L599 367.5L483 346Z" fill="#E67070"/>
     </g>
     <g class="door-02">
         <path class="door-background" d="M435 604.5V731.5L511 693.5V566.5L435 604.5Z" fill="#D9D9D9"/>
@@ -45,17 +45,17 @@
         </g>
     </g>
     <g class="farm-window">
-        <path class="base-left" d="M433 537.5V436.5L513 396.5V497.5L433 537.5Z" fill="#CA2B2B"/>
-        <path class="base-right" d="M513 497.5V465.5L444 431L433 436.5V537.5L513 497.5Z" fill="#F04949"/>
+        <path class="base-right" d="M433 537.5V436.5L513 396.5V497.5L433 537.5Z" fill="#CA2B2B"/>
+        <path class="base-top" d="M513 497.5V465.5L444 431L433 436.5V537.5L513 497.5Z" fill="#F04949"/>
         <path class="farm-window-base-top" d="M433 541.5V537.5L513 497.5L517 499.5L433 541.5Z" fill="white"/>
         <path class="farm-window-frame-right" d="M517 499.501L513 497.547V396.5L517 394.5V499.501Z" fill="#676767"/>
         <path class="farm-window-frame-top" d="M470 517L472 517.5L513 449.5H511.5L470 517Z" fill="white"/>
-        <path class="farm-window-frame-righ" d="M471 520L472 519.5L431 490.5V492L471 520Z" fill="#676767"/>
+        <path class="farm-window-frame-right" d="M471 520L472 519.5L431 490.5V492L471 520Z" fill="#676767"/>
         <path class="farm-window-frame-top" d="M470.5 414.5H472L431 490.5V488.5L470.5 414.5Z" fill="white"/>
-        <path class="ffarm-window-frame-righ" d="M513 449.5H511.5L472 418L472.5 417L513 449.5Z" fill="#676767"/>
+        <path class="farm-window-frame-right" d="M513 449.5H511.5L472 418L472.5 417L513 449.5Z" fill="#676767"/>
         <path class="farm-window-frame-left" fill-rule="evenodd" clip-rule="evenodd" d="M471.5 517L513 449.5L472.5 417L433.5 490L471.5 517ZM474 416L515 449.5L472 519.5L433 492V486.5L470 418L474 416Z" fill="#CCCCCC"/>
         <path class="farm-window-frame-left" fill-rule="evenodd" clip-rule="evenodd" d="M429 547.5V434.5L521 388.5V501.5L429 547.5ZM433 436.5V541L517 499.5V394.5L433 436.5Z" fill="#CCCCCC"/>
-        <path class="farm-window-frame-righ" d="M429 547.501L425 545.501V432.535L429 434.501L429 547.501Z" fill="#676767"/>
+        <path class="farm-window-frame-right" d="M429 547.501L425 545.501V432.535L429 434.501L429 547.501Z" fill="#676767"/>
         <path class="farm-window-frame-top" d="M429 434.5L425 432.5L517 386.5L521 388.5L429 434.5Z" fill="white"/>
     </g>
     <g class="windows-group">
@@ -81,8 +81,8 @@
         </g>
     </g>
     <g class="tree">
-        <path class="tree-trunk-left" d="M697.674 535.904L691.465 532.799V676.395L697.674 679.5V535.904Z" fill="#432606"/>
-        <path class="tree-trunk-right" d="M697.675 535.904L703.885 532.799V676.395L697.675 679.5V535.904Z" fill="#804400"/>
+        <path class="tree-trunk-right" d="M697.674 535.904L691.465 532.799V676.395L697.674 679.5V535.904Z" fill="#432606"/>
+        <path class="tree-trunk-left" d="M697.675 535.904L703.885 532.799V676.395L697.675 679.5V535.904Z" fill="#804400"/>
         <path class="tree-foliage-left" d="M675.963 520.585L724.927 496.166V550.817L675.963 575.236V520.585Z" fill="#28C900"/>
         <path class="tree-foliage-right" d="M675.964 520.585V575.236L627 550.817V496.166L675.964 520.585Z" fill="#2E6820"/>
         <path class="tree-foliage-top" d="M724.927 496.167L675.964 520.585L627 496.167L675.964 471.748L724.927 496.167Z" fill="#309C15"/>
@@ -94,8 +94,8 @@
         <path class="tree-foliage-top" d="M752.906 453.919L703.942 478.337L654.979 453.919L703.942 429.5L752.906 453.919Z" fill="#309C15"/>
     </g>
     <g class="tree">
-        <path class="tree-trunk-left" d="M826.674 535.904L820.465 532.799V676.395L826.674 679.5V535.904Z" fill="#432606"/>
-        <path class="tree-trunk-right" d="M826.675 535.904L832.885 532.799V676.395L826.675 679.5V535.904Z" fill="#804400"/>
+        <path class="tree-trunk-right" d="M826.674 535.904L820.465 532.799V676.395L826.674 679.5V535.904Z" fill="#432606"/>
+        <path class="tree-trunk-left" d="M826.675 535.904L832.885 532.799V676.395L826.675 679.5V535.904Z" fill="#804400"/>
         <path class="tree-foliage-left" d="M804.963 520.585L853.927 496.166V550.817L804.963 575.236V520.585Z" fill="#28C900"/>
         <path class="tree-foliage-right" d="M804.964 520.585V575.236L756 550.817V496.166L804.964 520.585Z" fill="#2E6820"/>
         <path class="tree-foliage-top" d="M853.927 496.167L804.964 520.585L756 496.167L804.964 471.748L853.927 496.167Z" fill="#309C15"/>
@@ -107,8 +107,8 @@
         <path class="tree-foliage-top" d="M881.906 453.919L832.942 478.337L783.979 453.919L832.942 429.5L881.906 453.919Z" fill="#309C15"/>
     </g>
     <g class="tree">
-        <path class="tree-trunk-left" d="M739.674 608.904L733.465 605.799V749.395L739.674 752.5V608.904Z" fill="#432606"/>
-        <path class="tree-trunk-right" d="M739.675 608.904L745.885 605.799V749.395L739.675 752.5V608.904Z" fill="#804400"/>
+        <path class="tree-trunk-right" d="M739.674 608.904L733.465 605.799V749.395L739.674 752.5V608.904Z" fill="#432606"/>
+        <path class="tree-trunk-left" d="M739.675 608.904L745.885 605.799V749.395L739.675 752.5V608.904Z" fill="#804400"/>
         <path class="tree-foliage-left" d="M717.963 593.585L766.927 569.166V623.817L717.963 648.236V593.585Z" fill="#28C900"/>
         <path class="tree-foliage-right" d="M717.964 593.585V648.236L669 623.817V569.166L717.964 593.585Z" fill="#2E6820"/>
         <path class="tree-foliage-top" d="M766.927 569.167L717.964 593.585L669 569.167L717.964 544.748L766.927 569.167Z" fill="#309C15"/>

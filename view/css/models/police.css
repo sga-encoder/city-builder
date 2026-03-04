@@ -1,0 +1,99 @@
+.S1 svg .ground .ground-top {
+    fill: var(--ground-top);
+}
+
+.S1 svg .ground .ground-right {
+    fill: var(--ground-right);
+}
+
+.S1 svg .ground .ground-left {
+    fill: var(--ground-left);
+}
+
+.S1 svg .platform .platform-base {
+    fill: var(--plataform-base);
+}
+
+.S1 svg .base .base-top {
+    fill: var(--base-top);
+}
+
+.S1 svg .base .base-left, .S1 svg .stairs-down .base-left {
+    fill: var(--base-left);
+}
+
+.S1 svg .base .base-right, .S1 svg .stairs-down .base-right {
+    fill: var(--base-right);
+}
+
+.S1 svg .railing .railing-top, .S1 svg .railing-group .railing-top,  .S1 svg .stairs-down .railing-top {
+    fill: var(--railing-top);
+}
+
+.S1 svg .railing .railing-left, .S1 svg .railing-group .railing-left, .S1 svg .stairs-down .railing-left {
+    fill: var(--railing-left);
+}
+
+.S1 svg .railing .railing-right, .S1 svg .railing-group .railing-right, .S1 svg .stairs-down .railing-right {
+    fill: var(--railing-right);
+}
+
+.S1 svg .door-01 .door-background {
+    fill: var(--door-background);
+}
+
+.S1 svg .door-01 .door-frame .door-frame-top {
+    fill: var(--door-frame-top);
+}
+
+.S1 svg .door-01 .door-frame .door-frame-left {
+    fill: var(--door-frame-left);
+}
+
+.S1 svg .door-01 .door-frame .door-frame-right {
+    fill: var(--door-frame-right);
+}
+
+.S1 svg .windows-02 .window-background {
+    fill: var(--window-background);
+}
+
+.S1 svg .windows-02 .window-frame .window-frame-top {
+    fill: var(--window-frame-top);
+}
+
+.S1 svg .windows-02 .window-frame .window-frame-left {
+    fill: var(--window-frame-left);
+}
+
+.S1 svg .windows-02 .window-frame .window-frame-right {
+    fill: var(--window-frame-right);
+}
+
+.S1 svg .hoarding .hoarding-background {
+    fill: var(--hoarding-background);
+}
+
+.S1 svg .hoarding .hoarding-frame .hoarding-frame-top {
+    fill: var(--hoarding-frame-top);
+}
+
+.S1 svg .hoarding .hoarding-frame .hoarding-frame-left {
+    fill: var(--hoarding-frame-left);
+}
+
+.S1 svg .hoarding .hoarding-frame .hoarding-frame-right {
+    fill: var(--hoarding-frame-right);
+}
+
+.S1 svg .stairs .step .step-top, .S1 svg .stairs-down .step .step-top {
+    fill: var(--step-top);
+}
+
+.S1 svg .stairs .step .step-left, .S1 svg .stairs-down .step .step-left {
+    fill: var(--step-left);
+}
+
+.S1 svg .stairs .step .step-right, .S1 svg .stairs-down .step .step-right {
+    fill: var(--step-right);
+}

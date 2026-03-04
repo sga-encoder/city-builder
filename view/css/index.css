@@ -1,0 +1,67 @@
+.main-container{
+    width: 100vw;
+    max-height: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: hsl(209, 67%, 8%) ;
+}
+#map {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.main-container>#slide-right .container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.main-container>#slide-right .container .button,
+.main-container>#slide-left>.container .resources>.resource
+{
+    position: absolute;
+    margin: 2.5vw;
+    width: 20vw;
+    height: 20vw;
+    min-width: 44px;
+    min-height: 44px;
+    z-index: 3500;
+
+}
+
+
+.main-container>#slide-right .container #statistics {
+    bottom: 0;
+    right: 25vw;
+}
+
+.main-container>#slide-right .container #weather {
+    top: 0;
+    right: 0;
+}
+
+.main-container>#slide-right .container #news {
+    bottom: 0;
+    right: 0;
+}
+
+.main-container>#map {
+    overflow: scroll;
+}
+
+.map {
+    --width-ground: 15vw !important;
+    --height-ground: 15vw !important;
+    --size: 30vw;
+}
+

@@ -14,6 +14,10 @@ class City {
     };
     this.score = score;
   }
+
+  calculatePoints() {
+    Resources.calculateAllAmount(this.resources.energy, this.resources.water, this.resources.money, this.resources.food);
+  }
 }
 
 

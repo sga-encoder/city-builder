@@ -9,43 +9,32 @@ class Resources {
     calculateAmount() {
         switch (this.consumed) {
             case false://suma a los recursos
-                switch (this.type) {
-                    case "electricity":
-                        this.amount += this.generatedAmount;
-                        break;
-                    case "water":
-                        this.amount += this.generatedAmount;
-                        break;
-                    case "money":
-                        this.amount += this.generatedAmount;
-                        break;
-                    case "food":
-                        this.amount += this.generatedAmount;
-                        break;
-                    default:
-                        console.warn(`Tipo de recurso invalido: ${this.type}`);
-                }
+                this.amount += this.generatedAmount;
+    
             case true://resta a los recursos
-                switch (this.type) {
-                    case "electricity":
-                        this.amount -= this.generatedAmount;
-                        break;
-                    case "water":
-                        this.amount -= this.generatedAmount;
-                        break;
-                    case "money":
-                        this.amount -= this.generatedAmount;
-                        break;
-                    case "food":
-                        this.amount -= this.generatedAmount;
-                        break;
-                    default:
-                        console.warn(`Tipo de recurso invalido: ${this.type}`);    
-                }
+                this.amount -= this.generatedAmount;
         
         return this.amount;
                 
         }
+    }
+
+    static calculateAllAmount(energy, water, money, food) {
+        if (energy instanceof Resources && energy.type !== "energy") {
+            return false
+        };
+        if (water instanceof Resources && water.type !== "water") {
+            return false
+        };
+        if (money instanceof Resources && money.type !== "money") {
+            return false
+        };
+        if (food instanceof Resources && food.type !== "food") {
+            return false
+        }
+
+        return energy.calculateAmount() + water.calculateAmount() + money.calculateAmount() + food.calculateAmount();
+
     }
 
     

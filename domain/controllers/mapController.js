@@ -1,6 +1,11 @@
 let selectedCell = null;
 let currentMode = "view"; // "view", "build", "move", "destroy"
 
+
+const setupMapCamara = () => {
+  print("hola")
+}
+
 const addEvents = () => {
   const mapData = LocalStorage.loadData("map");
   const map = JSON.parse(mapData);
@@ -30,6 +35,8 @@ const addEvents = () => {
     }
   }
 };
+
+
 
 const selectCell = (id, cellData, i, j) => {
   // Remover selección anterior

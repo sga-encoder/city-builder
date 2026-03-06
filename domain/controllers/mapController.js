@@ -3,7 +3,7 @@ let currentMode = "view"; // "view", "build", "move", "destroy"
 
 
 const setupMapCamara = () => {
-  print("hola")
+  print("iuagwd")
 }
 
 const addEvents = () => {

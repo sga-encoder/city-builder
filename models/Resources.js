@@ -13,6 +13,9 @@ class Resources {
     
             case true://resta a los recursos
                 this.amount -= this.generatedAmount;
+
+            default: 
+                console.log("su cara si es muy fea")
         
         return this.amount;
                 

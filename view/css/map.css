@@ -1,23 +1,22 @@
-
 .map {
     display: flex;
     align-items: center;
-    height: calc(var(--size)*3);
-    width: calc(var(--size)*5);
+    height: calc((var(--size) - 1) * (var(--width-ground)* .52));
+    width: calc((var(--size) - 1) * var(--width-ground));
     position: relative;
-    /* overflow: hidden; */
+    overflow: visible;
+    flex-shrink: 0;
 }
 
 .map-container {
     position: absolute;
-    top: calc((var(--size)*25));
-    top: calc((var(--size)*2.5/2));
+    top: calc((var(--size) - 1) * (var(--width-ground) / 4));
     left: var(--width-ground);
 }
 
 .map-item {
     display: flex;
-    height: calc( var(--height-ground)*61.5/100);
+    height: calc( var(--height-ground)*.6);
     position: absolute;
     top: calc((var(--i) - var(--j)) * (var(--width-ground) / 4));
     right: calc((var(--i) + var(--j)) * (var(--width-ground) / 2) * -1);
@@ -36,6 +35,8 @@
     width: 100%;
     height: 100%;
     display: block;
+    shape-rendering: geometricPrecision;
+    text-rendering: geometricPrecision;
 }
 
 .map-item.selected {

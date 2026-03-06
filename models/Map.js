@@ -13,7 +13,7 @@ class Map {
     map.classList.add("map");
     map.style.setProperty("--width-ground", `${this.widthChunk}vw`);
     map.style.setProperty("--height-ground", `${this.heightChunk}vw`);
-    map.style.setProperty("--size", `${layout.length}vw`);
+    map.style.setProperty("--size", `${layout.length}`);
 
     this.container.appendChild(map);
 

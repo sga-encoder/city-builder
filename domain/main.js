@@ -3,6 +3,10 @@ if (typeof window.renderSlideLeftMenu === "function") {
   window.renderSlideLeftMenu();
 }
 
+if (typeof window.renderSlideRightMenu === "function") {
+  window.renderSlideRightMenu();
+}
+
 Building.initConfig().then(async (data) => {
   const svgInjector = await SVGInjector.create(data.builds);
   let city = new City({

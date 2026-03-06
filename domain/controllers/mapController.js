@@ -269,11 +269,6 @@ const setupMapCamera = () => {
   });
 };
 
-
-const setupMapCamara = () => {
-  print("hola")
-}
-
 const addEvents = () => {
   const mapData = LocalStorage.loadData("map");
   const map = JSON.parse(mapData);

@@ -13,9 +13,8 @@ class Resources {
     
             case true://resta a los recursos
                 this.amount -= this.generatedAmount;
-
-            default: 
-                console.log("su cara si es muy fea")
+            default:
+                print("Error: Invalid consumed value");
         
         return this.amount;
                 

@@ -62,15 +62,68 @@ const createMenu03 = () => {
   return containerButton;
 };
 
+const resourcesContent = (id, url, text, num) => {
+  const li = document.createElement("li");
+  li.classList.add("resource");
+  li.id = id;
+  li.style.setProperty("--i", num);
+  const imgContainer = document.createElement("div");
+  imgContainer.classList.add("img-container");
+  const img = document.createElement("img");
+  img.src = url;
+  img.alt = id;
+  imgContainer.appendChild(img);
+  const p = document.createElement("p");
+  p.textContent = text;
+  p.classList.add("content");
+  li.appendChild(imgContainer);
+  li.appendChild(p);
+  return li;
+}
+
+const resourcesBotton = () => {
+  const btn = document.createElement("div");
+  btn.classList.add("resource");
+  btn.id = "resource";
+  const imgContainer = document.createElement("div");
+  imgContainer.classList.add("img-container");
+  const img = document.createElement("img");  
+  img.src = "../../public/icons/resource.svg";
+  img.alt = "resource";
+  imgContainer.appendChild(img);
+  btn.appendChild(imgContainer);
+  return btn;
+}
+
+const resourceMenu = () => {
+  const divResources = document.createElement("div");
+  divResources.classList.add("resources");
+  const ul = document.createElement("ul");
+  const resources = [
+    ["money", "../../public/icons/money.svg", "$100.000"],
+    ["energy", "../../public/icons/energy.svg", "120/200 kWh"],
+    ["water", "../../public/icons/water.svg", "80/150 m³"],
+    ["food", "../../public/icons/food.svg", "50/100 kg"],
+  ];
+  resources.forEach(([id, url, text], index) => {
+    ul.appendChild(resourcesContent(id, url, text, index + 1));
+  })
+  divResources.appendChild(ul);
+  divResources.appendChild(resourcesBotton());
+  return divResources;
+};
+
 const createSlideLeftMenu = () => {
-  const fragment = document.createDocumentFragment();
+  const fragment = document.createElement("div");
+  fragment.classList.add("container")
   fragment.appendChild(createMenu01());
   fragment.appendChild(createMenu02());
   fragment.appendChild(createMenu03());
+  fragment.appendChild(resourceMenu());
   return fragment;
 };
 
-const renderSlideLeftMenu = (containerSelector = "#slide-left .container") => {
+const renderSlideLeftMenu = (containerSelector = "#slide-left") => {
   const container = document.querySelector(containerSelector);
   if (!container) return;
 

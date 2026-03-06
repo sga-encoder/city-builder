@@ -1,0 +1,237 @@
+#slide-left{
+    position: absolute;
+    height: 100vh;
+    pointer-events: none;
+}
+
+#slide-left .container
+{
+    display: inline-flex;
+    margin-top: 1.5rem;
+    pointer-events: auto;
+}
+
+#slide-left .container .resources  
+{
+    color : #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 3vw;
+}
+
+#slide-left .container .resources ul
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: .25rem;
+    font-family: "Smooch Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#slide-left .container .resources ul .resource  
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; 
+    gap: .5rem;
+    z-index: 3500;
+}
+
+
+
+#slide-left .container .resources ul .resource p 
+{
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+    transition-delay: calc(var(--i)*0.1s);
+}
+
+#slide-left .container .resources.active ul .resource p 
+{
+    transform: translateX(0);
+    opacity: 1;
+    transition: all 0.5s ease-in-out;
+    transition-delay: calc(var(--i)*0.1s);
+}
+
+.main-container>#slide-left>.container .resources>.resource
+{
+    position: absolute;
+    margin: 2.5vw;
+    width: 20vw;
+    height: 20vw;
+    min-width: 44px;
+    min-height: 44px;
+    z-index: 3500;
+    bottom: 0;
+    left: 0;
+
+}
+
+#slide-left .container .container-buttons 
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1.5rem;
+    position: absolute;
+    left: 0;
+    bottom: 25vw;
+    width: 100vw;
+    padding: 5%;
+    z-index: 3500;
+}
+
+#slide-left .container .container-buttons .button 
+{
+    flex-shrink: 0;
+    width: 21vw;
+    height: 21vw;
+    border-radius: 10.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    background-color: hsla(0, 0%, 45%, 0.16);
+}
+
+#slide-left .container .container-buttons .button .img-container {
+    width: 70%;
+    height: 70%;
+}
+ 
+
+
+#slide-left .container .container-buttons.menu-01,
+#slide-left .container .container-buttons.menu-02
+{
+    transform: translateX(-100%);
+    transition: all 1s ease-in-out;
+    transition-delay: 0.5s;
+}
+
+#slide-left .container .container-buttons.menu-01.active,
+#slide-left .container .container-buttons.menu-02.active
+
+{
+    transform: translateX(0);
+    transition: all 1s ease-in-out;
+    transition-delay: 0.5s;
+}
+
+#slide-left .container .container-buttons.menu-01 .button,
+#slide-left .container .container-buttons.menu-02 .button
+{
+    transform: translateX(calc(var(--i)*-100%)) scale(0);
+    transition: all .5s ease-in-out;
+    transition-delay: calc(var(--i)*0.2s);
+}
+
+#slide-left .container .container-buttons.menu-01.active .button,
+#slide-left .container .container-buttons.menu-02.active .button
+{
+    transform: translateX(0) scale(1);
+    transition: all 1s ease-in-out;
+    transition-delay: calc((4 - var(--i))*0.2s);
+}
+
+#slide-left .container .container-buttons.menu-03
+{
+    transform: translateX(100%);
+    transition: all 1s ease-in-out;
+    transition-delay: 2.4s;
+    overflow-x: scroll;
+
+}
+#slide-left .container .container-buttons.menu-03::-webkit-scrollbar {
+    display: none;
+}
+
+
+#slide-left .container .container-buttons.menu-03.active
+{
+    transform: translateX(0);
+    transition: all 1s ease-in-out;
+    transition-delay: 0.5s;
+}
+
+#slide-left .container .container-buttons.menu-03 .button
+{
+    transform: translateX(calc(var(--i)*100%)) scale(0);
+    transition: all 1s ease-in-out;
+    transition-delay: calc((14 - var(--i))*0.02s);
+}
+
+#slide-left .container .container-buttons.menu-03.active .button {
+    transform: translateX(0) scale(1);
+    transition: all 1s ease-in-out;
+    transition-delay: calc(var(--i)*0.2s);
+}
+
+@media (min-width: 746px) {
+    #slide-left>.container .resources>.resource
+    {
+        display: none;
+    }
+
+    #slide-left .container .resources ul
+    {
+        flex-direction: row;
+    }
+
+    #slide-left .container .resources ul .resource p
+    {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    
+    #slide-left .container .container-buttons.menu-01,
+    #slide-left .container .container-buttons.menu-02,
+    #slide-left .container .container-buttons.menu-03
+    {
+        transform: translate(-100%, 50%);
+        flex-direction: column;
+        bottom: 50%;
+        width: inherit;
+        height: 55vh;
+    }
+
+
+        
+    #slide-left .container .container-buttons.menu-01.active,
+    #slide-left .container .container-buttons.menu-02.active,
+    #slide-left .container .container-buttons.menu-03.active
+
+    {
+        transform: translate(0,50%);
+        flex-direction: column;
+        bottom: 50%;
+        width: inherit;
+    }
+
+    
+    #slide-left .container .container-buttons .button 
+    {
+        width: 7vw;
+        height: 7vw;
+        border-radius: 7.5vw;
+    }
+
+    #slide-left .container .container-buttons.menu-03 .button
+    {
+        transform: translateX(calc(var(--i)*100% * -1)) scale(0);
+    }
+
+
+}

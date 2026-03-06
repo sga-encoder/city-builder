@@ -1,0 +1,49 @@
+#slide-right .container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    pointer-events: none;
+}
+
+#slide-right .container .button
+{
+    position: absolute;
+    margin: 2.5vw;
+    width: 20vw;
+    height: 20vw;
+    min-width: 44px;
+    min-height: 44px;
+    z-index: 3500;
+    pointer-events: auto;
+
+}
+
+#slide-right .container #statistics {
+    bottom: 0;
+    right: 25vw;
+}
+
+#slide-right .container #weather {
+    top: 0;
+    right: 0;
+}
+
+#slide-right .container #news {
+    bottom: 0;
+    right: 0;
+}
+
+@media (min-width: 746px) {
+    #slide-right .container #statistics
+    {
+        right: 12vw;
+    }
+    #slide-right .container .button
+    {
+        width: 7vw;
+        height: 7vw;
+    }
+}

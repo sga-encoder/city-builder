@@ -3,7 +3,6 @@ let currentMode = "view"; // "view", "build", "move", "destroy"
 let cameraDidDrag = false;
 
 
-const gar="gay"
 const setupMapCamera = () => {
   const viewport = document.querySelector("#map");
   const map = viewport?.querySelector(".map");

@@ -61,16 +61,23 @@ window.hideAllMenu = hideAllMenu;
 // EVENT LISTENERS
 // =====================
 
-document.addEventListener("DOMContentLoaded", function () {
+const initSlideLeftController = () => {
   const container = document.querySelector(".resources");
   const btn = document.querySelector("#resource");
-
-  btn.addEventListener("click", function () {
-    container.classList.toggle("active");
-  });
-
   const buildBtn = document.querySelector("#build");
-  buildBtn.addEventListener("click", function () {
-    switchToMenu03();
-  });
-});
+
+  if (btn && container) {
+    btn.addEventListener("click", function () {
+      container.classList.toggle("active");
+    });
+  }
+
+  if (buildBtn) {
+    buildBtn.addEventListener("click", function () {
+      switchToMenu03();
+    });
+  }
+};
+
+// Expose initialization function globally
+window.initSlideLeftController = initSlideLeftController;

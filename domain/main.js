@@ -1,14 +1,7 @@
+City.initConfig().then(async (data) => {
+  const builds = await SVGInjector.create(data.builds, true);
+  const icons = await SVGInjector.create(data.icons, true);
 
-if (typeof window.renderSlideLeftMenu === "function") {
-  window.renderSlideLeftMenu();
-}
-
-if (typeof window.renderSlideRightMenu === "function") {
-  window.renderSlideRightMenu();
-}
-
-Building.initConfig().then(async (data) => {
-  const svgInjector = await SVGInjector.create(data.builds);
   let city = new City({
     id: 1,
     mayor: "John Doe",
@@ -978,12 +971,18 @@ Building.initConfig().then(async (data) => {
         ],
       ],
       nameCointainer: "#map",
-      SVGInjector: svgInjector,
+      svgModels: builds,
     },
-    initialMoney: 1000,
-    initialEnergy: 100,
-    initialWater: 100,
-    initialFood: 100,
+    initial: {
+      money: 1000,
+      energy: 100,
+      water: 100,
+      food: 100,
+    },
     score: 0,
   });
+
+  window.renderSlideLeftMenu(icons, builds);
+  window.renderSlideRightMenu(icons);
+  window.initSlideLeftController();
 });

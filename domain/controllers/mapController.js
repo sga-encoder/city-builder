@@ -65,7 +65,7 @@ const setupMapCamera = () => {
         const { maxScale, minScale } = getInitialScaleByScreen(
           window.innerWidth,
         );
-        mapCamera.setScaleLimints( minScale, maxScale);
+        mapCamera.setScaleLimits(minScale, maxScale);
         applyResponsiveZoom();
       }, 150); // debounce para evitar demasiadas ejecuciones
     });

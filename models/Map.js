@@ -1,8 +1,8 @@
 class Map {
   constructor(dict) {
-    const { layout,  nameCointainer, SVGInjector } = dict;
+    const { layout,  nameCointainer, svgModels } = dict;
     this.container = document.querySelector(nameCointainer);
-    this.SVGInjector = SVGInjector;
+    this.svgModels = svgModels;
     this.grid = this.createMap(layout);
   }
 
@@ -43,8 +43,8 @@ class Map {
         let type = layout[i][j][0];
         let subtype = layout[i][j][1] === undefined ? "" : layout[i][j][1];
 
-        const modelKey = `${type}${subtype}`;
-        const model = this.SVGInjector.getModel(modelKey);
+        const modelKey = subtype === "" ? `${type}`: `${type}.${subtype}`;
+        const model = this.svgModels.getModel(modelKey);
         
         const ground = Building.create({
           id,

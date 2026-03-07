@@ -21,9 +21,29 @@
 
 }
 
-#slide-right .container #statistics {
+#slide-right .container .button svg 
+{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#slide-right .container .button path
+{
+    fill: #fff;
+}
+
+
+#slide-right .container #statistics 
+{
     bottom: 0;
     right: 25vw;
+}
+
+#slide-right .container #statistics path
+{
+    fill: none;
+    stroke: #fff;
 }
 
 #slide-right .container #weather {

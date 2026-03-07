@@ -1,123 +1,213 @@
 {
-    "builds": {
-        "R": {
-          "1": {
-            "cost": 1000,
-            "capacity": 4,
-            "energyUsage": 5,
-            "waterUsage": 3,
-            "model" : "../../public/models/house_land.svg"
-          },
-          "2": {
-            "cost": 3000,
-            "capacity": 12,
-            "energyUsage": 15,
-            "waterUsage": 10,
-            "model": "../../public/models/apartaments_land.svg"
-          }
-        },
-        "C": {
-          "1": {
-            "cost": 2000,
-            "capacity": 6,
-            "energyUsage": 8,
-            "waterUsage": 0,
-            "income": 500,
-            "model": "../../public/models/store_land.svg"
-          },
-          "2": {
-            "cost": 8000,
-            "capacity": 20,
-            "energyUsage": 25,
-            "waterUsage": 0,
-            "income": 2000,
-            "model": "../../public/models/mall_land.svg"
-          }
-        },
-        "I": {
-          "1": {
-            "cost": 5000,
-            "capacity": 15,
-            "energyUsage": 20,
-            "waterUsage": 15,
-            "benefit": 800,
-            "model": "../../public/models/factory_land.svg"
-          },
-          "2": {
-            "cost": 3000,
-            "capacity": 8,
-            "energyUsage": 0,
-            "waterUsage": 10,
-            "benefit": 50,
-            "model": "../../public/models/farm_land.svg"
-          }
-        },
-        "P": {
-          "1": {
-            "cost": 1500,
-            "energyUsage": 0,
-            "waterUsage": 0,
-            "benefit": 5,
-            "model": "../../public/models/park_land.svg"
-          }
-        },
-        "S": {
-          "1": {
-            "cost": 4000,
-            "energyUsage": 10,
-            "waterUsage": 0,
-            "benefit": 10,
-            "radius": 5,
-            "model": "../../public/models/police_station_land.svg"
-          },
-          "2": {
-            "cost": 4000,
-            "energyUsage": 10,
-            "waterUsage": 0,
-            "benefit": 10,
-            "radius": 5,
-            "model": "../../public/models/fire_station_land.svg"
-          },
-          "3": {
-            "cost": 6000,
-            "energyUsage": 30,
-            "waterUsage": 10,
-            "benefit": 10,
-            "radius": 7,
-            "model": "../../public/models/hospital_land.svg"
-          }
-        },
-        "U":{
-          "1": {
-            "cost": 10000,
-            "energyUsage": 0,
-            "waterUsage": 0,
-            "production": 200,
-            "model": "../../public/models/energy_land.svg"
-          },
-          "2": {
-            "cost": 8000,
-            "energyUsage": 20,
-            "waterUsage": 0,
-            "production": 150,
-            "model" : "../../public/models/water_land.svg"
-          }
-        },
-      "g": {
-        "": {
-          "cost": 0,
-          "energyUsage": 0,
-          "waterUsage": 0,
-          "model": "../../public/models/ground_land.svg"
-        }
+  "icons": {
+    "build": {
+      "": {
+        "model": "../../public/icons/build.svg"
+      }
+    },
+    "energy": {
+      "": {
+        "model": "../../public/icons/energy.svg"
+      }
+    },
+    "food": {
+      "": {
+        "model": "../../public/icons/food.svg"
+      }
+    },
+    "money": {
+      "": {
+        "model": "../../public/icons/money.svg"
+      }
+    },
+    "move": {
+      "": {
+        "model": "../../public/icons/move.svg"
+      }
+    },
+    "news": {
+      "": {
+        "model": "../../public/icons/news.svg"
+      }
+    },
+    "resource": {
+      "": {
+        "model": "../../public/icons/resource.svg"
+      }
+    },
+    "statistics": {
+      "": {
+        "model": "../../public/icons/statistics.svg"
+      }
+    },
+    "touch": {
+      "": {
+        "model": "../../public/icons/touch.svg"
+      }
+    },
+    "water": {
+      "": {
+        "model": "../../public/icons/water.svg"
+      }
+    },
+    "weather": {
+      "drizzle": {
+        "model": "../../public/icons/weather/weather-drizzle.svg"
       },
-      "r": {
-        "": {
-          "cost": 100,
-          "energyUsage": 0,
-          "waterUsage": 0,
-          "model": "../../public/models/way_land.svg"
-        }
+      "hail-day": {
+        "model": "../../public/icons/weather/weather-hail-day.svg"
+      },
+      "hail-night": {
+        "model": "../../public/icons/weather/weather-hail-night.svg"
+      },
+      "partly-cloudy-day": {
+        "model": "../../public/icons/weather/weather-partly-cloudy-day.svg"
+      },
+      "partly-cloudy-night": {
+        "model": "../../public/icons/weather/weather-partly-cloudy-night.svg"
+      },
+      "rain-showers-day": {
+        "model": "../../public/icons/weather/weather-rain-showers-day.svg"
+      },
+      "rain-showers-night": {
+        "model": "../../public/icons/weather/weather-rain-showers-night.svg"
+      },
+      "snow-showers-day": {
+        "model": "../../public/icons/weather/weather-snow-shower-day.svg"
+      },
+      "snow-showers-night": {
+        "model": "../../public/icons/weather/weather-snow-shower-night.svg"
+      },
+      "thunderstorm": {
+        "model": "../../public/icons/weather/weather-thunderstorm.svg"
+      },
+      "sunny": {
+        "model": "../../public/icons/weather/weather-sunny.svg"
+      },
+      "sunny-low": {
+        "model": "../../public/icons/weather/weather-sunny-low.svg"
       }
     }
+  },
+  "builds": {
+    "R": {
+      "1": {
+        "cost": 1000,
+        "capacity": 4,
+        "energyUsage": 5,
+        "waterUsage": 3,
+        "model": "../../public/models/house_land.svg"
+      },
+      "2": {
+        "cost": 3000,
+        "capacity": 12,
+        "energyUsage": 15,
+        "waterUsage": 10,
+        "model": "../../public/models/apartaments_land.svg"
+      }
+    },
+    "C": {
+      "1": {
+        "cost": 2000,
+        "capacity": 6,
+        "energyUsage": 8,
+        "waterUsage": 0,
+        "income": 500,
+        "model": "../../public/models/store_land.svg"
+      },
+      "2": {
+        "cost": 8000,
+        "capacity": 20,
+        "energyUsage": 25,
+        "waterUsage": 0,
+        "income": 2000,
+        "model": "../../public/models/mall_land.svg"
+      }
+    },
+    "I": {
+      "1": {
+        "cost": 5000,
+        "capacity": 15,
+        "energyUsage": 20,
+        "waterUsage": 15,
+        "benefit": 800,
+        "model": "../../public/models/factory_land.svg"
+      },
+      "2": {
+        "cost": 3000,
+        "capacity": 8,
+        "energyUsage": 0,
+        "waterUsage": 10,
+        "benefit": 50,
+        "model": "../../public/models/farm_land.svg"
+      }
+    },
+    "P": {
+      "1": {
+        "cost": 1500,
+        "energyUsage": 0,
+        "waterUsage": 0,
+        "benefit": 5,
+        "model": "../../public/models/park_land.svg"
+      }
+    },
+    "S": {
+      "1": {
+        "cost": 4000,
+        "energyUsage": 10,
+        "waterUsage": 0,
+        "benefit": 10,
+        "radius": 5,
+        "model": "../../public/models/police_station_land.svg"
+      },
+      "2": {
+        "cost": 4000,
+        "energyUsage": 10,
+        "waterUsage": 0,
+        "benefit": 10,
+        "radius": 5,
+        "model": "../../public/models/fire_station_land.svg"
+      },
+      "3": {
+        "cost": 6000,
+        "energyUsage": 30,
+        "waterUsage": 10,
+        "benefit": 10,
+        "radius": 7,
+        "model": "../../public/models/hospital_land.svg"
+      }
+    },
+    "U": {
+      "1": {
+        "cost": 10000,
+        "energyUsage": 0,
+        "waterUsage": 0,
+        "production": 200,
+        "model": "../../public/models/energy_land.svg"
+      },
+      "2": {
+        "cost": 8000,
+        "energyUsage": 20,
+        "waterUsage": 0,
+        "production": 150,
+        "model": "../../public/models/water_land.svg"
+      }
+    },
+    "g": {
+      "": {
+        "cost": 0,
+        "energyUsage": 0,
+        "waterUsage": 0,
+        "model": "../../public/models/ground_land.svg"
+      }
+    },
+    "r": {
+      "": {
+        "cost": 100,
+        "energyUsage": 0,
+        "waterUsage": 0,
+        "model": "../../public/models/way_land.svg"
+      }
+    }
+  }
 }

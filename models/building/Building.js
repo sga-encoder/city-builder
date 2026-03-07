@@ -1,21 +1,14 @@
 class Building {
-  static buildingConfig = null;
 
-  static async initConfig() {
-    if (!Building.buildingConfig) {
-      Building.buildingConfig = await FileManager.loadJSON("../../config.json");
-    }
-    return Building.buildingConfig;
-  }
 
   static getSubtypeData(type, subtype) {
-    if (!Building.buildingConfig) {
+    if (!City.CityConfig) {
       console.warn(
         "Building config not initialized. Call Building.initConfig() first.",
       );
       return {};
     }
-    return Building.buildingConfig.builds?.[type]?.[subtype] || {};
+    return City.CityConfig.builds?.[type]?.[subtype] || {};
   }
 
   constructor(dict) {

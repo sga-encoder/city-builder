@@ -12,10 +12,14 @@ class Map {
     const map = document.createElement("div");
     map.classList.add("map");
 
-    let width = Math.round(this.container.offsetWidth/ layout.length);
-    let height =  width;
+    let rawWidth = this.container.offsetWidth / layout.length;
+    let width = Math.max(20, Math.round(rawWidth / 20) * 20);
+    let height = width * 0.6;
 
-    const ruleMapRende = `.map{ --width-ground:${width}px; --height-ground:${height}px; --size:${layout.length}; }`;
+    const widthMap = width * layout.length;
+    const heightMap = height * layout.length;
+
+    const ruleMapRende = `.map{ --width-map:${widthMap}px; --height-map:${heightMap}px; --size:${layout.length}; }`;
     sheet.insertRule(ruleMapRende, sheet.cssRules.length);
     
     this.container.appendChild(map);
@@ -35,7 +39,11 @@ class Map {
         col.classList.add(`map-item`);
         col.id = `map-item-${id}`;
 
-        const rule = `#map-item-${id}{ --i:${i}; --j:${j}; }`;
+        let left = (i + j) * (width / 2);
+        let top = (i - j) * (width / 4);
+        let indexZ = (layout.length*100) - (j * 100);
+
+        const rule = `#map-item-${id}{ --i:${i}; --j:${j}; --top:${top}px; --left:${left}px; --height:${height}px; --width: ${width}px;--z-index:${indexZ}; }`;
         sheet.insertRule(rule, sheet.cssRules.length);
 
 

@@ -16,40 +16,35 @@
 }
 
 .map {
-    --tile-w: var(--width-ground);
-    --tile-h: calc(var(--height-ground) * 0.6);
     display: flex;
     align-items: center;
-    height: calc((var(--size) - 1) * var(--tile-h));
-    width: calc((var(--size) * var(--width-ground)));
+    height: var(--height-map);
+    width:  var(--width-map);
     position: relative;
     overflow: visible;
     flex-shrink: 0;
     transform-origin: 0 0;
-    /* transform: translate(var(--cameraX, 0px), var(--cameraY, 0px)) scale(var(--cameraZoom, 1)); */
     transition: all .5s ease-out;
 }
 
 .map-container {
     position: absolute;
-    top: calc((var(--size) - 1) * (var(--tile-w) / 4));
-    /* left: var(--width-ground); */
 }
 
 .map-item {
     position: absolute;
-    height: var(--tile-h);
+    height: var(--height);
     display: flex;
     align-items: flex-end;
-    left: calc((var(--i) + var(--j)) * (var(--tile-w) / 2));
-    top: calc((var(--i) - var(--j)) * (var(--tile-w) / 4));
-    z-index: calc((var(--size)*100) - (var(--j) * 100));
+    left: var(--left);
+    top: var(--top);
+    z-index: var(--z-index);
 
 }
 
 .building {
-    height: var(--height-ground);
-    width: var(--width-ground);
+    height: var(--width);
+    width: var(--width);
     pointer-events: none;
     display: block;
 }

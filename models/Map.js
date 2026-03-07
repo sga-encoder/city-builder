@@ -1,20 +1,23 @@
 class Map {
   constructor(dict) {
-    const { layout, widthChunck, heightChunk, nameCointainer, SVGInjector } = dict;
-    this.widthChunk = widthChunck;
-    this.heightChunk = heightChunk;
+    const { layout,  nameCointainer, SVGInjector } = dict;
     this.container = document.querySelector(nameCointainer);
     this.SVGInjector = SVGInjector;
     this.grid = this.createMap(layout);
   }
 
   createMap(layout) {
+    const sheet = document.styleSheets[0];
+
     const map = document.createElement("div");
     map.classList.add("map");
-    map.style.setProperty("--width-ground", `${this.widthChunk}vw`);
-    map.style.setProperty("--height-ground", `${this.heightChunk}vw`);
-    map.style.setProperty("--size", `${layout.length}`);
 
+    let width = Math.round(this.container.offsetWidth/ layout.length);
+    let height =  width;
+
+    const ruleMapRende = `.map{ --width-ground:${width}px; --height-ground:${height}px; --size:${layout.length}; }`;
+    sheet.insertRule(ruleMapRende, sheet.cssRules.length);
+    
     this.container.appendChild(map);
 
     const mapContainer = document.createElement("div");
@@ -30,9 +33,12 @@ class Map {
         let id = `${String(i).padStart(2, "0")}${String(j).padStart(2, "0")}`;
 
         col.classList.add(`map-item`);
-        col.classList.add(`map-item-${id}`);
-        col.style.setProperty("--i", i);
-        col.style.setProperty("--j", j);
+        col.id = `map-item-${id}`;
+
+        const rule = `#map-item-${id}{ --i:${i}; --j:${j}; }`;
+        sheet.insertRule(rule, sheet.cssRules.length);
+
+
 
         let type = layout[i][j][0];
         let subtype = layout[i][j][1] === undefined ? "" : layout[i][j][1];

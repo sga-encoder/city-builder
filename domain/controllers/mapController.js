@@ -1,9 +1,10 @@
 let selectedCell = null;
 let currentMode = "view"; // "view", "build", "move", "destroy"
 let cameraDidDrag = false;
-
+let transformRuleIndex = null;
 
 const setupMapCamera = () => {
+  const sheet = document.styleSheets[1];
   const viewport = document.querySelector("#map");
   const map = viewport?.querySelector(".map");
 
@@ -13,7 +14,7 @@ const setupMapCamera = () => {
 
   const camera = {
     scale: 1,
-    minScale: 0.65,
+    minScale: 0.7,
     maxScale: 4,
     x: 0,
     y: 0,
@@ -24,17 +25,21 @@ const setupMapCamera = () => {
     pinchDistance: null,
     pinchCenter: null,
   };
-
   const cameraBoundsPadding = {
-    top: 54.5,
-    right: 100,
+    top: 0,
+    right: 0,
     bottom: 0,
     left: 0,
   };
 
   const applyTransform = () => {
-    map.style.transformOrigin = "0 0";
-    map.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})`;
+    // Eliminar la regla anterior si existe
+    if (transformRuleIndex !== null) {
+      sheet.deleteRule(transformRuleIndex);
+    }
+
+    const rule = `.map{ transform: translate(${camera.x}px, ${camera.y}px) scale(${camera.scale}); }`;
+    transformRuleIndex = sheet.insertRule(rule, sheet.cssRules.length);
   };
 
   const clampTranslation = (nextX, nextY, scale = camera.scale) => {
@@ -53,7 +58,8 @@ const setupMapCamera = () => {
     if (scaledWidth <= viewport.clientWidth) {
       clampedX = (viewport.clientWidth - scaledWidth) / 2;
     } else {
-      const minX = viewport.clientWidth - scaledWidth - cameraBoundsPadding.right;
+      const minX =
+        viewport.clientWidth - scaledWidth - cameraBoundsPadding.right;
       const maxX = cameraBoundsPadding.left;
       clampedX = Math.min(maxX, Math.max(minX, nextX));
     }
@@ -61,7 +67,8 @@ const setupMapCamera = () => {
     if (scaledHeight <= viewport.clientHeight) {
       clampedY = (viewport.clientHeight - scaledHeight) / 2;
     } else {
-      const minY = viewport.clientHeight - scaledHeight - cameraBoundsPadding.bottom;
+      const minY =
+        viewport.clientHeight - scaledHeight - cameraBoundsPadding.bottom;
       const maxY = cameraBoundsPadding.top;
       clampedY = Math.min(maxY, Math.max(minY, nextY));
     }
@@ -274,7 +281,7 @@ const addEvents = () => {
   for (let i = 0; i < map.length; i++) {
     for (let j = 0; j < map[i].length; j++) {
       let id = map[i][j].id;
-      const item = document.querySelector(`.map-item-${id}`);
+      const item = document.querySelector(`#map-item-${id}`);
 
       if (!item) continue;
       if (item.dataset.eventsBound === "true") continue;
@@ -301,20 +308,18 @@ const addEvents = () => {
   }
 };
 
-
-
 const selectCell = (id, cellData, i, j) => {
   // Remover selección anterior
   if (selectedCell) {
     document
-      .querySelector(`.map-item-${selectedCell.id}`)
+      .querySelector(`#map-item-${selectedCell.id}`)
       ?.classList.remove("selected");
     window.hideAllMenu?.();
   }
 
   // Seleccionar nueva celda
   selectedCell = { id, cellData, i, j };
-  document.querySelector(`.map-item-${id}`).classList.add("selected");
+  document.querySelector(`#map-item-${id}`).classList.add("selected");
 };
 
 const showBuildMenu = () => {
@@ -328,7 +333,7 @@ const showManageMenu = () => {
 const deselectCell = () => {
   if (selectedCell) {
     document
-      .querySelector(`.map-item-${selectedCell.id}`)
+      .querySelector(`#map-item-${selectedCell.id}`)
       ?.classList.remove("selected");
     selectedCell = null;
     currentMode = "view";

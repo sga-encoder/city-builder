@@ -1,27 +1,50 @@
+#map {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#map.dragging {
+    cursor: grabbing;
+}
+
 .map {
+    --tile-w: var(--width-ground);
+    --tile-h: calc(var(--height-ground) * 0.6);
     display: flex;
     align-items: center;
-    height: calc((var(--size) - 1) * (var(--width-ground)* .52));
-    width: calc((var(--size) - 1) * var(--width-ground));
+    height: calc((var(--size) - 1) * var(--tile-h));
+    width: calc((var(--size) * var(--width-ground)));
     position: relative;
     overflow: visible;
     flex-shrink: 0;
+    transform-origin: 0 0;
+    /* transform: translate(var(--cameraX, 0px), var(--cameraY, 0px)) scale(var(--cameraZoom, 1)); */
+    transition: all .5s ease-out;
 }
 
 .map-container {
     position: absolute;
-    top: calc((var(--size) - 1) * (var(--width-ground) / 4));
-    left: var(--width-ground);
+    top: calc((var(--size) - 1) * (var(--tile-w) / 4));
+    /* left: var(--width-ground); */
 }
 
 .map-item {
-    display: flex;
-    height: calc( var(--height-ground)*.6);
     position: absolute;
-    top: calc((var(--i) - var(--j)) * (var(--width-ground) / 4));
-    right: calc((var(--i) + var(--j)) * (var(--width-ground) / 2) * -1);
-    z-index: calc(3000 - (var(--j) * 100));
+    height: var(--tile-h);
+    display: flex;
     align-items: flex-end;
+    left: calc((var(--i) + var(--j)) * (var(--tile-w) / 2));
+    top: calc((var(--i) - var(--j)) * (var(--tile-w) / 4));
+    z-index: calc((var(--size)*100) - (var(--j) * 100));
+
 }
 
 .building {

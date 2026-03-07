@@ -977,8 +977,6 @@ Building.initConfig().then(async (data) => {
           "g",
         ],
       ],
-      widthChunck: 5,
-      heightChunk: 5,
       nameCointainer: "#map",
       SVGInjector: svgInjector,
     },

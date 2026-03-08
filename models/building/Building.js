@@ -2,13 +2,13 @@ class Building {
 
 
   static getSubtypeData(type, subtype) {
-    if (!City.CityConfig) {
+    if (!CityBuilder.CityConfig) {
       console.warn(
         "Building config not initialized. Call Building.initConfig() first.",
       );
       return {};
     }
-    return City.CityConfig.builds?.[type]?.[subtype] || {};
+    return CityBuilder.CityConfig.builds?.[type]?.[subtype] || {};
   }
 
   constructor(dict) {

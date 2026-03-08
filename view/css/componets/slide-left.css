@@ -151,9 +151,6 @@
     display: block;
 }
 
- 
-
-
 #slide-left .container .container-buttons.menu-01,
 #slide-left .container .container-buttons.menu-02
 {
@@ -265,6 +262,7 @@
         bottom: 50%;
         width: inherit;
         height: 55vh;
+        left: 3vw;
     }
 
 

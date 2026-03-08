@@ -5,6 +5,11 @@
         "model": "../../public/icons/build.svg"
       }
     },
+    "destroy": {
+      "": {
+        "model": "../../public/icons/destroy.svg"
+      }
+    },
     "energy": {
       "": {
         "model": "../../public/icons/energy.svg"

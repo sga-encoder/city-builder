@@ -1,12 +1,4 @@
 class City {
-  static CityConfig = null;
-
-  static async initConfig() {
-    if (!City.CityConfig) {
-      City.CityConfig = await FileManager.loadJSON("../../config.json");
-    }
-    return City.CityConfig;
-  }
   constructor(dict) {
     const {
       id,

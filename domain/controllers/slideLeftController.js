@@ -61,10 +61,33 @@ window.hideAllMenu = hideAllMenu;
 // EVENT LISTENERS
 // =====================
 
-const initSlideLeftController = () => {
+const initSlideLeftController = (city, builds) => {
   const container = document.querySelector(".resources");
   const btn = document.querySelector("#resource");
   const buildBtn = document.querySelector("#build");
+  const menuItems = ["R1", "R2", "C1", "C2", "I1", "I2", "P1", "S1", "S2", "S3", "U1", "U2", "r"];
+  let buildings = []
+
+  menuItems.forEach((id) => {
+    buildings.push([document.querySelector(`#${id}`), id]);
+  });
+
+  buildings.forEach(([building, idBuilding]) => {
+    if (building) {
+      building.addEventListener("click", function () {
+        const cellRaw = LocalStorage.loadData("selectedCell");
+        const cell = cellRaw ? JSON.parse(cellRaw) : null;
+        const buildingItem = document.querySelector(`#building-${cell.id}`);
+
+        buildingItem.classList.remove("g")
+        buildingItem.classList.add(idBuilding);
+        buildingItem.innerHTML = builds.getModel(`${idBuilding[0]}.${idBuilding[1]}`);
+        // implementar lógica de construcción aquí, usando city y cell para actualizar recursos, mapa, etc.
+      });
+    }
+  });
+
+
 
   if (btn && container) {
     btn.addEventListener("click", function () {

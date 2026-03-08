@@ -122,6 +122,8 @@ const selectCell = (id, cellData, i, j) => {
   // Seleccionar nueva celda
   selectedCell = { id, cellData, i, j };
   document.querySelector(`#map-item-${id}`).classList.add("selected");
+  LocalStorage.saveData("selectedCell", JSON.stringify(selectedCell));
+
 };
 
 const showBuildMenu = () => {
@@ -138,6 +140,7 @@ const deselectCell = () => {
       .querySelector(`#map-item-${selectedCell.id}`)
       ?.classList.remove("selected");
     selectedCell = null;
+    LocalStorage.saveData("selectedCell", null);
     currentMode = "view";
 
     // Cerrar menús

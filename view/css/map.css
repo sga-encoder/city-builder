@@ -57,6 +57,25 @@
     text-rendering: geometricPrecision;
 }
 
+.map-item.moving {
+  animation: pulse 1s ease-in-out infinite;
+  filter: brightness(1.2);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+#map.move-mode {
+  cursor: move;
+}
+
+#map.move-mode .map-item:hover {
+    outline: 2px solid #fffb00;
+    z-index: 3001;
+}
+
 .map-item.selected {
     outline: 2px solid #00ff00;
     z-index: 3001;

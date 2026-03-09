@@ -25,59 +25,7 @@ const renderSlideLeftMenu = (
   container.prepend(createSlideLeftMenu(resource, icons, builds));
 
   // Start reactive updates for resource values
-  startResourceWatcher(container, resource);
+  SlideLeftController.startResourceWatcher(container, resource);
 };
 
-const startResourceWatcher = (container, resourceObjects) => {
-  if (!resourceObjects || !container) return;
-
-  const resourcesDiv = container.querySelector(".resources");
-  if (!resourcesDiv || !resourcesDiv._resourceElements) return;
-
-  const resourceElements = resourcesDiv._resourceElements;
-  const resourceTypes = ["money", "energy", "water", "food"];
-
-  // Create update function for each resource type
-  const createUpdateCallback = (type, unit) => {
-    return (newValue) => {
-      if (resourceElements[type]) {
-        const li = resourceElements[type].element;
-        const contentP = li.querySelector(".content");
-        if (contentP) {
-          contentP.textContent = newValue + unit;
-        }
-      }
-    };
-  };
-
-  // Add observer to each resource object
-  resourceTypes.forEach((type) => {
-    if (resourceObjects[type]) {
-      const unit = resourceElements[type]?.unit || "";
-      const callback = createUpdateCallback(type, unit);
-      resourceObjects[type].addObserver(callback);
-
-      // Store callback reference for cleanup if needed
-      if (!resourcesDiv._observerCallbacks) {
-        resourcesDiv._observerCallbacks = {};
-      }
-      resourcesDiv._observerCallbacks[type] = callback;
-    }
-  });
-
-  // Initial display with current values
-  resourceTypes.forEach((type) => {
-    if (resourceObjects[type] && resourceElements[type]) {
-      const newValue = resourceObjects[type].amount || 0;
-      const unit = resourceElements[type].unit;
-      const li = resourceElements[type].element;
-      const contentP = li.querySelector(".content");
-      if (contentP) {
-        contentP.textContent = newValue + unit;
-      }
-    }
-  });
-};
-
-window.createSlideLeftMenu = createSlideLeftMenu;
 window.renderSlideLeftMenu = renderSlideLeftMenu;

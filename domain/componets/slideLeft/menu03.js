@@ -20,7 +20,7 @@ const createMenu03 = (icons, sheets) => {
 
   menuItems.forEach((id, index) => {
     containerButton.appendChild(
-      button(id, index + 1, icons, sheets, !id[1] ? id : `${id[0]}.${id[1]}`),
+      button(id, index, icons, sheets, !id[1] ? id : `${id[0]}.${id[1]}`),
     );
   });
 

@@ -19,4 +19,3 @@ const renderSlideRightMenu = (icons, containerSelector = "#slide-right") => {
 };
 
 window.renderSlideRightMenu = renderSlideRightMenu;
-window.createSlideRightMenu = createSlideRightMenu;

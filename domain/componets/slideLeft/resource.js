@@ -40,33 +40,20 @@ const resourceMenu = (resource, icons, sheets) => {
   const divResources = document.createElement("div");
   divResources.classList.add("resources");
   const ul = document.createElement("ul");
-
+  
   // Store DOM references for reactive updates
   const resourceElements = {};
 
-  const resources = [
-    ["money", resource.money?.amount || 0, " $"],
-    ["energy", resource.energy?.amount || 0, " kWh"],
-    ["water", resource.water?.amount || 0, " L"],
-    ["food", resource.food?.amount || 0, " kg"],
-  ];
 
-  resources.forEach(([id, value, unit], index) => {
-    const li = resourcesContent(id, value + unit, index + 1, icons, sheets);
-    resourceElements[id] = { element: li, unit };
+  Object.keys(resource).forEach((id, index) => {
+    const li = resourcesContent(id, "...", index, icons, sheets);
+    resourceElements[id] = li;
     ul.appendChild(li);
   });
 
   divResources.appendChild(ul);
   divResources.appendChild(resourcesButton(icons));
 
-  // Store reference to resource objects and elements for live updates
-  divResources.dataset.resourceObjects = JSON.stringify([
-    "money",
-    "energy",
-    "water",
-    "food",
-  ]);
   divResources._resourceObjects = resource;
   divResources._resourceElements = resourceElements;
 

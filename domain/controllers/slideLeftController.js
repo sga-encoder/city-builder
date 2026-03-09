@@ -1,106 +1,254 @@
-// =====================
-// MENU MANAGEMENT FUNCTIONS
-// =====================
+class SlideLeftController {
+  // =====================
+  // STATIC PROPERTIES
+  // =====================
+  static resourceObjects = null;
+  static containerElement = null;
+  static moveMode = false;
+  static selectedCell = null;
+  static sourceBuilding = null;
+  static builds = null;
 
-const showMenu01 = () => {
-  document.querySelector(".container-buttons.menu-01")?.classList.add("active");
-};
+  // =====================
+  // MENU MANAGEMENT METHODS
+  // =====================
 
-const showMenu02 = () => {
-  document.querySelector(".container-buttons.menu-02")?.classList.add("active");
-};
-
-const showMenu03 = () => {
-  const menu = document.querySelector(".container-buttons.menu-03");
-  if (menu) {
-    menu.scrollLeft = 0; // Restaurar scroll al inicio
-    menu.classList.add("active");
+  static showMenu01() {
+    document
+      .querySelector(".container-buttons.menu-01")
+      ?.classList.add("active");
   }
-};
 
-const hideMenu01 = () => {
-  document
-    .querySelector(".container-buttons.menu-01")
-    ?.classList.remove("active");
-};
+  static showMenu02() {
+    document
+      .querySelector(".container-buttons.menu-02")
+      ?.classList.add("active");
+  }
 
-const hideMenu02 = () => {
-  document
-    .querySelector(".container-buttons.menu-02")
-    ?.classList.remove("active");
-};
+  static showMenu03() {
+    const menu = document.querySelector(".container-buttons.menu-03");
+    if (menu) {
+      menu.scrollLeft = 0;
+      menu.classList.add("active");
+    }
+  }
 
-const hideMenu03 = () => {
-  document
-    .querySelector(".container-buttons.menu-03")
-    ?.classList.remove("active");
-};
+  static hideMenu01() {
+    document
+      .querySelector(".container-buttons.menu-01")
+      ?.classList.remove("active");
+  }
 
-const switchToMenu03 = () => {
-  hideMenu01();
-  showMenu03();
-};
+  static hideMenu02() {
+    document
+      .querySelector(".container-buttons.menu-02")
+      ?.classList.remove("active");
+  }
 
-const hideAllMenu = () => {
-  hideMenu01();
-  hideMenu02();
-  hideMenu03();
-};
+  static hideMenu03() {
+    document
+      .querySelector(".container-buttons.menu-03")
+      ?.classList.remove("active");
+  }
 
-// Expose functions globally for other controllers
-window.showMenu01 = showMenu01;
-window.showMenu02 = showMenu02;
-window.showMenu03 = showMenu03;
-window.hideMenu01 = hideMenu01;
-window.hideMenu02 = hideMenu02;
-window.hideMenu03 = hideMenu03;
-window.switchToMenu03 = switchToMenu03;
-window.hideAllMenu = hideAllMenu;
+  static switchToMenu03() {
+    this.hideMenu01();
+    this.showMenu03();
+  }
 
-// =====================
-// EVENT LISTENERS
-// =====================
+  static hideAllMenu() {
+    this.hideMenu01();
+    this.hideMenu02();
+    this.hideMenu03();
+  }
 
-const initSlideLeftController = (city, builds) => {
-  const container = document.querySelector(".resources");
-  const btn = document.querySelector("#resource");
-  const buildBtn = document.querySelector("#build");
-  const menuItems = ["R1", "R2", "C1", "C2", "I1", "I2", "P1", "S1", "S2", "S3", "U1", "U2", "r"];
-  let buildings = []
+  static handleClickMenu01(slideLeft) {
+    if (!slideLeft || slideLeft.dataset.buildEventBound === "true") return;
 
-  menuItems.forEach((id) => {
-    buildings.push([document.querySelector(`#${id}`), id]);
-  });
+    slideLeft.addEventListener("click", (event) => {
+      const buildBtn = event.target.closest("#build");
+      if (!buildBtn) return;
+      this.switchToMenu03();
+    });
 
-  buildings.forEach(([building, idBuilding]) => {
-    if (building) {
-      building.addEventListener("click", function () {
-        const cellRaw = LocalStorage.loadData("selectedCell");
-        const cell = cellRaw ? JSON.parse(cellRaw) : null;
-        const buildingItem = document.querySelector(`#building-${cell.id}`);
+    slideLeft.dataset.buildEventBound = "true";
+  }
 
-        buildingItem.classList.remove("g")
-        buildingItem.classList.add(idBuilding);
-        buildingItem.innerHTML = builds.getModel(`${idBuilding[0]}.${idBuilding[1]}`);
-        // implementar lógica de construcción aquí, usando city y cell para actualizar recursos, mapa, etc.
+  static handleClickMenu03(slideLeft, builds) {
+    if (!slideLeft || slideLeft.dataset.menu03Bound === "true") return;
+
+    const menu03Ids = new Set(["R1","R2","C1","C2","I1","I2","P1","S1","S2","S3","U1","U2","r"]);
+
+    slideLeft.addEventListener("click", (event) => {
+      const btn = event.target.closest(".button");
+      if (!btn || !menu03Ids.has(btn.id)) return;
+
+      const cell = MapController.selectedCell;
+      if (!cell) return;
+
+      MapController.changeBuild(btn.id, builds, cell);
+      this.hideMenu03();
+      MapController.deselectCell();
+    });
+
+    slideLeft.dataset.menu03Bound = "true";
+  }
+
+  static handleClickMenu02(slideLeft, builds) {
+    if (!slideLeft || slideLeft.dataset.menu02Bound === "true") return;
+
+    slideLeft.addEventListener("click", (event) => {
+      const btn = event.target.closest(".button");
+      if (!btn) return;
+
+      const cell = MapController.selectedCell;
+      if (!cell) return;
+
+      // Handle MOVE button
+      if (btn.id === "move") {
+        // Activar modo movimiento
+        this.moveMode = true;
+        this.selectedCell = cell;
+        const mapItem = document.querySelector(`#map-item-${cell.cellData.id}`);
+        mapItem.classList.add("moving");
+        const mapContainer = document.querySelector("#map");
+        mapContainer?.classList.add("move-mode");
+        
+        this.hideMenu02();
+        MapController.deselectCell();
+      }
+
+      // Handle DESTROY button
+      if (btn.id === "destroy") {
+        // Obtener las clases actuales del edificio
+        MapController.changeBuild("g", builds, cell);
+        
+        console.log(`Building destroyed at cell ${cell.id}`);
+        this.hideMenu02();
+        MapController.deselectCell();
+      }
+    });
+
+    slideLeft.dataset.menu02Bound = "true";
+  }
+
+  static handleClickResourceButton(container, btn) {
+    if (btn && container) {
+      btn.addEventListener("click", () => {
+        container.classList.toggle("active");
       });
     }
-  });
-
-
-
-  if (btn && container) {
-    btn.addEventListener("click", function () {
-      container.classList.toggle("active");
-    });
   }
 
-  if (buildBtn) {
-    buildBtn.addEventListener("click", function () {
-      switchToMenu03();
+  // =====================
+  // EVENT LISTENERS
+  // =====================
+
+  static completeMoveBuilding(targetCell) {
+    if (!this.moveMode || !this.selectedCell || !this.builds) return false;
+
+    // No mover a la misma celda
+    if (targetCell.id === this.selectedCell.id) {
+      this.cancelMoveMode();
+      return false;
+    }
+    
+    if (!targetCell || !this.selectedCell) return false;
+
+    // Verificar que la celda destino esté vacía (solo "g")
+    if (targetCell.cellData.type !== "g") {
+      console.warn("Target cell is not empty");
+      this.cancelMoveMode();
+      return false;
+    }
+
+    // Mover el edificio visualmente
+    // 1. Limpiar origen (volver a ground)
+    MapController.changeBuild("g", this.builds, this.selectedCell);
+    
+    // 2. Colocar en destino
+    const buildingType = `${this.selectedCell.cellData.type}${this.selectedCell.cellData.subtype || ""}`;
+    MapController.changeBuild(buildingType, this.builds, targetCell);
+
+
+    console.log(`Building moved from ${this.selectedCell.cellData.type } to ${targetCell.cellData.type }`);
+    
+    // Limpiar estado
+    this.cancelMoveMode();
+    return true;
+  }
+
+  static cancelMoveMode() {
+    if (this.selectedCell) {
+      const sourceBuildingItem = document.querySelector(`#map-item-${this.selectedCell.cellData.id}`);
+      sourceBuildingItem?.classList.remove("moving");
+    }
+    
+    const mapContainer = document.querySelector("#map");
+    mapContainer?.classList.remove("move-mode");
+    
+    this.moveMode = false;
+    this.selectedCell = null;
+  }
+
+  static initSlideLeftController(city, builds) {
+    const slideLeft = document.querySelector("#slide-left");
+    const containerResources = document.querySelector(".resources");
+    const btnResources = document.querySelector("#resource");
+
+    // Guardar builds para usarlo en completeMoveBuilding
+    this.builds = builds;
+
+    this.handleClickMenu03(slideLeft, builds);
+    this.handleClickMenu02(slideLeft, builds);
+    this.handleClickResourceButton(containerResources, btnResources);
+    this.handleClickMenu01(slideLeft);
+  }
+
+  // =====================
+  // RESOURCE REACTIVITY
+  // =====================
+
+  static startResourceWatcher(container, resourceObjects) {
+    if (!resourceObjects || !container) return;
+
+    const resourcesDiv = container.querySelector(".resources");
+    if (!resourcesDiv || !resourcesDiv._resourceElements) return;
+
+    const resourceElements = resourcesDiv._resourceElements;
+
+
+    // Create update function for each resource type
+    const createUpdateCallback = (type, unit) => {
+      return (newValue) => {
+        if (resourceElements[type]) {
+          const li = resourceElements[type];
+          const contentP = li.querySelector(".content");
+          if (contentP) {
+            contentP.textContent = newValue + unit;
+          }
+        }
+      };
+    };
+
+      // Registrar observers Y display inicial
+    Object.keys(resourceObjects).forEach((resource) => {
+      const { type, unit, amount } = resourceObjects[resource];
+      const callback = createUpdateCallback(type, unit);
+
+
+      // Agregar observer
+      resourceObjects[resource].addObserver(callback);
+
+      // Guardar para limpieza
+      if (!resourcesDiv._observerCallbacks) {
+        resourcesDiv._observerCallbacks = {};
+      }
+      resourcesDiv._observerCallbacks[type] = callback;
+
+      // Display inicial
+      const contentP = resourceElements[type]?.querySelector(".content");
+      if (contentP) contentP.textContent = amount + unit;
     });
   }
-};
-
-// Expose initialization function globally
-window.initSlideLeftController = initSlideLeftController;
+}

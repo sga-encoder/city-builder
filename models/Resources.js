@@ -1,8 +1,9 @@
 class Resources {
-  constructor(initialAmount, type, consumed) {
+  constructor(initialAmount, type, unit, consumed) {
     this.type = type;
     this.generatedAmount = 0;
     this.consumed = consumed;
+    this.unit = unit;
     this.amount = initialAmount || 0;
     this.observers = [];
   }
@@ -47,7 +48,6 @@ class Resources {
     switch (this.consumed) {
       case false: //suma a los recursos
         this.amount += this.generatedAmount;
-
       case true: //resta a los recursos
         this.amount -= this.generatedAmount;
       default:

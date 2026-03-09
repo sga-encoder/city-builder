@@ -145,7 +145,11 @@ class SlideLeftController {
   // =====================
 
   static completeMoveBuilding(targetCell) {
-    if (!this.moveMode || !this.selectedCell || !this.builds) return false;
+    Logger.log("🚚 [SlideLeft] completeMoveBuilding desde", this.selectedCell?.id, "a", targetCell.id);
+    if (!this.moveMode || !this.selectedCell || !this.builds) {
+      Logger.warn("⚠️ [SlideLeft] No está en modo movimiento");
+      return false;
+    }
 
     // No mover a la misma celda
     if (targetCell.id === this.selectedCell.id) {
@@ -157,6 +161,7 @@ class SlideLeftController {
 
     // Verificar que la celda destino esté vacía (solo "g")
     if (targetCell.cellData.type !== "g") {
+      Logger.warn("⚠️ [SlideLeft] Celda destino no está vacía");
       console.warn("Target cell is not empty");
       this.cancelMoveMode();
       return false;
@@ -169,9 +174,8 @@ class SlideLeftController {
     // 2. Colocar en destino
     const buildingType = `${this.selectedCell.cellData.type}${this.selectedCell.cellData.subtype || ""}`;
     MapController.changeBuild(buildingType, this.builds, targetCell);
-
-
-    console.log(`Building moved from ${this.selectedCell.cellData.type } to ${targetCell.cellData.type }`);
+    
+    Logger.log("✅ [SlideLeft] Edificio movido exitosamente");
     
     // Limpiar estado
     this.cancelMoveMode();
@@ -192,6 +196,7 @@ class SlideLeftController {
   }
 
   static initSlideLeftController(city, builds) {
+    Logger.log("🏛️ [SlideLeft] Inicializando controller...");
     const slideLeft = document.querySelector("#slide-left");
     const containerResources = document.querySelector(".resources");
     const btnResources = document.querySelector("#resource");
@@ -203,6 +208,7 @@ class SlideLeftController {
     this.handleClickMenu02(slideLeft, builds);
     this.handleClickResourceButton(containerResources, btnResources);
     this.handleClickMenu01(slideLeft);
+    Logger.log("✅ [SlideLeft] Controller inicializado");
   }
 
   // =====================

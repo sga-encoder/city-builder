@@ -39,21 +39,30 @@ class MapController {
   }
 
   static setupMapCamera() {
+    Logger.log("🎥 [MapController] setupMapCamera iniciando...");
     const viewport = document.querySelector("#map");
     const map = viewport?.querySelector(".map");
 
-    if (!viewport || !map) return;
-    if (viewport.dataset.cameraReady === "true") return;
+    if (!viewport || !map) {
+      Logger.warn("⚠️ [MapController] No hay viewport o map aún");
+      return;
+    }
+    if (viewport.dataset.cameraReady === "true") {
+      Logger.log("ℹ️ [MapController] Camera ya lista");
+      return;
+    }
 
     try {
       const { maxScale, scale, minScale } = this.getInitialScaleByScreen(
         window.innerWidth,
       );
+      Logger.log("📱 [MapController] Escalas:", { minScale, scale, maxScale });
       this.mapCamera = new MapCamera("#map", document.styleSheets[1], {
         minScale,
         maxScale,
         scale,
       });
+      Logger.log("✅ [MapController] MapCamera creado exitosamente");
 
       this.mapCamera.onDragStart(() => {
         this.deselectCell();
@@ -86,18 +95,22 @@ class MapController {
       });
 
       window.mapCamera = this.mapCamera;
+      Logger.log("✅ [MapController] Camera configurada completamente");
     } catch (error) {
+      Logger.error("❌ [MapController] Error en MapCamera:", error);
       console.error("Error inicializando MapCamera:", error);
     }
   }
 
   static refreshMapEvents() {
+    Logger.log("🔄 [MapController] Refrescando eventos del mapa...");
     // Limpia listeners viejos
     document.querySelectorAll(".map-item").forEach((item) => {
       item.dataset.eventsBound = "false";
     });
 
     const map = this.mapData || [];
+    Logger.log("🗺️ [MapController] Procesando", map.length, "filas");
 
     for (let i = 0; i < map.length; i++) {
       for (let j = 0; j < map[i].length; j++) {
@@ -136,6 +149,7 @@ class MapController {
     // Serializar instancias a formato simple para localStorage
     const serializableMap = map.map(row => row.map(building => ({...building})));
     LocalStorage.saveData("map", JSON.stringify(serializableMap));
+    Logger.log("✅ [MapController] Eventos refrescados y mapa guardado");
   }
 
   static selectCell(id, cellData, i, j) {
@@ -172,8 +186,12 @@ class MapController {
   }
 
   static changeBuild(btnId, builds, cell) {
+    Logger.log("🏭 [MapController] changeBuild:", btnId, "en celda", cell.id);
     const map = this.mapData || null;
-    if (!map) return;
+    if (!map) {
+      Logger.error("❌ [MapController] No hay mapData");
+      return;
+    }
 
     const [type, subtype] = [btnId[0], btnId[1]];
     const mapItem = document.querySelector(`#map-item-${cell.id}`);
@@ -200,6 +218,7 @@ class MapController {
     LocalStorage.saveData("map", JSON.stringify(serializableMap));
 
     this.refreshMapEvents();
+    Logger.log("✅ [MapController] Edificio cambiado exitosamente");
     return mapItem;
   }
 
@@ -214,11 +233,16 @@ class MapController {
   }
 
   static init(mapData) {
+    Logger.log("🎮 [MapController] init llamado con grid de", mapData?.length, "filas");
     this.mapContainer = document.querySelector("#map");
-    if (!this.mapContainer) return;
+    if (!this.mapContainer) {
+      Logger.error("❌ [MapController] No se encontró #map container");
+      return;
+    }
 
     // Asignar mapData ANTES de inicializar interacciones
     this.mapData = mapData;
+    Logger.log("✅ [MapController] mapData asignado");
 
     this.initializeMapInteractions();
 

@@ -16,8 +16,12 @@ const renderSlideLeftMenu = (
   builds,
   containerSelector = "#slide-left",
 ) => {
+  Logger.log("🏛️ [SlideLeft] Renderizando menú...");
   const container = document.querySelector(containerSelector);
-  if (!container) return;
+  if (!container) {
+    Logger.error("❌ [SlideLeft] Container no encontrado:", containerSelector);
+    return;
+  }
 
   container.querySelector(".menu-01")?.remove();
   container.querySelector(".menu-02")?.remove();
@@ -26,6 +30,7 @@ const renderSlideLeftMenu = (
 
   // Start reactive updates for resource values
   SlideLeftController.startResourceWatcher(container, resource);
+  Logger.log("✅ [SlideLeft] Menú renderizado");
 };
 
 window.renderSlideLeftMenu = renderSlideLeftMenu;

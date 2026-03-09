@@ -25,6 +25,7 @@ class Resources {
 
   // Add resources
   add(value) {
+    Logger.log("💰 [Resources] Agregando", value, this.type, "(total:", this.amount + value + ")");
     this.amount += value;
     this.notifyObservers();
     return this.amount;
@@ -32,6 +33,7 @@ class Resources {
 
   // Subtract resources
   subtract(value) {
+    Logger.log("📉 [Resources] Restando", value, this.type, "(total:", this.amount - value + ")");
     this.amount -= value;
     this.notifyObservers();
     return this.amount;

@@ -1,6 +1,6 @@
 class CityBuilder {
   static CityConfig = null;
-  static debugMode = false; // Cambiar a true para ver logs de debug
+  static debugMode = true; // Cambiar a true para ver logs de debug
 
   static async initConfig() {
     if (!this.CityConfig) {

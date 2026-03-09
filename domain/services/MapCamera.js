@@ -11,17 +11,20 @@ class MapCamera {
   #bounds;
 
   constructor(viewportSelector, styleSheet, options = {}) {
+    Logger.log("🎥 [MapCamera] Constructor llamado:", viewportSelector);
     this.#viewport = document.querySelector(viewportSelector);
     this.#map = this.#viewport?.querySelector(".map");
     this.#sheet = styleSheet;
 
     if (!this.#viewport || !this.#map) {
+      Logger.error("❌ [MapCamera] No se encontró viewport o mapa");
       throw new Error(
         `MapCamera: no se encontró viewport o mapa para "${viewportSelector}"`,
       );
     }
 
     if (this.#viewport.dataset.cameraReady === "true") {
+      Logger.warn("⚠️ [MapCamera] Ya estaba inicializada");
       console.warn("MapCamera ya inicializada para este viewport");
       return;
     }
@@ -54,6 +57,7 @@ class MapCamera {
     this.#bounds = { ...defaults.bounds, ...config.bounds };
 
     this.#viewport.dataset.cameraReady = "true";
+    Logger.log("✅ [MapCamera] Configuración completa, scale:", this.#state.scale);
     this.#init();
   }
 
@@ -122,8 +126,10 @@ class MapCamera {
   // =====================
 
   #init() {
+    Logger.log("🔧 [MapCamera] Inicializando...");
     this.#fitMapInViewport();
     this.#setupEventListeners();
+    Logger.log("✅ [MapCamera] Inicializado correctamente");
   }
 
   #applyTransform() {

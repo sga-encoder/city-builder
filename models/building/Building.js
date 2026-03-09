@@ -27,7 +27,8 @@ class Building {
   }
 
   static create(dict) {
-    const { type } = dict;
+    const { type, id } = dict;
+    Logger.log("🏭 [Building] Creando edificio tipo", type, "id:", id);
 
     switch (type) {
       case "R":

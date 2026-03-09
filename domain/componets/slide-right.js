@@ -13,9 +13,14 @@ const createSlideRightMenu = (icons) => {
 }
 
 const renderSlideRightMenu = (icons, containerSelector = "#slide-right") => {
+  Logger.log("🔲 [SlideRight] Renderizando menú...");
   const container = document.querySelector(containerSelector);
-  if (!container) return;
+  if (!container) {
+    Logger.error("❌ [SlideRight] Container no encontrado:", containerSelector);
+    return;
+  }
   container.prepend(createSlideRightMenu(icons));
+  Logger.log("✅ [SlideRight] Menú renderizado");
 };
 
 window.renderSlideRightMenu = renderSlideRightMenu;

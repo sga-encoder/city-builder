@@ -69,12 +69,7 @@ class MapController {
       });
 
       const applyResponsiveZoom = () => {
-        const targetScale = this.getInitialScaleByScreen(
-          window.innerWidth,
-        ).scale;
-        const worldCenterX = map.offsetWidth / 2;
-        const worldCenterY = map.offsetHeight / 2;
-        this.mapCamera.centerOn(worldCenterX, worldCenterY, targetScale);
+        this.mapCamera.reset();
       };
 
       // Aplicar zoom inicial

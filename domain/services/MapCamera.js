@@ -222,6 +222,42 @@ class MapCamera {
     this.#applyTransform();
   }
 
+  #applyDrag(nextX, nextY) {
+    const distance = Math.hypot(nextX - this.#state.x, nextY - this.#state.y);
+
+    if (distance > 2) {
+      this.#state.moved = true;
+
+      if (!this.#deselectedByDrag && this.#onDragCallback) {
+        this.#onDragCallback();
+        this.#deselectedByDrag = true;
+      }
+    }
+
+    const clampedPosition = this.#clampTranslation(nextX, nextY);
+    this.#state.x = clampedPosition.x;
+    this.#state.y = clampedPosition.y;
+    this.#applyTransform();
+  }
+
+  #startDrag(clientX, clientY) {
+    this.#state.dragging = true;
+    this.#state.moved = false;
+    this.#deselectedByDrag = false;
+    this.#state.startX = clientX - this.#state.x;
+    this.#state.startY = clientY - this.#state.y;
+  }
+
+  #stopDrag(resetMoved = true) {
+    this.#state.dragging = false;
+
+    if (resetMoved) {
+      setTimeout(() => {
+        this.#state.moved = false;
+      }, 0);
+    }
+  }
+
   #clampScale(value) {
     return Math.min(
       this.#state.maxScale,
@@ -261,6 +297,20 @@ class MapCamera {
     };
   }
 
+  #applyPinch(touches) {
+    const [touchA, touchB] = touches;
+    const distance = this.#getTouchDistance(touchA, touchB);
+    const center = this.#getTouchCenter(touchA, touchB);
+
+    if (this.#state.pinchDistance) {
+      const pinchRatio = distance / this.#state.pinchDistance;
+      this.#zoomAtPoint(center.x, center.y, this.#state.scale * pinchRatio);
+    }
+
+    this.#state.pinchDistance = distance;
+    this.#state.pinchCenter = center;
+  }
+
   #setupEventListeners() {
     // Resize
     window.addEventListener("resize", () => {
@@ -293,11 +343,7 @@ class MapCamera {
       if (event.button !== 0) return;
       event.preventDefault();
 
-      this.#state.dragging = true;
-      this.#state.moved = false;
-      this.#deselectedByDrag = false;
-      this.#state.startX = event.clientX - this.#state.x;
-      this.#state.startY = event.clientY - this.#state.y;
+      this.#startDrag(event.clientX, event.clientY);
       this.#viewport.classList.add("dragging");
     });
 
@@ -306,38 +352,20 @@ class MapCamera {
 
       const nextX = event.clientX - this.#state.startX;
       const nextY = event.clientY - this.#state.startY;
-      const distance = Math.hypot(nextX - this.#state.x, nextY - this.#state.y);
-
-      if (distance > 2) {
-        this.#state.moved = true;
-
-        if (!this.#deselectedByDrag && this.#onDragCallback) {
-          this.#onDragCallback();
-          this.#deselectedByDrag = true;
-        }
-      }
-
-      const clampedPosition = this.#clampTranslation(nextX, nextY);
-      this.#state.x = clampedPosition.x;
-      this.#state.y = clampedPosition.y;
-      this.#applyTransform();
+      this.#applyDrag(nextX, nextY);
     });
 
     window.addEventListener("mouseup", () => {
       if (!this.#state.dragging) return;
 
-      this.#state.dragging = false;
+      this.#stopDrag();
       this.#viewport.classList.remove("dragging");
-
-      setTimeout(() => {
-        this.#state.moved = false;
-      }, 0);
     });
 
     this.#viewport.addEventListener("mouseleave", () => {
       if (!this.#state.dragging) return;
 
-      this.#state.dragging = false;
+      this.#stopDrag(false);
       this.#viewport.classList.remove("dragging");
     });
 
@@ -347,18 +375,12 @@ class MapCamera {
       (event) => {
         if (event.touches.length === 1) {
           const touch = event.touches[0];
-          this.#state.dragging = true;
-          this.#state.moved = false;
-          this.#deselectedByDrag = false;
-          this.#state.startX = touch.clientX - this.#state.x;
-          this.#state.startY = touch.clientY - this.#state.y;
+          this.#startDrag(touch.clientX, touch.clientY);
         }
 
         if (event.touches.length === 2) {
-          const [touchA, touchB] = event.touches;
-          this.#state.dragging = false;
-          this.#state.pinchDistance = this.#getTouchDistance(touchA, touchB);
-          this.#state.pinchCenter = this.#getTouchCenter(touchA, touchB);
+          this.#stopDrag(false);
+          this.#applyPinch(event.touches);
         }
       },
       { passive: true },
@@ -372,43 +394,12 @@ class MapCamera {
           const touch = event.touches[0];
           const nextX = touch.clientX - this.#state.startX;
           const nextY = touch.clientY - this.#state.startY;
-          const distance = Math.hypot(
-            nextX - this.#state.x,
-            nextY - this.#state.y,
-          );
-
-          if (distance > 2) {
-            this.#state.moved = true;
-
-            if (!this.#deselectedByDrag && this.#onDragCallback) {
-              this.#onDragCallback();
-              this.#deselectedByDrag = true;
-            }
-          }
-
-          const clampedPosition = this.#clampTranslation(nextX, nextY);
-          this.#state.x = clampedPosition.x;
-          this.#state.y = clampedPosition.y;
-          this.#applyTransform();
+          this.#applyDrag(nextX, nextY);
         }
 
         if (event.touches.length === 2) {
           event.preventDefault();
-          const [touchA, touchB] = event.touches;
-          const nextDistance = this.#getTouchDistance(touchA, touchB);
-          const center = this.#getTouchCenter(touchA, touchB);
-
-          if (this.#state.pinchDistance && this.#state.pinchCenter) {
-            const pinchRatio = nextDistance / this.#state.pinchDistance;
-            this.#zoomAtPoint(
-              center.x,
-              center.y,
-              this.#state.scale * pinchRatio,
-            );
-          }
-
-          this.#state.pinchDistance = nextDistance;
-          this.#state.pinchCenter = center;
+          this.#applyPinch(event.touches);
         }
       },
       { passive: false },
@@ -416,13 +407,9 @@ class MapCamera {
 
     this.#viewport.addEventListener("touchend", (event) => {
       if (event.touches.length === 0) {
-        this.#state.dragging = false;
+        this.#stopDrag();
         this.#state.pinchDistance = null;
         this.#state.pinchCenter = null;
-
-        setTimeout(() => {
-          this.#state.moved = false;
-        }, 0);
       }
     });
   }

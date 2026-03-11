@@ -76,7 +76,6 @@ class MapController {
       });
 
       const applyResponsiveZoom = () => {
-        // Usar fit automático en lugar de forzar una escala fija
         this.mapCamera.reset();
       };
 

@@ -57,7 +57,10 @@ class MapCamera {
     this.#bounds = { ...defaults.bounds, ...config.bounds };
 
     this.#viewport.dataset.cameraReady = "true";
-    Logger.log("✅ [MapCamera] Configuración completa, scale:", this.#state.scale);
+    Logger.log(
+      "✅ [MapCamera] Configuración completa, scale:",
+      this.#state.scale,
+    );
     this.#init();
   }
 
@@ -144,6 +147,18 @@ class MapCamera {
     );
   }
 
+  #clamped(next, scaled, viewport, [boundsStart, boundsEnd]) {
+    let axis = next;
+    if (scaled <= viewport) {
+      axis = (viewport - scaled) / 2;
+    } else {
+      const minX = viewport - scaled - boundsEnd;
+      const maxX = boundsStart;
+      axis = Math.min(maxX, Math.max(minX, next));
+    }
+    return axis;
+  }
+
   #clampTranslation(nextX, nextY, scale = this.#state.scale) {
     const mapWidth = this.#map.offsetWidth;
     const mapHeight = this.#map.offsetHeight;
@@ -154,28 +169,16 @@ class MapCamera {
       return { x: nextX, y: nextY };
     }
 
-    let clampedX = nextX;
-    let clampedY = nextY;
-
-    if (scaledWidth <= this.#viewport.clientWidth) {
-      clampedX = (this.#viewport.clientWidth - scaledWidth) / 2;
-    } else {
-      const minX =
-        this.#viewport.clientWidth - scaledWidth - this.#bounds.right;
-      const maxX = this.#bounds.left;
-      clampedX = Math.min(maxX, Math.max(minX, nextX));
-    }
-
-    if (scaledHeight <= this.#viewport.clientHeight) {
-      clampedY = (this.#viewport.clientHeight - scaledHeight) / 2;
-    } else {
-      const minY =
-        this.#viewport.clientHeight - scaledHeight - this.#bounds.bottom;
-      const maxY = this.#bounds.top;
-      clampedY = Math.min(maxY, Math.max(minY, nextY));
-    }
-
-    return { x: clampedX, y: clampedY };
+    return {
+      x: this.#clamped(nextX, scaledWidth, this.#viewport.clientWidth, [
+        this.#bounds.left,
+        this.#bounds.right,
+      ]),
+      y: this.#clamped(nextY, scaledHeight, this.#viewport.clientHeight, [
+        this.#bounds.top,
+        this.#bounds.bottom,
+      ]),
+    };
   }
 
   #fitMapInViewport() {
@@ -184,14 +187,33 @@ class MapCamera {
 
     if (!mapWidth || !mapHeight) return;
 
-    const scaleX = this.#viewport.clientWidth / mapWidth;
-    const scaleY = this.#viewport.clientHeight / mapHeight;
-    const nextScale = this.#clampScale(Math.min(scaleX, scaleY, 1));
+    const viewportWidth = this.#viewport.clientWidth;
+    const viewportHeight = this.#viewport.clientHeight;
+
+    // Escala vertical directa por dimensiones reales renderizadas
+    const scaleY = viewportHeight / mapHeight;
+
+    // Escala horizontal compensando el redondeo de celda en Map.js
+    // celda ideal = viewportWidth / size
+    // celda usada  = mapWidth / size (redondeada a multiplo de 20)
+    const sizeVar = Number.parseFloat(
+      getComputedStyle(this.#map).getPropertyValue("--size"),
+    );
+
+
+    const scaleX = viewportWidth / mapWidth;
+    const roundedCell = sizeVar > 0 ? mapWidth / sizeVar : 0;
+    const idealCell = sizeVar > 0 ? viewportWidth / sizeVar : 0;
+    const roundingScale = roundedCell > 0 ? idealCell / roundedCell : scaleX;
+
+    // Tomar la mas restrictiva y aplicar epsilon para evitar overflow por subpixel
+    const fitScale = Math.min(scaleY, roundingScale);
+    const nextScale = this.#clampScale(fitScale * 0.999);
 
     this.#state.scale = nextScale;
     const centeredPosition = this.#clampTranslation(
-      (this.#viewport.clientWidth - mapWidth * this.#state.scale) / 2,
-      (this.#viewport.clientHeight - mapHeight * this.#state.scale) / 2,
+      (viewportWidth - mapWidth * this.#state.scale) / 2,
+      (viewportHeight - mapHeight * this.#state.scale) / 2,
       this.#state.scale,
     );
 

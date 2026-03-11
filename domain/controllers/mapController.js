@@ -56,9 +56,16 @@ class MapController {
       const { maxScale, scale, minScale } = this.getInitialScaleByScreen(
         window.innerWidth,
       );
-      Logger.log("📱 [MapController] Escalas:", { minScale, scale, maxScale });
-      this.mapCamera = new MapCamera("#map", document.styleSheets[1], {
+      // Permitir zoom out suficiente para que el fit automático funcione
+      const fitMinScale = 0.1;
+      Logger.log("📱 [MapController] Escalas:", {
         minScale,
+        scale,
+        maxScale,
+        fitMinScale,
+      });
+      this.mapCamera = new MapCamera("#map", document.styleSheets[1], {
+        minScale: fitMinScale,
         maxScale,
         scale,
       });
@@ -69,12 +76,8 @@ class MapController {
       });
 
       const applyResponsiveZoom = () => {
-        const targetScale = this.getInitialScaleByScreen(
-          window.innerWidth,
-        ).scale;
-        const worldCenterX = map.offsetWidth / 2;
-        const worldCenterY = map.offsetHeight / 2;
-        this.mapCamera.centerOn(worldCenterX, worldCenterY, targetScale);
+        // Usar fit automático en lugar de forzar una escala fija
+        this.mapCamera.reset();
       };
 
       // Aplicar zoom inicial
@@ -86,10 +89,10 @@ class MapController {
       window.addEventListener("resize", () => {
         clearTimeout(this.resizeTimeout);
         this.resizeTimeout = setTimeout(() => {
-          const { maxScale, minScale } = this.getInitialScaleByScreen(
+          const { maxScale } = this.getInitialScaleByScreen(
             window.innerWidth,
           );
-          this.mapCamera.setScaleLimits(minScale, maxScale);
+          this.mapCamera.setScaleLimits(fitMinScale, maxScale);
           applyResponsiveZoom();
         }, 150);
       });

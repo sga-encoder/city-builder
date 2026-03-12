@@ -1,44 +1,21 @@
-class MapController {
+﻿class MapController {
   // =====================
   // STATIC PROPERTIES
   // =====================
-  static selectedCell = null;
-  static currentMode = "view";
+  static activeCell = null;
+  static interactionMode = "view";
   static mapCamera = null;
-  static resizeTimeout = null;
-  static cameraInitAttempts = 0;
-  static cameraInitInterval = null;
-  static mapContainer = null;
-  static observer = null;
-  static mapData = null; // Grid de instancias reales de Building (no copias planas)
+  static resizeDebounceTimer = null;
+  static cameraRetryCount = 0;
+  static cameraRetryTimer = null;
+  static mapContainerElement = null;
+  static mapModel = null
+  static buildingGrid = null; // Grid de instancias reales de Building (no copias planas)
 
   // =====================
   // STATIC METHODS
   // =====================
-
-  static getInitialScaleByScreen(width) {
-    const maxScale = 5;
-    const minScale = 0.5;
-    const scale = 1;
-    const movileScaleFactor = 8;
-    const tabletScaleFactor = 4;
-
-    if (width <= 756)
-      return {
-        maxScale: maxScale * movileScaleFactor,
-        scale: scale * movileScaleFactor,
-        minScale: minScale * movileScaleFactor,
-      };
-    if (width <= 1024)
-      return {
-        maxScale: maxScale * tabletScaleFactor,
-        scale: scale * tabletScaleFactor,
-        minScale: minScale * tabletScaleFactor,
-      };
-    return { maxScale, scale, minScale };
-  }
-
-  static setupMapCamera() {
+  static initializeCamera() {
     Logger.log("🎥 [MapController] setupMapCamera iniciando...");
     const viewport = document.querySelector("#map");
     const map = viewport?.querySelector(".map");
@@ -53,30 +30,33 @@ class MapController {
     }
 
     try {
-      const { maxScale, scale, minScale } = this.getInitialScaleByScreen(
-        window.innerWidth,
-      );
-      // Permitir zoom out suficiente para que el fit automático funcione
       const fitMinScale = 0.1;
+      const maxScale = 40;
+      const responsiveInitialScale = {
+        756: 8,
+        1024: 4,
+        99999: 1,
+      };
+
       Logger.log("📱 [MapController] Escalas:", {
-        minScale,
-        scale,
-        maxScale,
         fitMinScale,
+        maxScale,
+        responsiveInitialScale,
       });
+
       this.mapCamera = new MapCamera("#map", document.styleSheets[1], {
         minScale: fitMinScale,
         maxScale,
-        scale,
+        scale: 1,
       });
       Logger.log("✅ [MapController] MapCamera creado exitosamente");
 
-      this.mapCamera.onDragStart(() => {
-        this.deselectCell();
+      this.mapCamera.onPanStart(() => {
+        this.clearCellSelection();
       });
 
       const applyResponsiveZoom = () => {
-        this.mapCamera.reset();
+        this.mapCamera.applyResponsiveZoom(responsiveInitialScale);
       };
 
       // Aplicar zoom inicial
@@ -86,12 +66,9 @@ class MapController {
 
       // Reajustar al cambiar tamaño de pantalla
       window.addEventListener("resize", () => {
-        clearTimeout(this.resizeTimeout);
-        this.resizeTimeout = setTimeout(() => {
-          const { maxScale } = this.getInitialScaleByScreen(
-            window.innerWidth,
-          );
-          this.mapCamera.setScaleLimits(fitMinScale, maxScale);
+        clearTimeout(this.resizeDebounceTimer);
+        this.resizeDebounceTimer = setTimeout(() => {
+          this.mapCamera.setZoomLimits(fitMinScale, maxScale);
           applyResponsiveZoom();
         }, 150);
       });
@@ -104,14 +81,14 @@ class MapController {
     }
   }
 
-  static refreshMapEvents() {
+  static rebindCellListeners() {
     Logger.log("🔄 [MapController] Refrescando eventos del mapa...");
     // Limpia listeners viejos
     document.querySelectorAll(".map-item").forEach((item) => {
       item.dataset.eventsBound = "false";
     });
 
-    const map = this.mapData || [];
+    const map = this.buildingGrid || [];
     Logger.log("🗺️ [MapController] Procesando", map.length, "filas");
 
     for (let i = 0; i < map.length; i++) {
@@ -126,7 +103,7 @@ class MapController {
         item.dataset.eventsBound = "true";
 
         item.addEventListener("click", (e) => {
-          if (this.mapCamera?.didDrag) return;
+          if (this.mapCamera?.hasPanned) return;
           e.stopPropagation();
 
           if (SlideLeftController.moveMode) {
@@ -136,13 +113,13 @@ class MapController {
           }
 
           if (map[i][j].type === "g") {
-            this.selectCell(id, map[i][j], i, j);
-            this.showBuildMenu();
-            this.currentMode = "build";
+            this.selectMapCell(id, map[i][j], i, j);
+            this.openBuildMenu();
+            this.interactionMode = "build";
           } else {
-            this.selectCell(id, map[i][j], i, j);
-            this.showManageMenu();
-            this.currentMode = "manage";
+            this.selectMapCell(id, map[i][j], i, j);
+            this.openManageMenu();
+            this.interactionMode = "manage";
           }
         });
       }
@@ -154,44 +131,44 @@ class MapController {
     Logger.log("✅ [MapController] Eventos refrescados y mapa guardado");
   }
 
-  static selectCell(id, cellData, i, j) {
-    if (this.selectedCell) {
+  static selectMapCell(id, cellData, i, j) {
+    if (this.activeCell) {
       document
-        .querySelector(`#map-item-${this.selectedCell.id}`)
+        .querySelector(`#map-item-${this.activeCell.id}`)
         ?.classList.remove("selected");
-      SlideLeftController.hideAllMenu();
+      SlideLeftController.setMenuState("none");
     }
 
-    this.selectedCell = { id, cellData, i, j };
+    this.activeCell = { id, cellData, i, j };
     document.querySelector(`#map-item-${id}`).classList.add("selected");
-    LocalStorage.saveData("selectedCell", JSON.stringify(this.selectedCell));
+    LocalStorage.saveData("selectedCell", JSON.stringify(this.activeCell));
   }
 
-  static showBuildMenu() {
-    SlideLeftController.showMenu01();
+  static openBuildMenu() {
+    SlideLeftController.setMenuState("build");
   }
 
-  static showManageMenu() {
-    SlideLeftController.showMenu02();
+  static openManageMenu() {
+    SlideLeftController.setMenuState("manage");
   }
 
-  static deselectCell() {
-    if (this.selectedCell) {
+  static clearCellSelection() {
+    if (this.activeCell) {
       document
-        .querySelector(`#map-item-${this.selectedCell.id}`)
+        .querySelector(`#map-item-${this.activeCell.id}`)
         ?.classList.remove("selected");
-      this.selectedCell = null;
+      this.activeCell = null;
       LocalStorage.saveData("selectedCell", null);
-      this.currentMode = "view";
-      SlideLeftController.hideAllMenu();
+      this.interactionMode = "view";
+      SlideLeftController.setMenuState("none");
     }
   }
 
-  static changeBuild(btnId, builds, cell) {
+  static replaceCellBuilding(btnId, builds, cell) {
     Logger.log("🏭 [MapController] changeBuild:", btnId, "en celda", cell.id);
-    const map = this.mapData || null;
-    if (!map) {
-      Logger.error("❌ [MapController] No hay mapData");
+    const mapModel = this.mapModel || null;
+    if (!mapModel) {
+      Logger.error("❌ [MapController] No hay mapModel");
       return;
     }
 
@@ -213,63 +190,63 @@ class MapController {
     mapItem.appendChild(build.build());
     
     // Asignar la instancia directamente (no copia plana)
-    map[cell.i][cell.j] = build;
-    
-    // Serializar para localStorage
-    const serializableMap = map.map(row => row.map(building => ({...building})));
-    LocalStorage.saveData("map", JSON.stringify(serializableMap));
+    mapModel.setBuildingAt(cell.i, cell.j, build);
 
-    this.refreshMapEvents();
+    this.rebindCellListeners();
     Logger.log("✅ [MapController] Edificio cambiado exitosamente");
     return mapItem;
   }
 
-  static initializeMapInteractions() {
-    const hasMap = !!this.mapContainer.querySelector(".map");
+  static buyBuildingCell(btnid, builds, cell) {
+  
+    const mapItem = this.replaceCellBuilding(btnid, builds, cell);
+  }
+
+  static setupMapInteractions() {
+    const hasMap = !!this.mapContainerElement.querySelector(".map");
     const hasData = !!LocalStorage.loadData("map");
 
     if (!hasMap || !hasData) return;
 
-    this.refreshMapEvents(); // ← Cambiar de addEvents() a refreshMapEvents()
-    this.setupMapCamera();
+    this.rebindCellListeners();
+    this.initializeCamera();
   }
 
-  static init(mapData) {
-    Logger.log("🎮 [MapController] init llamado con grid de", mapData?.length, "filas");
-    this.mapContainer = document.querySelector("#map");
-    if (!this.mapContainer) {
+  static initialize(mapModel) {
+    Logger.log("🎮 [MapController] init llamado con grid de", mapModel?.grid?.length, "filas");
+    this.mapContainerElement = document.querySelector("#map");
+    if (!this.mapContainerElement) {
       Logger.error("❌ [MapController] No se encontró #map container");
       return;
     }
 
-    // Asignar mapData ANTES de inicializar interacciones
-    this.mapData = mapData;
-    Logger.log("✅ [MapController] mapData asignado");
+    // Asignar buildingGrid ANTES de inicializar 
+    this.mapModel = mapModel;
+    this.buildingGrid = mapModel.grid;
 
-    this.initializeMapInteractions();
+    this.mapModel.addObserver((change) => {
+      if (change.type === "cell-updated") {
+        // actualizar solo esa celda (o rebind si todavia no tienes render parcial)
+        this.rebindCellListeners();
+      }
+    });
+    Logger.log("✅ [MapController] buildingGrid asignado");
+
+    this.setupMapInteractions();
 
     // Fallback durante arranque asíncrono
-    this.cameraInitAttempts = 0;
-    this.cameraInitInterval = setInterval(() => {
-      this.initializeMapInteractions();
-      this.cameraInitAttempts += 1;
+    this.cameraRetryCount = 0;
+    this.cameraRetryTimer = setInterval(() => {
+      this.setupMapInteractions();
+      this.cameraRetryCount += 1;
 
       if (
-        this.mapContainer.dataset.cameraReady === "true" ||
-        this.cameraInitAttempts >= 40
+        this.mapContainerElement.dataset.cameraReady === "true" ||
+        this.cameraRetryCount >= 40
       ) {
-        clearInterval(this.cameraInitInterval);
+        clearInterval(this.cameraRetryTimer);
       }
     }, 100);
-
-    this.observer = new MutationObserver(() => {
-      this.initializeMapInteractions();
-    });
-
-    this.observer.observe(this.mapContainer, {
-      childList: true,
-      subtree: true,
-    });
 
     // Global click handler
     document.addEventListener("click", (e) => {
@@ -277,18 +254,30 @@ class MapController {
       const inMap = !!e.target.closest("#map");
       const inMapItem = !!e.target.closest(".map-item");
 
+      Logger.log("🖱️ [MapController] Global click", {
+        inSlideLeft,
+        inMap,
+        inMapItem,
+        activeCellId: this.activeCell?.id || null,
+      });
+
+      // Cualquier interacción en el menú lateral no debe limpiar selección.
+      if (inSlideLeft) {
+        return;
+      }
+
       if (inMapItem) return;
 
       if (inMap) {
-        if (!this.mapCamera?.didDrag) {
-          this.deselectCell();
+        if (!this.mapCamera?.hasPanned) {
+          this.clearCellSelection();
           SlideLeftController.cancelMoveMode();
         }
         return;
       }
 
       if (!inSlideLeft) {
-        this.deselectCell();
+        this.clearCellSelection();
         SlideLeftController.cancelMoveMode();
       }
     });

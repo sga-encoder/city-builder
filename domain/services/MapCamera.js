@@ -1,22 +1,22 @@
 // domain/services/MapCamera.js
 class MapCamera {
   #viewport;
-  #map;
-  #sheet;
-  #transformRuleIndex = null;
+  #mapElement;
+  #styleSheet;
+  #cssTransformRuleIndex = null;
 
   #state;
-  #deselectedByDrag = false;
-  #onDragCallback = null;
-  #bounds;
+  #didDeselectDuringPan = false;
+  #onPanStartCallback = null;
+  #panBounds;
 
   constructor(viewportSelector, styleSheet, options = {}) {
     Logger.log("🎥 [MapCamera] Constructor llamado:", viewportSelector);
     this.#viewport = document.querySelector(viewportSelector);
-    this.#map = this.#viewport?.querySelector(".map");
-    this.#sheet = styleSheet;
+    this.#mapElement = this.#viewport?.querySelector(".map");
+    this.#styleSheet = styleSheet;
 
-    if (!this.#viewport || !this.#map) {
+    if (!this.#viewport || !this.#mapElement) {
       Logger.error("❌ [MapCamera] No se encontró viewport o mapa");
       throw new Error(
         `MapCamera: no se encontró viewport o mapa para "${viewportSelector}"`,
@@ -41,127 +41,147 @@ class MapCamera {
     const config = { ...defaults, ...options };
 
     this.#state = {
-      scale: config.scale,
-      minScale: config.minScale,
-      maxScale: config.maxScale,
-      x: config.x,
-      y: config.y,
-      dragging: false,
-      moved: false,
-      startX: 0,
-      startY: 0,
-      pinchDistance: null,
-      pinchCenter: null,
+      zoomScale: config.scale,
+      minZoomScale: config.minScale,
+      maxZoomScale: config.maxScale,
+      panX: config.x,
+      panY: config.y,
+      panning: false,
+      hasPanned: false,
+      panOriginX: 0,
+      panOriginY: 0,
+      lastPinchDistance: null,
+      lastPinchCenter: null,
     };
 
-    this.#bounds = { ...defaults.bounds, ...config.bounds };
+    this.#panBounds = { ...defaults.bounds, ...config.bounds };
 
     this.#viewport.dataset.cameraReady = "true";
     Logger.log(
-      "✅ [MapCamera] Configuración completa, scale:",
-      this.#state.scale,
+      "✅ [MapCamera] Configuración completa, zoomScale:",
+      this.#state.zoomScale,
     );
-    this.#init();
+    this.#initialize();
   }
 
-  get isDragging() {
-    return this.#state.dragging;
+  // =====================
+  // GETTERS
+  // =====================
+
+  get isPanning() {
+    return this.#state.panning;
   }
 
-  get didDrag() {
-    return this.#state.moved;
+  get hasPanned() {
+    return this.#state.hasPanned;
   }
 
-  get position() {
-    return { x: this.#state.x, y: this.#state.y };
+  get panPosition() {
+    return { x: this.#state.panX, y: this.#state.panY };
   }
 
-  get scale() {
-    return this.#state.scale;
+  get zoomScale() {
+    return this.#state.zoomScale;
   }
 
-  onDragStart(callback) {
-    this.#onDragCallback = callback;
+  // =====================
+  // PUBLIC METHODS
+  // =====================
+
+  onPanStart(callback) {
+    this.#onPanStartCallback = callback;
   }
 
-  zoomTo(scale, clientX = null, clientY = null) {
+  zoomToScale(scale, clientX = null, clientY = null) {
     if (clientX !== null && clientY !== null) {
-      this.#zoomAtPoint(clientX, clientY, scale);
+      this.#zoomAtClientPoint(clientX, clientY, scale);
     } else {
-      // Zoom al centro del viewport
       const centerX = this.#viewport.clientWidth / 2;
       const centerY = this.#viewport.clientHeight / 2;
-      this.#zoomAtPoint(centerX, centerY, scale);
+      this.#zoomAtClientPoint(centerX, centerY, scale);
     }
   }
 
-  centerOn(worldX, worldY, scale = this.#state.scale) {
+  centerOnWorldPoint(worldX, worldY, scale = this.#state.zoomScale) {
     const centerX = this.#viewport.clientWidth / 2;
     const centerY = this.#viewport.clientHeight / 2;
 
-    this.#state.scale = this.#clampScale(scale);
-    const clampedPosition = this.#clampTranslation(
-      centerX - worldX * this.#state.scale,
-      centerY - worldY * this.#state.scale,
-      this.#state.scale,
+    this.#state.zoomScale = this.#clampZoom(scale);
+    const clampedPosition = this.#clampPanPosition(
+      centerX - worldX * this.#state.zoomScale,
+      centerY - worldY * this.#state.zoomScale,
+      this.#state.zoomScale,
     );
 
-    this.#state.x = clampedPosition.x;
-    this.#state.y = clampedPosition.y;
-    this.#applyTransform();
+    this.#state.panX = clampedPosition.x;
+    this.#state.panY = clampedPosition.y;
+    this.#commitTransform();
   }
 
-  reset() {
-    this.#fitMapInViewport();
+  fitToViewport() {
+    this.#fitContentToViewport();
   }
 
-  setBounds(bounds) {
-    this.#bounds = { ...this.#bounds, ...bounds };
+  setPanBounds(bounds) {
+    this.#panBounds = { ...this.#panBounds, ...bounds };
   }
 
-  setScaleLimits(minScale, maxScale) {
-    if (minScale !== undefined) this.#state.minScale = minScale;
-    if (maxScale !== undefined) this.#state.maxScale = maxScale;
+  setZoomLimits(minScale, maxScale) {
+    if (minScale !== undefined) this.#state.minZoomScale = minScale;
+    if (maxScale !== undefined) this.#state.maxZoomScale = maxScale;
+  }
+
+  applyResponsiveZoom(scaleByWidth = {}) {
+    const targetScale = this.#resolveResponsiveScale(
+      window.innerWidth,
+      scaleByWidth,
+    );
+
+    if (targetScale === null) return null;
+
+    const worldCenterX = this.#mapElement.offsetWidth / 2;
+    const worldCenterY = this.#mapElement.offsetHeight / 2;
+    if (targetScale === 1) {
+      this.fitToViewport();
+    }else this.centerOnWorldPoint(worldCenterX, worldCenterY, targetScale);
+    return targetScale;
   }
 
   // =====================
-  // MÉTODOS PRIVADOS
+  // PRIVATE METHODS
   // =====================
 
-  #init() {
+  #initialize() {
     Logger.log("🔧 [MapCamera] Inicializando...");
-    this.#fitMapInViewport();
-    this.#setupEventListeners();
+    this.#fitContentToViewport();
+    this.#bindEventListeners();
     Logger.log("✅ [MapCamera] Inicializado correctamente");
   }
 
-  #applyTransform() {
-    if (this.#transformRuleIndex !== null) {
-      this.#sheet.deleteRule(this.#transformRuleIndex);
+  #commitTransform() {
+    if (this.#cssTransformRuleIndex !== null) {
+      this.#styleSheet.deleteRule(this.#cssTransformRuleIndex);
     }
 
-    const rule = `.map{ transform: translate(${this.#state.x}px, ${this.#state.y}px) scale(${this.#state.scale}); }`;
-    this.#transformRuleIndex = this.#sheet.insertRule(
+    const rule = `.map{ transform: translate(${this.#state.panX}px, ${this.#state.panY}px) scale(${this.#state.zoomScale}); }`;
+    this.#cssTransformRuleIndex = this.#styleSheet.insertRule(
       rule,
-      this.#sheet.cssRules.length,
+      this.#styleSheet.cssRules.length,
     );
   }
 
-  #clamped(next, scaled, viewport, [boundsStart, boundsEnd]) {
-    let axis = next;
-    if (scaled <= viewport) {
-      axis = (viewport - scaled) / 2;
-    } else {
-      const minX = viewport - scaled - boundsEnd;
-      const maxX = boundsStart;
-      axis = Math.min(maxX, Math.max(minX, next));
+  #clampAxis(next, scaledSize, viewportSize, [boundsStart, boundsEnd]) {
+    if (scaledSize <= viewportSize) {
+      return (viewportSize - scaledSize) / 2;
     }
-    return axis;
+    const min = viewportSize - scaledSize - boundsEnd;
+    const max = boundsStart;
+    return Math.min(max, Math.max(min, next));
   }
 
-  #clampTranslation(nextX, nextY, scale = this.#state.scale) {
-    const mapWidth = this.#map.offsetWidth;
-    const mapHeight = this.#map.offsetHeight;
+  #clampPanPosition(nextX, nextY, scale = this.#state.zoomScale) {
+    const mapWidth = this.#mapElement.offsetWidth;
+    const mapHeight = this.#mapElement.offsetHeight;
     const scaledWidth = mapWidth * scale;
     const scaledHeight = mapHeight * scale;
 
@@ -170,157 +190,177 @@ class MapCamera {
     }
 
     return {
-      x: this.#clamped(nextX, scaledWidth, this.#viewport.clientWidth, [
-        this.#bounds.left,
-        this.#bounds.right,
+      x: this.#clampAxis(nextX, scaledWidth, this.#viewport.clientWidth, [
+        this.#panBounds.left,
+        this.#panBounds.right,
       ]),
-      y: this.#clamped(nextY, scaledHeight, this.#viewport.clientHeight, [
-        this.#bounds.top,
-        this.#bounds.bottom,
+      y: this.#clampAxis(nextY, scaledHeight, this.#viewport.clientHeight, [
+        this.#panBounds.top,
+        this.#panBounds.bottom,
       ]),
     };
   }
 
-  #fitMapInViewport() {
-    const mapWidth = this.#map.offsetWidth;
-    const mapHeight = this.#map.offsetHeight;
+  #fitContentToViewport() {
+    const mapWidth = this.#mapElement.offsetWidth;
+    const mapHeight = this.#mapElement.offsetHeight;
 
     if (!mapWidth || !mapHeight) return;
 
     const viewportWidth = this.#viewport.clientWidth;
     const viewportHeight = this.#viewport.clientHeight;
 
-    // Escala vertical directa por dimensiones reales renderizadas
     const scaleY = viewportHeight / mapHeight;
 
-    // Escala horizontal compensando el redondeo de celda en Map.js
-    // celda ideal = viewportWidth / size
-    // celda usada  = mapWidth / size (redondeada a multiplo de 20)
     const sizeVar = Number.parseFloat(
-      getComputedStyle(this.#map).getPropertyValue("--size"),
+      getComputedStyle(this.#mapElement).getPropertyValue("--size"),
     );
-
-
     const scaleX = viewportWidth / mapWidth;
-    const roundedCell = sizeVar > 0 ? mapWidth / sizeVar : 0;
-    const idealCell = sizeVar > 0 ? viewportWidth / sizeVar : 0;
-    const roundingScale = roundedCell > 0 ? idealCell / roundedCell : scaleX;
+    const roundedCellSize = sizeVar > 0 ? mapWidth / sizeVar : 0;
+    const idealCellSize = sizeVar > 0 ? viewportWidth / sizeVar : 0;
+    const correctedScaleX =
+      roundedCellSize > 0 ? idealCellSize / roundedCellSize : scaleX;
 
-    // Tomar la mas restrictiva y aplicar epsilon para evitar overflow por subpixel
-    const fitScale = Math.min(scaleY, roundingScale);
-    const nextScale = this.#clampScale(fitScale * 0.999);
-
-    this.#state.scale = nextScale;
-    const centeredPosition = this.#clampTranslation(
-      (viewportWidth - mapWidth * this.#state.scale) / 2,
-      (viewportHeight - mapHeight * this.#state.scale) / 2,
-      this.#state.scale,
+    const fitScale = Math.min(scaleY, correctedScaleX);
+    const nextScale = this.#clampZoom(fitScale * 0.999);
+    this.#state.zoomScale = nextScale;
+    const clampedPosition = this.#clampPanPosition(
+      (viewportWidth - mapWidth * this.#state.zoomScale) / 2,
+      (viewportHeight - mapHeight * this.#state.zoomScale) / 2,
+      this.#state.zoomScale,
     );
 
-    this.#state.x = centeredPosition.x;
-    this.#state.y = centeredPosition.y;
-    this.#applyTransform();
+    this.#state.panX = clampedPosition.x;
+    this.#state.panY = clampedPosition.y;
+    this.#commitTransform();
   }
 
-  #applyDrag(nextX, nextY) {
-    const distance = Math.hypot(nextX - this.#state.x, nextY - this.#state.y);
+  #resolveResponsiveScale(screenWidth, scaleByWidth) {
+    const entries = Object.entries(scaleByWidth)
+      .map(([width, scale]) => ({
+        width: Number.parseFloat(width),
+        scale: Number.parseFloat(scale),
+      }))
+      .filter(
+        (entry) => Number.isFinite(entry.width) && Number.isFinite(entry.scale),
+      )
+      .sort((a, b) => a.width - b.width);
+
+    if (entries.length === 0) return null;
+
+    for (const entry of entries) {
+      if (screenWidth <= entry.width) return entry.scale;
+    }
+
+    return entries[entries.length - 1].scale;
+  }
+
+  #applyPanMovement(nextX, nextY) {
+    const distance = Math.hypot(
+      nextX - this.#state.panX,
+      nextY - this.#state.panY,
+    );
 
     if (distance > 2) {
-      this.#state.moved = true;
+      this.#state.hasPanned = true;
 
-      if (!this.#deselectedByDrag && this.#onDragCallback) {
-        this.#onDragCallback();
-        this.#deselectedByDrag = true;
+      if (!this.#didDeselectDuringPan && this.#onPanStartCallback) {
+        this.#onPanStartCallback();
+        this.#didDeselectDuringPan = true;
       }
     }
 
-    const clampedPosition = this.#clampTranslation(nextX, nextY);
-    this.#state.x = clampedPosition.x;
-    this.#state.y = clampedPosition.y;
-    this.#applyTransform();
+    const clampedPosition = this.#clampPanPosition(nextX, nextY);
+    this.#state.panX = clampedPosition.x;
+    this.#state.panY = clampedPosition.y;
+    this.#commitTransform();
   }
 
-  #startDrag(clientX, clientY) {
-    this.#state.dragging = true;
-    this.#state.moved = false;
-    this.#deselectedByDrag = false;
-    this.#state.startX = clientX - this.#state.x;
-    this.#state.startY = clientY - this.#state.y;
+  #beginPan(clientX, clientY) {
+    this.#state.panning = true;
+    this.#state.hasPanned = false;
+    this.#didDeselectDuringPan = false;
+    this.#state.panOriginX = clientX - this.#state.panX;
+    this.#state.panOriginY = clientY - this.#state.panY;
   }
 
-  #stopDrag(resetMoved = true) {
-    this.#state.dragging = false;
+  #endPan(resetHasPanned = true) {
+    this.#state.panning = false;
 
-    if (resetMoved) {
+    if (resetHasPanned) {
       setTimeout(() => {
-        this.#state.moved = false;
+        this.#state.hasPanned = false;
       }, 0);
     }
   }
 
-  #clampScale(value) {
+  #clampZoom(value) {
     return Math.min(
-      this.#state.maxScale,
-      Math.max(this.#state.minScale, value),
+      this.#state.maxZoomScale,
+      Math.max(this.#state.minZoomScale, value),
     );
   }
 
-  #zoomAtPoint(clientX, clientY, nextScale) {
+  #zoomAtClientPoint(clientX, clientY, nextScale) {
     const rect = this.#viewport.getBoundingClientRect();
     const localX = clientX - rect.left;
     const localY = clientY - rect.top;
-    const worldX = (localX - this.#state.x) / this.#state.scale;
-    const worldY = (localY - this.#state.y) / this.#state.scale;
+    const worldX = (localX - this.#state.panX) / this.#state.zoomScale;
+    const worldY = (localY - this.#state.panY) / this.#state.zoomScale;
 
-    this.#state.scale = this.#clampScale(nextScale);
-    const clampedPosition = this.#clampTranslation(
-      localX - worldX * this.#state.scale,
-      localY - worldY * this.#state.scale,
-      this.#state.scale,
+    this.#state.zoomScale = this.#clampZoom(nextScale);
+    const clampedPosition = this.#clampPanPosition(
+      localX - worldX * this.#state.zoomScale,
+      localY - worldY * this.#state.zoomScale,
+      this.#state.zoomScale,
     );
 
-    this.#state.x = clampedPosition.x;
-    this.#state.y = clampedPosition.y;
-    this.#applyTransform();
+    this.#state.panX = clampedPosition.x;
+    this.#state.panY = clampedPosition.y;
+    this.#commitTransform();
   }
 
-  #getTouchDistance(touchA, touchB) {
+  #getPinchDistance(touchA, touchB) {
     const dx = touchA.clientX - touchB.clientX;
     const dy = touchA.clientY - touchB.clientY;
     return Math.hypot(dx, dy);
   }
 
-  #getTouchCenter(touchA, touchB) {
+  #getPinchCenter(touchA, touchB) {
     return {
       x: (touchA.clientX + touchB.clientX) / 2,
       y: (touchA.clientY + touchB.clientY) / 2,
     };
   }
 
-  #applyPinch(touches) {
+  #applyPinchGesture(touches) {
     const [touchA, touchB] = touches;
-    const distance = this.#getTouchDistance(touchA, touchB);
-    const center = this.#getTouchCenter(touchA, touchB);
+    const distance = this.#getPinchDistance(touchA, touchB);
+    const center = this.#getPinchCenter(touchA, touchB);
 
-    if (this.#state.pinchDistance) {
-      const pinchRatio = distance / this.#state.pinchDistance;
-      this.#zoomAtPoint(center.x, center.y, this.#state.scale * pinchRatio);
+    if (this.#state.lastPinchDistance) {
+      const pinchRatio = distance / this.#state.lastPinchDistance;
+      this.#zoomAtClientPoint(
+        center.x,
+        center.y,
+        this.#state.zoomScale * pinchRatio,
+      );
     }
 
-    this.#state.pinchDistance = distance;
-    this.#state.pinchCenter = center;
+    this.#state.lastPinchDistance = distance;
+    this.#state.lastPinchCenter = center;
   }
 
-  #setupEventListeners() {
-    // Resize
+  #bindEventListeners() {
+    // Viewport resize
     window.addEventListener("resize", () => {
-      const clampedPosition = this.#clampTranslation(
-        this.#state.x,
-        this.#state.y,
+      const clampedPosition = this.#clampPanPosition(
+        this.#state.panX,
+        this.#state.panY,
       );
-      this.#state.x = clampedPosition.x;
-      this.#state.y = clampedPosition.y;
-      this.#applyTransform();
+      this.#state.panX = clampedPosition.x;
+      this.#state.panY = clampedPosition.y;
+      this.#commitTransform();
     });
 
     // Wheel zoom
@@ -329,58 +369,58 @@ class MapCamera {
       (event) => {
         event.preventDefault();
         const zoomFactor = event.deltaY < 0 ? 1.1 : 0.9;
-        this.#zoomAtPoint(
+        this.#zoomAtClientPoint(
           event.clientX,
           event.clientY,
-          this.#state.scale * zoomFactor,
+          this.#state.zoomScale * zoomFactor,
         );
       },
       { passive: false },
     );
 
-    // Mouse drag
+    // Mouse pan
     this.#viewport.addEventListener("mousedown", (event) => {
       if (event.button !== 0) return;
       event.preventDefault();
 
-      this.#startDrag(event.clientX, event.clientY);
+      this.#beginPan(event.clientX, event.clientY);
       this.#viewport.classList.add("dragging");
     });
 
     window.addEventListener("mousemove", (event) => {
-      if (!this.#state.dragging) return;
+      if (!this.#state.panning) return;
 
-      const nextX = event.clientX - this.#state.startX;
-      const nextY = event.clientY - this.#state.startY;
-      this.#applyDrag(nextX, nextY);
+      const nextX = event.clientX - this.#state.panOriginX;
+      const nextY = event.clientY - this.#state.panOriginY;
+      this.#applyPanMovement(nextX, nextY);
     });
 
     window.addEventListener("mouseup", () => {
-      if (!this.#state.dragging) return;
+      if (!this.#state.panning) return;
 
-      this.#stopDrag();
+      this.#endPan();
       this.#viewport.classList.remove("dragging");
     });
 
     this.#viewport.addEventListener("mouseleave", () => {
-      if (!this.#state.dragging) return;
+      if (!this.#state.panning) return;
 
-      this.#stopDrag(false);
+      this.#endPan(false);
       this.#viewport.classList.remove("dragging");
     });
 
-    // Touch drag
+    // Touch pan
     this.#viewport.addEventListener(
       "touchstart",
       (event) => {
         if (event.touches.length === 1) {
           const touch = event.touches[0];
-          this.#startDrag(touch.clientX, touch.clientY);
+          this.#beginPan(touch.clientX, touch.clientY);
         }
 
         if (event.touches.length === 2) {
-          this.#stopDrag(false);
-          this.#applyPinch(event.touches);
+          this.#endPan(false);
+          this.#applyPinchGesture(event.touches);
         }
       },
       { passive: true },
@@ -389,17 +429,17 @@ class MapCamera {
     this.#viewport.addEventListener(
       "touchmove",
       (event) => {
-        if (event.touches.length === 1 && this.#state.dragging) {
+        if (event.touches.length === 1 && this.#state.panning) {
           event.preventDefault();
           const touch = event.touches[0];
-          const nextX = touch.clientX - this.#state.startX;
-          const nextY = touch.clientY - this.#state.startY;
-          this.#applyDrag(nextX, nextY);
+          const nextX = touch.clientX - this.#state.panOriginX;
+          const nextY = touch.clientY - this.#state.panOriginY;
+          this.#applyPanMovement(nextX, nextY);
         }
 
         if (event.touches.length === 2) {
           event.preventDefault();
-          this.#applyPinch(event.touches);
+          this.#applyPinchGesture(event.touches);
         }
       },
       { passive: false },
@@ -407,9 +447,9 @@ class MapCamera {
 
     this.#viewport.addEventListener("touchend", (event) => {
       if (event.touches.length === 0) {
-        this.#stopDrag();
-        this.#state.pinchDistance = null;
-        this.#state.pinchCenter = null;
+        this.#endPan();
+        this.#state.lastPinchDistance = null;
+        this.#state.lastPinchCenter = null;
       }
     });
   }

@@ -1,6 +1,6 @@
-class CityBuilder {
+﻿class CityBuilder {
   static CityConfig = null;
-  static debugMode = false; // Cambiar a true para ver logs de debug
+  static debugMode = true; // Cambiar a true para ver logs de debug
 
   static async initConfig() {
     if (!this.CityConfig) {
@@ -8,13 +8,29 @@ class CityBuilder {
     }
     return this.CityConfig;
   }
+
   static createDefaultLayout(size = 30) {
     return Array(size)
       .fill(null)
       .map(() => Array(size).fill("g"));
   }
+
   static buildCity() {
-    Logger.enabled = this.debugMode;
+    if (this.debugMode) {
+      Logger.enable([
+        "CityBuilder",
+        // "Building",
+        // "Map",
+        // "Map.createMap",
+        // "MapCamera",
+        // "MapController",
+        // "SlideLeft",
+        // "SlideRight",
+      ]);
+      console.log("tipos de log disponibles", Logger.getTypes());
+    } else {
+      Logger.disable();
+    }
     Logger.log("🏗️ [CityBuilder] Iniciando buildCity()");
     const mapRaw = LocalStorage.loadData("map");
     const savedMap = mapRaw ? JSON.parse(mapRaw) : null;
@@ -27,7 +43,7 @@ class CityBuilder {
     const savedResources = this.getSavedResources();
 
     const initialResources = {
-      money: savedResources?.money ?? 1000,
+      money: savedResources?.money ?? 50000,
       energy: savedResources?.energy ?? 100,
       water: savedResources?.water ?? 100,
       food: savedResources?.food ?? 100,
@@ -54,6 +70,7 @@ class CityBuilder {
         initial: initialResources,
         score: 0,
       });
+
       Logger.log("✅ [CityBuilder] City creada, grid:", city.map?.grid?.length);
 
       const saveResources = () => {
@@ -74,12 +91,19 @@ class CityBuilder {
 
       saveResources();
 
+      city.map.addObserver((change) => {
+        Logger.log("🧭 [MapObserver]", change.type, change);
+      });
+
       // Inicializar MapController con las instancias reales del grid
-      MapController.init(city.map.grid);
+      MapController.initialize(city.map);
 
       window.renderSlideLeftMenu(city.resources, icons, builds);
       window.renderSlideRightMenu(icons);
-      SlideLeftController.initSlideLeftController(city, builds);
+      SlideLeftController.initSlideLeftController(city, builds, icons);
+      if (this.debugMode) {
+        console.log("tipos de log disponibles", Logger.getTypes());
+      }
     });
   }
 

@@ -1,20 +1,44 @@
 class Map {
   constructor(dict) {
     Logger.log("🗺️ [Map] Constructor llamado");
-    const { layout,  nameCointainer, svgModels } = dict;
+    const { layout, nameCointainer, svgModels } = dict;
     Logger.log("🔍 [Map] Buscando container:", nameCointainer);
     this.container = document.querySelector(nameCointainer);
-    
+
     if (!this.container) {
       Logger.error(`❌ [Map] Container NO encontrado: ${nameCointainer}`);
       return;
     }
-    
+
+    this.observers = [];
+    this.persistDebounce = null;
+
     Logger.log("✅ [Map] Container encontrado:", this.container);
     this.svgModels = svgModels;
     Logger.log("🏗️ [Map] Llamando createMap con layout:", layout.length);
     this.grid = this.createMap(layout);
     Logger.log("✅ [Map] Grid creado con", this.grid?.length, "filas");
+
+
+  }
+
+  addObserver(callback) {
+    if (typeof callback === "function") this.observers.push(callback);
+  }
+
+  removeObserver(callback) {
+    this.observers = this.observers.filter((obs) => obs !== callback);
+  }
+
+  notifyObservers(payload) {
+    this.observers.forEach((callback) => callback(payload));
+  }
+
+  schedulePersist() {
+    clearTimeout(this.persistDebounce);
+    this.persistDebounce = setTimeout(() => {
+      LocalStorage.saveData("map", JSON.stringify(this.toSerializableGrid()));
+    }, 120);
   }
 
   createMap(layout) {
@@ -23,9 +47,9 @@ class Map {
       Logger.error("❌ [Map.createMap] container es null");
       return [];
     }
-    
+
     const sheet = document.styleSheets[0];
-    
+
     if (!sheet) {
       Logger.error("❌ [Map.createMap] No hay stylesheets disponibles");
       return [];
@@ -88,13 +112,63 @@ class Map {
       }
       instances.push(aux);
     }
-    
+
     // Serializar solo para localStorage (datos simples, no instancias)
-    const serializableMap = instances.map(row => 
-      row.map(building => ({...building}))
-    );
-    LocalStorage.saveData("map", JSON.stringify(serializableMap));
-    
+    this.grid = instances;
+    this.schedulePersist();
+    this.notifyObservers({ type: "map-initialized", size: layout.length });
     return instances;
+  }
+
+  toSerializableGrid() {
+    return this.grid.map((row) => row.map((building) => ({ ...building })));
+  }
+
+  setBuildingAt(i, j, building) {
+    if (!this.grid?.[i]?.[j]) return false;
+
+    const previous = this.grid[i][j];
+    this.grid[i][j] = building;
+
+    this.schedulePersist();
+    this.notifyObservers({
+      type: "cell-updated",
+      i,
+      j,
+      id: building.id,
+      previous,
+      current: building,
+    });
+
+    return true;
+  }
+
+  moveBuilding(fromI, fromJ, toI, toJ, groundBuildingFactory) {
+    const source = this.grid?.[fromI]?.[fromJ];
+    const target = this.grid?.[toI]?.[toJ];
+    if (!source || !target) return false;
+    if (target.type !== "g") return false;
+
+    const ground = groundBuildingFactory(source.id, fromI, fromJ);
+    this.grid[fromI][fromJ] = ground;
+    this.grid[toI][toJ] = source;
+
+    this.schedulePersist();
+    this.notifyObservers({
+      type: "cell-updated",
+      i: fromI,
+      j: fromJ,
+      id: ground.id,
+      current: ground,
+    });
+    this.notifyObservers({
+      type: "cell-updated",
+      i: toI,
+      j: toJ,
+      id: source.id,
+      current: source,
+    });
+
+    return true;
   }
 }

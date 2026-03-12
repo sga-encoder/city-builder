@@ -1,7 +1,12 @@
-class SlideLeftController {
+﻿class SlideLeftController {
   // =====================
   // STATIC PROPERTIES
   // =====================
+  static menuState = "none"; // "none" | "build" | "manage" | "select-building"
+  static city = null;
+  static icons = null;
+  static sheets = null;
+
   static resourceObjects = null;
   static containerElement = null;
   static moveMode = false;
@@ -13,123 +18,133 @@ class SlideLeftController {
   // MENU MANAGEMENT METHODS
   // =====================
 
-  static showMenu01() {
-    document
-      .querySelector(".container-buttons.menu-01")
-      ?.classList.add("active");
+  static setMenuState(newState) {
+    Logger.log("🎛️ [SlideLeft] menuState:", this.menuState, "→", newState);
+    Logger.log("[SlideLeft][setMenuState]", {
+      from: this.menuState,
+      to: newState,
+      hasActiveCell: !!MapController.activeCell,
+      activeCellId: MapController.activeCell?.id || null,
+    });
+    this.menuState = newState;
+    this.renderMenu();
   }
 
-  static showMenu02() {
-    document
-      .querySelector(".container-buttons.menu-02")
-      ?.classList.add("active");
-  }
-
-  static showMenu03() {
-    const menu = document.querySelector(".container-buttons.menu-03");
-    if (menu) {
-      menu.scrollLeft = 0;
-      menu.classList.add("active");
+  static renderMenu() {
+    const slot = document.querySelector("#slide-left .menu-slot");
+    if (!slot) {
+      Logger.warn("[SlideLeft][renderMenu] No se encontró .menu-slot");
+      Logger.warn("⚠️ [SlideLeft] No se encontró .menu-slot");
+      return;
     }
-  }
 
-  static hideMenu01() {
-    document
-      .querySelector(".container-buttons.menu-01")
-      ?.classList.remove("active");
-  }
+    Logger.log("[SlideLeft][renderMenu] render state:", this.menuState);
 
-  static hideMenu02() {
-    document
-      .querySelector(".container-buttons.menu-02")
-      ?.classList.remove("active");
-  }
+    slot.innerHTML = ""; // limpia contenido anterior
 
-  static hideMenu03() {
-    document
-      .querySelector(".container-buttons.menu-03")
-      ?.classList.remove("active");
-  }
+    const sheets = document.styleSheets[1];
 
-  static switchToMenu03() {
-    this.hideMenu01();
-    this.showMenu03();
-  }
+    switch (this.menuState) {
+      case "build":
+        const m01 = createMenu01(this.icons, sheets);
+        Logger.log("[SlideLeft][menu-01] Renderizado", {
+          hasIcons: !!this.icons,
+          hasBuilds: !!this.builds,
+        });
+        m01.addEventListener("click", (e) => {
+          // Evita que el handler global cierre el menú durante este mismo click.
+          e.stopPropagation();
+          const buildBtn = e.target.closest("#build");
+          Logger.log("[SlideLeft][menu-01 click]", {
+            clicked: !!buildBtn,
+            targetId: e.target?.id || null,
+            currentState: this.menuState,
+          });
 
-  static hideAllMenu() {
-    this.hideMenu01();
-    this.hideMenu02();
-    this.hideMenu03();
-  }
+          if (buildBtn) {
+            Logger.log("[SlideLeft] Transición a menu-03 solicitada");
+            this.setMenuState("select-building");
+          }
+        });
+        slot.appendChild(m01);
+        break;
 
-  static handleClickMenu01(slideLeft) {
-    if (!slideLeft || slideLeft.dataset.buildEventBound === "true") return;
+      case "manage":
+        const m02 = createMenu02(this.icons, sheets);
+        m02.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const btn = e.target.closest(".button");
+          if (!btn) return;
+          const cell = MapController.activeCell;
+          if (!cell) return;
 
-    slideLeft.addEventListener("click", (event) => {
-      const buildBtn = event.target.closest("#build");
-      if (!buildBtn) return;
-      this.switchToMenu03();
-    });
+          if (btn.id === "move") {
+            this.moveMode = true;
+            this.selectedCell = cell;
+            document
+              .querySelector(`#map-item-${cell.cellData.id}`)
+              ?.classList.add("moving");
+            document.querySelector("#map")?.classList.add("move-mode");
+            this.setMenuState("none");
+            MapController.clearCellSelection();
+          }
+          if (btn.id === "destroy") {
+            MapController.replaceCellBuilding("g", this.builds, cell);
+            this.setMenuState("none");
+            MapController.clearCellSelection();
+          }
+        });
+        slot.appendChild(m02);
+        break;
 
-    slideLeft.dataset.buildEventBound = "true";
-  }
+      case "select-building":
+        const menu03Ids = new Set([
+          "R1",
+          "R2",
+          "C1",
+          "C2",
+          "I1",
+          "I2",
+          "P1",
+          "S1",
+          "S2",
+          "S3",
+          "U1",
+          "U2",
+          "r",
+        ]);
+        const m03 = createMenu03(this.builds, sheets);
+        const renderedButtons = m03.querySelectorAll(".button").length;
+        Logger.log("[SlideLeft][menu-03] Renderizado", {
+          buttons: renderedButtons,
+          hasBuilds: !!this.builds,
+          state: this.menuState,
+        });
+        m03.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const btn = e.target.closest(".button");
+          Logger.log("[SlideLeft][menu-03 click]", {
+            hasButton: !!btn,
+            buttonId: btn?.id || null,
+            validButton: btn ? menu03Ids.has(btn.id) : false,
+            hasActiveCell: !!MapController.activeCell,
+            activeCellId: MapController.activeCell?.id || null,
+          });
 
-  static handleClickMenu03(slideLeft, builds) {
-    if (!slideLeft || slideLeft.dataset.menu03Bound === "true") return;
-
-    const menu03Ids = new Set(["R1","R2","C1","C2","I1","I2","P1","S1","S2","S3","U1","U2","r"]);
-
-    slideLeft.addEventListener("click", (event) => {
-      const btn = event.target.closest(".button");
-      if (!btn || !menu03Ids.has(btn.id)) return;
-
-      const cell = MapController.selectedCell;
-      if (!cell) return;
-
-      MapController.changeBuild(btn.id, builds, cell);
-      this.hideMenu03();
-      MapController.deselectCell();
-    });
-
-    slideLeft.dataset.menu03Bound = "true";
-  }
-
-  static handleClickMenu02(slideLeft, builds) {
-    if (!slideLeft || slideLeft.dataset.menu02Bound === "true") return;
-
-    slideLeft.addEventListener("click", (event) => {
-      const btn = event.target.closest(".button");
-      if (!btn) return;
-
-      const cell = MapController.selectedCell;
-      if (!cell) return;
-
-      // Handle MOVE button
-      if (btn.id === "move") {
-        // Activar modo movimiento
-        this.moveMode = true;
-        this.selectedCell = cell;
-        const mapItem = document.querySelector(`#map-item-${cell.cellData.id}`);
-        mapItem.classList.add("moving");
-        const mapContainer = document.querySelector("#map");
-        mapContainer?.classList.add("move-mode");
-        
-        this.hideMenu02();
-        MapController.deselectCell();
-      }
-
-      // Handle DESTROY button
-      if (btn.id === "destroy") {
-        // Obtener las clases actuales del edificio
-        MapController.changeBuild("g", builds, cell);
-        
-        console.log(`Building destroyed at cell ${cell.id}`);
-        this.hideMenu02();
-        MapController.deselectCell();
-      }
-    });
-
-    slideLeft.dataset.menu02Bound = "true";
+          if (!btn || !menu03Ids.has(btn.id)) return;
+          const cell = MapController.activeCell;
+          if (!cell) {
+            Logger.warn("[SlideLeft][menu-03] No hay activeCell al intentar construir");
+            return;
+          }
+          MapController.replaceCellBuilding(btn.id, this.builds, cell);
+          this.setMenuState("none");
+          MapController.clearCellSelection();
+        });
+        slot.appendChild(m03);
+        m03.scrollLeft = 0;
+        break;
+    }
   }
 
   static handleClickResourceButton(container, btn) {
@@ -145,7 +160,12 @@ class SlideLeftController {
   // =====================
 
   static completeMoveBuilding(targetCell) {
-    Logger.log("🚚 [SlideLeft] completeMoveBuilding desde", this.selectedCell?.id, "a", targetCell.id);
+    Logger.log(
+      "🚚 [SlideLeft] completeMoveBuilding desde",
+      this.selectedCell?.id,
+      "a",
+      targetCell.id,
+    );
     if (!this.moveMode || !this.selectedCell || !this.builds) {
       Logger.warn("⚠️ [SlideLeft] No está en modo movimiento");
       return false;
@@ -156,7 +176,7 @@ class SlideLeftController {
       this.cancelMoveMode();
       return false;
     }
-    
+
     if (!targetCell || !this.selectedCell) return false;
 
     // Verificar que la celda destino esté vacía (solo "g")
@@ -169,14 +189,14 @@ class SlideLeftController {
 
     // Mover el edificio visualmente
     // 1. Limpiar origen (volver a ground)
-    MapController.changeBuild("g", this.builds, this.selectedCell);
-    
+    MapController.replaceCellBuilding("g", this.builds, this.selectedCell);
+
     // 2. Colocar en destino
     const buildingType = `${this.selectedCell.cellData.type}${this.selectedCell.cellData.subtype || ""}`;
-    MapController.changeBuild(buildingType, this.builds, targetCell);
-    
+    MapController.replaceCellBuilding(buildingType, this.builds, targetCell);
+
     Logger.log("✅ [SlideLeft] Edificio movido exitosamente");
-    
+
     // Limpiar estado
     this.cancelMoveMode();
     return true;
@@ -184,30 +204,31 @@ class SlideLeftController {
 
   static cancelMoveMode() {
     if (this.selectedCell) {
-      const sourceBuildingItem = document.querySelector(`#map-item-${this.selectedCell.cellData.id}`);
+      const sourceBuildingItem = document.querySelector(
+        `#map-item-${this.selectedCell.cellData.id}`,
+      );
       sourceBuildingItem?.classList.remove("moving");
     }
-    
+
     const mapContainer = document.querySelector("#map");
     mapContainer?.classList.remove("move-mode");
-    
+
     this.moveMode = false;
     this.selectedCell = null;
   }
 
-  static initSlideLeftController(city, builds) {
+  static initSlideLeftController(city, builds, icons) {
     Logger.log("🏛️ [SlideLeft] Inicializando controller...");
-    const slideLeft = document.querySelector("#slide-left");
+    this.city = city;
+    this.builds = builds;
+    this.icons = icons;
+    this.containerElement = document.querySelector("#slide-left");
+
     const containerResources = document.querySelector(".resources");
     const btnResources = document.querySelector("#resource");
-
-    // Guardar builds para usarlo en completeMoveBuilding
-    this.builds = builds;
-
-    this.handleClickMenu03(slideLeft, builds);
-    this.handleClickMenu02(slideLeft, builds);
     this.handleClickResourceButton(containerResources, btnResources);
-    this.handleClickMenu01(slideLeft);
+    this.setMenuState("none");
+
     Logger.log("✅ [SlideLeft] Controller inicializado");
   }
 
@@ -223,7 +244,6 @@ class SlideLeftController {
 
     const resourceElements = resourcesDiv._resourceElements;
 
-
     // Create update function for each resource type
     const createUpdateCallback = (type, unit) => {
       return (newValue) => {
@@ -237,11 +257,10 @@ class SlideLeftController {
       };
     };
 
-      // Registrar observers Y display inicial
+    // Registrar observers Y display inicial
     Object.keys(resourceObjects).forEach((resource) => {
       const { type, unit, amount } = resourceObjects[resource];
       const callback = createUpdateCallback(type, unit);
-
 
       // Agregar observer
       resourceObjects[resource].addObserver(callback);

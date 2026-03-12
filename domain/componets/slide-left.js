@@ -3,10 +3,13 @@ const createSlideLeftMenu = (resource, icons, build) => {
   const sheets = document.styleSheets[1];
 
   fragment.classList.add("container");
-  fragment.appendChild(createMenu01(icons, sheets));
-  fragment.appendChild(createMenu02(icons, sheets));
-  fragment.appendChild(createMenu03(build, sheets));
+
+  const menuSlot = document.createElement("div");
+  menuSlot.classList.add("menu-slot");
+  fragment.appendChild(menuSlot);
+
   fragment.appendChild(resourceMenu(resource, icons, sheets));
+
   return fragment;
 };
 
@@ -23,9 +26,7 @@ const renderSlideLeftMenu = (
     return;
   }
 
-  container.querySelector(".menu-01")?.remove();
-  container.querySelector(".menu-02")?.remove();
-  container.querySelector(".menu-03")?.remove();
+  container.querySelector(".container")?.remove();
   container.prepend(createSlideLeftMenu(resource, icons, builds));
 
   // Start reactive updates for resource values

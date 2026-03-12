@@ -9,6 +9,16 @@
     pointer-events: auto;
 }
 
+#slide-left .container .menu-slot
+{
+    position: absolute;
+    left: 0;
+    bottom: 25vw;
+    width: 100vw;
+    padding: 5%;
+    z-index: 3500;
+}
+
 #slide-left .container .resources  
 {
     color: #fff;
@@ -116,12 +126,9 @@
     justify-content: space-evenly;
     align-items: center;
     gap: 1.5rem;
-    position: absolute;
-    left: 0;
-    bottom: 25vw;
-    width: 100vw;
-    padding: 5%;
-    z-index: 3500;
+    width: 100%;
+    pointer-events: auto;
+    animation: slide-left-menu-enter 0.45s ease-out both;
 }
 
 #slide-left .container .container-buttons .button 
@@ -136,6 +143,9 @@
     min-width: 44px;
     min-height: 44px;
     background-color: hsla(0, 0%, 45%, 0.16);
+    opacity: 0;
+    animation: slide-left-button-enter 0.35s ease-out both;
+    animation-delay: calc(var(--i) * 0.06s);
 }
 
 #slide-left .container .container-buttons .button .img-container 
@@ -151,70 +161,39 @@
     display: block;
 }
 
-#slide-left .container .container-buttons.menu-01,
-#slide-left .container .container-buttons.menu-02
-{
-    transform: translateX(-100%);
-    transition: all 1s ease-in-out;
-    transition-delay: 0.5s;
-}
-
-#slide-left .container .container-buttons.menu-01.active,
-#slide-left .container .container-buttons.menu-02.active
-
-{
-    transform: translateX(0);
-    transition: all 1s ease-in-out;
-    transition-delay: 0.5s;
-}
-
-#slide-left .container .container-buttons.menu-01 .button,
-#slide-left .container .container-buttons.menu-02 .button
-{
-    transform: translateX(calc(var(--i)*-100%)) scale(0);
-    transition: all .5s ease-in-out;
-    transition-delay: calc(var(--i)*0.2s);
-}
-
-#slide-left .container .container-buttons.menu-01.active .button,
-#slide-left .container .container-buttons.menu-02.active .button
-{
-    transform: translateX(0) scale(1);
-    transition: all 1s ease-in-out;
-    transition-delay: calc((4 - var(--i))*0.2s);
-}
-
 #slide-left .container .container-buttons.menu-03
 {
-    transform: translateX(100%);
-    transition: all 1s ease-in-out;
-    transition-delay: 2.4s;
     overflow-x: scroll;
-
 }
 #slide-left .container .container-buttons.menu-03::-webkit-scrollbar {
     display: none;
 }
 
-
-#slide-left .container .container-buttons.menu-03.active
-{
-    transform: translateX(0);
-    transition: all 1s ease-in-out;
-    transition-delay: 0.5s;
-}
-
 #slide-left .container .container-buttons.menu-03 .button
 {
-    transform: translateX(calc(var(--i)*100%)) scale(0);
-    transition: all 1s ease-in-out;
-    transition-delay: calc((14 - var(--i))*0.02s);
+    animation-delay: calc(var(--i) * 0.03s);
 }
 
-#slide-left .container .container-buttons.menu-03.active .button {
-    transform: translateX(0) scale(1);
-    transition: all 1s ease-in-out;
-    transition-delay: calc(var(--i)*0.2s);
+@keyframes slide-left-menu-enter {
+    from {
+        opacity: 0;
+        transform: translateX(-12vw);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-left-button-enter {
+    from {
+        opacity: 0;
+        transform: translateX(-4vw) scale(0.85);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
 }
 
 @media (min-width: 746px) {
@@ -257,7 +236,6 @@
     #slide-left .container .container-buttons.menu-02,
     #slide-left .container .container-buttons.menu-03
     {
-        transform: translate(-100%, 50%);
         flex-direction: column;
         bottom: 50%;
         width: inherit;
@@ -265,14 +243,12 @@
         left: 3vw;
     }
 
-
-        
-    #slide-left .container .container-buttons.menu-01.active,
-    #slide-left .container .container-buttons.menu-02.active,
-    #slide-left .container .container-buttons.menu-03.active
-
+    #slide-left .container .menu-slot
     {
-        transform: translate(0,50%);
+        bottom: 50%;
+        width: auto;
+        left: 3vw;
+        transform: translateY(50%);
     }
 
     
@@ -282,12 +258,6 @@
         height: 7vw;
         border-radius: 7.5vw;
     }
-
-    #slide-left .container .container-buttons.menu-03 .button
-    {
-        transform: translateX(calc(var(--i)*100% * -1)) scale(0);
-    }
-
 
 }
 
@@ -314,7 +284,7 @@
 
 
 
-    #slide-left .container .container-buttons.menu-03
+    #slide-left .container .menu-slot .menu-03
     {
         width: 30vw;
         left: 1vw;
@@ -322,8 +292,4 @@
         flex-direction: row;
     }
 
-    /* #slide-left .container .container-buttons.menu-03.active
-    {
-
-    } */
 }

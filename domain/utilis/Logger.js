@@ -1,35 +1,105 @@
 class Logger {
-  static enabled = false;
+  static enabled = {
+    state: false,
+    classes: [],
+  };
 
-  static enable() {
-    this.enabled = true;
+  static types = {};
+
+  static enable(classes = []) {
+    this.enabled.state = true;
+    this.setClassFilter(classes);
   }
 
   static disable() {
-    this.enabled = false;
+    this.enabled.state = false;
+  }
+
+  static setClassFilter(classes = []) {
+    if (!Array.isArray(classes)) {
+      this.enabled.classes = [];
+      return;
+    }
+
+    this.enabled.classes = [
+      ...new Set(classes.map((item) => String(item).trim()).filter(Boolean)),
+    ];
+  }
+
+  static clearClassFilter() {
+    this.enabled.classes = [];
+  }
+
+  static getTypes() {
+    return { ...this.types };
+  }
+
+  static resetTypes() {
+    this.types = {};
+  }
+
+  static _extractClass(args) {
+    const classPattern = /\[([^\]]+)\]/;
+
+    for (const arg of args) {
+      if (typeof arg !== "string") {
+        continue;
+      }
+
+      const match = arg.match(classPattern);
+      if (match && match[1]) {
+        const className = match[1].trim();
+        if (className) {
+          return className;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  static _registerType(className) {
+    if (!className) {
+      return;
+    }
+
+    this.types[className] = (this.types[className] || 0) + 1;
+  }
+
+  static _shouldProject(className) {
+    if (!this.enabled.state) {
+      return false;
+    }
+
+    if (this.enabled.classes.length === 0) {
+      return true;
+    }
+
+    return Boolean(className) && this.enabled.classes.includes(className);
+  }
+
+  static _project(method, args) {
+    const className = this._extractClass(args);
+    this._registerType(className);
+
+    if (this._shouldProject(className)) {
+      console[method](...args);
+    }
   }
 
   static log(...args) {
-    if (this.enabled) {
-      console.log(...args);
-    }
+    this._project("log", args);
   }
 
   static error(...args) {
-    if (this.enabled) {
-      console.error(...args);
-    }
+    this._project("error", args);
   }
 
   static warn(...args) {
-    if (this.enabled) {
-      console.warn(...args);
-    }
+    this._project("warn", args);
   }
 
   static info(...args) {
-    if (this.enabled) {
-      console.info(...args);
-    }
+    this._project("info", args);
   }
 }

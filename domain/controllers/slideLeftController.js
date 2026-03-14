@@ -81,8 +81,9 @@
           if (btn.id === "move") {
             this.moveMode = true;
             this.selectedCell = cell;
+            this.sourceBuilding = cell.id;
             document
-              .querySelector(`#map-item-${cell.cellData.id}`)
+              .querySelector(`#map-item-${this.sourceBuilding}`)
               ?.classList.add("moving");
             document.querySelector("#map")?.classList.add("move-mode");
             this.setMenuState("none");
@@ -98,21 +99,8 @@
         break;
 
       case "select-building":
-        const menu03Ids = new Set([
-          "R1",
-          "R2",
-          "C1",
-          "C2",
-          "I1",
-          "I2",
-          "P1",
-          "S1",
-          "S2",
-          "S3",
-          "U1",
-          "U2",
-          "r",
-        ]);
+        const menu03Ids = new Set(Map.typeBuildingAcceptedMap);
+
         const m03 = createMenu03(this.builds, sheets);
         const renderedButtons = m03.querySelectorAll(".button").length;
         Logger.log("[SlideLeft][menu-03] Renderizado", {
@@ -137,7 +125,7 @@
             Logger.warn("[SlideLeft][menu-03] No hay activeCell al intentar construir");
             return;
           }
-          MapController.replaceCellBuilding(btn.id, this.builds, cell);
+          MapController.buyBuildingCell(btn.id, this.builds, cell);
           this.setMenuState("none");
           MapController.clearCellSelection();
         });
@@ -160,6 +148,8 @@
   // =====================
 
   static completeMoveBuilding(targetCell) {
+    if (!targetCell) return false;
+
     Logger.log(
       "🚚 [SlideLeft] completeMoveBuilding desde",
       this.selectedCell?.id,
@@ -177,7 +167,7 @@
       return false;
     }
 
-    if (!targetCell || !this.selectedCell) return false;
+    if (!this.selectedCell) return false;
 
     // Verificar que la celda destino esté vacía (solo "g")
     if (targetCell.cellData.type !== "g") {
@@ -187,13 +177,16 @@
       return false;
     }
 
-    // Mover el edificio visualmente
-    // 1. Limpiar origen (volver a ground)
-    MapController.replaceCellBuilding("g", this.builds, this.selectedCell);
+    const moved = MapController.moveBuildingCell(
+      this.selectedCell,
+      targetCell,
+      this.builds,
+    );
 
-    // 2. Colocar en destino
-    const buildingType = `${this.selectedCell.cellData.type}${this.selectedCell.cellData.subtype || ""}`;
-    MapController.replaceCellBuilding(buildingType, this.builds, targetCell);
+    if (!moved) {
+      this.cancelMoveMode();
+      return false;
+    }
 
     Logger.log("✅ [SlideLeft] Edificio movido exitosamente");
 
@@ -203,9 +196,9 @@
   }
 
   static cancelMoveMode() {
-    if (this.selectedCell) {
+    if (this.sourceBuilding) {
       const sourceBuildingItem = document.querySelector(
-        `#map-item-${this.selectedCell.cellData.id}`,
+        `#map-item-${this.sourceBuilding}`,
       );
       sourceBuildingItem?.classList.remove("moving");
     }
@@ -215,6 +208,7 @@
 
     this.moveMode = false;
     this.selectedCell = null;
+    this.sourceBuilding = null;
   }
 
   static initSlideLeftController(city, builds, icons) {

@@ -18,6 +18,44 @@ class City {
     this.score = score;
   }
 
+  canBuyBuilding(building) {
+    if (!building || typeof building.cost !== "number") {
+      Logger.warn("⚠️ [City] building inválido en canBuyBuilding:", building);
+      return false;
+    }
+    const cost = building.cost;
+    const moneyAmount = this.resources.money.amount;
+    return moneyAmount >= cost;
+  }
+
+  buyBuilding(building) {
+    if (!building || typeof building.cost !== "number") {
+      Logger.warn("⚠️ [City] building inválido en buyBuilding:", building);
+      return false;
+    }
+    const cost = building.cost;
+    const moneyAmount = this.resources.money.amount;
+
+    if (this.canBuyBuilding(building)) {
+      this.resources.money.subtract(cost);
+      Logger.log(
+        "🏗️ [City] Edificio comprado por",
+        cost,
+        "dinero restante:",
+        this.resources.money.amount,
+      );
+      return true;
+    } else {
+      Logger.warn(
+        "⚠️ [City] No hay suficiente dinero para comprar el edificio. Costo:",
+        cost,
+        "dinero disponible:",
+        moneyAmount,
+      );
+      return false;
+    }
+  }
+
   calculatePoints() {
     Resources.calculateAllAmount(
       this.resources.energy,

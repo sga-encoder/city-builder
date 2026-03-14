@@ -9,6 +9,7 @@
   static cameraRetryCount = 0;
   static cameraRetryTimer = null;
   static mapContainerElement = null;
+  static city = null;
   static mapModel = null
   static buildingGrid = null; // Grid de instancias reales de Building (no copias planas)
 
@@ -164,6 +165,15 @@
     }
   }
 
+  static renderBuildingInCell(cellId, building) {
+    const mapItem = document.querySelector(`#map-item-${cellId}`);
+    if (!mapItem || !building) return;
+
+    mapItem.querySelector(".building")?.remove();
+    mapItem.appendChild(building.build());
+    return mapItem;
+  }
+
   static replaceCellBuilding(btnId, builds, cell) {
     Logger.log("🏭 [MapController] changeBuild:", btnId, "en celda", cell.id);
     const mapModel = this.mapModel || null;
@@ -173,33 +183,70 @@
     }
 
     const [type, subtype] = [btnId[0], btnId[1]];
-    const mapItem = document.querySelector(`#map-item-${cell.id}`);
-
-    // Elimina construcción vieja si existe
-    const oldBuilding = mapItem.querySelector(".building");
-    if (oldBuilding) oldBuilding.remove();
     const modelKey = subtype ? `${type}.${subtype}` : type;
 
-    const build = Building.create({
+    const building = Building.create({
       id: cell.id,
       type,
       subtype,
       model: builds.getModel(modelKey),
     });
 
-    mapItem.appendChild(build.build());
-    
     // Asignar la instancia directamente (no copia plana)
-    mapModel.setBuildingAt(cell.i, cell.j, build);
+    mapModel.setBuildingAt(cell.i, cell.j, building);
 
-    this.rebindCellListeners();
     Logger.log("✅ [MapController] Edificio cambiado exitosamente");
-    return mapItem;
+    return { instance: building };
+  }
+
+  static moveBuildingCell(sourceCell, targetCell, builds) {
+    const mapModel = this.mapModel || null;
+    if (!mapModel || !sourceCell || !targetCell || !builds) return false;
+    if (targetCell.cellData?.type !== "g") return false;
+
+    const moved = mapModel.moveBuilding(
+      sourceCell.i,
+      sourceCell.j,
+      targetCell.i,
+      targetCell.j,
+      (sourceId) =>
+        Building.create({
+          id: sourceId,
+          type: "g",
+          subtype: "",
+          model: builds.getModel("g"),
+        }),
+    );
+
+    if (!moved) return false;
+
+    return true;
   }
 
   static buyBuildingCell(btnid, builds, cell) {
-  
-    const mapItem = this.replaceCellBuilding(btnid, builds, cell);
+    const [selectedEntry] = Map.buildingInstanceMap(btnid);
+    const buildingToBuy = selectedEntry?.[1] || null;
+
+    if (!buildingToBuy) {
+      Logger.warn("⚠️ [MapController] No se encontró building para", btnid);
+      return false;
+    }
+
+    if (!this.city.buyBuilding(buildingToBuy)) {
+      Logger.warn("⚠️ [MapController] No se pudo completar la compra para", btnid);
+      return false;
+    }
+
+    const result = this.replaceCellBuilding(btnid, builds, cell);
+    if (!result?.instance) {
+      // Revertir descuento si no se pudo colocar en el mapa.
+      this.city.resources.money.add(buildingToBuy.cost);
+      Logger.warn("⚠️ [MapController] No se pudo colocar el edificio en el mapa");
+      return false;
+    }
+
+    Logger.log("✅ [MapController] Edificio comprado y colocado en el mapa");
+    return result;
   }
 
   static setupMapInteractions() {
@@ -212,8 +259,8 @@
     this.initializeCamera();
   }
 
-  static initialize(mapModel) {
-    Logger.log("🎮 [MapController] init llamado con grid de", mapModel?.grid?.length, "filas");
+  static initialize(cityModel) {
+    Logger.log("🎮 [MapController] init llamado con grid de", cityModel?.map?.grid?.length, "filas");
     this.mapContainerElement = document.querySelector("#map");
     if (!this.mapContainerElement) {
       Logger.error("❌ [MapController] No se encontró #map container");
@@ -221,12 +268,13 @@
     }
 
     // Asignar buildingGrid ANTES de inicializar 
-    this.mapModel = mapModel;
-    this.buildingGrid = mapModel.grid;
+    this.city = cityModel;
+    this.mapModel = this.city.map;
+    this.buildingGrid = this.mapModel.grid;
 
     this.mapModel.addObserver((change) => {
       if (change.type === "cell-updated") {
-        // actualizar solo esa celda (o rebind si todavia no tienes render parcial)
+        this.renderBuildingInCell(change.id, change.current);
         this.rebindCellListeners();
       }
     });

@@ -18,13 +18,13 @@
   static buildCity() {
     if (this.debugMode) {
       Logger.enable([
-        "CityBuilder",
+        // "CityBuilder",
         // "Building",
         // "Map",
         // "Map.createMap",
         // "MapCamera",
         // "MapController",
-        // "SlideLeft",
+        "SlideLeft",
         // "SlideRight",
       ]);
       console.log("tipos de log disponibles", Logger.getTypes());
@@ -66,6 +66,7 @@
           layout: savedLayout || this.createDefaultLayout(30),
           nameCointainer: "#map",
           svgModels: builds,
+          buildsConfig: data.builds,
         },
         initial: initialResources,
         score: 0,
@@ -96,7 +97,7 @@
       });
 
       // Inicializar MapController con las instancias reales del grid
-      MapController.initialize(city.map);
+      MapController.initialize(city);
 
       window.renderSlideLeftMenu(city.resources, icons, builds);
       window.renderSlideRightMenu(icons);

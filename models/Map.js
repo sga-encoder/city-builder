@@ -1,7 +1,49 @@
 class Map {
+  static typeBuildingAcceptedMap = [];
+
+  static buildAcceptedTypes(buildsConfig) {
+    if (!buildsConfig || typeof buildsConfig !== "object") return [];
+
+    const acceptedTypes = [];
+
+    Object.entries(buildsConfig).forEach(([type, subtypes]) => {
+      if (!subtypes || typeof subtypes !== "object") return;
+
+      Object.keys(subtypes).forEach((subtype) => {
+        acceptedTypes.push(`${type}${subtype || ""}`);
+      });
+    });
+
+    return [...new Set(acceptedTypes)];
+  }
+
+  static buildingInstanceMap(type = null) {
+  
+    const data=  this.typeBuildingAcceptedMap.map((typeId) => {
+      const type = typeId[0];
+      const subtype = typeId.slice(1) || "";
+
+      return [
+        typeId,
+        Building.create({
+          id: null,
+          type,
+          subtype,
+          model: null,
+        }),
+      ];
+    });
+      if (type === null) {
+        return data;
+      } else {
+        return data.filter(([typeId]) => typeId.startsWith(type));
+      }
+  }
+
+
   constructor(dict) {
     Logger.log("🗺️ [Map] Constructor llamado");
-    const { layout, nameCointainer, svgModels } = dict;
+    const { layout, nameCointainer, svgModels, buildsConfig } = dict;
     Logger.log("🔍 [Map] Buscando container:", nameCointainer);
     this.container = document.querySelector(nameCointainer);
 
@@ -15,11 +57,10 @@ class Map {
 
     Logger.log("✅ [Map] Container encontrado:", this.container);
     this.svgModels = svgModels;
+    Map.typeBuildingAcceptedMap = Map.buildAcceptedTypes(buildsConfig);
     Logger.log("🏗️ [Map] Llamando createMap con layout:", layout.length);
     this.grid = this.createMap(layout);
     Logger.log("✅ [Map] Grid creado con", this.grid?.length, "filas");
-
-
   }
 
   addObserver(callback) {
@@ -150,6 +191,8 @@ class Map {
     if (target.type !== "g") return false;
 
     const ground = groundBuildingFactory(source.id, fromI, fromJ);
+    // Mantener consistencia: la instancia movida ahora pertenece a la celda destino.
+    source.id = target.id;
     this.grid[fromI][fromJ] = ground;
     this.grid[toI][toJ] = source;
 

@@ -4,10 +4,6 @@
   // =====================
   static activeCell = null;
   static interactionMode = "view";
-  static mapCamera = null;
-  static resizeDebounceTimer = null;
-  static cameraRetryCount = 0;
-  static cameraRetryTimer = null;
   static mapContainerElement = null;
   static city = null;
   static mapModel = null
@@ -17,69 +13,7 @@
   // STATIC METHODS
   // =====================
   static initializeCamera() {
-    Logger.log("🎥 [MapController] setupMapCamera iniciando...");
-    const viewport = document.querySelector("#map");
-    const map = viewport?.querySelector(".map");
-
-    if (!viewport || !map) {
-      Logger.warn("⚠️ [MapController] No hay viewport o map aún");
-      return;
-    }
-    if (viewport.dataset.cameraReady === "true") {
-      Logger.log("ℹ️ [MapController] Camera ya lista");
-      return;
-    }
-
-    try {
-      const fitMinScale = 0.1;
-      const maxScale = 40;
-      const responsiveInitialScale = {
-        756: 8,
-        1024: 4,
-        99999: 1,
-      };
-
-      Logger.log("📱 [MapController] Escalas:", {
-        fitMinScale,
-        maxScale,
-        responsiveInitialScale,
-      });
-
-      this.mapCamera = new MapCamera("#map", document.styleSheets[1], {
-        minScale: fitMinScale,
-        maxScale,
-        scale: 1,
-      });
-      Logger.log("✅ [MapController] MapCamera creado exitosamente");
-
-      this.mapCamera.onPanStart(() => {
-        this.clearCellSelection();
-      });
-
-      const applyResponsiveZoom = () => {
-        this.mapCamera.applyResponsiveZoom(responsiveInitialScale);
-      };
-
-      // Aplicar zoom inicial
-      requestAnimationFrame(() => {
-        applyResponsiveZoom();
-      });
-
-      // Reajustar al cambiar tamaño de pantalla
-      window.addEventListener("resize", () => {
-        clearTimeout(this.resizeDebounceTimer);
-        this.resizeDebounceTimer = setTimeout(() => {
-          this.mapCamera.setZoomLimits(fitMinScale, maxScale);
-          applyResponsiveZoom();
-        }, 150);
-      });
-
-      window.mapCamera = this.mapCamera;
-      Logger.log("✅ [MapController] Camera configurada completamente");
-    } catch (error) {
-      Logger.error("❌ [MapController] Error en MapCamera:", error);
-      console.error("Error inicializando MapCamera:", error);
-    }
+    MapCameraController.initializeCamera(() => this.clearCellSelection());
   }
 
   static rebindCellListeners() {
@@ -104,7 +38,7 @@
         item.dataset.eventsBound = "true";
 
         item.addEventListener("click", (e) => {
-          if (this.mapCamera?.hasPanned) return;
+          if (MapCameraController.hasPanned) return;
           e.stopPropagation();
 
           if (SlideLeftController.moveMode) {
@@ -220,18 +154,7 @@
     this.setupMapInteractions();
 
     // Fallback durante arranque asíncrono
-    this.cameraRetryCount = 0;
-    this.cameraRetryTimer = setInterval(() => {
-      this.setupMapInteractions();
-      this.cameraRetryCount += 1;
-
-      if (
-        this.mapContainerElement.dataset.cameraReady === "true" ||
-        this.cameraRetryCount >= 40
-      ) {
-        clearInterval(this.cameraRetryTimer);
-      }
-    }, 100);
+    MapCameraController.initializeCameraRetry(() => this.setupMapInteractions());
 
     // Global click handler
     document.addEventListener("click", (e) => {
@@ -254,7 +177,7 @@
       if (inMapItem) return;
 
       if (inMap) {
-        if (!this.mapCamera?.hasPanned) {
+        if (!MapCameraController.hasPanned) {
           this.clearCellSelection();
           SlideLeftController.cancelMoveMode();
         }

@@ -23,11 +23,7 @@ class MapCamera {
       );
     }
 
-    if (this.#viewport.dataset.cameraReady === "true") {
-      Logger.warn("⚠️ [MapCamera] Ya estaba inicializada");
-      console.warn("MapCamera ya inicializada para este viewport");
-      return;
-    }
+
 
     const defaults = {
       scale: 1,
@@ -56,7 +52,6 @@ class MapCamera {
 
     this.#panBounds = { ...defaults.bounds, ...config.bounds };
 
-    this.#viewport.dataset.cameraReady = "true";
     Logger.log(
       "✅ [MapCamera] Configuración completa, zoomScale:",
       this.#state.zoomScale,

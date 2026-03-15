@@ -2,17 +2,87 @@
   // =====================
   // STATIC PROPERTIES
   // =====================
-  static menuState = "none"; // "none" | "build" | "manage" | "select-building"
-  static city = null;
-  static icons = null;
-  static sheets = null;
+  // Mantiene compatibilidad con consumidores externos mientras el estado
+  // real vive en SlideLeftState.
+  static get menuState() {
+    return SlideLeftState.menuState;
+  }
 
-  static resourceObjects = null;
-  static containerElement = null;
-  static moveMode = false;
-  static selectedCell = null;
-  static sourceBuilding = null;
-  static builds = null;
+  static set menuState(value) {
+    SlideLeftState.menuState = value;
+  }
+
+  static get city() {
+    return SlideLeftState.city;
+  }
+
+  static set city(value) {
+    SlideLeftState.city = value;
+  }
+
+  static get icons() {
+    return SlideLeftState.icons;
+  }
+
+  static set icons(value) {
+    SlideLeftState.icons = value;
+  }
+
+  static get sheets() {
+    return SlideLeftState.sheets;
+  }
+
+  static set sheets(value) {
+    SlideLeftState.sheets = value;
+  }
+
+  static get resourceObjects() {
+    return SlideLeftState.resourceObjects;
+  }
+
+  static set resourceObjects(value) {
+    SlideLeftState.resourceObjects = value;
+  }
+
+  static get containerElement() {
+    return SlideLeftState.containerElement;
+  }
+
+  static set containerElement(value) {
+    SlideLeftState.containerElement = value;
+  }
+
+  static get moveMode() {
+    return SlideLeftState.moveMode;
+  }
+
+  static set moveMode(value) {
+    SlideLeftState.moveMode = value;
+  }
+
+  static get selectedCell() {
+    return SlideLeftState.selectedCell;
+  }
+
+  static set selectedCell(value) {
+    SlideLeftState.selectedCell = value;
+  }
+
+  static get sourceBuilding() {
+    return SlideLeftState.sourceBuilding;
+  }
+
+  static set sourceBuilding(value) {
+    SlideLeftState.sourceBuilding = value;
+  }
+
+  static get builds() {
+    return SlideLeftState.builds;
+  }
+
+  static set builds(value) {
+    SlideLeftState.builds = value;
+  }
 
   // =====================
   // MENU MANAGEMENT METHODS
@@ -45,7 +115,7 @@
     const sheets = document.styleSheets[1];
 
     switch (this.menuState) {
-      case "build":
+      case SlideLeftConstants.MENU_STATE.BUILD:
         const m01 = createMenu01(this.icons, sheets);
         Logger.log("[SlideLeft][menu-01] Renderizado", {
           hasIcons: !!this.icons,
@@ -63,13 +133,13 @@
 
           if (buildBtn) {
             Logger.log("[SlideLeft] Transición a menu-03 solicitada");
-            this.setMenuState("select-building");
+            this.setMenuState(SlideLeftConstants.MENU_STATE.SELECT_BUILDING);
           }
         });
         slot.appendChild(m01);
         break;
 
-      case "manage":
+      case SlideLeftConstants.MENU_STATE.MANAGE:
         const m02 = createMenu02(this.icons, sheets);
         m02.addEventListener("click", (e) => {
           e.stopPropagation();
@@ -86,19 +156,19 @@
               .querySelector(`#map-item-${this.sourceBuilding}`)
               ?.classList.add("moving");
             document.querySelector("#map")?.classList.add("move-mode");
-            this.setMenuState("none");
+            this.setMenuState(SlideLeftConstants.MENU_STATE.NONE);
             MapController.clearCellSelection();
           }
           if (btn.id === "destroy") {
             MapController.replaceCellBuilding("g", this.builds, cell);
-            this.setMenuState("none");
+            this.setMenuState(SlideLeftConstants.MENU_STATE.NONE);
             MapController.clearCellSelection();
           }
         });
         slot.appendChild(m02);
         break;
 
-      case "select-building":
+      case SlideLeftConstants.MENU_STATE.SELECT_BUILDING:
         const menu03Ids = new Set(Map.typeBuildingAcceptedMap);
 
         const m03 = createMenu03(this.builds, sheets);
@@ -126,7 +196,7 @@
             return;
           }
           MapController.buyBuildingCell(btn.id, this.builds, cell);
-          this.setMenuState("none");
+          this.setMenuState(SlideLeftConstants.MENU_STATE.NONE);
           MapController.clearCellSelection();
         });
         slot.appendChild(m03);
@@ -221,7 +291,7 @@
     const containerResources = document.querySelector(".resources");
     const btnResources = document.querySelector("#resource");
     this.handleClickResourceButton(containerResources, btnResources);
-    this.setMenuState("none");
+    this.setMenuState(SlideLeftConstants.MENU_STATE.NONE);
 
     Logger.log("✅ [SlideLeft] Controller inicializado");
   }

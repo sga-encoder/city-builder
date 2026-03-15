@@ -108,6 +108,14 @@
       return;
     }
 
+    const context = {
+      state: SlideLeftState,
+      constants: SlideLeftConstants,
+      logger: Logger,
+      mapController: MapController,
+      setMenuState: (next) => this.setMenuState(next),
+    };
+
     Logger.log("[SlideLeft][renderMenu] render state:", this.menuState);
 
     slot.innerHTML = ""; // limpia contenido anterior
@@ -121,50 +129,13 @@
           hasIcons: !!this.icons,
           hasBuilds: !!this.builds,
         });
-        m01.addEventListener("click", (e) => {
-          // Evita que el handler global cierre el menú durante este mismo click.
-          e.stopPropagation();
-          const buildBtn = e.target.closest("#build");
-          Logger.log("[SlideLeft][menu-01 click]", {
-            clicked: !!buildBtn,
-            targetId: e.target?.id || null,
-            currentState: this.menuState,
-          });
-
-          if (buildBtn) {
-            Logger.log("[SlideLeft] Transición a menu-03 solicitada");
-            this.setMenuState(SlideLeftConstants.MENU_STATE.SELECT_BUILDING);
-          }
-        });
+        BuildMenuHandler.bind(m01, context);
         slot.appendChild(m01);
         break;
 
       case SlideLeftConstants.MENU_STATE.MANAGE:
         const m02 = createMenu02(this.icons, sheets);
-        m02.addEventListener("click", (e) => {
-          e.stopPropagation();
-          const btn = e.target.closest(".button");
-          if (!btn) return;
-          const cell = MapController.activeCell;
-          if (!cell) return;
-
-          if (btn.id === "move") {
-            this.moveMode = true;
-            this.selectedCell = cell;
-            this.sourceBuilding = cell.id;
-            document
-              .querySelector(`#map-item-${this.sourceBuilding}`)
-              ?.classList.add("moving");
-            document.querySelector("#map")?.classList.add("move-mode");
-            this.setMenuState(SlideLeftConstants.MENU_STATE.NONE);
-            MapController.clearCellSelection();
-          }
-          if (btn.id === "destroy") {
-            MapController.replaceCellBuilding("g", this.builds, cell);
-            this.setMenuState(SlideLeftConstants.MENU_STATE.NONE);
-            MapController.clearCellSelection();
-          }
-        });
+        ManageMenuHandler.bind(m02, context);
         slot.appendChild(m02);
         break;
 
@@ -178,29 +149,7 @@
           hasBuilds: !!this.builds,
           state: this.menuState,
         });
-        m03.addEventListener("click", (e) => {
-          e.stopPropagation();
-          const btn = e.target.closest(".button");
-          Logger.log("[SlideLeft][menu-03 click]", {
-            hasButton: !!btn,
-            buttonId: btn?.id || null,
-            validButton: btn ? menu03Ids.has(btn.id) : false,
-            hasActiveCell: !!MapController.activeCell,
-            activeCellId: MapController.activeCell?.id || null,
-          });
-
-          if (!btn || !menu03Ids.has(btn.id)) return;
-          const cell = MapController.activeCell;
-          if (!cell) {
-            Logger.warn(
-              "[SlideLeft][menu-03] No hay activeCell al intentar construir",
-            );
-            return;
-          }
-          MapController.buyBuildingCell(btn.id, this.builds, cell);
-          this.setMenuState(SlideLeftConstants.MENU_STATE.NONE);
-          MapController.clearCellSelection();
-        });
+        SelectBuildingMenuHandler.bind(m03, context);
         slot.appendChild(m03);
         m03.scrollLeft = 0;
         break;

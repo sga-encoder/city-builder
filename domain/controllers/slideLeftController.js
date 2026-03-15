@@ -192,7 +192,9 @@
           if (!btn || !menu03Ids.has(btn.id)) return;
           const cell = MapController.activeCell;
           if (!cell) {
-            Logger.warn("[SlideLeft][menu-03] No hay activeCell al intentar construir");
+            Logger.warn(
+              "[SlideLeft][menu-03] No hay activeCell al intentar construir",
+            );
             return;
           }
           MapController.buyBuildingCell(btn.id, this.builds, cell);
@@ -218,68 +220,21 @@
   // =====================
 
   static completeMoveBuilding(targetCell) {
-    if (!targetCell) return false;
-
-    Logger.log(
-      "🚚 [SlideLeft] completeMoveBuilding desde",
-      this.selectedCell?.id,
-      "a",
-      targetCell.id,
-    );
-    if (!this.moveMode || !this.selectedCell || !this.builds) {
-      Logger.warn("⚠️ [SlideLeft] No está en modo movimiento");
-      return false;
-    }
-
-    // No mover a la misma celda
-    if (targetCell.id === this.selectedCell.id) {
-      this.cancelMoveMode();
-      return false;
-    }
-
-    if (!this.selectedCell) return false;
-
-    // Verificar que la celda destino esté vacía (solo "g")
-    if (targetCell.cellData.type !== "g") {
-      Logger.warn("⚠️ [SlideLeft] Celda destino no está vacía");
-      console.warn("Target cell is not empty");
-      this.cancelMoveMode();
-      return false;
-    }
-
-    const moved = MapController.moveBuildingCell(
-      this.selectedCell,
-      targetCell,
-      this.builds,
-    );
-
-    if (!moved) {
-      this.cancelMoveMode();
-      return false;
-    }
-
-    Logger.log("✅ [SlideLeft] Edificio movido exitosamente");
-
-    // Limpiar estado
-    this.cancelMoveMode();
-    return true;
+    return SlideLeftMoveBuildingService.completeMoveBuilding(targetCell, {
+      state: SlideLeftState,
+      logger: Logger,
+      mapController: MapController,
+      cancelMoveMode: () => this.cancelMoveMode(),
+    });
   }
 
   static cancelMoveMode() {
-    if (this.sourceBuilding) {
-      const sourceBuildingItem = document.querySelector(
-        `#map-item-${this.sourceBuilding}`,
-      );
-      sourceBuildingItem?.classList.remove("moving");
-    }
-
-    const mapContainer = document.querySelector("#map");
-    mapContainer?.classList.remove("move-mode");
-
-    this.moveMode = false;
-    this.selectedCell = null;
-    this.sourceBuilding = null;
+    return SlideLeftMoveBuildingService.cancelMoveMode(SlideLeftState);
   }
+
+  // =====================
+  // RESOURCE REACTIVITY
+  // =====================
 
   static initSlideLeftController(city, builds, icons) {
     Logger.log("🏛️ [SlideLeft] Inicializando controller...");
@@ -295,10 +250,6 @@
 
     Logger.log("✅ [SlideLeft] Controller inicializado");
   }
-
-  // =====================
-  // RESOURCE REACTIVITY
-  // =====================
 
   static startResourceWatcher(container, resourceObjects) {
     return SlideLeftResourceWatcher.start(container, resourceObjects);

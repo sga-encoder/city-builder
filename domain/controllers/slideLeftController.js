@@ -1,4 +1,11 @@
 ﻿class SlideLeftController {
+  /**
+    * Controlador fachada para el panel lateral izquierdo.
+   *
+    * Este controlador mantiene propiedades estáticas compatibles con versiones
+    * anteriores, delegando el estado en `SlideLeftState` y la orquestación en
+    * módulos auxiliares.
+   */
   // =====================
   // STATIC PROPERTIES
   // =====================
@@ -88,6 +95,11 @@
   // MENU MANAGEMENT METHODS
   // =====================
 
+  /**
+    * Actualiza el estado del menú actual y vuelve a renderizar.
+    * @param {string} newState - Nueva clave de estado de `SlideLeftConstants.MENU_STATE`.
+   * @returns {void}
+   */
   static setMenuState(newState) {
     Logger.log("🎛️ [SlideLeft] menuState:", this.menuState, "→", newState);
     Logger.log("[SlideLeft][setMenuState]", {
@@ -100,21 +112,30 @@
     this.renderMenu();
   }
 
+  /**
+    * Renderiza el menú del panel izquierdo según el estado actual.
+   * @returns {void}
+   */
   static renderMenu() {
-      const context = {
-        state: SlideLeftState,
-        constants: SlideLeftConstants,
-        logger: Logger,
-        mapController: MapController,
-        icons: this.icons,
-        builds: this.builds,
-        setMenuState: (next) => this.setMenuState(next),
-      };
+    const context = {
+      state: SlideLeftState,
+      constants: SlideLeftConstants,
+      logger: Logger,
+      mapController: MapController,
+      icons: this.icons,
+      builds: this.builds,
+      setMenuState: (next) => this.setMenuState(next),
+    };
 
-      return SlideLeftMenuRenderer.render(context);
-  
+    return SlideLeftMenuRenderer.render(context);
   }
 
+  /**
+    * Habilita el comportamiento de clic para alternar la visibilidad del panel de recursos.
+    * @param {HTMLElement|null} container - Elemento contenedor de recursos.
+    * @param {HTMLElement|null} btn - Botón que alterna el panel.
+   * @returns {void}
+   */
   static handleClickResourceButton(container, btn) {
     if (btn && container) {
       btn.addEventListener("click", () => {
@@ -127,6 +148,11 @@
   // EVENT LISTENERS
   // =====================
 
+  /**
+    * Completa la operación de mover un edificio hacia una celda objetivo.
+    * @param {object} targetCell - Celda de destino del mapa.
+   * @returns {boolean}
+   */
   static completeMoveBuilding(targetCell) {
     return SlideLeftMoveBuildingService.completeMoveBuilding(targetCell, {
       state: SlideLeftState,
@@ -136,6 +162,10 @@
     });
   }
 
+  /**
+    * Cancela el modo movimiento y restablece marcadores de UI/estado asociados.
+   * @returns {void}
+   */
   static cancelMoveMode() {
     return SlideLeftMoveBuildingService.cancelMoveMode(SlideLeftState);
   }
@@ -144,6 +174,13 @@
   // RESOURCE REACTIVITY
   // =====================
 
+  /**
+    * Inicializa el estado del panel izquierdo y sus interacciones por defecto.
+    * @param {object} city - Referencia al modelo de dominio de ciudad.
+    * @param {object} builds - Registro/mapa de edificios.
+    * @param {object} icons - Referencias de iconos/sprites.
+   * @returns {void}
+   */
   static initSlideLeftController(city, builds, icons) {
     Logger.log("🏛️ [SlideLeft] Inicializando controller...");
     this.city = city;
@@ -159,6 +196,12 @@
     Logger.log("✅ [SlideLeft] Controller inicializado");
   }
 
+  /**
+    * Inicia observadores que sincronizan cambios de recursos del modelo en la UI.
+    * @param {HTMLElement} container - Contenedor raíz del panel izquierdo.
+    * @param {object} resourceObjects - Colección observable de recursos.
+   * @returns {void}
+   */
   static startResourceWatcher(container, resourceObjects) {
     return SlideLeftResourceWatcher.start(container, resourceObjects);
   }

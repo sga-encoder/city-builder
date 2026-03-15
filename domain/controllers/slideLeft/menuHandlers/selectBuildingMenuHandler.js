@@ -1,4 +1,10 @@
 class SelectBuildingMenuHandler {
+  /**
+    * Vincula interacciones de clic para el menu-03 (selección de edificio).
+    * @param {HTMLElement} menuElement - Elemento raíz del menú renderizado.
+    * @param {object} context - Contexto compartido de interacción del panel izquierdo.
+   * @returns {void}
+   */
   static bind(menuElement, context) {
     const { state, constants, logger, mapController, setMenuState } = context;
     const acceptedIds = new Set(Map.typeBuildingAcceptedMap);

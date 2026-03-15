@@ -1,4 +1,10 @@
 class SlideLeftResourceWatcher {
+  /**
+    * Suscribe observadores de recursos y mantiene sincronizadas las etiquetas de UI.
+    * @param {HTMLElement} container - Contenedor raíz del panel izquierdo.
+    * @param {object} resourceObjects - Recursos observables indexados por nombre.
+   * @returns {void}
+   */
   static start(container, resourceObjects) {
     if (!resourceObjects || !container) return;
 

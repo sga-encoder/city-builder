@@ -1,4 +1,14 @@
 class SlideLeftMoveBuildingService {
+  /**
+    * Intenta mover el edificio seleccionado actualmente a una celda objetivo.
+    * @param {object} targetCell - Celda destino del mapa.
+    * @param {object} context - Dependencias y callbacks del servicio.
+    * @param {object} context.state - Estado compartido del panel izquierdo.
+    * @param {object} context.logger - Utilidad de logging.
+    * @param {object} context.mapController - API del controlador del mapa.
+    * @param {() => void} context.cancelMoveMode - Callback para salir del modo movimiento.
+   * @returns {boolean}
+   */
   static completeMoveBuilding(targetCell, context) {
     const { state, logger, mapController, cancelMoveMode } = context;
 
@@ -46,6 +56,11 @@ class SlideLeftMoveBuildingService {
     return true;
   }
 
+  /**
+    * Reinicia el modo movimiento y elimina clases transitorias de la UI.
+    * @param {object} state - Estado compartido del panel izquierdo.
+   * @returns {void}
+   */
   static cancelMoveMode(state) {
     if (state.sourceBuilding) {
       const sourceBuildingItem = document.querySelector(

@@ -1,4 +1,15 @@
 class SlideLeftMenuRenderer {
+  /**
+    * Renderiza la variante de menú actual dentro de `#slide-left .menu-slot`.
+    * @param {object} context - Contexto de renderizado e interacción.
+    * @param {object} context.state - Objeto de estado compartido del panel izquierdo.
+    * @param {object} context.constants - Mapa de constantes del menú.
+    * @param {object} context.logger - Utilidad de logging.
+    * @param {object} context.icons - Recursos de iconos.
+    * @param {object} context.builds - Definiciones de edificios.
+    * @param {(nextState: string) => void} context.setMenuState - Callback de transición de estado.
+   * @returns {void}
+   */
   static render(context) {
     const { state, constants, logger, icons, builds, setMenuState } = context;
 

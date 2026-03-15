@@ -101,59 +101,18 @@
   }
 
   static renderMenu() {
-    const slot = document.querySelector("#slide-left .menu-slot");
-    if (!slot) {
-      Logger.warn("[SlideLeft][renderMenu] No se encontró .menu-slot");
-      Logger.warn("⚠️ [SlideLeft] No se encontró .menu-slot");
-      return;
-    }
+      const context = {
+        state: SlideLeftState,
+        constants: SlideLeftConstants,
+        logger: Logger,
+        mapController: MapController,
+        icons: this.icons,
+        builds: this.builds,
+        setMenuState: (next) => this.setMenuState(next),
+      };
 
-    const context = {
-      state: SlideLeftState,
-      constants: SlideLeftConstants,
-      logger: Logger,
-      mapController: MapController,
-      setMenuState: (next) => this.setMenuState(next),
-    };
-
-    Logger.log("[SlideLeft][renderMenu] render state:", this.menuState);
-
-    slot.innerHTML = ""; // limpia contenido anterior
-
-    const sheets = document.styleSheets[1];
-
-    switch (this.menuState) {
-      case SlideLeftConstants.MENU_STATE.BUILD:
-        const m01 = createMenu01(this.icons, sheets);
-        Logger.log("[SlideLeft][menu-01] Renderizado", {
-          hasIcons: !!this.icons,
-          hasBuilds: !!this.builds,
-        });
-        BuildMenuHandler.bind(m01, context);
-        slot.appendChild(m01);
-        break;
-
-      case SlideLeftConstants.MENU_STATE.MANAGE:
-        const m02 = createMenu02(this.icons, sheets);
-        ManageMenuHandler.bind(m02, context);
-        slot.appendChild(m02);
-        break;
-
-      case SlideLeftConstants.MENU_STATE.SELECT_BUILDING:
-        const menu03Ids = new Set(Map.typeBuildingAcceptedMap);
-
-        const m03 = createMenu03(this.builds, sheets);
-        const renderedButtons = m03.querySelectorAll(".button").length;
-        Logger.log("[SlideLeft][menu-03] Renderizado", {
-          buttons: renderedButtons,
-          hasBuilds: !!this.builds,
-          state: this.menuState,
-        });
-        SelectBuildingMenuHandler.bind(m03, context);
-        slot.appendChild(m03);
-        m03.scrollLeft = 0;
-        break;
-    }
+      return SlideLeftMenuRenderer.render(context);
+  
   }
 
   static handleClickResourceButton(container, btn) {

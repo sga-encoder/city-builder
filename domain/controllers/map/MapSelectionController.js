@@ -1,7 +1,18 @@
 class MapSelectionController {
+  /** @type {object|null} */
   static activeCell = null;
+
+  /** @type {string} */
   static interactionMode = "view";
-  
+
+  /**
+   * Selecciona una celda en el mapa y persiste la referencia seleccionada.
+   * @param {string} id - Id de celda.
+   * @param {object} cellData - Datos del contenido de la celda.
+   * @param {number} i - Índice de fila.
+   * @param {number} j - Índice de columna.
+   * @returns {void}
+   */
   static selectMapCell(id, cellData, i, j) {
     if (this.activeCell) {
       document
@@ -15,14 +26,26 @@ class MapSelectionController {
     LocalStorage.saveData("selectedCell", JSON.stringify(this.activeCell));
   }
 
+  /**
+   * Cambia el panel lateral al menú de construcción.
+   * @returns {void}
+   */
   static openBuildMenu() {
     SlideLeftController.setMenuState("build");
   }
 
+  /**
+   * Cambia el panel lateral al menú de gestión.
+   * @returns {void}
+   */
   static openManageMenu() {
     SlideLeftController.setMenuState("manage");
   }
 
+  /**
+   * Limpia la selección activa y restablece el modo de interacción.
+   * @returns {void}
+   */
   static clearCellSelection() {
     if (this.activeCell) {
       document

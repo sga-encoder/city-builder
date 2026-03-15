@@ -2,6 +2,18 @@ class MapEventBinder {
   static #globalClickBound = false;
   static #mapClickHandler = null;
 
+  /**
+   * Registra el listener principal de clic sobre celdas del mapa.
+   * @param {object} params - Dependencias y callbacks de interacción.
+   * @param {HTMLElement} params.mapContainerElement - Contenedor raíz del mapa.
+   * @param {object[][]} params.buildingGrid - Matriz de datos/instancias por celda.
+   * @param {() => boolean} params.hasPanned - Indica si hubo paneo reciente.
+   * @param {(id: string, cellData: object, i: number, j: number) => void} params.onSelectGround - Callback para celda de terreno.
+   * @param {(id: string, cellData: object, i: number, j: number) => void} params.onSelectBuilding - Callback para celda con edificio.
+   * @param {(cellRef: object) => boolean} params.onTryMove - Callback para intentar mover edificio.
+   * @param {() => void} [params.onPersistMap] - Callback opcional para persistencia.
+   * @returns {void}
+   */
   static bindMapClick({
     mapContainerElement,
     buildingGrid,
@@ -51,6 +63,15 @@ class MapEventBinder {
     onPersistMap?.();
   }
 
+  /**
+   * Registra un listener global de documento para limpiar selección o cancelar movimiento.
+   * @param {object} params - Dependencias y callbacks globales.
+   * @param {() => (string|null)} params.getActiveCellId - Obtiene el id de la celda activa.
+   * @param {() => boolean} params.hasPanned - Indica si hubo paneo reciente.
+   * @param {() => void} params.clearSelection - Limpia selección activa.
+   * @param {() => void} params.cancelMoveMode - Cancela modo movimiento.
+   * @returns {void}
+   */
   static bindGlobalClick({
     getActiveCellId,
     hasPanned,

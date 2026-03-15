@@ -1,4 +1,8 @@
 ﻿class MapController {
+  /**
+   * Controlador fachada para interacciones del mapa.
+   * Coordina selección de celdas, cámara, renderizado y operaciones de edificios.
+   */
   // =====================
   // STATIC PROPERTIES
   // =====================
@@ -11,10 +15,19 @@
   // =====================
   // STATIC METHODS
   // =====================
+
+  /**
+   * Inicializa la cámara del mapa y registra la limpieza de selección al empezar pan.
+   * @returns {void}
+   */
   static initializeCamera() {
     MapCameraController.initializeCamera(() => this.clearCellSelection());
   }
 
+  /**
+   * Reasigna listeners de clic sobre celdas del mapa usando el estado actual.
+   * @returns {void}
+   */
   static rebindCellListeners() {
     MapEventBinder.bindMapClick({
       mapContainerElement: this.mapContainerElement,
@@ -35,34 +48,81 @@
     });
   }
 
+  // =====================
+  // SELECTION STATE PROXIES
+  // =====================
+
+  /**
+   * Celda actualmente seleccionada en el mapa.
+   * @returns {object|null}
+   */
   static get activeCell() {
     return MapSelectionController.activeCell;
   }
 
+  /**
+   * Modo de interacción actual (`view`, `build`, `manage`).
+   * @returns {string}
+   */
   static get interactionMode() {
     return MapSelectionController.interactionMode;
   }
 
+  /**
+   * Actualiza el modo de interacción actual.
+   * @param {string} value - Nuevo modo de interacción.
+   * @returns {void}
+   */
   static set interactionMode(value) {
     MapSelectionController.interactionMode = value;
   }
 
+  /**
+   * Selecciona una celda del mapa.
+   * @param {string} id - Identificador de celda.
+   * @param {object} cellData - Datos del contenido de la celda.
+   * @param {number} i - Índice de fila.
+   * @param {number} j - Índice de columna.
+   * @returns {void}
+   */
   static selectMapCell(id, cellData, i, j) {
     return MapSelectionController.selectMapCell(id, cellData, i, j);
   }
 
+  /**
+   * Limpia la celda seleccionada y reinicia el estado de interacción.
+   * @returns {void}
+   */
   static clearCellSelection() {
     return MapSelectionController.clearCellSelection();
   }
 
+  /**
+   * Abre el menú de construcción en el panel lateral.
+   * @returns {void}
+   */
   static openBuildMenu() {
     return MapSelectionController.openBuildMenu();
   }
 
+  /**
+   * Abre el menú de gestión del edificio seleccionado.
+   * @returns {void}
+   */
   static openManageMenu() {
     return MapSelectionController.openManageMenu();
   }
 
+  // =====================
+  // BUILDING OPERATIONS
+  // =====================
+
+  /**
+   * Renderiza visualmente un edificio dentro de una celda concreta.
+   * @param {string} cellId - Id de celda destino.
+   * @param {object} building - Instancia de edificio con método `build()`.
+   * @returns {HTMLElement|undefined}
+   */
   static renderBuildingInCell(cellId, building) {
     const mapItem = document.querySelector(`#map-item-${cellId}`);
     if (!mapItem || !building) return;
@@ -72,6 +132,13 @@
     return mapItem;
   }
 
+  /**
+   * Reemplaza el edificio de una celda usando el controlador de construcción.
+   * @param {string} btnId - Id del botón/tipo de edificio.
+   * @param {object} builds - Registro de modelos de edificios.
+   * @param {object} cell - Celda objetivo.
+   * @returns {object|undefined}
+   */
   static replaceCellBuilding(btnId, builds, cell) {
     return MapBuildController.replaceCellBuilding(
       btnId,
@@ -81,6 +148,13 @@
     );
   }
 
+  /**
+   * Mueve un edificio desde una celda origen hacia una celda destino.
+   * @param {object} sourceCell - Celda origen.
+   * @param {object} targetCell - Celda destino.
+   * @param {object} builds - Registro de modelos de edificios.
+   * @returns {boolean}
+   */
   static moveBuildingCell(sourceCell, targetCell, builds) {
     return MapBuildController.moveBuildingCell(
       sourceCell,
@@ -90,6 +164,13 @@
     );
   }
 
+  /**
+   * Compra y coloca un edificio en una celda.
+   * @param {string} btnid - Id del botón/tipo de edificio.
+   * @param {object} builds - Registro de modelos de edificios.
+   * @param {object} cell - Celda objetivo.
+   * @returns {object|boolean}
+   */
   static buyBuildingCell(btnid, builds, cell) {
     return MapBuildController.buyBuildingCell(
       btnid,
@@ -100,6 +181,14 @@
     );
   }
 
+  // =====================
+  // LIFECYCLE
+  // =====================
+
+  /**
+   * Configura listeners e inicialización de cámara cuando el mapa ya está renderizado.
+   * @returns {void}
+   */
   static setupMapInteractions() {
     const hasMap = !!this.mapContainerElement.querySelector(".map");
     const hasData = !!LocalStorage.loadData("map");
@@ -110,6 +199,11 @@
     this.initializeCamera();
   }
 
+  /**
+   * Inicializa el controlador del mapa con el modelo de ciudad.
+   * @param {object} cityModel - Instancia del modelo de ciudad con mapa y recursos.
+   * @returns {void}
+   */
   static initialize(cityModel) {
     Logger.log(
       "🎮 [MapController] init llamado con grid de",

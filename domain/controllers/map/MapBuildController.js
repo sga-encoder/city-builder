@@ -1,4 +1,13 @@
 class MapBuildController {
+  /**
+   * Compra un edificio y lo coloca en la celda indicada.
+   * @param {string} btnid - Id del botón/tipo de edificio.
+   * @param {object} builds - Registro de modelos de edificios.
+   * @param {object} cell - Celda destino.
+   * @param {object} mapModel - Modelo del mapa.
+   * @param {object} city - Modelo de ciudad.
+   * @returns {object|boolean}
+   */
   static buyBuildingCell(btnid, builds, cell, mapModel, city) {
     const [selectedEntry] = Map.buildingInstanceMap(btnid);
     const buildingToBuy = selectedEntry?.[1] || null;
@@ -30,10 +39,18 @@ class MapBuildController {
     return result;
   }
 
+  /**
+   * Reemplaza el contenido de una celda por un nuevo edificio.
+   * @param {string} btnId - Id del botón/tipo de edificio.
+   * @param {object} builds - Registro de modelos de edificios.
+   * @param {object} cell - Celda destino.
+   * @param {object} mapModel - Modelo del mapa.
+   * @returns {{instance: object}|undefined}
+   */
   static replaceCellBuilding(btnId, builds, cell, mapModel) {
     Logger.log("🏭 [MapController] changeBuild:", btnId, "en celda", cell.id);
 
-      if (!mapModel) {
+    if (!mapModel) {
       Logger.error("❌ [MapController] No hay mapModel");
       return;
     }
@@ -55,6 +72,14 @@ class MapBuildController {
     return { instance: building };
   }
 
+  /**
+   * Mueve un edificio entre dos celdas del mapa.
+   * @param {object} sourceCell - Celda origen.
+   * @param {object} targetCell - Celda destino.
+   * @param {object} builds - Registro de modelos de edificios.
+   * @param {object} mapModel - Modelo del mapa.
+   * @returns {boolean}
+   */
   static moveBuildingCell(sourceCell, targetCell, builds, mapModel) {
     if (!mapModel || !sourceCell || !targetCell || !builds) return false;
     if (targetCell.cellData?.type !== "g") return false;

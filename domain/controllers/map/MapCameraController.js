@@ -1,9 +1,24 @@
 class MapCameraController {
+  /**
+   * Instancia activa de la cámara del mapa.
+   * @type {MapCamera|null}
+   */
   static mapCamera = null;
+
+  /** @type {number|null} */
   static resizeDebounceTimer = null;
+
+  /** @type {number} */
   static cameraRetryCount = 0;
+
+  /** @type {number|null} */
   static cameraRetryTimer = null;
 
+  /**
+   * Inicializa la cámara del mapa y configura comportamiento responsivo.
+   * @param {() => void} onPanStart - Callback ejecutado cuando inicia un paneo.
+   * @returns {void}
+   */
   static initializeCamera(onPanStart) {
     Logger.log("🎥 [MapController] setupMapCamera iniciando...");
     const viewport = document.querySelector("#map");
@@ -68,10 +83,19 @@ class MapCameraController {
     }
   }
 
+  /**
+   * Indica si la cámara ha realizado paneo recientemente.
+   * @returns {boolean}
+   */
   static get hasPanned() {
     return this.camera?.hasPanned ?? false;
   }
 
+  /**
+   * Reintenta la inicialización de cámara durante el arranque asíncrono.
+   * @param {() => void} onSetup - Callback que intenta preparar interacciones/cámara.
+   * @returns {void}
+   */
   static initializeCameraRetry(onSetup) {
     this.cameraRetryCount = 0;
     this.cameraRetryTimer = setInterval(() => {

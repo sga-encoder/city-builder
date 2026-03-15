@@ -88,7 +88,7 @@ class MapCameraController {
    * @returns {boolean}
    */
   static get hasPanned() {
-    return this.camera?.hasPanned ?? false;
+    return this.mapCamera?.hasPanned ?? false;
   }
 
   /**

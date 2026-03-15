@@ -56,6 +56,14 @@
       const icons = await SVGInjector.create(data.icons);
       Logger.log("✅ [CityBuilder] SVGs creados");
 
+      const layout = savedLayout || this.createDefaultLayout(30);
+
+      const { grid } = MapRenderer.render({
+        containerSelector: "#map",
+        layout,
+        svgModels: builds,
+      });
+
       Logger.log("🏙️ [CityBuilder] Creando instancia de City...");
       const city = new City({
         id: 1,
@@ -63,9 +71,7 @@
         name: "New City",
         location: "USA",
         map: {
-          layout: savedLayout || this.createDefaultLayout(30),
-          nameCointainer: "#map",
-          svgModels: builds,
+          grid,
           buildsConfig: data.builds,
         },
         initial: initialResources,

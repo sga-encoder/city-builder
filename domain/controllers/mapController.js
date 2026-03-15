@@ -182,6 +182,30 @@
   }
 
   // =====================
+  // INTERNAL SETUP
+  // =====================
+
+  /**
+   * Asigna referencias de ciudad y mapa para uso del controlador.
+   * @param {object} cityModel - Modelo de ciudad recibido en la inicialización.
+   * @returns {void}
+   */
+  static setupMapModel(cityModel) {
+    this.city = cityModel;
+    this.mapModel = this.city.map;
+    this.buildingGrid = this.mapModel.grid;
+    Logger.log("✅ [MapController] buildingGrid asignado");
+  }
+
+  /**
+   * Suscribe el observador de cambios de celdas para refrescar render y listeners.
+   * @returns {void}
+   */
+  static bindMapModelObserver() {
+    return MapModelObserverBinder.bindCellUpdatedObserver(this);
+  }
+
+  // =====================
   // LIFECYCLE
   // =====================
 
@@ -216,18 +240,8 @@
       return;
     }
 
-    // Asignar buildingGrid ANTES de inicializar
-    this.city = cityModel;
-    this.mapModel = this.city.map;
-    this.buildingGrid = this.mapModel.grid;
-
-    this.mapModel.addObserver((change) => {
-      if (change.type === "cell-updated") {
-        this.renderBuildingInCell(change.id, change.current);
-        this.rebindCellListeners();
-      }
-    });
-    Logger.log("✅ [MapController] buildingGrid asignado");
+    this.setupMapModel(cityModel);
+    this.bindMapModelObserver();
 
     this.setupMapInteractions();
 

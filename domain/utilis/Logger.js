@@ -103,3 +103,5 @@ class Logger {
     this._project("info", args);
   }
 }
+
+globalThis.Logger = Logger;

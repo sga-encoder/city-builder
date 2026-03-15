@@ -66,4 +66,4 @@ class MapRenderer {
 
     return { grid };
   }
-}
+}globalThis.MapRenderer = MapRenderer;

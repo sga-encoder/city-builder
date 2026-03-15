@@ -1,4 +1,8 @@
-const createSlideLeftMenu = (resource, icons, build) => {
+import { resourceMenu } from "./slideLeft/resource.js";
+const Logger = globalThis.Logger;
+const SlideLeftController = globalThis.SlideLeftController;
+
+const createSlideLeftMenu = (resource, icons) => {
   const fragment = document.createElement("div");
   const sheets = document.styleSheets[1];
 
@@ -13,7 +17,7 @@ const createSlideLeftMenu = (resource, icons, build) => {
   return fragment;
 };
 
-const renderSlideLeftMenu = (
+export const renderSlideLeftMenu = (
   resource,
   icons,
   builds,
@@ -33,5 +37,3 @@ const renderSlideLeftMenu = (
   SlideLeftController.startResourceWatcher(container, resource);
   Logger.log("✅ [SlideLeft] Menú renderizado");
 };
-
-window.renderSlideLeftMenu = renderSlideLeftMenu;

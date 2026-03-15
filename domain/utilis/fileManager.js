@@ -33,3 +33,5 @@ class FileManager {
         }
     }
 }
+
+globalThis.FileManager = FileManager;

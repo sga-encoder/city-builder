@@ -1,4 +1,4 @@
-const button = (id, num, icons, sheets, iconName = "") => {
+export const button = (id, num, icons, sheets, iconName = "") => {
   const btn = document.createElement("div");
   btn.id = id;
   btn.classList.add("button");

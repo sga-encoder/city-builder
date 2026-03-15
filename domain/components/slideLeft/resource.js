@@ -36,7 +36,7 @@ const resourcesButton = (icons) => {
   return btn;
 };
 
-const resourceMenu = (resource, icons, sheets) => {
+export const resourceMenu = (resource, icons, sheets) => {
   const divResources = document.createElement("div");
   divResources.classList.add("resources");
   const ul = document.createElement("ul");

@@ -67,3 +67,4 @@ class City {
 }
 
 
+globalThis.City = City;

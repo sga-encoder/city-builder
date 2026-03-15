@@ -258,3 +258,5 @@
     });
   }
 }
+
+globalThis.MapController = MapController;

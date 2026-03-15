@@ -151,3 +151,5 @@ class SVGInjector {
     };
   }
 }
+
+globalThis.SVGInjector = SVGInjector;

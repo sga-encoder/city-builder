@@ -1,4 +1,15 @@
-﻿class CityBuilder {
+﻿import { renderSlideLeftMenu } from "./components/slideLeft.js";
+import { renderSlideRightMenu } from "./components/slideRight.js";
+const Logger = globalThis.Logger;
+const FileManager = globalThis.FileManager;
+const LocalStorage = globalThis.LocalStorage;
+const SVGInjector = globalThis.SVGInjector;
+const MapRenderer = globalThis.MapRenderer;
+const City = globalThis.City;
+const MapController = globalThis.MapController;
+const SlideLeftController = globalThis.SlideLeftController;
+
+class CityBuilder {
   static CityConfig = null;
   static debugMode = true; // Cambiar a true para ver logs de debug
 
@@ -105,8 +116,8 @@
       // Inicializar MapController con las instancias reales del grid
       MapController.initialize(city);
 
-      window.renderSlideLeftMenu(city.resources, icons, builds);
-      window.renderSlideRightMenu(icons);
+      renderSlideLeftMenu(city.resources, icons, builds);
+      renderSlideRightMenu(icons);
       SlideLeftController.initSlideLeftController(city, builds, icons);
       if (this.debugMode) {
         console.log("tipos de log disponibles", Logger.getTypes());
@@ -131,5 +142,5 @@
     }
   }
 }
-
+globalThis.CityBuilder = CityBuilder;
 CityBuilder.buildCity();

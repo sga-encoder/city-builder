@@ -26,3 +26,5 @@ class LocalStorage {
 
     
 }
+
+globalThis.LocalStorage = LocalStorage;

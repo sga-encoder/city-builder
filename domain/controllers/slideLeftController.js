@@ -206,3 +206,5 @@
     return SlideLeftResourceWatcher.start(container, resourceObjects);
   }
 }
+
+globalThis.SlideLeftController = SlideLeftController;

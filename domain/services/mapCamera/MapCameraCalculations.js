@@ -1,4 +1,35 @@
+/**
+ * @typedef {Object} MapCameraBounds
+ * @property {number} top
+ * @property {number} right
+ * @property {number} bottom
+ * @property {number} left
+ */
+
+/**
+ * @typedef {Object} MapCameraState
+ * @property {number} zoomScale
+ * @property {number} minZoomScale
+ * @property {number} maxZoomScale
+ * @property {number} panX
+ * @property {number} panY
+ * @property {boolean} panning
+ * @property {boolean} hasPanned
+ * @property {number} panOriginX
+ * @property {number} panOriginY
+ * @property {number|null} lastPinchDistance
+ * @property {{x:number,y:number}|null} lastPinchCenter
+ */
+
+/**
+ * Utilidades de calculo puras para el comportamiento de camara.
+ */
 class MapCameraCalculations {
+  /**
+   * Crea configuracion inicial de estado y limites de paneo.
+   * @param {{scale?:number,minScale?:number,maxScale?:number,x?:number,y?:number,bounds?:Partial<MapCameraBounds>}} [options={}]
+   * @returns {{state:MapCameraState,bounds:MapCameraBounds}}
+   */
   static createConfig(options = {}) {
     const defaults = {
       scale: 1,
@@ -29,10 +60,25 @@ class MapCameraCalculations {
     };
   }
 
+  /**
+   * Limita una escala entre minimos y maximos configurados.
+   * @param {number} value
+   * @param {number} minZoomScale
+   * @param {number} maxZoomScale
+   * @returns {number}
+   */
   static clampZoom(value, minZoomScale, maxZoomScale) {
     return Math.min(maxZoomScale, Math.max(minZoomScale, value));
   }
 
+  /**
+   * Aplica limites a una coordenada (X o Y) segun tamano escalado y margenes.
+   * @param {number} next
+   * @param {number} scaledSize
+   * @param {number} viewportSize
+   * @param {[number, number]} bounds
+   * @returns {number}
+   */
   static clampAxis(next, scaledSize, viewportSize, [boundsStart, boundsEnd]) {
     if (scaledSize <= viewportSize) {
       return (viewportSize - scaledSize) / 2;
@@ -43,6 +89,11 @@ class MapCameraCalculations {
     return Math.min(max, Math.max(min, next));
   }
 
+  /**
+   * Ajusta posicion de paneo para mantener el mapa dentro de los limites.
+   * @param {{nextX:number,nextY:number,scale:number,mapWidth:number,mapHeight:number,viewportWidth:number,viewportHeight:number,bounds:MapCameraBounds}} params
+   * @returns {{x:number,y:number}}
+   */
   static clampPanPosition(params) {
     const {
       nextX,
@@ -74,6 +125,11 @@ class MapCameraCalculations {
     };
   }
 
+  /**
+   * Calcula escala y posicion para encajar el mapa en el viewport.
+   * @param {{mapWidth:number,mapHeight:number,viewportWidth:number,viewportHeight:number,sizeVar:number,minZoomScale:number,maxZoomScale:number,bounds:MapCameraBounds}} params
+   * @returns {{zoomScale:number,panPosition:{x:number,y:number}}|null}
+   */
   static fitContentToViewport(params) {
     const {
       mapWidth,
@@ -117,6 +173,12 @@ class MapCameraCalculations {
     };
   }
 
+  /**
+   * Resuelve una escala objetivo segun breakpoints de ancho de pantalla.
+   * @param {number} screenWidth
+   * @param {Record<string|number, number>} scaleByWidth
+   * @returns {number|null}
+   */
   static resolveResponsiveScale(screenWidth, scaleByWidth) {
     const entries = Object.entries(scaleByWidth)
       .map(([width, scale]) => ({
@@ -137,12 +199,24 @@ class MapCameraCalculations {
     return entries[entries.length - 1].scale;
   }
 
+  /**
+   * Obtiene la distancia entre dos puntos tactiles.
+   * @param {Touch} touchA
+   * @param {Touch} touchB
+   * @returns {number}
+   */
   static getPinchDistance(touchA, touchB) {
     const dx = touchA.clientX - touchB.clientX;
     const dy = touchA.clientY - touchB.clientY;
     return Math.hypot(dx, dy);
   }
 
+  /**
+   * Obtiene el punto central entre dos toques.
+   * @param {Touch} touchA
+   * @param {Touch} touchB
+   * @returns {{x:number,y:number}}
+   */
   static getPinchCenter(touchA, touchB) {
     return {
       x: (touchA.clientX + touchB.clientX) / 2,

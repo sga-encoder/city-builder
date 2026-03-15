@@ -1,4 +1,25 @@
+/**
+ * @typedef {Object} MapCameraEventBinderParams
+ * @property {HTMLElement} viewport
+ * @property {() => {zoomScale:number,panning:boolean,panOriginX:number,panOriginY:number}} getState
+ * @property {(clientX:number,clientY:number) => void} beginPan
+ * @property {(resetHasPanned?:boolean) => void} endPan
+ * @property {(nextX:number,nextY:number) => void} applyPanMovement
+ * @property {(touches:TouchList) => void} applyPinchGesture
+ * @property {(clientX:number,clientY:number,nextScale:number) => void} zoomAtClientPoint
+ * @property {() => void} refreshTransform
+ * @property {() => void} onTouchEnd
+ */
+
+/**
+ * Encapsula el binding de eventos de mouse/touch/resize para la camara.
+ */
 class MapCameraEventBinder {
+  /**
+   * Registra listeners de interaccion sobre el viewport y ventana.
+   * @param {MapCameraEventBinderParams} params
+   * @returns {void}
+   */
   static bind(params) {
     const {
       viewport,

@@ -1,3 +1,16 @@
+/**
+ * @typedef {Object} MapCameraOptions
+ * @property {number} [scale=1]
+ * @property {number} [minScale=0.7]
+ * @property {number} [maxScale=4]
+ * @property {number} [x=0]
+ * @property {number} [y=0]
+ * @property {{top?:number,right?:number,bottom?:number,left?:number}} [bounds]
+ */
+
+/**
+ * Camara 2D para el mapa: controla zoom, paneo y gestos tactiles.
+ */
 class MapCamera {
   #viewport;
   #mapElement;
@@ -9,6 +22,11 @@ class MapCamera {
   #onPanStartCallback = null;
   #panBounds;
 
+  /**
+   * @param {string} viewportSelector Selector del contenedor del mapa.
+   * @param {CSSStyleSheet} styleSheet Hoja donde se inyecta la regla transform.
+   * @param {MapCameraOptions} [options={}]
+   */
   constructor(viewportSelector, styleSheet, options = {}) {
     Logger.log("🎥 [MapCamera] Constructor llamado:", viewportSelector);
     this.#viewport = document.querySelector(viewportSelector);
@@ -33,26 +51,54 @@ class MapCamera {
     this.#initialize();
   }
 
+  /**
+   * Indica si existe un paneo activo.
+   * @returns {boolean}
+   */
   get isPanning() {
     return this.#state.panning;
   }
 
+  /**
+   * Indica si hubo desplazamiento significativo durante el gesto actual.
+   * @returns {boolean}
+   */
   get hasPanned() {
     return this.#state.hasPanned;
   }
 
+  /**
+   * Posicion actual de paneo.
+   * @returns {{x:number,y:number}}
+   */
   get panPosition() {
     return { x: this.#state.panX, y: this.#state.panY };
   }
 
+  /**
+   * Escala de zoom actual.
+   * @returns {number}
+   */
   get zoomScale() {
     return this.#state.zoomScale;
   }
 
+  /**
+   * Registra callback que se dispara al iniciar un paneo real.
+   * @param {() => void} callback
+   * @returns {void}
+   */
   onPanStart(callback) {
     this.#onPanStartCallback = callback;
   }
 
+  /**
+   * Aplica zoom hacia una escala objetivo, centrado en un punto de pantalla.
+   * @param {number} scale
+   * @param {number|null} [clientX=null]
+   * @param {number|null} [clientY=null]
+   * @returns {void}
+   */
   zoomToScale(scale, clientX = null, clientY = null) {
     if (clientX !== null && clientY !== null) {
       this.#zoomAtClientPoint(clientX, clientY, scale);
@@ -64,6 +110,13 @@ class MapCamera {
     this.#zoomAtClientPoint(centerX, centerY, scale);
   }
 
+  /**
+   * Centra la vista sobre una coordenada del mundo.
+   * @param {number} worldX
+   * @param {number} worldY
+   * @param {number} [scale=this.#state.zoomScale]
+   * @returns {void}
+   */
   centerOnWorldPoint(worldX, worldY, scale = this.#state.zoomScale) {
     const centerX = this.#viewport.clientWidth / 2;
     const centerY = this.#viewport.clientHeight / 2;
@@ -80,19 +133,39 @@ class MapCamera {
     this.#commitTransform();
   }
 
+  /**
+   * Ajusta el mapa para encajar en el viewport.
+   * @returns {void}
+   */
   fitToViewport() {
     this.#fitContentToViewport();
   }
 
+  /**
+   * Actualiza limites de paneo.
+   * @param {{top?:number,right?:number,bottom?:number,left?:number}} bounds
+   * @returns {void}
+   */
   setPanBounds(bounds) {
     this.#panBounds = { ...this.#panBounds, ...bounds };
   }
 
+  /**
+   * Configura limites de zoom minimo y maximo.
+   * @param {number} minScale
+   * @param {number} maxScale
+   * @returns {void}
+   */
   setZoomLimits(minScale, maxScale) {
     if (minScale !== undefined) this.#state.minZoomScale = minScale;
     if (maxScale !== undefined) this.#state.maxZoomScale = maxScale;
   }
 
+  /**
+   * Aplica una escala segun ancho de pantalla usando breakpoints.
+   * @param {Record<string|number, number>} [scaleByWidth={}]
+   * @returns {number|null} Escala aplicada o null si no hubo reglas validas.
+   */
   applyResponsiveZoom(scaleByWidth = {}) {
     const targetScale = MapCameraCalculations.resolveResponsiveScale(
       window.innerWidth,

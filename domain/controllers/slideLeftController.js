@@ -301,43 +301,6 @@
   // =====================
 
   static startResourceWatcher(container, resourceObjects) {
-    if (!resourceObjects || !container) return;
-
-    const resourcesDiv = container.querySelector(".resources");
-    if (!resourcesDiv || !resourcesDiv._resourceElements) return;
-
-    const resourceElements = resourcesDiv._resourceElements;
-
-    // Create update function for each resource type
-    const createUpdateCallback = (type, unit) => {
-      return (newValue) => {
-        if (resourceElements[type]) {
-          const li = resourceElements[type];
-          const contentP = li.querySelector(".content");
-          if (contentP) {
-            contentP.textContent = newValue + unit;
-          }
-        }
-      };
-    };
-
-    // Registrar observers Y display inicial
-    Object.keys(resourceObjects).forEach((resource) => {
-      const { type, unit, amount } = resourceObjects[resource];
-      const callback = createUpdateCallback(type, unit);
-
-      // Agregar observer
-      resourceObjects[resource].addObserver(callback);
-
-      // Guardar para limpieza
-      if (!resourcesDiv._observerCallbacks) {
-        resourcesDiv._observerCallbacks = {};
-      }
-      resourcesDiv._observerCallbacks[type] = callback;
-
-      // Display inicial
-      const contentP = resourceElements[type]?.querySelector(".content");
-      if (contentP) contentP.textContent = amount + unit;
-    });
+    return SlideLeftResourceWatcher.start(container, resourceObjects);
   }
 }

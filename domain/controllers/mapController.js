@@ -2,11 +2,10 @@
   // =====================
   // STATIC PROPERTIES
   // =====================
-  static activeCell = null;
-  static interactionMode = "view";
+
   static mapContainerElement = null;
   static city = null;
-  static mapModel = null
+  static mapModel = null;
   static buildingGrid = null; // Grid de instancias reales de Building (no copias planas)
 
   // =====================
@@ -61,44 +60,41 @@
     }
 
     // Serializar instancias a formato simple para localStorage
-    const serializableMap = map.map(row => row.map(building => ({...building})));
+    const serializableMap = map.map((row) =>
+      row.map((building) => ({ ...building })),
+    );
     LocalStorage.saveData("map", JSON.stringify(serializableMap));
     Logger.log("✅ [MapController] Eventos refrescados y mapa guardado");
   }
 
+  static get activeCell() {
+    return MapSelectionController.activeCell;
+  }
+
+  static get interactionMode() {
+    return MapSelectionController.interactionMode;
+  }
+
+  static set interactionMode(value) {
+    MapSelectionController.interactionMode = value;
+  }
+
   static selectMapCell(id, cellData, i, j) {
-    if (this.activeCell) {
-      document
-        .querySelector(`#map-item-${this.activeCell.id}`)
-        ?.classList.remove("selected");
-      SlideLeftController.setMenuState("none");
-    }
-
-    this.activeCell = { id, cellData, i, j };
-    document.querySelector(`#map-item-${id}`).classList.add("selected");
-    LocalStorage.saveData("selectedCell", JSON.stringify(this.activeCell));
-  }
-
-  static openBuildMenu() {
-    SlideLeftController.setMenuState("build");
-  }
-
-  static openManageMenu() {
-    SlideLeftController.setMenuState("manage");
+    return MapSelectionController.selectMapCell(id, cellData, i, j);
   }
 
   static clearCellSelection() {
-    if (this.activeCell) {
-      document
-        .querySelector(`#map-item-${this.activeCell.id}`)
-        ?.classList.remove("selected");
-      this.activeCell = null;
-      LocalStorage.saveData("selectedCell", null);
-      this.interactionMode = "view";
-      SlideLeftController.setMenuState("none");
-    }
+    return MapSelectionController.clearCellSelection();
   }
 
+  static openBuildMenu() {
+    return MapSelectionController.openBuildMenu();
+  }
+
+  static openManageMenu() {
+    return MapSelectionController.openManageMenu();
+  }
+  
   static renderBuildingInCell(cellId, building) {
     const mapItem = document.querySelector(`#map-item-${cellId}`);
     if (!mapItem || !building) return;
@@ -109,15 +105,31 @@
   }
 
   static replaceCellBuilding(btnId, builds, cell) {
-    return MapBuildController.replaceCellBuilding(btnId, builds, cell, this.mapModel);
+    return MapBuildController.replaceCellBuilding(
+      btnId,
+      builds,
+      cell,
+      this.mapModel,
+    );
   }
 
   static moveBuildingCell(sourceCell, targetCell, builds) {
-    return MapBuildController.moveBuildingCell(sourceCell, targetCell, builds, this.mapModel);
+    return MapBuildController.moveBuildingCell(
+      sourceCell,
+      targetCell,
+      builds,
+      this.mapModel,
+    );
   }
 
   static buyBuildingCell(btnid, builds, cell) {
-    return MapBuildController.buyBuildingCell(btnid, builds, cell, this.mapModel, this.city);
+    return MapBuildController.buyBuildingCell(
+      btnid,
+      builds,
+      cell,
+      this.mapModel,
+      this.city,
+    );
   }
 
   static setupMapInteractions() {
@@ -131,14 +143,18 @@
   }
 
   static initialize(cityModel) {
-    Logger.log("🎮 [MapController] init llamado con grid de", cityModel?.map?.grid?.length, "filas");
+    Logger.log(
+      "🎮 [MapController] init llamado con grid de",
+      cityModel?.map?.grid?.length,
+      "filas",
+    );
     this.mapContainerElement = document.querySelector("#map");
     if (!this.mapContainerElement) {
       Logger.error("❌ [MapController] No se encontró #map container");
       return;
     }
 
-    // Asignar buildingGrid ANTES de inicializar 
+    // Asignar buildingGrid ANTES de inicializar
     this.city = cityModel;
     this.mapModel = this.city.map;
     this.buildingGrid = this.mapModel.grid;
@@ -154,7 +170,9 @@
     this.setupMapInteractions();
 
     // Fallback durante arranque asíncrono
-    MapCameraController.initializeCameraRetry(() => this.setupMapInteractions());
+    MapCameraController.initializeCameraRetry(() =>
+      this.setupMapInteractions(),
+    );
 
     // Global click handler
     document.addEventListener("click", (e) => {

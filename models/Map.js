@@ -1,4 +1,6 @@
-class Map {
+import { createBuilding } from "./building/buildingFactory.js";
+import { LocalStorage } from "../database/localStorage.js";
+export class Map {
   static typeBuildingAcceptedMap = [];
 
   static buildAcceptedTypes(buildsConfig) {
@@ -24,7 +26,7 @@ class Map {
 
       return [
         typeId,
-        Building.create({
+        createBuilding({
           id: null,
           type,
           subtype,
@@ -67,7 +69,7 @@ class Map {
     }, 120);
   }
 
-  toSerializableGrid(){
+  toSerializableGrid() {
     return this.grid.map((row) => row.map((building) => ({ ...building })));
   }
 

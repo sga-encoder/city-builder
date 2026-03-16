@@ -1,4 +1,7 @@
-class MapBuildController {
+import { Map as CityMap } from "../../../models/Map.js";
+import { createBuilding } from "../../../models/building/buildingFactory.js";
+import { Logger } from "../../utilis/Logger.js";
+export class MapBuildController {
   /**
    * Compra un edificio y lo coloca en la celda indicada.
    * @param {string} btnid - Id del botón/tipo de edificio.
@@ -9,7 +12,7 @@ class MapBuildController {
    * @returns {object|boolean}
    */
   static buyBuildingCell(btnid, builds, cell, mapModel, city) {
-    const [selectedEntry] = Map.buildingInstanceMap(btnid);
+    const [selectedEntry] = CityMap.buildingInstanceMap(btnid);
     const buildingToBuy = selectedEntry?.[1] || null;
 
     if (!buildingToBuy) {
@@ -58,7 +61,7 @@ class MapBuildController {
     const [type, subtype] = [btnId[0], btnId[1]];
     const modelKey = subtype ? `${type}.${subtype}` : type;
 
-    const building = Building.create({
+    const building = createBuilding({
       id: cell.id,
       type,
       subtype,
@@ -90,7 +93,7 @@ class MapBuildController {
       targetCell.i,
       targetCell.j,
       (sourceId) =>
-        Building.create({
+        createBuilding({
           id: sourceId,
           type: "g",
           subtype: "",

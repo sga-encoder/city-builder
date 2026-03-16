@@ -1,4 +1,5 @@
-class MapRenderer {
+import { createBuilding } from "../../../models/building/buildingFactory.js";
+export class MapRenderer {
   /**
    * Renderiza el mapa en el DOM y devuelve la grilla de instancias Building.
    * @param {object} params
@@ -51,7 +52,7 @@ class MapRenderer {
         const modelKey = subtype === "" ? type : `${type}.${subtype}`;
         const model = svgModels.getModel(modelKey);
 
-        const building = Building.create({ id, type, subtype, model });
+        const building = createBuilding({ id, type, subtype, model });
 
         const col = document.createElement("div");
         col.classList.add("map-item");
@@ -66,4 +67,4 @@ class MapRenderer {
 
     return { grid };
   }
-}globalThis.MapRenderer = MapRenderer;
+}

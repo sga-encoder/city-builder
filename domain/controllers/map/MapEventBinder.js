@@ -1,4 +1,5 @@
-class MapEventBinder {
+import { SlideLeftController } from "../SlideLeftController.js";
+export class MapEventBinder {
   static #globalClickBound = false;
   static #mapClickHandler = null;
 

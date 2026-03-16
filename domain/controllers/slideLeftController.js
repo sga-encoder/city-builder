@@ -1,10 +1,18 @@
-﻿class SlideLeftController {
+﻿import { SlideLeftConstants } from "./slideLeft/constants.js";
+import { SlideLeftState } from "./slideLeft/slideLeftState.js";
+import { SlideLeftMenuRenderer } from "../components/slideLeft/menuRenderer.js";
+import { SlideLeftMoveBuildingService } from "../services/slideLeft/moveBuildingService.js";
+import { SlideLeftResourceWatcher } from "../services/slideLeft/resourceWatcher.js";
+import { MapController } from "./MapController.js";
+import { Logger } from "../utilis/Logger.js";
+
+export class SlideLeftController {
   /**
-    * Controlador fachada para el panel lateral izquierdo.
+   * Controlador fachada para el panel lateral izquierdo.
    *
-    * Este controlador mantiene propiedades estáticas compatibles con versiones
-    * anteriores, delegando el estado en `SlideLeftState` y la orquestación en
-    * módulos auxiliares.
+   * Este controlador mantiene propiedades estáticas compatibles con versiones
+   * anteriores, delegando el estado en `SlideLeftState` y la orquestación en
+   * módulos auxiliares.
    */
   // =====================
   // STATIC PROPERTIES
@@ -96,8 +104,8 @@
   // =====================
 
   /**
-    * Actualiza el estado del menú actual y vuelve a renderizar.
-    * @param {string} newState - Nueva clave de estado de `SlideLeftConstants.MENU_STATE`.
+   * Actualiza el estado del menú actual y vuelve a renderizar.
+   * @param {string} newState - Nueva clave de estado de `SlideLeftConstants.MENU_STATE`.
    * @returns {void}
    */
   static setMenuState(newState) {
@@ -113,7 +121,7 @@
   }
 
   /**
-    * Renderiza el menú del panel izquierdo según el estado actual.
+   * Renderiza el menú del panel izquierdo según el estado actual.
    * @returns {void}
    */
   static renderMenu() {
@@ -131,9 +139,9 @@
   }
 
   /**
-    * Habilita el comportamiento de clic para alternar la visibilidad del panel de recursos.
-    * @param {HTMLElement|null} container - Elemento contenedor de recursos.
-    * @param {HTMLElement|null} btn - Botón que alterna el panel.
+   * Habilita el comportamiento de clic para alternar la visibilidad del panel de recursos.
+   * @param {HTMLElement|null} container - Elemento contenedor de recursos.
+   * @param {HTMLElement|null} btn - Botón que alterna el panel.
    * @returns {void}
    */
   static handleClickResourceButton(container, btn) {
@@ -149,8 +157,8 @@
   // =====================
 
   /**
-    * Completa la operación de mover un edificio hacia una celda objetivo.
-    * @param {object} targetCell - Celda de destino del mapa.
+   * Completa la operación de mover un edificio hacia una celda objetivo.
+   * @param {object} targetCell - Celda de destino del mapa.
    * @returns {boolean}
    */
   static completeMoveBuilding(targetCell) {
@@ -163,7 +171,7 @@
   }
 
   /**
-    * Cancela el modo movimiento y restablece marcadores de UI/estado asociados.
+   * Cancela el modo movimiento y restablece marcadores de UI/estado asociados.
    * @returns {void}
    */
   static cancelMoveMode() {
@@ -175,10 +183,10 @@
   // =====================
 
   /**
-    * Inicializa el estado del panel izquierdo y sus interacciones por defecto.
-    * @param {object} city - Referencia al modelo de dominio de ciudad.
-    * @param {object} builds - Registro/mapa de edificios.
-    * @param {object} icons - Referencias de iconos/sprites.
+   * Inicializa el estado del panel izquierdo y sus interacciones por defecto.
+   * @param {object} city - Referencia al modelo de dominio de ciudad.
+   * @param {object} builds - Registro/mapa de edificios.
+   * @param {object} icons - Referencias de iconos/sprites.
    * @returns {void}
    */
   static initSlideLeftController(city, builds, icons) {
@@ -197,14 +205,12 @@
   }
 
   /**
-    * Inicia observadores que sincronizan cambios de recursos del modelo en la UI.
-    * @param {HTMLElement} container - Contenedor raíz del panel izquierdo.
-    * @param {object} resourceObjects - Colección observable de recursos.
+   * Inicia observadores que sincronizan cambios de recursos del modelo en la UI.
+   * @param {HTMLElement} container - Contenedor raíz del panel izquierdo.
+   * @param {object} resourceObjects - Colección observable de recursos.
    * @returns {void}
    */
   static startResourceWatcher(container, resourceObjects) {
     return SlideLeftResourceWatcher.start(container, resourceObjects);
   }
 }
-
-globalThis.SlideLeftController = SlideLeftController;

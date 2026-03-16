@@ -1,4 +1,4 @@
-class Logger {
+export class Logger {
   static enabled = {
     state: false,
     classes: [],
@@ -104,4 +104,3 @@ class Logger {
   }
 }
 
-globalThis.Logger = Logger;

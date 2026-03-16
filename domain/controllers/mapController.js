@@ -1,4 +1,13 @@
-﻿class MapController {
+﻿import { MapCameraController } from "./map/MapCameraController.js";
+import { MapSelectionController } from "./map/MapSelectionController.js";
+import { MapEventBinder } from "./map/MapEventBinder.js";
+import { MapModelObserverBinder } from "./map/MapModelObserverBinder.js";
+import { MapBuildController } from "./map/MapBuildController.js";
+import { SlideLeftController } from "./SlideLeftController.js";
+import { Logger } from "../utilis/Logger.js";
+import { LocalStorage } from "../../database/localStorage.js";
+
+export class MapController {
   /**
    * Controlador fachada para interacciones del mapa.
    * Coordina selección de celdas, cámara, renderizado y operaciones de edificios.
@@ -258,5 +267,3 @@
     });
   }
 }
-
-globalThis.MapController = MapController;

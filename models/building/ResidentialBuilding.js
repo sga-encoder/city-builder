@@ -1,3 +1,5 @@
+import { Building } from "./Building.js";
+const MapController = globalThis.MapController;
 /**
  * Representa un edificio residencial en la ciudad.
  * Define costos, capacidad y consumo de recursos según el subtipo.
@@ -17,7 +19,7 @@
  *   subtype: 1
  * });
  */
-class ResidentialBuilding extends Building {
+export class ResidentialBuilding extends Building {
   static pendingBuildSubtype = null;
   static pendingBuilds = null;
   static isPlacingFromPendingMode = false;
@@ -84,7 +86,10 @@ class ResidentialBuilding extends Building {
   static validatePlacement(cell, city) {
     const grid = MapController?.buildingGrid;
     if (!grid) {
-      return { ok: false, message: "Error: mapa no disponible para construir." };
+      return {
+        ok: false,
+        message: "Error: mapa no disponible para construir.",
+      };
     }
 
     if (!cell || !cell.cellData) {
@@ -105,7 +110,9 @@ class ResidentialBuilding extends Building {
       };
     }
 
-    const subtypeInfo = this.getResidentialSubtypeInfo(this.pendingBuildSubtype);
+    const subtypeInfo = this.getResidentialSubtypeInfo(
+      this.pendingBuildSubtype,
+    );
     const money = city?.resources?.money?.amount ?? 0;
 
     if (money < subtypeInfo.cost) {
@@ -244,7 +251,9 @@ class ResidentialBuilding extends Building {
     this.pendingBuilds = builds;
     this.applyBuildCursor(true);
 
-    const subtypeInfo = this.getResidentialSubtypeInfo(this.pendingBuildSubtype);
+    const subtypeInfo = this.getResidentialSubtypeInfo(
+      this.pendingBuildSubtype,
+    );
     this.notify(
       `Modo construccion activo: ${subtypeInfotypeResidential}. Haz click en una celda vacia adyacente a una via.`,
       "info",
@@ -252,7 +261,9 @@ class ResidentialBuilding extends Building {
   }
 
   static consumeUtilitiesIfAvailable(city) {
-    const subtypeInfo = this.getResidentialSubtypeInfo(this.pendingBuildSubtype);
+    const subtypeInfo = this.getResidentialSubtypeInfo(
+      this.pendingBuildSubtype,
+    );
     const energy = city?.resources?.energy;
     const water = city?.resources?.water;
 
@@ -302,7 +313,9 @@ class ResidentialBuilding extends Building {
       return true;
     }
 
-    const subtypeInfo = this.getResidentialSubtypeInfo(this.pendingBuildSubtype);
+    const subtypeInfo = this.getResidentialSubtypeInfo(
+      this.pendingBuildSubtype,
+    );
     city.resources.money.subtract(subtypeInfo.cost);
 
     this.isPlacingFromPendingMode = true;
@@ -337,9 +350,8 @@ class ResidentialBuilding extends Building {
 
     if (!dependenciesReady) return;
 
-    const originalReplaceCellBuilding = MapController.replaceCellBuilding.bind(
-      MapController,
-    );
+    const originalReplaceCellBuilding =
+      MapController.replaceCellBuilding.bind(MapController);
     MapController.replaceCellBuilding = (btnId, builds, cell) => {
       if (
         this.isResidentialSelection(btnId) &&
@@ -352,9 +364,8 @@ class ResidentialBuilding extends Building {
       return originalReplaceCellBuilding(btnId, builds, cell);
     };
 
-    const originalSetMenuState = SlideLeftController.setMenuState.bind(
-      SlideLeftController,
-    );
+    const originalSetMenuState =
+      SlideLeftController.setMenuState.bind(SlideLeftController);
     SlideLeftController.setMenuState = (newState) => {
       const response = originalSetMenuState(newState);
       if (newState === "select-building") {
@@ -385,7 +396,9 @@ class ResidentialBuilding extends Building {
     );
 
     this.hooksInstalled = true;
-    Logger.log("✅ [ResidentialBuilding] Hooks de construccion residencial activos");
+    Logger.log(
+      "✅ [ResidentialBuilding] Hooks de construccion residencial activos",
+    );
   }
 }
 

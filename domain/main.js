@@ -1,13 +1,14 @@
 ﻿import { renderSlideLeftMenu } from "./components/slideLeft.js";
 import { renderSlideRightMenu } from "./components/slideRight.js";
-const Logger = globalThis.Logger;
-const FileManager = globalThis.FileManager;
-const LocalStorage = globalThis.LocalStorage;
-const SVGInjector = globalThis.SVGInjector;
-const MapRenderer = globalThis.MapRenderer;
-const City = globalThis.City;
-const MapController = globalThis.MapController;
-const SlideLeftController = globalThis.SlideLeftController;
+import { setCityConfig } from "./config/runtimeConfig.js";
+import { MapRenderer } from "./components/map/MapRenderer.js";
+import { City } from "../models/City.js";
+import { MapController } from "./controllers/MapController.js";
+import { SlideLeftController } from "./controllers/SlideLeftController.js";
+import { Logger } from "./utilis/Logger.js";
+import { FileManager } from "./utilis/fileManager.js";
+import { SVGInjector } from "./utilis/svgInjector.js";
+import { LocalStorage } from "../database/localStorage.js";
 
 class CityBuilder {
   static CityConfig = null;
@@ -62,6 +63,7 @@ class CityBuilder {
 
     // usa savedLayout si existe, si no usa layout default
     this.initConfig().then(async (data) => {
+      setCityConfig(data);
       Logger.log("⚙️ [CityBuilder] Config cargada, creando SVGs...");
       const builds = await SVGInjector.create(data.builds);
       const icons = await SVGInjector.create(data.icons);
@@ -142,5 +144,4 @@ class CityBuilder {
     }
   }
 }
-globalThis.CityBuilder = CityBuilder;
 CityBuilder.buildCity();

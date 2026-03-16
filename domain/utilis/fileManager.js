@@ -1,4 +1,4 @@
-class FileManager {
+export class FileManager {
     static async loadJSON(filePath) {
         try {
             const response = await fetch(filePath);
@@ -33,5 +33,3 @@ class FileManager {
         }
     }
 }
-
-globalThis.FileManager = FileManager;

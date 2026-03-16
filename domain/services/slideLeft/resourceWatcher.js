@@ -1,4 +1,4 @@
-class SlideLeftResourceWatcher {
+export class SlideLeftResourceWatcher {
   /**
     * Suscribe observadores de recursos y mantiene sincronizadas las etiquetas de UI.
     * @param {HTMLElement} container - Contenedor raíz del panel izquierdo.

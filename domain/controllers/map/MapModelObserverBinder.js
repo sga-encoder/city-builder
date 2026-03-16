@@ -1,4 +1,4 @@
-class MapModelObserverBinder {
+export class MapModelObserverBinder {
   /**
    * Registra observer para cambios de celdas y refresca vista/listeners.
    * @param {typeof MapController} controller - Controlador del mapa.

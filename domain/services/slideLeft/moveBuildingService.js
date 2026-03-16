@@ -1,4 +1,4 @@
-class SlideLeftMoveBuildingService {
+export class SlideLeftMoveBuildingService {
   /**
     * Intenta mover el edificio seleccionado actualmente a una celda objetivo.
     * @param {object} targetCell - Celda destino del mapa.

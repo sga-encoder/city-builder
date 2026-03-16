@@ -1,4 +1,7 @@
-class MapSelectionController {
+import { SlideLeftController } from "../SlideLeftController.js";
+import { LocalStorage } from "../../../database/localStorage.js";
+
+export class MapSelectionController {
   /** @type {object|null} */
   static activeCell = null;
 

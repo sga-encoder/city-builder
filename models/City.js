@@ -1,4 +1,9 @@
-class City {
+import { Map as CityMap } from "./Map.js";
+import { Resources } from "./Resources.js";
+import { Logger } from "../domain/utilis/Logger.js";
+
+
+export class City {
   constructor(dict) {
     Logger.log("🏛️ [City] Constructor llamado");
     const { id, mayor, name, location, map, initial, score } = dict;
@@ -7,7 +12,7 @@ class City {
     this.name = name;
     this.location = location;
     Logger.log("🗺️ [City] Creando Map con layout:", map.layout?.length);
-    this.map = new Map(map);
+    this.map = new CityMap(map);
     Logger.log("✅ [City] Map creado, grid:", this.map?.grid?.length);
     this.resources = {
       money: new Resources(initial.money, "money", "$", []),
@@ -66,5 +71,3 @@ class City {
   }
 }
 
-
-globalThis.City = City;

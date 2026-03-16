@@ -1,3 +1,6 @@
+import { Logger } from "../../utilis/Logger.js";
+import { MapCameraEventBinder } from "./MapCameraEventBinder.js";
+import { MapCameraCalculations } from "./MapCameraCalculations.js";
 /**
  * @typedef {Object} MapCameraOptions
  * @property {number} [scale=1]
@@ -11,7 +14,7 @@
 /**
  * Camara 2D para el mapa: controla zoom, paneo y gestos tactiles.
  */
-class MapCamera {
+export class MapCamera {
   #viewport;
   #mapElement;
   #styleSheet;

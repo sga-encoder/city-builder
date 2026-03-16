@@ -1,18 +1,13 @@
-class Building {
+import { getBuildSubtypeConfig } from "../../domain/config/runtimeConfig.js";
 
 
+export class Building {
   static getSubtypeData(type, subtype) {
-    if (!CityBuilder.CityConfig) {
-      console.warn(
-        "Building config not initialized. Call Building.initConfig() first.",
-      );
-      return {};
-    }
-    return CityBuilder.CityConfig.builds?.[type]?.[subtype] || {};
+    return getBuildSubtypeConfig(type, subtype);
   }
 
   constructor(dict) {
-    const { id, type, subtype, cost, energyUsage, waterUsage, model} = dict; 
+    const { id, type, subtype, cost, energyUsage, waterUsage, model } = dict;
     this.id = id;
     this.type = type;
     this.subtype = subtype;
@@ -24,30 +19,6 @@ class Building {
     this.cost = cost ?? configData.cost;
     this.energyUsage = energyUsage ?? configData.energyUsage;
     this.waterUsage = waterUsage ?? configData.waterUsage;
-  }
-
-  static create(dict) {
-    const { type, id } = dict;
-    Logger.log("🏭 [Building] Creando edificio tipo", type, "id:", id);
-
-    switch (type) {
-      case "R":
-        return new ResidentialBuilding(dict);
-      case "C":
-        return new CommercialBuilding(dict);
-      case "I":
-        return new IndustryBuilding(dict);
-      case "S":
-        return new ServicesBuilding(dict);
-      case "U":
-        return new UtilityPlants(dict);
-      case "P":
-        return new Park(dict);
-      case "g":
-      case "r":
-      default:
-        return new Building(dict);
-    }
   }
 
   build() {

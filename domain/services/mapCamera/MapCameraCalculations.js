@@ -24,7 +24,7 @@
 /**
  * Utilidades de calculo puras para el comportamiento de camara.
  */
-class MapCameraCalculations {
+export class MapCameraCalculations {
   /**
    * Crea configuracion inicial de estado y limites de paneo.
    * @param {{scale?:number,minScale?:number,maxScale?:number,x?:number,y?:number,bounds?:Partial<MapCameraBounds>}} [options={}]

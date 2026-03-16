@@ -1,4 +1,6 @@
-class IndustryBuilding extends Building {
+import { Building } from "./Building.js";
+
+export class IndustryBuilding extends Building {
   constructor(dict) {
     const { type, subtype } = dict;
     const subtypeData = Building.getSubtypeData(type, subtype);
@@ -8,6 +10,4 @@ class IndustryBuilding extends Building {
     this.benefit = instance.benefit;
     this.citizens = [];
   }
-
-
 }

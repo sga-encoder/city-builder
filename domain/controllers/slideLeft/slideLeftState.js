@@ -1,7 +1,8 @@
-class SlideLeftState {
+import { SlideLeftConstants } from "./constants.js";
+export class SlideLeftState {
   /**
-    * Estado estático compartido para el flujo del controlador del panel izquierdo.
-    * Este objeto actúa como fuente única de verdad para controlador y servicios.
+   * Estado estático compartido para el flujo del controlador del panel izquierdo.
+   * Este objeto actúa como fuente única de verdad para controlador y servicios.
    */
   static menuState = SlideLeftConstants.MENU_STATE.NONE;
   static city = null;

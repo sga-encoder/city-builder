@@ -1,4 +1,6 @@
-class Resources {
+import{ Logger } from "../domain/utilis/Logger.js";
+
+export class Resources {
   constructor(initialAmount, type, unit, consumed) {
     this.type = type;
     this.generatedAmount = 0;

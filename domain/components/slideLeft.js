@@ -1,6 +1,6 @@
 import { resourceMenu } from "./slideLeft/resource.js";
-const Logger = globalThis.Logger;
-const SlideLeftController = globalThis.SlideLeftController;
+import { SlideLeftController } from "../controllers/SlideLeftController.js";
+import { Logger } from "../utilis/Logger.js";
 
 const createSlideLeftMenu = (resource, icons) => {
   const fragment = document.createElement("div");

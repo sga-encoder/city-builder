@@ -1,4 +1,6 @@
-class UtilityPlants extends Building {
+import { Building } from "./Building.js";
+
+export class UtilityPlants extends Building {
   constructor(dict) {
     const { type, subtype } = dict;
     const subtypeData = Building.getSubtypeData(type, subtype);

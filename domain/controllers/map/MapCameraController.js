@@ -1,4 +1,7 @@
-class MapCameraController {
+import { Logger } from "../../utilis/Logger.js";
+import { MapCamera } from "../../services/mapCamera/MapCamera.js";
+
+export class MapCameraController {
   /**
    * Instancia activa de la cámara del mapa.
    * @type {MapCamera|null}

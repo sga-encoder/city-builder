@@ -3,7 +3,7 @@
 // y se hara la funcion de crga y descarga de los datos a localStorage para su uso en el juego
 // mediante la clase de fileManager
 
-class LocalStorage {
+export class LocalStorage {
     static saveData(clave, data) {
          try {
             localStorage.setItem(clave,data);
@@ -26,5 +26,3 @@ class LocalStorage {
 
     
 }
-
-globalThis.LocalStorage = LocalStorage;

@@ -1,4 +1,4 @@
-class SVGInjector {
+export class SVGInjector {
   /**
    * Constructor del inyector de SVG
    * @param {Object} config - Configuración con la estructura de modelos SVG
@@ -152,4 +152,3 @@ class SVGInjector {
   }
 }
 
-globalThis.SVGInjector = SVGInjector;

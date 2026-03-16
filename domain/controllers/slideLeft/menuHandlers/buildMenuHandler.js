@@ -1,4 +1,4 @@
-class BuildMenuHandler {
+export class BuildMenuHandler {
     /**
         * Vincula interacciones de clic para el menu-01 (entrada de construcción).
         * @param {HTMLElement} menuElement - Elemento raíz del menú renderizado.

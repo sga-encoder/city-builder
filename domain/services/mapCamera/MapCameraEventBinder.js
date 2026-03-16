@@ -14,7 +14,7 @@
 /**
  * Encapsula el binding de eventos de mouse/touch/resize para la camara.
  */
-class MapCameraEventBinder {
+export class MapCameraEventBinder {
   /**
    * Registra listeners de interaccion sobre el viewport y ventana.
    * @param {MapCameraEventBinderParams} params

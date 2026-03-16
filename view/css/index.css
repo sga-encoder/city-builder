@@ -1,3 +1,22 @@
+@import url("./rest.css");
+@import url("./themes/default.css");
+@import url("./map.css");
+@import url("./models/apartaments.css");
+@import url("./models/energy.css");
+@import url("./models/factory.css");
+@import url("./models/farm.css");
+@import url("./models/fire.css");
+@import url("./models/ground.css");
+@import url("./models/house.css");
+@import url("./models/mall.css");
+@import url("./models/park.css");
+@import url("./models/police.css");
+@import url("./models/store.css");
+@import url("./models/water.css");
+@import url("./models/way.css");
+@import url("./components/slide-left.css");
+@import url("./components/slide-right.css");
+
 .main-container{
     width: 100vw;
     max-height: 100vh;

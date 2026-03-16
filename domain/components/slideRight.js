@@ -1,5 +1,5 @@
 import { button } from "./button.js";
-const Logger = globalThis.Logger;
+import { Logger } from "../utilis/Logger.js";
 
 const createSlideRightMenu = (icons) => { 
     const containerButton = document.createElement("div");

@@ -1,4 +1,11 @@
-class SlideLeftMenuRenderer {
+import { createMenu01 } from "./menu01.js";
+import { createMenu02 } from "./menu02.js";
+import { createMenu03 } from "./menu03.js";
+import { BuildMenuHandler } from "../../controllers/slideLeft/menuHandlers/buildMenuHandler.js";
+import { ManageMenuHandler } from "../../controllers/slideLeft/menuHandlers/manageMenuHandler.js";
+import { SelectBuildingMenuHandler } from "../../controllers/slideLeft/menuHandlers/selectBuildingMenuHandler.js";
+
+export class SlideLeftMenuRenderer {
   /**
     * Renderiza la variante de menú actual dentro de `#slide-left .menu-slot`.
     * @param {object} context - Contexto de renderizado e interacción.

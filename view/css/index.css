@@ -1,3 +1,5 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Smooch+Sans:wght@100..900&family=WindSong:wght@400;500&display=swap');
 @import url("./rest.css");
 @import url("./themes/default.css");
 @import url("./models/apartaments.css");
@@ -18,6 +20,7 @@
 @import url("./components/SlideRight.css");
 @import url("./components/TurnControlPanel.css");
 @import url("./devMode.css");
+@import url("./toast.css");
 
 .main-container{
     width: 100vw;
@@ -28,4 +31,12 @@
     position: relative;
     background: hsl(209, 67%, 8%) ;
 }
+
+.smooch-sans-400 {
+  font-family: "Smooch Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
 

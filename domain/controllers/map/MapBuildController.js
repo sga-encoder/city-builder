@@ -1,6 +1,7 @@
 import { Map as CityMap } from "../../../models/Map.js";
 import { createBuilding } from "../../../models/building/buildingFactory.js";
 import { Logger } from "../../utilis/Logger.js";
+import { ToastService } from "../../services/toast.js";
 export class MapBuildController {
   /**
    * Compra un edificio y lo coloca en la celda indicada.
@@ -29,6 +30,7 @@ export class MapBuildController {
     }
 
     const result = this.replaceCellBuilding(btnid, builds, cell, mapModel);
+    
     if (!result?.instance) {
       // Revertir descuento si no se pudo colocar en el mapa.
       city.resources.money.add(buildingToBuy.cost);
@@ -39,6 +41,7 @@ export class MapBuildController {
     }
 
     Logger.log("✅ [MapController] Edificio comprado y colocado en el mapa");
+    ToastService.mostrarToast("Edificio comprado y colocado en el mapa", "success", 3000);
     return result;
   }
 

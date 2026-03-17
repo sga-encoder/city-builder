@@ -1,9 +1,9 @@
-import { renderSlideLeftMenu } from "../components/SlideLeft.js";
-import { renderSlideRightMenu } from "../components/SlideRight.js";
-import { SlideLeftController } from "../controllers/SlideLeftController.js";
-import { TurnControlPanel } from "../components/turnControl/TurnControlPanel.js";
-import { TurnStats } from "../components/turnControl/TurnStats.js";
-import { createDebugToggleButton } from "../utilis/DebugToggleButton.js";
+import { renderSlideLeftMenu } from "../../components/SlideLeft.js";
+import { renderSlideRightMenu } from "../../components/SlideRight.js";
+import { SlideLeftController } from "../../controllers/SlideLeftController.js";
+import { TurnControlPanel } from "../../components/turnControl/TurnControlPanel.js";
+import { TurnStats } from "../../components/turnControl/TurnStats.js";
+import { createDebugToggleButton } from "../../utilis/DebugToggleButton.js";
 
 export class UIManager {
   static renderMenus(resources, icons, builds) {

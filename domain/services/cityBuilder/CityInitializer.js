@@ -1,18 +1,18 @@
 // =====================
 // IMPORTS
 // =====================
-import { MapRenderer } from "../components/map/MapRenderer.js";
+import { MapRenderer } from "../../components/map/MapRenderer.js";
 import { City } from "../../../models/City.js";
-import { MapController } from "../controllers/MapController.js";
-import { Logger } from "../utilis/Logger.js";
-import { FileManager } from "../utilis/FileManager.js";
-import { SVGInjector } from "../utilis/SVGInjector.js";
+import { MapController } from "../../controllers/MapController.js";
+import { Logger } from "../../utilis/Logger.js";
+import { FileManager } from "../../utilis/FileManager.js";
+import { SVGInjector } from "../../utilis/SVGInjector.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";
 import { ResourceManager } from "./ResourceManager.js";
 import { TurnSystemManager } from "./TurnSystemManager.js";
 import { UIManager } from "./UImanager.js";
 import { DevToolsManager } from "./DevToolsManager.js";
-import { setCityConfig } from "../config/runtimeConfig.js";
+import { setCityConfig } from "../../config/runtimeConfig.js";
 
 // =====================
 // FACHADA: CityInitializer

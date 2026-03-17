@@ -1,4 +1,4 @@
-﻿import { CityInitializer } from "./services/CityInitializer.js";
+﻿import { CityInitializer } from "./services/cityBuilder/CityInitializer.js";
 
 (async () => {
   await CityInitializer.buildCity();

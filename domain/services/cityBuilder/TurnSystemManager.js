@@ -1,5 +1,5 @@
-import { TurnSystem } from "../services/turns/turnSystem.js";
-import { Logger } from "../utilis/Logger.js";
+import { TurnSystem } from "../../services/turns/turnSystem.js";
+import { Logger } from "../../utilis/Logger.js";
 
 export class TurnSystemManager {
   static createTurnSystem(city, onTurnComplete, onPhaseFailed, onStateChanged) {

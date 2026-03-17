@@ -1,5 +1,9 @@
 import { DevMode } from "../config/devMode.js";
 export const createDebugToggleButton = () => {
+  const existingBtn = document.getElementById("debug-toggle-btn");
+  if (existingBtn) {
+    existingBtn.remove();
+  }
   const btn = document.createElement("button");
   btn.id = "debug-toggle-btn";
   btn.textContent = DevMode.isEnabled() ? "🟢 Debug ON" : "⚪ Debug OFF";
@@ -8,10 +12,10 @@ export const createDebugToggleButton = () => {
   let isDragging = false,
     offsetX = 0,
     offsetY = 0,
-    moved=false;
+    moved = false;
   btn.onmousedown = function (e) {
     isDragging = true;
-    moved=false;
+    moved = false;
     offsetX = e.clientX - btn.getBoundingClientRect().left;
     offsetY = e.clientY - btn.getBoundingClientRect().top;
     document.body.style.userSelect = "none";
@@ -23,7 +27,7 @@ export const createDebugToggleButton = () => {
       btn.style.right = "auto";
       btn.style.bottom = "auto";
       btn.style.position = "fixed";
-      moved=true;
+      moved = true;
     }
   };
   document.onmouseup = function () {
@@ -33,7 +37,6 @@ export const createDebugToggleButton = () => {
 
   // Toggle debug mode
   btn.onclick = function (e) {
-
     if (moved) return; // Evita toggle al soltar el drag
     if (DevMode.isEnabled()) {
       DevMode.disable();
@@ -47,4 +50,4 @@ export const createDebugToggleButton = () => {
   };
 
   document.body.appendChild(btn);
-}
+};

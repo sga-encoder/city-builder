@@ -1,6 +1,6 @@
-import { DevMode } from "../config/DevMode.js";
-import { createDebugToggleButton } from "../utilis/DebugToggleButton.js";
-import { Logger } from "../utilis/Logger.js";
+import { DevMode } from "../../config/DevMode.js";
+import { createDebugToggleButton } from "../../utilis/DebugToggleButton.js";
+import { Logger } from "../../utilis/Logger.js";
 
 export class DevToolsManager {
   static init(turnSystem, city) {
@@ -15,7 +15,7 @@ export class DevToolsManager {
   }
 
   static showDebugTools(turnSystem, city) {
-    createDebugToggleButton();
+    // createDebugToggleButton();
     // Aquí puedes agregar más herramientas de debug si lo necesitas
     // Por ejemplo: mostrar paneles, logs, etc.
     window.turnSystem = turnSystem;

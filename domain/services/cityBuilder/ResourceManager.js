@@ -1,5 +1,5 @@
-import { LocalStorage } from "../../../database/LocalStorage.js";
-import { Logger } from "../utilis/Logger.js";
+import { LocalStorage } from "../../../../database/LocalStorage.js";
+import { Logger } from "../../utilis/Logger.js";
 
 export class ResourceManager {
   static getSavedResources() {

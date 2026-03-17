@@ -9,6 +9,8 @@
     display: flex;
     gap: 8px;
     z-index: 3001;
+  font-family: "Smooch Sans", sans-serif;
+
 }
 
 #turn-stats-panel{
@@ -20,4 +22,6 @@
     padding: 10px;
     border-radius: 5px;
     z-index: 3001;
+  font-family: "Smooch Sans", sans-serif;
+
 }

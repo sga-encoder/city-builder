@@ -1,4 +1,5 @@
 import { Map as CityMap } from "../../../../models/Map.js";
+import { ToastService } from "../../../services/toast.js";
 
 export class SelectBuildingMenuHandler {
   /**
@@ -30,10 +31,19 @@ export class SelectBuildingMenuHandler {
         logger.warn(
           "[SlideLeft][menu-03] No hay activeCell al intentar construir",
         );
+        ToastService.mostrarToast(
+          "Selecciona primero una celda vacía del mapa.",
+          "error",
+          3000,
+        );
         return;
       }
 
-      mapController.buyBuildingCell(btn.id, state.builds, cell);
+      const buildResult = mapController.buyBuildingCell(btn.id, state.builds, cell);
+      if (!buildResult) {
+        return;
+      }
+
       setMenuState(constants.MENU_STATE.NONE);
       mapController.clearCellSelection();
     });

@@ -15,6 +15,7 @@ export class TurnStats {
     const data = [
       { id: "turn-number", icon: "🎟️", value: "Turno actual:" },
       { id: "turn-speed", icon: "⏱️", value: "Velocidad:" },
+      { id: "turn-residential", icon: "🏠", value: "Residenciales:" },
       { id: "turn-money", icon: "💰", value: "Recursos:" },
       { id: "turn-energy", icon: "⚡", value: "Energía:" },
       { id: "turn-water", icon: "💧", value: "Agua:" },
@@ -29,8 +30,13 @@ export class TurnStats {
   }
   
   static updateStats(state, city, diff = {}) {
+    const residentialCount = city?.getResidentialBuildings
+      ? city.getResidentialBuildings().length
+      : 0;
+
     document.getElementById("turn-number").textContent = state.currentTurn;
     document.getElementById("turn-speed").textContent = state.speedKey;
+    document.getElementById("turn-residential").textContent = residentialCount;
     document.getElementById("turn-money").textContent =
       `💰 ${diff.money > 0 ? "+" : ""}${diff.money ?? 0}`;
     document.getElementById("turn-energy").textContent =

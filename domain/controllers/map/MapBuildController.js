@@ -3,6 +3,84 @@ import { createBuilding } from "../../../models/building/buildingFactory.js";
 import { Logger } from "../../utilis/Logger.js";
 import { ToastService } from "../../services/toast.js";
 export class MapBuildController {
+  static ROAD_REQUIRED_TYPES = new Set(["R", "C", "I", "S", "U", "P"]);
+
+  static BUILD_RULES = Object.freeze({
+    default: Object.freeze({
+      requireEmptyCell: true,
+      requireMoney: true,
+      requireAdjacentRoad: false,
+    }),
+    r: Object.freeze({
+      requireEmptyCell: true,
+      requireMoney: true,
+      requireAdjacentRoad: false,
+    }),
+    g: Object.freeze({
+      requireEmptyCell: false,
+      requireMoney: false,
+      requireAdjacentRoad: false,
+    }),
+  });
+
+  static getBuildRules(btnid) {
+    const type = String(btnid || "")[0] || "";
+    const base = this.BUILD_RULES.default;
+    const explicit = this.BUILD_RULES[type] || null;
+
+    if (explicit) return explicit;
+
+    return {
+      ...base,
+      requireAdjacentRoad: this.ROAD_REQUIRED_TYPES.has(type),
+    };
+  }
+
+  static hasAdjacentRoad(grid, i, j) {
+    const neighbors = [
+      [i - 1, j],
+      [i + 1, j],
+      [i, j - 1],
+      [i, j + 1],
+    ];
+
+    return neighbors.some(([ni, nj]) => grid?.[ni]?.[nj]?.type === "r");
+  }
+
+  static validateBuildPlacement({ btnid, cell, mapModel, city, buildingToBuy }) {
+    if (!btnid || !cell || !mapModel || !city || !buildingToBuy) {
+      return { ok: false, message: "No se puede construir: datos incompletos." };
+    }
+
+    const rules = this.getBuildRules(btnid);
+
+    if (rules.requireEmptyCell && cell.cellData?.type !== "g") {
+      return {
+        ok: false,
+        message: "No se puede construir: la celda no está vacía.",
+      };
+    }
+
+    if (rules.requireMoney && !city.canBuyBuilding(buildingToBuy)) {
+      return {
+        ok: false,
+        message: `Fondos insuficientes: necesitas $${buildingToBuy.cost}.`,
+      };
+    }
+
+    if (
+      rules.requireAdjacentRoad &&
+      !this.hasAdjacentRoad(mapModel.grid, cell.i, cell.j)
+    ) {
+      return {
+        ok: false,
+        message: "No se puede construir: necesitas una vía adyacente.",
+      };
+    }
+
+    return { ok: true, message: "OK" };
+  }
+
   /**
    * Compra un edificio y lo coloca en la celda indicada.
    * @param {string} btnid - Id del botón/tipo de edificio.
@@ -18,6 +96,21 @@ export class MapBuildController {
 
     if (!buildingToBuy) {
       Logger.warn("⚠️ [MapController] No se encontró building para", btnid);
+      ToastService.mostrarToast("No se encontró el edificio seleccionado.", "error", 3000);
+      return false;
+    }
+
+    const validation = this.validateBuildPlacement({
+      btnid,
+      cell,
+      mapModel,
+      city,
+      buildingToBuy,
+    });
+
+    if (!validation.ok) {
+      Logger.warn("⚠️ [MapController] Validación de construcción falló:", validation.message);
+      ToastService.mostrarToast(validation.message, "error", 3000);
       return false;
     }
 
@@ -26,6 +119,7 @@ export class MapBuildController {
         "⚠️ [MapController] No se pudo completar la compra para",
         btnid,
       );
+      ToastService.mostrarToast("No hay dinero suficiente para construir.", "error", 3000);
       return false;
     }
 
@@ -37,6 +131,7 @@ export class MapBuildController {
       Logger.warn(
         "⚠️ [MapController] No se pudo colocar el edificio en el mapa",
       );
+      ToastService.mostrarToast("No se pudo colocar el edificio en el mapa.", "error", 3000);
       return false;
     }
 

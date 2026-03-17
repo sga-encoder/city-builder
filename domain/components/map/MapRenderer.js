@@ -42,7 +42,7 @@ export class MapRenderer {
 
         const left = (i + j) * (width / 2);
         const top = (i - j) * (width / 4);
-        const indexZ = layout.length * 100 - j * 100;
+        const indexZ = layout.length  - j ;
 
         const ruleCell = `#map-item-${id}{ --i:${i}; --j:${j}; --top:${top}px; --left:${left}px; --height:${height}px; --width:${width}px; --z-index:${indexZ}; }`;
         sheet.insertRule(ruleCell, sheet.cssRules.length);

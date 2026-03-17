@@ -25,8 +25,9 @@ export class TurnStats {
       const stat = this.createStats(id, icon, value);
       stats.appendChild(stat);
     });
-    document.body.appendChild(stats);
+    return stats;
   }
+  
   static updateStats(state, city, diff = {}) {
     document.getElementById("turn-number").textContent = state.currentTurn;
     document.getElementById("turn-speed").textContent = state.speedKey;
@@ -38,5 +39,9 @@ export class TurnStats {
       `💧 ${diff.water > 0 ? "+" : ""}${diff.water ?? 0}`;
     document.getElementById("turn-food").textContent =
       `🍎 ${diff.food > 0 ? "+" : ""}${diff.food ?? 0}`;
+  }
+  static render() {
+    const devToolsContainer = document.getElementById("dev-tools");
+    devToolsContainer.appendChild(this.createStatsContainer());
   }
 }

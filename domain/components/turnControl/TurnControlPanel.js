@@ -46,6 +46,10 @@ export class TurnControlPanel {
     panel.appendChild(speedSelect);
     panel.appendChild(stateLabel);
 
-    document.body.appendChild(panel);
+    return panel;
+  }
+  static render(turnSystem, city) {
+    const devToolsContainer = document.getElementById("dev-tools");
+    devToolsContainer.appendChild(this.createControlPanel(turnSystem, city));
   }
 }

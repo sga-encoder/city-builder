@@ -9,4 +9,6 @@ export class ServicesBuilding extends Building {
     this.benefit = instance.benefit;
     this.radius = instance.radius;
   }
+  executeTurnLogic(city, buildingData) {
+  }
 }

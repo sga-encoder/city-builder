@@ -1,5 +1,5 @@
 import { Building } from "./Building.js";
-const MapController = globalThis.MapController;
+import { MapController } from "../../domain/controllers/MapController.js";
 /**
  * Representa un edificio residencial en la ciudad.
  * Define costos, capacidad y consumo de recursos según el subtipo.
@@ -113,6 +113,7 @@ export class ResidentialBuilding extends Building {
     const subtypeInfo = this.getResidentialSubtypeInfo(
       this.pendingBuildSubtype,
     );
+
     const money = city?.resources?.money?.amount ?? 0;
 
     if (money < subtypeInfo.cost) {
@@ -399,6 +400,8 @@ export class ResidentialBuilding extends Building {
     Logger.log(
       "✅ [ResidentialBuilding] Hooks de construccion residencial activos",
     );
+  }
+  executeTurnLogic(city, buildingData) {
   }
 }
 

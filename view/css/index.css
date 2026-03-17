@@ -16,6 +16,8 @@
 @import url("./components/Map.css");
 @import url("./components/SlideLeft.css");
 @import url("./components/SlideRight.css");
+@import url("./components/TurnControlPanel.css");
+@import url("./devMode.css");
 
 .main-container{
     width: 100vw;

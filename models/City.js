@@ -2,11 +2,10 @@ import { Map as CityMap } from "./Map.js";
 import { Resources } from "./Resources.js";
 import { Logger } from "../domain/utilis/Logger.js";
 
-
 export class City {
   constructor(dict) {
     Logger.log("🏛️ [City] Constructor llamado");
-    const { id, mayor, name, location, map, initial, score } = dict;
+    const { id, mayor, name, location, map, initial, score, turn } = dict;
     this.id = id;
     this.mayor = mayor;
     this.name = name;
@@ -21,6 +20,11 @@ export class City {
       food: new Resources(initial.food, "food", "Kg", []),
     };
     this.score = score;
+    if (turn !== undefined) {
+      this.turn = turn;
+    } else {
+      this.turn = 0;
+    }
   }
 
   canBuyBuilding(building) {
@@ -69,5 +73,22 @@ export class City {
       this.resources.food,
     );
   }
-}
 
+  // Getters para acceder a edificios
+  getResidentialBuildings() {} // Array de edificios residenciales
+  getCommercialBuildings() {} // Array de edificios comerciales
+  getIndustryBuildings() {} // Array de edificios industriales
+  getUtilityBuildings() {} // Array de utilidades
+
+  // Ejecución de turno
+  executeTurn(turnNumber) {
+    // Captura estado antes
+    // Delega a TurnSimulator
+    // Notifica observers
+    // Retorna turnData con cambios
+  }
+
+  // Observers para turnos
+  addTurnObserver(callback) {}
+  notifyTurnObservers(turnData) {}
+}

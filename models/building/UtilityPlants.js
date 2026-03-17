@@ -13,4 +13,11 @@ export class UtilityPlants extends Building {
     // TODO: Implement production generation logic
     return production;
   }
+
+  executeTurnLogic(city, buildingData) {
+    // 1. Consumir energía
+    // 2. Producir comida
+    // 3. Generar ingresos
+    // 4. Registrar en buildingData
+  }
 }

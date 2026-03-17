@@ -8,4 +8,6 @@ export class Park extends Building {
     super(instance);
     this.benefit = instance.benefit;
   }
+  executeTurnLogic(city, buildingData) {
+  }
 }

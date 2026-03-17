@@ -1,0 +1,23 @@
+#turn-control-panel{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+    display: flex;
+    gap: 8px;
+    z-index: 3001;
+}
+
+#turn-stats-panel{
+    display: flex;
+    position: absolute;
+    bottom : 100px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 3001;
+}

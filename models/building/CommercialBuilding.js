@@ -10,4 +10,7 @@ export class CommercialBuilding extends Building {
     this.income = instance.income;
     this.citizens = [];
   }
+
+  executeTurnLogic(city, buildingData) {
+  }
 }

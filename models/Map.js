@@ -1,5 +1,5 @@
 import { createBuilding } from "./building/buildingFactory.js";
-import { LocalStorage } from "../database/localStorage.js";
+import { LocalStorage } from "../database/LocalStorage.js";
 export class Map {
   static typeBuildingAcceptedMap = [];
 

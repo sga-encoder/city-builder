@@ -28,4 +28,14 @@ export class Building {
     building.innerHTML = this.model;
     return building;
   }
+
+  // Nuevo - polimórfico, implementado en subclases
+executeTurnLogic(city, buildingData) {
+  // Subclasses implementan su propia lógica
+  // Modifica resources, population, etc
+}
+
+// Helpers
+getResourceConsumption(){}  // Retorna {energy, water}
+getResourceProduction(){}   // Retorna {energy, water, food, money}
 }

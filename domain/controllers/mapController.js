@@ -5,7 +5,7 @@ import { MapModelObserverBinder } from "./map/MapModelObserverBinder.js";
 import { MapBuildController } from "./map/MapBuildController.js";
 import { SlideLeftController } from "./SlideLeftController.js";
 import { Logger } from "../utilis/Logger.js";
-import { LocalStorage } from "../../database/localStorage.js";
+import { LocalStorage } from "../../database/LocalStorage.js";
 
 export class MapController {
   /**

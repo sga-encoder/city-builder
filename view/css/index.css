@@ -1,6 +1,5 @@
 @import url("./rest.css");
 @import url("./themes/default.css");
-@import url("./map.css");
 @import url("./models/apartaments.css");
 @import url("./models/energy.css");
 @import url("./models/factory.css");
@@ -14,8 +13,9 @@
 @import url("./models/store.css");
 @import url("./models/water.css");
 @import url("./models/way.css");
-@import url("./components/slide-left.css");
-@import url("./components/slide-right.css");
+@import url("./components/Map.css");
+@import url("./components/SlideLeft.css");
+@import url("./components/SlideRight.css");
 
 .main-container{
     width: 100vw;

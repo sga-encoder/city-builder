@@ -1,21 +1,23 @@
-import { button } from "./button.js";
+import { button } from "./Button.js";
 import { Logger } from "../utilis/Logger.js";
 
-const createSlideRightMenu = (icons) => { 
-    const containerButton = document.createElement("div");
-    const sheets = document.styleSheets[2];
-    containerButton.classList.add("container");
-    const menuItems = ["statistics","weather.sunny","news",];
+const createSlideRightMenu = (icons) => {
+  const containerButton = document.createElement("div");
+  const sheets = document.styleSheets[2];
+  containerButton.classList.add("container");
+  const menuItems = ["statistics", "weather.sunny", "news"];
 
-    menuItems.forEach((id, index) => {
-        containerButton.appendChild(button(id, index + 1, icons, sheets));
-    });
+  menuItems.forEach((id, index) => {
+    containerButton.appendChild(button(id, index + 1, icons, sheets));
+  });
 
-    return containerButton;
+  return containerButton;
+};
 
-}
-
-export const renderSlideRightMenu = (icons, containerSelector = "#slide-right") => {
+export const renderSlideRightMenu = (
+  icons,
+  containerSelector = "#slide-right",
+) => {
   Logger.log("🔲 [SlideRight] Renderizando menú...");
   const container = document.querySelector(containerSelector);
   if (!container) {

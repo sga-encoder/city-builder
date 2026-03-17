@@ -1,5 +1,5 @@
 import { Map } from "../../../models/Map.js";
-import { button } from "../button.js";
+import { button } from "../Button.js";
 
 const buttonBuy = (id, index, icons, sheets, instance) => { 
   const btn = button(id, index, icons, sheets, !id[1] ? id : `${id[0]}.${id[1]}`);

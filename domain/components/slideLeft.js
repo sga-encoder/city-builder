@@ -1,4 +1,4 @@
-import { resourceMenu } from "./slideLeft/resource.js";
+import { resourceMenu } from "./slideLeft/Resource.js";
 import { SlideLeftController } from "../controllers/SlideLeftController.js";
 import { Logger } from "../utilis/Logger.js";
 

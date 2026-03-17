@@ -1,6 +1,6 @@
-import { createMenu01 } from "./menu01.js";
-import { createMenu02 } from "./menu02.js";
-import { createMenu03 } from "./menu03.js";
+import { createMenu01 } from "./Menu01.js";
+import { createMenu02 } from "./Menu02.js";
+import { createMenu03 } from "./Menu03.js";
 import { BuildMenuHandler } from "../../controllers/slideLeft/menuHandlers/buildMenuHandler.js";
 import { ManageMenuHandler } from "../../controllers/slideLeft/menuHandlers/manageMenuHandler.js";
 import { SelectBuildingMenuHandler } from "../../controllers/slideLeft/menuHandlers/selectBuildingMenuHandler.js";

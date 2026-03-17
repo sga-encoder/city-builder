@@ -1,4 +1,6 @@
 import { SlideLeftController } from "../SlideLeftController.js";
+import { Logger } from "../../utilis/Logger.js";
+
 export class MapEventBinder {
   static #globalClickBound = false;
   static #mapClickHandler = null;

@@ -45,7 +45,7 @@ export class Map {
     this.observers = [];
     this.persistDebounce = null;
     Map.typeBuildingAcceptedMap = Map.buildAcceptedTypes(buildsConfig);
-    this.grid = grid;
+    this.initializeMatrices(grid);
     this.schedulePersist();
     this.notifyObservers({ type: "map-initialized", size: grid.length });
   }
@@ -96,7 +96,6 @@ export class Map {
 
   initializeMatrices(grid) {
     this.grid = grid;
-    this.buildingMatrix = this.grid;
     this.idMatrix = this.buildIdMatrix(this.grid);
     this.roadMatrix = this.buildRoadMatrix(this.grid);
   }

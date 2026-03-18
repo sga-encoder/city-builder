@@ -151,58 +151,13 @@ export class MapController {
    * @returns {object|undefined}
    */
   static replaceCellBuilding(btnId, builds, cell) {
-    Logger.log("🏭 [MapController] changeBuild:", btnId, "en celda", cell.id);
-    const mapModel = this.mapModel || null;
-    if (!mapModel) {
-      Logger.error("❌ [MapController] No hay mapModel");
-      return;
-    }
-
-    const [type, subtype] = [btnId[0], btnId[1]];
-    const modelKey = subtype ? `${type}.${subtype}` : type;
-
-    const building = BuildingRenderer.render({
-      id: cell.id,
-      type,
-      subtype,
-      model: builds.getModel(modelKey),
-    });
-
-    // Asignar la instancia directamente (no copia plana)
-    const updated = mapModel.setBuildingAt(cell.i, cell.j, building);
-    if (!updated) {
-      Logger.warn("⚠️ [MapController] No se pudo reemplazar celda ocupada", {
-        i: cell.i,
-        j: cell.j,
-        requested: `${type}${subtype || ""}`,
-      });
-      return { instance: null };
-    }
-
-    Logger.log("✅ [MapController] Edificio cambiado exitosamente");
-    return { instance: building };
+    return MapBuildController.replaceCellBuilding(
+      btnId,
+      builds,
+      cell,
+      this.mapModel,
+    );
   }
-
-  // static moveBuildingCell(sourceCell, targetCell, builds) {
-  //   const mapModel = this.mapModel || null;
-  //   if (!mapModel || !sourceCell || !targetCell || !builds) return false;
-  //   if (targetCell.cellData?.type !== "g") return false;
-
-  //   const moved = mapModel.moveBuilding(sourceCell.i, sourceCell.j, targetCell.i, targetCell.j,
-  //     (sourceId) =>
-  //       Building.create({
-  //         id: sourceId,
-  //         type: "g",
-  //         subtype: "",
-  //         model: builds.getModel("g"),
-  //       }))
-  //   return MapBuildController.replaceCellBuilding(
-  //     btnId,
-  //     builds,
-  //     cell,
-  //     this.mapModel,
-  //   );
-  // }
 
   /**
    * Mueve un edificio desde una celda origen hacia una celda destino.

@@ -1,24 +1,44 @@
 import { DevMode } from "../../config/DevMode.js";
 import { createDebugToggleButton } from "../../utilis/DebugToggleButton.js";
 import { Logger } from "../../utilis/Logger.js";
+import { TurnControlPanel } from "../../components/turnControl/TurnControlPanel.js";
+import { TurnStats } from "../../components/turnControl/TurnStats.js";
 
 export class DevToolsManager {
   static init(turnSystem, city) {
-    if (DevMode.isEnabled()) {
+    // Centraliza referencias
+    this.turnSystem = turnSystem;
+    this.city = city;
+    // Crea el botón de debug
+    createDebugToggleButton(
+      () => this.showPanels(),
+      () => this.hidePanels(),
+    );
+    // Si el modo debug está activo, muestra paneles
+    if (DevMode.isEnabledDebug()) {
       DevMode.enable(["TurnSystem"]);
       Logger.log("🛠️ [DevTools] Modo desarrollador activado");
-      this.showDebugTools(turnSystem, city);
+      this.showPanels();
     } else {
       DevMode.disable();
+      this.hidePanels();
       Logger.log("🛠️ [DevTools] Modo desarrollador desactivado");
     }
   }
 
-  static showDebugTools(turnSystem, city) {
-    // createDebugToggleButton();
-    // Aquí puedes agregar más herramientas de debug si lo necesitas
-    // Por ejemplo: mostrar paneles, logs, etc.
-    window.turnSystem = turnSystem;
-    window.city = city;
+  static showPanels() {
+    const devToolsContainer = document.getElementById("dev-tools");
+    if (devToolsContainer) {
+      TurnControlPanel.render(this.turnSystem, this.city);
+      TurnStats.render();
+    }
+  }
+
+  static hidePanels() {
+    const devToolsContainer = document.getElementById("dev-tools");
+    if (devToolsContainer) {
+      TurnControlPanel.destroy();
+      TurnStats.destroy();
+    }
   }
 }

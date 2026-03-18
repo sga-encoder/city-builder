@@ -50,4 +50,11 @@ export class TurnStats {
     const devToolsContainer = document.getElementById("dev-tools");
     devToolsContainer.appendChild(this.createStatsContainer());
   }
+
+  static destroy() {
+    const panel = document.getElementById("turn-stats-panel");
+    if (panel) {
+      panel.remove();
+    }
+  }
 }

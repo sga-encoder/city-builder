@@ -1,12 +1,13 @@
-import { DevMode } from "../config/devMode.js";
-export const createDebugToggleButton = () => {
+import { DevMode } from "../config/DevMode.js";
+export const createDebugToggleButton = (showPanels, hidePanels) => {
+  if (!DevMode.isEnabledDevMode()) return; // Solo crea el botón si el modo dev está habilitado
   const existingBtn = document.getElementById("debug-toggle-btn");
   if (existingBtn) {
     existingBtn.remove();
   }
   const btn = document.createElement("button");
   btn.id = "debug-toggle-btn";
-  btn.textContent = DevMode.isEnabled() ? "🟢 Debug ON" : "⚪ Debug OFF";
+  btn.textContent = DevMode.isEnabledDebug() ? "🟢 Debug ON" : "⚪ Debug OFF";
 
   // Drag logic
   let isDragging = false,
@@ -38,16 +39,16 @@ export const createDebugToggleButton = () => {
   // Toggle debug mode
   btn.onclick = function (e) {
     if (moved) return; // Evita toggle al soltar el drag
-    if (DevMode.isEnabled()) {
+    if (DevMode.isEnabledDebug()) {
       DevMode.disable();
       btn.textContent = "⚪ Debug OFF";
-      location.reload(); // Recarga para ocultar paneles debug
+      if (typeof hidePanels === "function") hidePanels();
     } else {
       DevMode.enable(["TurnSystem"]);
       btn.textContent = "🟢 Debug ON";
-      location.reload(); // Recarga para mostrar paneles debug
+      if (typeof showPanels === "function") showPanels();
     }
   };
-
-  document.body.appendChild(btn);
+  const devcontainer = document.getElementById("dev-tools");
+  devcontainer.appendChild(btn);
 };

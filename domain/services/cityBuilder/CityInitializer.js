@@ -13,6 +13,8 @@ import { TurnSystemManager } from "./TurnSystemManager.js";
 import { UIManager } from "./UImanager.js";
 import { DevToolsManager } from "./DevToolsManager.js";
 import { setCityConfig } from "../../config/runtimeConfig.js";
+import { TurnStats } from "../../components/turnControl/TurnStats.js";
+
 
 // =====================
 // FACHADA: CityInitializer
@@ -102,6 +104,8 @@ export class CityInitializer {
 
     const turnSystem = this.initTurnSystem(city);
 
+    // Importar los componentes
+  
     DevToolsManager.init(turnSystem, city);
 
     this.initUI(city, icons, builds, turnSystem);
@@ -156,7 +160,7 @@ export class CityInitializer {
           water: city.resources.water.amount - prevResources.water,
           food: city.resources.food.amount - prevResources.food,
         };
-        UIManager.updateTurnStats(turnSystem, city, diff);
+        TurnStats.updateStats(turnSystem.getState(), city, diff);
         prevResources = {
           money: city.resources.money.amount,
           energy: city.resources.energy.amount,
@@ -177,7 +181,5 @@ export class CityInitializer {
   static initUI(city, icons, builds, turnSystem) {
     UIManager.renderMenus(city.resources, icons, builds);
     UIManager.initMenuControllers(city, builds, icons);
-    UIManager.renderTurnPanels(turnSystem, city);
-    UIManager.showDebugButton();
   }
 }

@@ -52,4 +52,11 @@ export class TurnControlPanel {
     const devToolsContainer = document.getElementById("dev-tools");
     devToolsContainer.appendChild(this.createControlPanel(turnSystem, city));
   }
+
+  static destroy() {
+    const panel = document.getElementById("turn-control-panel");
+    if (panel) {
+      panel.remove();
+    }
+  }
 }

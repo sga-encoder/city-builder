@@ -38,14 +38,15 @@ export class ResidentialBuilding extends Building {
       typeResidential: isHouse ? "Casa" : "Apartamento",
       capacity: subtypeData.capacity ?? (isHouse ? 4 : 12),
       cost: subtypeData.cost ?? (isHouse ? 1000 : 3000),
-      energyUsage: subtypeData.energyUsage ?? 0,
-      waterUsage: subtypeData.waterUsage ?? 0,
+      energyUsage: subtypeData.energyUsage ?? (isHouse ? 5 : 15),
+      waterUsage: subtypeData.waterUsage ?? (isHouse ? 3 : 10),
     };
   }
 
   executeTurnLogic(city, StatsManager) {
-    const energyUsage = Number(this.energyUsage || 0);
-    const waterUsage = Number(this.waterUsage || 0);
+    const subtypeInfo = ResidentialBuilding.getResidentialSubtypeInfo(this.subtype);
+    const energyUsage = Number(subtypeInfo.energyUsage || 0);
+    const waterUsage = Number(subtypeInfo.waterUsage || 0);
 
     const energyResource = city?.resources?.energy;
     const waterResource = city?.resources?.water;
@@ -57,10 +58,14 @@ export class ResidentialBuilding extends Building {
 
     if (canConsumeEnergy && energyUsage > 0) {
       energyResource.subtract(energyUsage);
+      energyResource.turnConsumption =
+        Number(energyResource.turnConsumption || 0) + energyUsage;
     }
 
     if (canConsumeWater && waterUsage > 0) {
       waterResource.subtract(waterUsage);
+      waterResource.turnConsumption =
+        Number(waterResource.turnConsumption || 0) + waterUsage;
     }
 
     StatsManager.addStats(
@@ -81,3 +86,4 @@ export class ResidentialBuilding extends Building {
     );
   }
 }
+  

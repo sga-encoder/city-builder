@@ -51,7 +51,7 @@ export class MapCameraController {
         responsiveInitialScale,
       });
 
-      this.mapCamera = new MapCamera("#map", document.styleSheets[1], {
+      this.mapCamera = new MapCamera("#map", document.styleSheets[0], {
         minScale: fitMinScale,
         maxScale,
         scale: 1,

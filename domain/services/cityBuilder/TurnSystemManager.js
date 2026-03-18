@@ -12,10 +12,42 @@ export class TurnSystemManager {
 
     const gamePhases = [
       {
+        name: "Reset Flujo Recursos",
+        phase: (cityRef) => {
+          Object.values(cityRef.resources || {}).forEach((resource) => {
+            resource.turnProduction = 0;
+            resource.turnConsumption = 0;
+          });
+          return true;
+        },
+        critical: true,
+      },
+      {
         name: "Produccion Basica",
         phase: (cityRef) => {
           cityRef.resources.money.add(100);
+          cityRef.resources.money.turnProduction =
+            Number(cityRef.resources.money.turnProduction || 0) + 100;
+
           cityRef.resources.energy.add(5);
+          cityRef.resources.energy.turnProduction =
+            Number(cityRef.resources.energy.turnProduction || 0) + 5;
+
+          return true;
+        },
+        critical: true,
+      },
+      {
+        name: "Produccion Utilidades",
+        phase: (cityRef) => {
+          StatsManager.reset("U1");
+          StatsManager.reset("U2");
+
+          for (const building of cityRef.getUtilityBuildings()) {
+            if (typeof building?.executeTurnLogic !== "function") continue;
+            building.executeTurnLogic(cityRef, StatsManager);
+          }
+
           return true;
         },
         critical: true,
@@ -39,7 +71,19 @@ export class TurnSystemManager {
         name: "Consumo Basico",
         phase: (cityRef) => {
           cityRef.resources.food.subtract(2);
+          cityRef.resources.food.turnConsumption =
+            Number(cityRef.resources.food.turnConsumption || 0) + 2;
+
           cityRef.resources.water.subtract(3);
+          cityRef.resources.water.turnConsumption =
+            Number(cityRef.resources.water.turnConsumption || 0) + 3;
+
+          Object.values(cityRef.resources || {}).forEach((resource) => {
+            if (typeof resource?.notifyObservers === "function") {
+              resource.notifyObservers();
+            }
+          });
+
           return true;
         },
         critical: true,

@@ -4,7 +4,7 @@ import { Logger } from "../utilis/Logger.js";
 
 const createSlideLeftMenu = (resource, icons) => {
   const fragment = document.createElement("div");
-  const sheets = document.styleSheets[1];
+  const sheets = document.styleSheets[0];
 
   fragment.classList.add("container");
 

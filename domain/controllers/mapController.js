@@ -198,8 +198,8 @@ export class MapController {
           type: "g",
           subtype: "",
           model: builds.getModel("g"),
-        }),
-    return MapBuildController.replaceCellBuilding(
+        }))
+      return MapBuildController.replaceCellBuilding(
       btnId,
       builds,
       cell,

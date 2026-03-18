@@ -98,6 +98,13 @@
     transition-delay: calc(var(--i)*0.1s);
 }
 
+#slide-left .container .resources ul .resource .content .resource-flow
+{
+    display: block;
+    font-size: 0.65em;
+    opacity: 0.88;
+}
+
 #slide-left .container .resources.active ul .resource .content
 {
     transform: translateX(0);
@@ -146,6 +153,34 @@
     opacity: 0;
     animation: slide-left-button-enter 0.35s ease-out both;
     animation-delay: calc(var(--i) * 0.06s);
+    position: relative;
+    overflow: hidden;
+}
+
+#slide-left .container .container-buttons .button .price
+{
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+    font-size: 0.7rem;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 2px 6px;
+    border-radius: 10px;
+    line-height: 1;
+}
+
+#slide-left .container .container-buttons .button .utility-meta
+{
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 26px;
+    font-size: 0.54rem;
+    line-height: 1.2;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.38);
+    padding: 3px 6px;
+    border-radius: 8px;
 }
 
 #slide-left .container .container-buttons .button .img-container 
@@ -231,6 +266,12 @@
         width: auto;
     }
 
+    #slide-left .container .container-buttons .button .utility-meta
+    {
+        font-size: 0.6rem;
+        bottom: 24px;
+    }
+
     
     #slide-left .container .container-buttons.menu-01,
     #slide-left .container .container-buttons.menu-02,
@@ -280,6 +321,11 @@
     #slide-left .container .resources ul .resource .content
     {
         font-size: 2vw;
+    }
+
+    #slide-left .container .container-buttons .button .utility-meta
+    {
+        font-size: 0.58rem;
     }
 
 

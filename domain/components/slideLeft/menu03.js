@@ -1,6 +1,17 @@
 import { Map } from "../../../models/Map.js";
 import { button } from "../Button.js";
 
+const utilityCatalog = {
+  U1: {
+    name: "Planta Electrica",
+    unit: "energia",
+  },
+  U2: {
+    name: "Planta de Agua",
+    unit: "agua",
+  },
+};
+
 const buttonBuy = (id, index, icons, sheets, instance) => { 
   const btn = button(id, index, icons, sheets, !id[1] ? id : `${id[0]}.${id[1]}`);
 
@@ -8,6 +19,15 @@ const buttonBuy = (id, index, icons, sheets, instance) => {
   price.classList.add("price");
   price.textContent = `$${instance.cost}`;
   btn.appendChild(price);
+
+  const utilityInfo = utilityCatalog[id];
+  if (utilityInfo) {
+    const meta = document.createElement("span");
+    meta.classList.add("utility-meta");
+    meta.textContent = `${utilityInfo.name} | +${Number(instance.production || 0)} ${utilityInfo.unit}/turno`;
+    btn.appendChild(meta);
+  }
+
   return btn;
 }
 

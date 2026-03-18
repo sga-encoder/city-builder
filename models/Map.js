@@ -82,6 +82,49 @@ class Map {
     }, 120);
   }
 
+  isRoadBuilding(building) {
+    return String(building?.type || "").toLowerCase() === "r";
+  }
+
+  buildIdMatrix(grid) {
+    return grid.map((row) => row.map((building) => building?.id ?? null));
+  }
+
+  buildRoadMatrix(grid) {
+    return grid.map((row) =>
+      row.map((building) => (this.isRoadBuilding(building) ? 1 : 0)),
+    );
+  }
+
+  getPositionFromCellId(cellId) {
+    const normalized = String(cellId || "");
+    if (normalized.length < 4) return null;
+
+    const i = Number.parseInt(normalized.slice(0, 2), 10);
+    const j = Number.parseInt(normalized.slice(2, 4), 10);
+
+    if (Number.isNaN(i) || Number.isNaN(j)) return null;
+    return { i, j };
+  }
+
+  initializeMatrices(grid) {
+    this.grid = grid;
+    this.buildingMatrix = this.grid;
+    this.idMatrix = this.buildIdMatrix(this.grid);
+    this.roadMatrix = this.buildRoadMatrix(this.grid);
+  }
+
+  syncCellMatrices(i, j, building, previousBuilding = null) {
+    const idPosition =
+      this.getPositionFromCellId(previousBuilding?.id) ||
+      this.getPositionFromCellId(building?.id);
+    const row = idPosition?.i ?? i;
+    const col = idPosition?.j ?? j;
+
+    if (!this.roadMatrix?.[row]) return;
+    this.roadMatrix[row][col] = this.isRoadBuilding(building) ? 1 : 0;
+  }
+
   createMap(layout) {
     Logger.log("🎨 [Map.createMap] Iniciando creación del mapa");
     if (!this.container) {
@@ -154,8 +197,8 @@ class Map {
       instances.push(aux);
     }
 
-    // Serializar solo para localStorage (datos simples, no instancias)
-    this.grid = instances;
+    // Mantener tres matrices sincronizadas con el mismo tamaño.
+    this.initializeMatrices(instances);
     this.schedulePersist();
     this.notifyObservers({ type: "map-initialized", size: layout.length });
     return instances;
@@ -170,6 +213,7 @@ class Map {
 
     const previous = this.grid[i][j];
     this.grid[i][j] = building;
+    this.syncCellMatrices(i, j, building, previous);
 
     this.schedulePersist();
     this.notifyObservers({
@@ -195,6 +239,8 @@ class Map {
     source.id = target.id;
     this.grid[fromI][fromJ] = ground;
     this.grid[toI][toJ] = source;
+    this.syncCellMatrices(fromI, fromJ, ground);
+    this.syncCellMatrices(toI, toJ, source);
 
     this.schedulePersist();
     this.notifyObservers({

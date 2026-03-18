@@ -45,6 +45,7 @@ class Building {
         return new Park(dict);
       case "g":
       case "r":
+        return new Road(dict);
       default:
         return new Building(dict);
     }

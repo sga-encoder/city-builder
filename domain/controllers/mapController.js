@@ -6,6 +6,7 @@ import { MapBuildController } from "./map/MapBuildController.js";
 import { SlideLeftController } from "./SlideLeftController.js";
 import { Logger } from "../utilis/Logger.js";
 import { LocalStorage } from "../../database/LocalStorage.js";
+import { BuildingRenderer } from "../components/building/BuildingRenderer.js";
 
 export class MapController {
   /**
@@ -137,7 +138,7 @@ export class MapController {
     if (!mapItem || !building) return;
 
     mapItem.querySelector(".building")?.remove();
-    mapItem.appendChild(building.build());
+    mapItem.appendChild(BuildingRenderer.render(building));
     return mapItem;
   }
 

@@ -1,10 +1,10 @@
-import { button } from "../Button.js";
+import { Button } from "../Button.js";
 export const createMenu02 = (icons, sheets) => {
   const containerButton = document.createElement("div");
   containerButton.classList.add("container-buttons", "menu-02");
 
-  const moveButton = button("move", 0, icons, sheets);
-  const destroyButton = button("destroy", 1, icons, sheets);
+  const moveButton = Button.render("move", 0, icons, sheets);
+  const destroyButton = Button.render("destroy", 1, icons, sheets);
 
   containerButton.appendChild(moveButton);
   containerButton.appendChild(destroyButton);

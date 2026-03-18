@@ -1,4 +1,4 @@
-import { button } from "./Button.js";
+import { Button } from "./Button.js";
 import { Logger } from "../utilis/Logger.js";
 
 const createSlideRightMenu = (icons) => {
@@ -8,7 +8,7 @@ const createSlideRightMenu = (icons) => {
   const menuItems = ["statistics", "weather.sunny", "news"];
 
   menuItems.forEach((id, index) => {
-    containerButton.appendChild(button(id, index + 1, icons, sheets));
+    containerButton.appendChild(Button.render(id, index + 1, icons, sheets));
   });
 
   return containerButton;

@@ -23,7 +23,8 @@ export class TurnSystemManager {
       {
         name: "Consumo Residencial",
         phase: (cityRef) => {
-
+          StatsManager.reset("R1");
+          StatsManager.reset("R2");
           for (const building of cityRef.getResidentialBuildings()) {
             if (typeof building?.executeTurnLogic !== "function") continue;
             building.executeTurnLogic(cityRef, StatsManager);

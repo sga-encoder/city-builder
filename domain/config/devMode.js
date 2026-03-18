@@ -2,7 +2,7 @@ import { Logger } from "../utilis/Logger.js";
 
 // Si tienes otros loggers, impórtalos aquí
 const DEFAULTS = {
-  ENABLED: true,
+  ENABLED: false,
   DEBUG: false,
   LOG_PHASES: false,
   LOG_EACH_TURN: false,

@@ -21,6 +21,7 @@ export class MapController {
   static city = null;
   static mapModel = null;
   static buildingGrid = null; // Grid de instancias reales de Building (no copias planas)
+  static routeApiUrl = "http://127.0.0.1:5000/api/calculate-route";
 
   // =====================
   // STATIC METHODS
@@ -150,12 +151,141 @@ export class MapController {
    * @returns {object|undefined}
    */
   static replaceCellBuilding(btnId, builds, cell) {
+    Logger.log("🏭 [MapController] changeBuild:", btnId, "en celda", cell.id);
+    const mapModel = this.mapModel || null;
+    if (!mapModel) {
+      Logger.error("❌ [MapController] No hay mapModel");
+      return;
+    }
+
+    const [type, subtype] = [btnId[0], btnId[1]];
+    const modelKey = subtype ? `${type}.${subtype}` : type;
+
+    const building = Building.create({
+      id: cell.id,
+      type,
+      subtype,
+      model: builds.getModel(modelKey),
+    });
+
+    // Asignar la instancia directamente (no copia plana)
+    const updated = mapModel.setBuildingAt(cell.i, cell.j, building);
+    if (!updated) {
+      Logger.warn("⚠️ [MapController] No se pudo reemplazar celda ocupada", {
+        i: cell.i,
+        j: cell.j,
+        requested: `${type}${subtype || ""}`,
+      });
+      return { instance: null };
+    }
+
+    Logger.log("✅ [MapController] Edificio cambiado exitosamente");
+    return { instance: building };
+  }
+
+  static moveBuildingCell(sourceCell, targetCell, builds) {
+    const mapModel = this.mapModel || null;
+    if (!mapModel || !sourceCell || !targetCell || !builds) return false;
+    if (targetCell.cellData?.type !== "g") return false;
+
+    const moved = mapModel.moveBuilding(
+      sourceCell.i,
+      sourceCell.j,
+      targetCell.i,
+      targetCell.j,
+      (sourceId) =>
+        Building.create({
+          id: sourceId,
+          type: "g",
+          subtype: "",
+          model: builds.getModel("g"),
+        }),
     return MapBuildController.replaceCellBuilding(
       btnId,
       builds,
       cell,
       this.mapModel,
     );
+  }
+
+  static normalizeRoutePoint(point) {
+    if (Array.isArray(point) && point.length >= 2) {
+      const i = Number.parseInt(point[0], 10);
+      const j = Number.parseInt(point[1], 10);
+      if (!Number.isNaN(i) && !Number.isNaN(j)) return [i, j];
+    }
+
+    if (point && typeof point === "object") {
+      if (typeof point.i !== "undefined" && typeof point.j !== "undefined") {
+        return this.normalizeRoutePoint([point.i, point.j]);
+      }
+
+      if (typeof point.id === "string") {
+        const rawId = point.id.replace(/^map-item-/, "");
+        if (rawId.length >= 4) {
+          const i = Number.parseInt(rawId.slice(0, 2), 10);
+          const j = Number.parseInt(rawId.slice(2, 4), 10);
+          if (!Number.isNaN(i) && !Number.isNaN(j)) return [i, j];
+        }
+      }
+    }
+
+    if (typeof point === "string") {
+      const rawId = point.replace(/^map-item-/, "");
+      if (rawId.length >= 4) {
+        const i = Number.parseInt(rawId.slice(0, 2), 10);
+        const j = Number.parseInt(rawId.slice(2, 4), 10);
+        if (!Number.isNaN(i) && !Number.isNaN(j)) return [i, j];
+      }
+    }
+
+    return null;
+  }
+
+  static async calculateRoute(startPoint, endPoint) {
+    const roadMatrix = this.mapModel?.roadMatrix;
+    if (!Array.isArray(roadMatrix) || !roadMatrix.length || !Array.isArray(roadMatrix[0])) {
+      return { ok: false, error: "roadMatrix no disponible" };
+    }
+
+    const start = this.normalizeRoutePoint(startPoint);
+    const end = this.normalizeRoutePoint(endPoint);
+
+    if (!start || !end) {
+      return { ok: false, error: "start o end inválidos" };
+    }
+
+    try {
+      const response = await fetch(this.routeApiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          map: roadMatrix,
+          start,
+          end,
+        }),
+      });
+
+      const payload = await response.json().catch(() => null);
+      if (!response.ok) {
+        return {
+          ok: false,
+          status: response.status,
+          error: payload?.error || "No se pudo calcular ruta",
+        };
+      }
+
+      return {
+        ok: true,
+        status: response.status,
+        route: payload?.route || [],
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        error: error?.message || "No se pudo conectar al servicio de rutas",
+      };
+    }
   }
 
   /**
@@ -250,6 +380,22 @@ export class MapController {
       return;
     }
 
+    // Asignar buildingGrid ANTES de inicializar 
+    this.city = cityModel;
+    this.mapModel = this.city.map;
+    this.buildingGrid = this.mapModel.grid;
+
+    this.mapModel.addObserver((change) => {
+      if (change.type === "cell-updated") {
+        this.renderBuildingInCell(change.id, change.current);
+        this.rebindCellListeners();
+      }
+    });
+
+    // API pública para que frontend pida ruta y reciba la respuesta cruda del backend.
+    window.calculateMapRoute = (startPoint, endPoint) =>
+      this.calculateRoute(startPoint, endPoint);
+    Logger.log("✅ [MapController] buildingGrid asignado");
     this.setupMapModel(cityModel);
     this.bindMapModelObserver();
 

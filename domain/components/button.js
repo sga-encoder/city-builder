@@ -1,4 +1,4 @@
-const button = (id, num, icons, sheets, iconName = "") => {
+export const button = (id, num, icons, sheets, iconName = "") => {
   const btn = document.createElement("div");
   btn.id = id;
   btn.classList.add("button");
@@ -7,7 +7,14 @@ const button = (id, num, icons, sheets, iconName = "") => {
     btn.id = id.split(".")[0];
   }
   const rule = `#${id.includes(".") ? id.split(".")[0] : id}{ --i:${num}; }`;
-  sheets.insertRule(rule, sheets.cssRules.length);
+  const targetSheet = sheets || document.styleSheets[0];
+  if (targetSheet) {
+    try {
+      targetSheet.insertRule(rule, targetSheet.cssRules.length);
+    } catch {
+      // Continue rendering the button even if dynamic CSS rule insertion fails.
+    }
+  }
 
   const imgContainer = document.createElement("div");
   imgContainer.classList.add("img-container");

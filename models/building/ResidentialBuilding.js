@@ -1,3 +1,4 @@
+import { Building } from "./Building.js";
 /**
  * Representa un edificio residencial en la ciudad.
  * Define costos, capacidad y consumo de recursos según el subtipo.
@@ -17,7 +18,7 @@
  *   subtype: 1
  * });
  */
-class ResidentialBuilding extends Building {
+export class ResidentialBuilding extends Building {
   constructor(dict) {
     const { type, subtype } = dict;
     const subtypeData = Building.getSubtypeData(type, subtype);
@@ -25,5 +26,58 @@ class ResidentialBuilding extends Building {
     super(instance);
     this.capacity = instance.capacity;
     this.citizens = [];
+  }
+
+  static getResidentialSubtypeInfo(subtype) {
+    const normalizedSubtype = String(subtype);
+    const subtypeData = Building.getSubtypeData("R", normalizedSubtype);
+    const isHouse = normalizedSubtype === "1";
+    return {
+      subtype: normalizedSubtype,
+      key: `R${normalizedSubtype}`,
+      typeResidential: isHouse ? "Casa" : "Apartamento",
+      capacity: subtypeData.capacity ?? (isHouse ? 4 : 12),
+      cost: subtypeData.cost ?? (isHouse ? 1000 : 3000),
+      energyUsage: subtypeData.energyUsage ?? 0,
+      waterUsage: subtypeData.waterUsage ?? 0,
+    };
+  }
+
+  executeTurnLogic(city, StatsManager) {
+    const energyUsage = Number(this.energyUsage || 0);
+    const waterUsage = Number(this.waterUsage || 0);
+
+    const energyResource = city?.resources?.energy;
+    const waterResource = city?.resources?.water;
+
+    const canConsumeEnergy =
+      !!energyResource && energyResource.canConsume(energyUsage);
+    const canConsumeWater =
+      !!waterResource && waterResource.canConsume(waterUsage);
+
+    if (canConsumeEnergy && energyUsage > 0) {
+      energyResource.subtract(energyUsage);
+    }
+
+    if (canConsumeWater && waterUsage > 0) {
+      waterResource.subtract(waterUsage);
+    }
+
+    StatsManager.addStats(
+      `R${this.subtype}`,
+      {
+        building: {
+          amount: 1,
+        },
+        consumo: {
+          energia: canConsumeEnergy ? energyUsage : 0,
+          agua: canConsumeWater ? waterUsage : 0,
+        },
+        ocupacion: {
+          actual: this.citizens?.length || 0,
+          max: this.capacity || 0,
+        },
+      },
+    );
   }
 }

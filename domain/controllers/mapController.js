@@ -1,171 +1,138 @@
-﻿class MapController {
+﻿import { MapCameraController } from "./map/MapCameraController.js";
+import { MapSelectionController } from "./map/MapSelectionController.js";
+import { MapEventBinder } from "./map/MapEventBinder.js";
+import { MapModelObserverBinder } from "./map/MapModelObserverBinder.js";
+import { MapBuildController } from "./map/MapBuildController.js";
+import { SlideLeftController } from "./SlideLeftController.js";
+import { Logger } from "../utilis/Logger.js";
+import { LocalStorage } from "../../database/LocalStorage.js";
+
+export class MapController {
+  /**
+   * Controlador fachada para interacciones del mapa.
+   * Coordina selección de celdas, cámara, renderizado y operaciones de edificios.
+   */
   // =====================
   // STATIC PROPERTIES
   // =====================
-  static activeCell = null;
-  static interactionMode = "view";
-  static mapCamera = null;
-  static resizeDebounceTimer = null;
-  static cameraRetryCount = 0;
-  static cameraRetryTimer = null;
+
   static mapContainerElement = null;
   static city = null;
-  static mapModel = null
+  static mapModel = null;
   static buildingGrid = null; // Grid de instancias reales de Building (no copias planas)
   static routeApiUrl = "http://127.0.0.1:5000/api/calculate-route";
 
   // =====================
   // STATIC METHODS
   // =====================
+
+  /**
+   * Inicializa la cámara del mapa y registra la limpieza de selección al empezar pan.
+   * @returns {void}
+   */
   static initializeCamera() {
-    Logger.log("🎥 [MapController] setupMapCamera iniciando...");
-    const viewport = document.querySelector("#map");
-    const map = viewport?.querySelector(".map");
-
-    if (!viewport || !map) {
-      Logger.warn("⚠️ [MapController] No hay viewport o map aún");
-      return;
-    }
-    if (viewport.dataset.cameraReady === "true") {
-      Logger.log("ℹ️ [MapController] Camera ya lista");
-      return;
-    }
-
-    try {
-      const fitMinScale = 0.1;
-      const maxScale = 40;
-      const responsiveInitialScale = {
-        756: 8,
-        1024: 4,
-        99999: 1,
-      };
-
-      Logger.log("📱 [MapController] Escalas:", {
-        fitMinScale,
-        maxScale,
-        responsiveInitialScale,
-      });
-
-      this.mapCamera = new MapCamera("#map", document.styleSheets[1], {
-        minScale: fitMinScale,
-        maxScale,
-        scale: 1,
-      });
-      Logger.log("✅ [MapController] MapCamera creado exitosamente");
-
-      this.mapCamera.onPanStart(() => {
-        this.clearCellSelection();
-      });
-
-      const applyResponsiveZoom = () => {
-        this.mapCamera.applyResponsiveZoom(responsiveInitialScale);
-      };
-
-      // Aplicar zoom inicial
-      requestAnimationFrame(() => {
-        applyResponsiveZoom();
-      });
-
-      // Reajustar al cambiar tamaño de pantalla
-      window.addEventListener("resize", () => {
-        clearTimeout(this.resizeDebounceTimer);
-        this.resizeDebounceTimer = setTimeout(() => {
-          this.mapCamera.setZoomLimits(fitMinScale, maxScale);
-          applyResponsiveZoom();
-        }, 150);
-      });
-
-      window.mapCamera = this.mapCamera;
-      Logger.log("✅ [MapController] Camera configurada completamente");
-    } catch (error) {
-      Logger.error("❌ [MapController] Error en MapCamera:", error);
-      console.error("Error inicializando MapCamera:", error);
-    }
+    MapCameraController.initializeCamera(() => this.clearCellSelection());
   }
 
+  /**
+   * Reasigna listeners de clic sobre celdas del mapa usando el estado actual.
+   * @returns {void}
+   */
   static rebindCellListeners() {
-    Logger.log("🔄 [MapController] Refrescando eventos del mapa...");
-    // Limpia listeners viejos
-    document.querySelectorAll(".map-item").forEach((item) => {
-      item.dataset.eventsBound = "false";
+    MapEventBinder.bindMapClick({
+      mapContainerElement: this.mapContainerElement,
+      buildingGrid: this.buildingGrid || [],
+      hasPanned: () => MapCameraController.hasPanned,
+      onSelectGround: (id, cellData, i, j) => {
+        this.selectMapCell(id, cellData, i, j);
+        this.openBuildMenu();
+        this.interactionMode = "build";
+      },
+      onSelectBuilding: (id, cellData, i, j) => {
+        this.selectMapCell(id, cellData, i, j);
+        this.openManageMenu();
+        this.interactionMode = "manage";
+      },
+      onTryMove: (cellRef) => SlideLeftController.completeMoveBuilding(cellRef),
+      onPersistMap: () => this.mapModel?.schedulePersist?.(),
     });
-
-    const map = this.buildingGrid || [];
-    Logger.log("🗺️ [MapController] Procesando", map.length, "filas");
-
-    for (let i = 0; i < map.length; i++) {
-      for (let j = 0; j < map[i].length; j++) {
-        const cell = map[i][j];
-        const id = cell.id;
-        const item = document.querySelector(`#map-item-${id}`);
-
-        if (!item) continue;
-        if (item.dataset.eventsBound === "true") continue;
-
-        item.dataset.eventsBound = "true";
-
-        item.addEventListener("click", (e) => {
-          if (this.mapCamera?.hasPanned) return;
-          e.stopPropagation();
-
-          if (SlideLeftController.moveMode) {
-            const cellRef = { id, cellData: map[i][j], i, j };
-            const moved = SlideLeftController.completeMoveBuilding(cellRef);
-            if (moved) return;
-          }
-
-          if (map[i][j].type === "g") {
-            this.selectMapCell(id, map[i][j], i, j);
-            this.openBuildMenu();
-            this.interactionMode = "build";
-          } else {
-            this.selectMapCell(id, map[i][j], i, j);
-            this.openManageMenu();
-            this.interactionMode = "manage";
-          }
-        });
-      }
-    }
-
-    // Serializar instancias a formato simple para localStorage
-    const serializableMap = map.map(row => row.map(building => ({...building})));
-    LocalStorage.saveData("map", JSON.stringify(serializableMap));
-    Logger.log("✅ [MapController] Eventos refrescados y mapa guardado");
   }
 
+  // =====================
+  // SELECTION STATE PROXIES
+  // =====================
+
+  /**
+   * Celda actualmente seleccionada en el mapa.
+   * @returns {object|null}
+   */
+  static get activeCell() {
+    return MapSelectionController.activeCell;
+  }
+
+  /**
+   * Modo de interacción actual (`view`, `build`, `manage`).
+   * @returns {string}
+   */
+  static get interactionMode() {
+    return MapSelectionController.interactionMode;
+  }
+
+  /**
+   * Actualiza el modo de interacción actual.
+   * @param {string} value - Nuevo modo de interacción.
+   * @returns {void}
+   */
+  static set interactionMode(value) {
+    MapSelectionController.interactionMode = value;
+  }
+
+  /**
+   * Selecciona una celda del mapa.
+   * @param {string} id - Identificador de celda.
+   * @param {object} cellData - Datos del contenido de la celda.
+   * @param {number} i - Índice de fila.
+   * @param {number} j - Índice de columna.
+   * @returns {void}
+   */
   static selectMapCell(id, cellData, i, j) {
-    if (this.activeCell) {
-      document
-        .querySelector(`#map-item-${this.activeCell.id}`)
-        ?.classList.remove("selected");
-      SlideLeftController.setMenuState("none");
-    }
-
-    this.activeCell = { id, cellData, i, j };
-    document.querySelector(`#map-item-${id}`).classList.add("selected");
-    LocalStorage.saveData("selectedCell", JSON.stringify(this.activeCell));
+    return MapSelectionController.selectMapCell(id, cellData, i, j);
   }
 
-  static openBuildMenu() {
-    SlideLeftController.setMenuState("build");
-  }
-
-  static openManageMenu() {
-    SlideLeftController.setMenuState("manage");
-  }
-
+  /**
+   * Limpia la celda seleccionada y reinicia el estado de interacción.
+   * @returns {void}
+   */
   static clearCellSelection() {
-    if (this.activeCell) {
-      document
-        .querySelector(`#map-item-${this.activeCell.id}`)
-        ?.classList.remove("selected");
-      this.activeCell = null;
-      LocalStorage.saveData("selectedCell", null);
-      this.interactionMode = "view";
-      SlideLeftController.setMenuState("none");
-    }
+    return MapSelectionController.clearCellSelection();
   }
 
+  /**
+   * Abre el menú de construcción en el panel lateral.
+   * @returns {void}
+   */
+  static openBuildMenu() {
+    return MapSelectionController.openBuildMenu();
+  }
+
+  /**
+   * Abre el menú de gestión del edificio seleccionado.
+   * @returns {void}
+   */
+  static openManageMenu() {
+    return MapSelectionController.openManageMenu();
+  }
+
+  // =====================
+  // BUILDING OPERATIONS
+  // =====================
+
+  /**
+   * Renderiza visualmente un edificio dentro de una celda concreta.
+   * @param {string} cellId - Id de celda destino.
+   * @param {object} building - Instancia de edificio con método `build()`.
+   * @returns {HTMLElement|undefined}
+   */
   static renderBuildingInCell(cellId, building) {
     const mapItem = document.querySelector(`#map-item-${cellId}`);
     if (!mapItem || !building) return;
@@ -175,6 +142,13 @@
     return mapItem;
   }
 
+  /**
+   * Reemplaza el edificio de una celda usando el controlador de construcción.
+   * @param {string} btnId - Id del botón/tipo de edificio.
+   * @param {object} builds - Registro de modelos de edificios.
+   * @param {object} cell - Celda objetivo.
+   * @returns {object|undefined}
+   */
   static replaceCellBuilding(btnId, builds, cell) {
     Logger.log("🏭 [MapController] changeBuild:", btnId, "en celda", cell.id);
     const mapModel = this.mapModel || null;
@@ -225,11 +199,12 @@
           subtype: "",
           model: builds.getModel("g"),
         }),
+    return MapBuildController.replaceCellBuilding(
+      btnId,
+      builds,
+      cell,
+      this.mapModel,
     );
-
-    if (!moved) return false;
-
-    return true;
   }
 
   static normalizeRoutePoint(point) {
@@ -312,32 +287,71 @@
     }
   }
 
-  static buyBuildingCell(btnid, builds, cell) {
-    const [selectedEntry] = Map.buildingInstanceMap(btnid);
-    const buildingToBuy = selectedEntry?.[1] || null;
-
-    if (!buildingToBuy) {
-      Logger.warn("⚠️ [MapController] No se encontró building para", btnid);
-      return false;
-    }
-
-    if (!this.city.buyBuilding(buildingToBuy)) {
-      Logger.warn("⚠️ [MapController] No se pudo completar la compra para", btnid);
-      return false;
-    }
-
-    const result = this.replaceCellBuilding(btnid, builds, cell);
-    if (!result?.instance) {
-      // Revertir descuento si no se pudo colocar en el mapa.
-      this.city.resources.money.add(buildingToBuy.cost);
-      Logger.warn("⚠️ [MapController] No se pudo colocar el edificio en el mapa");
-      return false;
-    }
-
-    Logger.log("✅ [MapController] Edificio comprado y colocado en el mapa");
-    return result;
+  /**
+   * Mueve un edificio desde una celda origen hacia una celda destino.
+   * @param {object} sourceCell - Celda origen.
+   * @param {object} targetCell - Celda destino.
+   * @param {object} builds - Registro de modelos de edificios.
+   * @returns {boolean}
+   */
+  static moveBuildingCell(sourceCell, targetCell, builds) {
+    return MapBuildController.moveBuildingCell(
+      sourceCell,
+      targetCell,
+      builds,
+      this.mapModel,
+    );
   }
 
+  /**
+   * Compra y coloca un edificio en una celda.
+   * @param {string} btnid - Id del botón/tipo de edificio.
+   * @param {object} builds - Registro de modelos de edificios.
+   * @param {object} cell - Celda objetivo.
+   * @returns {object|boolean}
+   */
+  static buyBuildingCell(btnid, builds, cell) {
+    return MapBuildController.buyBuildingCell(
+      btnid,
+      builds,
+      cell,
+      this.mapModel,
+      this.city,
+    );
+  }
+
+  // =====================
+  // INTERNAL SETUP
+  // =====================
+
+  /**
+   * Asigna referencias de ciudad y mapa para uso del controlador.
+   * @param {object} cityModel - Modelo de ciudad recibido en la inicialización.
+   * @returns {void}
+   */
+  static setupMapModel(cityModel) {
+    this.city = cityModel;
+    this.mapModel = this.city.map;
+    this.buildingGrid = this.mapModel.grid;
+    Logger.log("✅ [MapController] buildingGrid asignado");
+  }
+
+  /**
+   * Suscribe el observador de cambios de celdas para refrescar render y listeners.
+   * @returns {void}
+   */
+  static bindMapModelObserver() {
+    return MapModelObserverBinder.bindCellUpdatedObserver(this);
+  }
+
+  // =====================
+  // LIFECYCLE
+  // =====================
+
+  /**
+   * Configura listeners e inicialización de cámara cuando el mapa ya está renderizado.
+   * @returns {void}
+   */
   static setupMapInteractions() {
     const hasMap = !!this.mapContainerElement.querySelector(".map");
     const hasData = !!LocalStorage.loadData("map");
@@ -348,8 +362,17 @@
     this.initializeCamera();
   }
 
+  /**
+   * Inicializa el controlador del mapa con el modelo de ciudad.
+   * @param {object} cityModel - Instancia del modelo de ciudad con mapa y recursos.
+   * @returns {void}
+   */
   static initialize(cityModel) {
-    Logger.log("🎮 [MapController] init llamado con grid de", cityModel?.map?.grid?.length, "filas");
+    Logger.log(
+      "🎮 [MapController] init llamado con grid de",
+      cityModel?.map?.grid?.length,
+      "filas",
+    );
     this.mapContainerElement = document.querySelector("#map");
     if (!this.mapContainerElement) {
       Logger.error("❌ [MapController] No se encontró #map container");
@@ -372,55 +395,21 @@
     window.calculateMapRoute = (startPoint, endPoint) =>
       this.calculateRoute(startPoint, endPoint);
     Logger.log("✅ [MapController] buildingGrid asignado");
+    this.setupMapModel(cityModel);
+    this.bindMapModelObserver();
 
     this.setupMapInteractions();
 
     // Fallback durante arranque asíncrono
-    this.cameraRetryCount = 0;
-    this.cameraRetryTimer = setInterval(() => {
-      this.setupMapInteractions();
-      this.cameraRetryCount += 1;
+    MapCameraController.initializeCameraRetry(() =>
+      this.setupMapInteractions(),
+    );
 
-      if (
-        this.mapContainerElement.dataset.cameraReady === "true" ||
-        this.cameraRetryCount >= 40
-      ) {
-        clearInterval(this.cameraRetryTimer);
-      }
-    }, 100);
-
-    // Global click handler
-    document.addEventListener("click", (e) => {
-      const inSlideLeft = !!e.target.closest("#slide-left");
-      const inMap = !!e.target.closest("#map");
-      const inMapItem = !!e.target.closest(".map-item");
-
-      Logger.log("🖱️ [MapController] Global click", {
-        inSlideLeft,
-        inMap,
-        inMapItem,
-        activeCellId: this.activeCell?.id || null,
-      });
-
-      // Cualquier interacción en el menú lateral no debe limpiar selección.
-      if (inSlideLeft) {
-        return;
-      }
-
-      if (inMapItem) return;
-
-      if (inMap) {
-        if (!this.mapCamera?.hasPanned) {
-          this.clearCellSelection();
-          SlideLeftController.cancelMoveMode();
-        }
-        return;
-      }
-
-      if (!inSlideLeft) {
-        this.clearCellSelection();
-        SlideLeftController.cancelMoveMode();
-      }
+    MapEventBinder.bindGlobalClick({
+      getActiveCellId: () => this.activeCell?.id || null,
+      hasPanned: () => MapCameraController.hasPanned,
+      clearSelection: () => this.clearCellSelection(),
+      cancelMoveMode: () => SlideLeftController.cancelMoveMode(),
     });
   }
 }

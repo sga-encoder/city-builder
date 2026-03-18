@@ -1,4 +1,4 @@
-class FileManager {
+export class FileManager {
     static async loadJSON(filePath) {
         try {
             const response = await fetch(filePath);

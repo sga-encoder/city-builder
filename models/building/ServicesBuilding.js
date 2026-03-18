@@ -1,4 +1,6 @@
-class ServicesBuilding extends Building {
+import { Building } from "./Building.js";
+
+export class ServicesBuilding extends Building {
   constructor(dict) {
     const { type, subtype } = dict;
     const subtypeData = Building.getSubtypeData(type, subtype);
@@ -6,5 +8,7 @@ class ServicesBuilding extends Building {
     super(instance);
     this.benefit = instance.benefit;
     this.radius = instance.radius;
+  }
+  executeTurnLogic(city, buildingData) {
   }
 }

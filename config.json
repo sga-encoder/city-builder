@@ -101,6 +101,8 @@
         "capacity": 4,
         "energyUsage": 5,
         "waterUsage": 3,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "model": "../../public/models/house_land.svg"
       },
       "2": {
@@ -108,6 +110,8 @@
         "capacity": 12,
         "energyUsage": 15,
         "waterUsage": 10,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "model": "../../public/models/apartaments_land.svg"
       }
     },
@@ -118,6 +122,8 @@
         "energyUsage": 8,
         "waterUsage": 0,
         "income": 500,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "model": "../../public/models/store_land.svg"
       },
       "2": {
@@ -126,6 +132,8 @@
         "energyUsage": 25,
         "waterUsage": 0,
         "income": 2000,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "model": "../../public/models/mall_land.svg"
       }
     },
@@ -135,6 +143,8 @@
         "capacity": 15,
         "energyUsage": 20,
         "waterUsage": 15,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "benefit": 800,
         "model": "../../public/models/factory_land.svg"
       },
@@ -143,6 +153,8 @@
         "capacity": 8,
         "energyUsage": 0,
         "waterUsage": 10,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "benefit": 50,
         "model": "../../public/models/farm_land.svg"
       }
@@ -152,6 +164,8 @@
         "cost": 1500,
         "energyUsage": 0,
         "waterUsage": 0,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "benefit": 5,
         "model": "../../public/models/park_land.svg"
       }
@@ -161,6 +175,8 @@
         "cost": 4000,
         "energyUsage": 10,
         "waterUsage": 0,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "benefit": 10,
         "radius": 5,
         "model": "../../public/models/police_station_land.svg"
@@ -169,6 +185,8 @@
         "cost": 4000,
         "energyUsage": 10,
         "waterUsage": 0,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "benefit": 10,
         "radius": 5,
         "model": "../../public/models/fire_station_land.svg"
@@ -177,6 +195,8 @@
         "cost": 6000,
         "energyUsage": 30,
         "waterUsage": 10,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "benefit": 10,
         "radius": 7,
         "model": "../../public/models/hospital_land.svg"
@@ -187,6 +207,8 @@
         "cost": 10000,
         "energyUsage": 0,
         "waterUsage": 0,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "production": 200,
         "model": "../../public/models/energy_land.svg"
       },
@@ -194,6 +216,8 @@
         "cost": 8000,
         "energyUsage": 20,
         "waterUsage": 0,
+        "requiredRoad": true,
+        "requireEmptyCell": true,
         "production": 150,
         "model": "../../public/models/water_land.svg"
       }
@@ -203,6 +227,8 @@
         "cost": 0,
         "energyUsage": 0,
         "waterUsage": 0,
+        "requiredRoad": false,
+        "requireEmptyCell": false,
         "model": "../../public/models/ground_land.svg"
       }
     },
@@ -211,6 +237,8 @@
         "cost": 100,
         "energyUsage": 0,
         "waterUsage": 0,
+        "requiredRoad": false,
+        "requireEmptyCell": true,
         "model": "../../public/models/way_land.svg"
       }
     }

@@ -1,3 +1,6 @@
+import { Map } from "../../../models/Map.js";
+import { button } from "../Button.js";
+
 const buttonBuy = (id, index, icons, sheets, instance) => { 
   const btn = button(id, index, icons, sheets, !id[1] ? id : `${id[0]}.${id[1]}`);
 
@@ -9,7 +12,7 @@ const buttonBuy = (id, index, icons, sheets, instance) => {
 }
 
 
-const createMenu03 = (icons, sheets) => {
+export const createMenu03 = (icons, sheets) => {
   const containerButton = document.createElement("div");
   containerButton.classList.add("container-buttons", "menu-03");
 

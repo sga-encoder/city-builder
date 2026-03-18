@@ -1,4 +1,6 @@
-class Map {
+import { createBuilding } from "./building/buildingFactory.js";
+import { LocalStorage } from "../database/LocalStorage.js";
+export class Map {
   static typeBuildingAcceptedMap = [];
 
   static buildAcceptedTypes(buildsConfig) {
@@ -18,14 +20,13 @@ class Map {
   }
 
   static buildingInstanceMap(type = null) {
-  
-    const data=  this.typeBuildingAcceptedMap.map((typeId) => {
+    const data = this.typeBuildingAcceptedMap.map((typeId) => {
       const type = typeId[0];
       const subtype = typeId.slice(1) || "";
 
       return [
         typeId,
-        Building.create({
+        createBuilding({
           id: null,
           type,
           subtype,
@@ -33,34 +34,20 @@ class Map {
         }),
       ];
     });
-      if (type === null) {
-        return data;
-      } else {
-        return data.filter(([typeId]) => typeId.startsWith(type));
-      }
+    if (type === null) {
+      return data;
+    } else {
+      return data.filter(([typeId]) => typeId.startsWith(type));
+    }
   }
 
-
-  constructor(dict) {
-    Logger.log("🗺️ [Map] Constructor llamado");
-    const { layout, nameCointainer, svgModels, buildsConfig } = dict;
-    Logger.log("🔍 [Map] Buscando container:", nameCointainer);
-    this.container = document.querySelector(nameCointainer);
-
-    if (!this.container) {
-      Logger.error(`❌ [Map] Container NO encontrado: ${nameCointainer}`);
-      return;
-    }
-
+  constructor({ grid, buildsConfig }) {
     this.observers = [];
     this.persistDebounce = null;
-
-    Logger.log("✅ [Map] Container encontrado:", this.container);
-    this.svgModels = svgModels;
     Map.typeBuildingAcceptedMap = Map.buildAcceptedTypes(buildsConfig);
-    Logger.log("🏗️ [Map] Llamando createMap con layout:", layout.length);
-    this.grid = this.createMap(layout);
-    Logger.log("✅ [Map] Grid creado con", this.grid?.length, "filas");
+    this.grid = grid;
+    this.schedulePersist();
+    this.notifyObservers({ type: "map-initialized", size: grid.length });
   }
 
   addObserver(callback) {

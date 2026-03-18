@@ -1,4 +1,5 @@
-const createMenu01 = (icons, sheets) => {
+import { button } from "../Button.js";
+export const createMenu01 = (icons, sheets) => {
   const containerButton = document.createElement("div");
   containerButton.classList.add("container-buttons", "menu-01");
 

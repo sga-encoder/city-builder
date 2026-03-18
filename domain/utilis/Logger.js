@@ -1,4 +1,4 @@
-class Logger {
+export class Logger {
   static enabled = {
     state: false,
     classes: [],
@@ -59,12 +59,10 @@ class Logger {
   }
 
   static _registerType(className) {
-    if (!className) {
-      return;
-    }
-
-    this.types[className] = (this.types[className] || 0) + 1;
-  }
+  if (!className) return;
+  if (!this.enabled.state) return; // Solo registra si está habilitado
+  this.types[className] = (this.types[className] || 0) + 1;
+}
 
   static _shouldProject(className) {
     if (!this.enabled.state) {
@@ -102,4 +100,6 @@ class Logger {
   static info(...args) {
     this._project("info", args);
   }
+
 }
+

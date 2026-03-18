@@ -1,18 +1,13 @@
-class Building {
+import { getBuildSubtypeConfig } from "../../domain/config/runtimeConfig.js";
 
 
+export class Building {
   static getSubtypeData(type, subtype) {
-    if (!CityBuilder.CityConfig) {
-      console.warn(
-        "Building config not initialized. Call Building.initConfig() first.",
-      );
-      return {};
-    }
-    return CityBuilder.CityConfig.builds?.[type]?.[subtype] || {};
+    return getBuildSubtypeConfig(type, subtype);
   }
 
   constructor(dict) {
-    const { id, type, subtype, cost, energyUsage, waterUsage, model} = dict; 
+    const { id, type, subtype, model, cost, energyUsage, waterUsage, requiredRoad, requireEmptyCell } = dict;
     this.id = id;
     this.type = type;
     this.subtype = subtype;
@@ -49,6 +44,8 @@ class Building {
       default:
         return new Building(dict);
     }
+    this.requiredRoad = requiredRoad ?? configData.requiredRoad;
+    this.requireEmptyCell = requireEmptyCell ?? configData.requireEmptyCell;
   }
 
   build() {
@@ -58,4 +55,14 @@ class Building {
     building.innerHTML = this.model;
     return building;
   }
+
+  // Nuevo - polimórfico, implementado en subclases
+executeTurnLogic(city, buildingData) {
+  // Subclasses implementan su propia lógica
+  // Modifica resources, population, etc
+}
+
+// Helpers
+getResourceConsumption(){}  // Retorna {energy, water}
+getResourceProduction(){}   // Retorna {energy, water, food, money}
 }

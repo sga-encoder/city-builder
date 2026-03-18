@@ -43,7 +43,7 @@ export class ResidentialBuilding extends Building {
     };
   }
 
-  executeTurnLogic(city, buildingData = {}) {
+  executeTurnLogic(city, StatsManager) {
     const energyUsage = Number(this.energyUsage || 0);
     const waterUsage = Number(this.waterUsage || 0);
 
@@ -51,48 +51,33 @@ export class ResidentialBuilding extends Building {
     const waterResource = city?.resources?.water;
 
     const canConsumeEnergy =
-      !!energyResource &&
-      typeof energyResource.canConsume === "function" &&
-      energyResource.canConsume(energyUsage);
+      !!energyResource && energyResource.canConsume(energyUsage);
     const canConsumeWater =
-      !!waterResource &&
-      typeof waterResource.canConsume === "function" &&
-      waterResource.canConsume(waterUsage);
+      !!waterResource && waterResource.canConsume(waterUsage);
 
     if (canConsumeEnergy && energyUsage > 0) {
-      energyResource.consume(energyUsage);
+      energyResource.subtract(energyUsage);
     }
 
     if (canConsumeWater && waterUsage > 0) {
-      waterResource.consume(waterUsage);
+      waterResource.subtract(waterUsage);
     }
 
-    if (canConsumeEnergy) {
-      buildingData.totalEnergyConsumed =
-        Number(buildingData.totalEnergyConsumed || 0) + energyUsage;
-    } else {
-      buildingData.energyShortageBuildings =
-        Number(buildingData.energyShortageBuildings || 0) + 1;
-    }
-
-    if (canConsumeWater) {
-      buildingData.totalWaterConsumed =
-        Number(buildingData.totalWaterConsumed || 0) + waterUsage;
-    } else {
-      buildingData.waterShortageBuildings =
-        Number(buildingData.waterShortageBuildings || 0) + 1;
-    }
-
-    return {
-      id: this.id,
-      type: this.type,
-      subtype: this.subtype,
-      energyUsage,
-      waterUsage,
-      energyConsumed: canConsumeEnergy ? energyUsage : 0,
-      waterConsumed: canConsumeWater ? waterUsage : 0,
-      hasEnergyShortage: !canConsumeEnergy,
-      hasWaterShortage: !canConsumeWater,
-    };
+    StatsManager.addStats(
+      `R${this.subtype}`,
+      {
+        building: {
+          amount: 1,
+        },
+        consumo: {
+          energia: canConsumeEnergy ? energyUsage : 0,
+          agua: canConsumeWater ? waterUsage : 0,
+        },
+        ocupacion: {
+          actual: this.citizens?.length || 0,
+          max: this.capacity || 0,
+        },
+      },
+    );
   }
 }

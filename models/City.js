@@ -65,14 +65,6 @@ export class City {
     }
   }
 
-  calculatePoints() {
-    Resources.calculateAllAmount(
-      this.resources.energy,
-      this.resources.water,
-      this.resources.money,
-      this.resources.food,
-    );
-  }
 
   // Getters para acceder a edificios
   getResidentialBuildings() {

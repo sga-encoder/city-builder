@@ -3,23 +3,25 @@ import { Logger } from "../utilis/Logger.js";
 // Si tienes otros loggers, impórtalos aquí
 const DEFAULTS = {
   ENABLED: true,
+  DEBUG: false,
   LOG_PHASES: false,
   LOG_EACH_TURN: false,
 };
 
 export class DevMode {
   static enabled = DEFAULTS.ENABLED;
+  static debug = DEFAULTS.DEBUG;
   static logPhases = DEFAULTS.LOG_PHASES;
   static logEachTurn = DEFAULTS.LOG_EACH_TURN;
 
   static enable(logTypes = []) {
-    this.enabled = true;
+    this.debug = true;
     localStorage.setItem("debugMode", "1");
     Logger.enable(logTypes);
   }
 
   static disable() {
-    this.enabled = false;
+    this.debug = false;
     localStorage.setItem("debugMode", "0");
 
     Logger.disable();
@@ -34,17 +36,21 @@ export class DevMode {
     this.logEachTurn = !!value;
   }
 
-  static isEnabled() {
+  static isEnabledDevMode() {
+    return this.enabled
+  }
+
+  static isEnabledDebug() {
     const stored = localStorage.getItem("debugMode");
     if (stored !== null) return stored === "1";
-    return this.enabled;
+    return this.debug;
   }
 
   static shouldLogPhases() {
-    return this.enabled && this.logPhases;
+    return this.debug && this.logPhases;
   }
 
   static shouldLogEachTurn() {
-    return this.enabled && this.logEachTurn;
+    return this.debug && this.logEachTurn;
   }
 }

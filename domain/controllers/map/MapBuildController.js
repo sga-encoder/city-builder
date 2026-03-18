@@ -3,38 +3,6 @@ import { createBuilding } from "../../../models/building/buildingFactory.js";
 import { Logger } from "../../utilis/Logger.js";
 import { ToastService } from "../../services/toast.js";
 export class MapBuildController {
-  static ROAD_REQUIRED_TYPES = new Set(["R", "C", "I", "S", "U", "P"]);
-
-  static BUILD_RULES = Object.freeze({
-    default: Object.freeze({
-      requireEmptyCell: true,
-      requireMoney: true,
-      requireAdjacentRoad: false,
-    }),
-    r: Object.freeze({
-      requireEmptyCell: true,
-      requireMoney: true,
-      requireAdjacentRoad: false,
-    }),
-    g: Object.freeze({
-      requireEmptyCell: false,
-      requireMoney: false,
-      requireAdjacentRoad: false,
-    }),
-  });
-
-  static getBuildRules(btnid) {
-    const type = String(btnid || "")[0] || "";
-    const base = this.BUILD_RULES.default;
-    const explicit = this.BUILD_RULES[type] || null;
-
-    if (explicit) return explicit;
-
-    return {
-      ...base,
-      requireAdjacentRoad: this.ROAD_REQUIRED_TYPES.has(type),
-    };
-  }
 
   static hasAdjacentRoad(grid, i, j) {
     const neighbors = [
@@ -42,6 +10,10 @@ export class MapBuildController {
       [i + 1, j],
       [i, j - 1],
       [i, j + 1],
+      [i - 1, j - 1],
+      [i - 1, j + 1],
+      [i + 1, j - 1],
+      [i + 1, j + 1],
     ];
 
     return neighbors.some(([ni, nj]) => grid?.[ni]?.[nj]?.type === "r");
@@ -52,16 +24,14 @@ export class MapBuildController {
       return { ok: false, message: "No se puede construir: datos incompletos." };
     }
 
-    const rules = this.getBuildRules(btnid);
-
-    if (rules.requireEmptyCell && cell.cellData?.type !== "g") {
+    if (buildingToBuy.requireEmptyCell && cell.cellData?.type !== "g") {
       return {
         ok: false,
         message: "No se puede construir: la celda no está vacía.",
       };
     }
 
-    if (rules.requireMoney && !city.canBuyBuilding(buildingToBuy)) {
+    if (!city.canBuyBuilding(buildingToBuy)) {
       return {
         ok: false,
         message: `Fondos insuficientes: necesitas $${buildingToBuy.cost}.`,
@@ -69,7 +39,7 @@ export class MapBuildController {
     }
 
     if (
-      rules.requireAdjacentRoad &&
+      buildingToBuy.requiredRoad &&
       !this.hasAdjacentRoad(mapModel.grid, cell.i, cell.j)
     ) {
       return {
@@ -77,6 +47,9 @@ export class MapBuildController {
         message: "No se puede construir: necesitas una vía adyacente.",
       };
     }
+    console.log(btnid, cell, mapModel, city, buildingToBuy);
+
+
 
     return { ok: true, message: "OK" };
   }

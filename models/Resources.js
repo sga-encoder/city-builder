@@ -87,61 +87,53 @@ export class Resources {
     return this.amount >= parsedValue;
   }
 
-  consume(value) {
-    return this.subtract(value);
-  }
+  // applyDelta(delta) {
+  //   const parsedDelta = Number(delta);
+  //   if (!Number.isFinite(parsedDelta)) {
+  //     Logger.warn("⚠️ [Resources] applyDelta() recibió valor inválido:", delta);
+  //     return this.amount;
+  //   }
 
-  produce(value) {
-    return this.add(value);
-  }
+  //   if (parsedDelta >= 0) {
+  //     return this.add(parsedDelta);
+  //   }
 
-  applyDelta(delta) {
-    const parsedDelta = Number(delta);
-    if (!Number.isFinite(parsedDelta)) {
-      Logger.warn("⚠️ [Resources] applyDelta() recibió valor inválido:", delta);
-      return this.amount;
-    }
+  //   return this.subtract(Math.abs(parsedDelta));
+  // }
 
-    if (parsedDelta >= 0) {
-      return this.add(parsedDelta);
-    }
+  // calculateAmount() {
+  //   const generated = Number(this.generatedAmount);
+  //   if (!Number.isFinite(generated) || generated < 0) {
+  //     Logger.warn("⚠️ [Resources] generatedAmount inválido:", this.generatedAmount);
+  //     return this.amount;
+  //   }
 
-    return this.subtract(Math.abs(parsedDelta));
-  }
+  //   if (this.consumed) {
+  //     return this.subtract(generated);
+  //   }
 
-  calculateAmount() {
-    const generated = Number(this.generatedAmount);
-    if (!Number.isFinite(generated) || generated < 0) {
-      Logger.warn("⚠️ [Resources] generatedAmount inválido:", this.generatedAmount);
-      return this.amount;
-    }
+  //   return this.add(generated);
+  // }
 
-    if (this.consumed) {
-      return this.subtract(generated);
-    }
+  // static calculateAllAmount(energy, water, money, food) {
+  //   if (!(energy instanceof Resources) || energy.type !== "energy") {
+  //     return false;
+  //   }
+  //   if (!(water instanceof Resources) || water.type !== "water") {
+  //     return false;
+  //   }
+  //   if (!(money instanceof Resources) || money.type !== "money") {
+  //     return false;
+  //   }
+  //   if (!(food instanceof Resources) || food.type !== "food") {
+  //     return false;
+  //   }
 
-    return this.add(generated);
-  }
-
-  static calculateAllAmount(energy, water, money, food) {
-    if (!(energy instanceof Resources) || energy.type !== "energy") {
-      return false;
-    }
-    if (!(water instanceof Resources) || water.type !== "water") {
-      return false;
-    }
-    if (!(money instanceof Resources) || money.type !== "money") {
-      return false;
-    }
-    if (!(food instanceof Resources) || food.type !== "food") {
-      return false;
-    }
-
-    return (
-      energy.calculateAmount() +
-      water.calculateAmount() +
-      money.calculateAmount() +
-      food.calculateAmount()
-    );
-  }
+  //   return (
+  //     energy.calculateAmount() +
+  //     water.calculateAmount() +
+  //     money.calculateAmount() +
+  //     food.calculateAmount()
+  //   );
+  // }
 }

@@ -7,7 +7,7 @@ export class Building {
   }
 
   constructor(dict) {
-    const { id, type, subtype, cost, energyUsage, waterUsage, model } = dict;
+    const { id, type, subtype, model, cost, energyUsage, waterUsage, requiredRoad, requireEmptyCell } = dict;
     this.id = id;
     this.type = type;
     this.subtype = subtype;
@@ -19,6 +19,8 @@ export class Building {
     this.cost = cost ?? configData.cost;
     this.energyUsage = energyUsage ?? configData.energyUsage;
     this.waterUsage = waterUsage ?? configData.waterUsage;
+    this.requiredRoad = requiredRoad ?? configData.requiredRoad;
+    this.requireEmptyCell = requireEmptyCell ?? configData.requireEmptyCell;
   }
 
   build() {

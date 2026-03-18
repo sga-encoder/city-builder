@@ -1,5 +1,5 @@
 export class TurnControlPanel {
-  static createControlPanel(turnSystem, city) {
+  static createControlPanel(turnSystem) {
     // Crear contenedor
     const panel = document.createElement("div");
     panel.id = "turn-control-panel";
@@ -48,9 +48,9 @@ export class TurnControlPanel {
 
     return panel;
   }
-  static render(turnSystem, city) {
+  static render(turnSystem) {
     const devToolsContainer = document.getElementById("dev-tools");
-    devToolsContainer.appendChild(this.createControlPanel(turnSystem, city));
+    devToolsContainer.appendChild(this.createControlPanel(turnSystem));
   }
 
   static destroy() {

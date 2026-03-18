@@ -1,4 +1,5 @@
-class Citizen extends Person { 
+import { Person } from "./Person.js";
+export class Citizen extends Person { 
     constructor(id, name) {
         super(id, name);
         this.happiness = 0;

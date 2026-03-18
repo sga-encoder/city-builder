@@ -47,10 +47,6 @@ export class MapBuildController {
         message: "No se puede construir: necesitas una vía adyacente.",
       };
     }
-    console.log(btnid, cell, mapModel, city, buildingToBuy);
-
-
-
     return { ok: true, message: "OK" };
   }
 

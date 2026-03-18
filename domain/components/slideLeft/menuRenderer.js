@@ -14,11 +14,10 @@ export class SlideLeftMenuRenderer {
     * @param {object} context.logger - Utilidad de logging.
     * @param {object} context.icons - Recursos de iconos.
     * @param {object} context.builds - Definiciones de edificios.
-    * @param {(nextState: string) => void} context.setMenuState - Callback de transición de estado.
    * @returns {void}
    */
   static render(context) {
-    const { state, constants, logger, icons, builds, setMenuState } = context;
+    const { state, constants, logger, icons, builds } = context;
 
     const slot = document.querySelector("#slide-left .menu-slot");
     if (!slot) {

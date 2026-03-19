@@ -6,7 +6,7 @@ import { MapBuildController } from "./map/MapBuildController.js";
 import { SlideLeftController } from "./SlideLeftController.js";
 import { Logger } from "../utilis/Logger.js";
 import { LocalStorage } from "../../database/LocalStorage.js";
-import { BuildingRenderer } from "../components/building/BuildingRenderer.js";
+import { BuildingRenderer } from "../components/building/Renderer.js";
 // import { Building } from "../models/Building.js";
 
 export class MapController {

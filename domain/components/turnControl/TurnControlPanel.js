@@ -1,23 +1,12 @@
 export class TurnControlPanel {
-  static createControlPanel(turnSystem) {
-    // Crear contenedor
-    const panel = document.createElement("div");
-    panel.id = "turn-control-panel";
+  static #createButton(label, onClick) {
+    const btn = document.createElement("button");
+    btn.textContent = label;
+    btn.onclick = onClick;
+    return btn;
+  }
 
-    // Botones
-    const playBtn = document.createElement("button");
-    playBtn.textContent = "▶️ Play";
-    playBtn.onclick = () => turnSystem.play();
-
-    const pauseBtn = document.createElement("button");
-    pauseBtn.textContent = "⏸️ Pause";
-    pauseBtn.onclick = () => turnSystem.pause();
-
-    const nextBtn = document.createElement("button");
-    nextBtn.textContent = "⏭️ Next Turn";
-    nextBtn.onclick = () => turnSystem.executeNextTurn();
-
-    // Velocidad
+  static #createSpeedSelect(turnSystem) {
     const speedSelect = document.createElement("select");
     ["X1", "X2", "X3"].forEach((speed) => {
       const opt = document.createElement("option");
@@ -27,19 +16,30 @@ export class TurnControlPanel {
     });
     speedSelect.value = turnSystem.speedKey;
     speedSelect.onchange = () => turnSystem.setSpeed(speedSelect.value);
+    return speedSelect;
+  }
 
-    // Estado actual
+  static #createStateLabel(turnSystem) {
     const stateLabel = document.createElement("span");
     stateLabel.textContent = `Estado: ${turnSystem.state}`;
-
-    // Actualizar estado en eventos
     turnSystem.addObserver((event) => {
       if (event.type === "stateChanged") {
         stateLabel.textContent = `Estado: ${event.state}`;
       }
     });
+    return stateLabel;
+  }
 
-    // Agregar al panel
+  static #createControlPanel(turnSystem) {
+    const panel = document.createElement("div");
+    panel.id = "turn-control-panel";
+
+    const playBtn = this.#createButton("▶️ Play", () => turnSystem.play());
+    const pauseBtn = this.#createButton("⏸️ Pause", () => turnSystem.pause());
+    const nextBtn = this.#createButton("⏭️ Next Turn", () => turnSystem.executeNextTurn());
+    const speedSelect = this.#createSpeedSelect(turnSystem);
+    const stateLabel = this.#createStateLabel(turnSystem);
+
     panel.appendChild(playBtn);
     panel.appendChild(pauseBtn);
     panel.appendChild(nextBtn);
@@ -48,9 +48,10 @@ export class TurnControlPanel {
 
     return panel;
   }
+
   static render(turnSystem) {
     const devToolsContainer = document.getElementById("dev-tools");
-    devToolsContainer.appendChild(this.createControlPanel(turnSystem));
+    devToolsContainer.appendChild(this.#createControlPanel(turnSystem));
   }
 
   static destroy() {

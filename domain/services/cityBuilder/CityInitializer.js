@@ -1,7 +1,7 @@
 // =====================
 // IMPORTS
 // =====================
-import { MapRenderer } from "../../components/map/MapRenderer.js";
+import { MapRenderer } from "../../components/map/Renderer.js";
 import { City } from "../../../models/City.js";
 import { MapController } from "../../controllers/MapController.js";
 import { Logger } from "../../utilis/Logger.js";

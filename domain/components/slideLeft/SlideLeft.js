@@ -1,10 +1,10 @@
 
-import { resourceMenu } from "./slideLeft/Resource.js";
-import { SlideLeftController } from "../controllers/SlideLeftController.js";
-import { Logger } from "../utilis/Logger.js";
+import { Resource } from "./Resource.js";
+import { SlideLeftController } from "../../controllers/SlideLeftController.js";
+import { Logger } from "../../utilis/Logger.js";
 
-export class SlideLeftMenu {
-  static #createSlideLeftMenu(resource, icons) {
+export class SlideLeft {
+  static #build(resource, icons) {
     const fragment = document.createElement("div");
     const sheets = document.styleSheets[0];
 
@@ -14,7 +14,7 @@ export class SlideLeftMenu {
     menuSlot.classList.add("menu-slot");
     fragment.appendChild(menuSlot);
 
-    fragment.appendChild(resourceMenu(resource, icons, sheets));
+    fragment.appendChild(Resource.build(resource, icons, sheets));
 
     return fragment;
   }
@@ -28,7 +28,7 @@ export class SlideLeftMenu {
     }
 
     container.querySelector(".container")?.remove();
-    container.prepend(SlideLeftMenu.#createSlideLeftMenu(resource, icons, builds));
+    container.prepend(this.#build(resource, icons, builds));
 
     // Start reactive updates for resource values
     SlideLeftController.startResourceWatcher(container, resource);

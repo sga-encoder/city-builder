@@ -1,6 +1,6 @@
 ﻿import { SlideLeftConstants } from "./slideLeft/constants.js";
 import { SlideLeftState } from "./slideLeft/slideLeftState.js";
-import { SlideLeftMenuRenderer } from "../components/slideLeft/MenuRenderer.js";
+import { SlideLeftMenuRenderer } from "../components/slideLeft/menu/Renderer.js";
 import { SlideLeftMoveBuildingService } from "../services/slideLeft/MoveBuildingService.js";
 import { SlideLeftResourceWatcher } from "../services/slideLeft/ResourceWatcher.js";
 import { MapController } from "./MapController.js";

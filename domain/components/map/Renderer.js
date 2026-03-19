@@ -1,5 +1,5 @@
 import { createBuilding } from "../../../models/building/buildingFactory.js";
-import { BuildingRenderer } from "../building/BuildingRenderer.js";
+import { BuildingRenderer } from "../building/Renderer.js";
 export class MapRenderer {
   /**
    * Renderiza el mapa en el DOM y devuelve la grilla de instancias Building.

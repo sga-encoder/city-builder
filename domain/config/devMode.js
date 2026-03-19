@@ -1,9 +1,8 @@
 import { Logger } from "../utilis/Logger.js";
 
-// Si tienes otros loggers, impórtalos aquí
 export const CONFIG = {
-  ENABLED: true,
-  DEBUG: true,
+  ENABLED: false,
+  DEBUG: false,
   LOG_TYPES: ["MapController"], // Ejemplo: ["MapController", "TurnSystem"]
   LOG_PHASES: false,
   LOG_EACH_TURN: false,
@@ -26,7 +25,6 @@ export class DevMode {
     localStorage.setItem("debugMode", "0");
 
     Logger.disable();
-    // Desactiva otros loggers o paneles si tienes
   }
 
   static setLogPhases(value) {

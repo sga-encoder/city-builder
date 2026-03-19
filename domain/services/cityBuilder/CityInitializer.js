@@ -3,7 +3,7 @@
 // =====================
 import { MapRenderer } from "../../components/map/Renderer.js";
 import { City } from "../../../models/City.js";
-import { MapController } from "../../controllers/MapController.js";
+import { MapController } from "../../controllers/map/MapController.js";
 import { Logger } from "../../utilis/Logger.js";
 import { FileManager } from "../../utilis/FileManager.js";
 import { SVGInjector } from "../../utilis/SVGInjector.js";

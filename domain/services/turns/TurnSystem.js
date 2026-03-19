@@ -1,9 +1,9 @@
-import { TurnSimulator } from "./TurnSimulator.js";
-import { TurnLogger } from "./TurnLogger.js";
+import { TurnSimulator } from "./Simulator.js";
+import { TurnLogger } from "./Logger.js";
 import { TURN_CONFIG } from "../../config/turnConfig.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";
 import { Logger } from "../../utilis/Logger.js";
-import { TurnValidator } from "./TurnValidator.js";
+import { TurnValidator } from "./Validator.js";
 
 export class TurnSystem {
   constructor(config = TURN_CONFIG) {

@@ -5,55 +5,51 @@ import { TurnToolsStats } from "./components/turnTools/Stats/Renderer.js";
 import { CONFIG } from "../../config/devConfig.js";
 
 export class DevUtils {
-  static SETTINGS = CONFIG;
 
-  static enabled = this.SETTINGS.ENABLED;
-  static debug = this.SETTINGS.DEBUG;
-  static logPhases = this.SETTINGS.LOG_PHASES;
-  static logEachTurn = this.SETTINGS.LOG_EACH_TURN;
-  
   static init(turnSystem) {
     this.turnSystem = turnSystem;
     DebugToggleButton.render(this);
-    if (this.isEnabledDebug()) {
-      this.enable(this.SETTINGS.LOG_TYPES);
-      Logger.log("🛠️ [DevUtils] Modo desarrollador activado");
-      this.render();
-    } else {
-      this.disable();
-      this.destroy();
-      Logger.log("🛠️ [DevUtils] Modo desarrollador desactivado");
+    if (this.isEnabledDevMode()) {
+      if (this.isEnabledDebug()) {
+        this.enable(CONFIG.LOG_TYPES);
+        Logger.log("🛠️ [DevUtils] Modo desarrollador activado");
+        this.render();
+      } else {
+        this.disable();
+        this.destroy();
+        Logger.log("🛠️ [DevUtils] Modo desarrollador desactivado");
+      }
     }
   }
 
   static enable(logTypes = []) {
-    this.debug = true;
+    CONFIG.DEBUG = true;
     localStorage.setItem("debugMode", "1");
     Logger.enable(logTypes);
   }
 
   static disable() {
-    this.debug = false;
+    CONFIG.DEBUG = false;
     localStorage.setItem("debugMode", "0");
     Logger.disable();
   }
 
   static setLogPhases(value) {
-    this.logPhases = !!value;
+    CONFIG.LOG_PHASES = !!value;
   }
 
   static setLogEachTurn(value) {
-    this.logEachTurn = !!value;
+    CONFIG.LOG_EACH_TURN = !!value;
   }
 
   static isEnabledDebug() {
     const stored = localStorage.getItem("debugMode");
     if (stored !== null) return stored === "1";
-    return this.debug;
+    return CONFIG.DEBUG;
   }
 
   static isEnabledDevMode() {
-    return this.enabled
+    return CONFIG.ENABLED;
   }
 
   static render() {

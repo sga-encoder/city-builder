@@ -15,7 +15,6 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dijkstra:install": "py -m pip install -r ./domain/utilis/dijsktra/ms_smart_city-main/requeriments.txt",
     "dijkstra:flask": "py ./domain/utilis/dijsktra/ms_smart_city-main/main.py"
   },

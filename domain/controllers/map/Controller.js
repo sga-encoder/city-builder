@@ -7,6 +7,9 @@ import { SlideLeftController } from "../slideLeft/Controller.js";
 import { Logger } from "../../utilis/Logger.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";
 import { BuildingRenderer } from "../../components/building/Renderer.js";
+import { MapRouteController } from "./RouteController.js";
+// import { calculateRoute } from "../../services/routeService.js";
+import { ToastService } from "../../services/toast.js";
 
 export class MapController {
   /**
@@ -204,13 +207,13 @@ export class MapController {
    * @param {[number, number]} end - Coordenada destino [i, j].
    * @returns {Promise<{ok:boolean, route?:number[][], error?:string, status?:number}>}
    */
-  static async calculateMapRoute(start, end) {
-    return calculateRoute({
-      roadMatrix: this.mapModel?.roadMatrix,
-      start,
-      end,
-    });
-  }
+  // static async calculateMapRoute(start, end) {
+  //   return calculateRoute({
+  //     roadMatrix: this.mapModel?.roadMatrix,
+  //     start,
+  //     end,
+  //   });
+  // }
 
   // =====================
   // INTERNAL SETUP

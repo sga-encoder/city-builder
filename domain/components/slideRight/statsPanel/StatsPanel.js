@@ -1,14 +1,27 @@
-import { StatsManager } from "../../services/StatsManager.js";
+import { StatsManager } from "../../../services/StatsManager.js";
 
 export class StatsPanel {
-    static render(containerId = "slide-right-panel") {
+    static render(container) {
+        // Suscribirse solo una vez
+        if (!container._statsPanelSubscribed) {
+            StatsManager.addObserver(() => {
+                StatsPanel.render(container);
+            });
+            container._statsPanelSubscribed = true;
+        }
+
+        // Elimina el panel anterior si existe
+        const oldPanel = container.querySelector('#stats-container');
+        if (oldPanel) oldPanel.remove();
+
         const stats = StatsManager.getAllStats();
-        const container = document.getElementById(containerId);
-        container.innerHTML = ""; // Limpia el panel
+        const StatsContainer = document.createElement("div");
+        StatsContainer.id = "stats-container";
+        StatsContainer.innerHTML = ""; // Limpia el panel
 
         const title = document.createElement("h2");
         title.textContent = "Estadísticas de Edificios";
-        container.appendChild(title);
+        StatsContainer.appendChild(title);
 
         for (const subtype in stats) {
             const section = document.createElement("div");
@@ -23,7 +36,8 @@ export class StatsPanel {
                 }
                 section.appendChild(tipoDiv);
             }
-            container.appendChild(section);
+            StatsContainer.appendChild(section);
         }
+        container.appendChild(StatsContainer);
     }
 }

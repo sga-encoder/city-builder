@@ -1,3 +1,4 @@
+/* eslint-disable css/no-invalid-properties */
 .I1  svg .ground .ground-top {
     fill: var(--ground-top);
 }

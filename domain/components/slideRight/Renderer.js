@@ -1,5 +1,7 @@
 import { Logger } from "../../utilis/Logger.js";
 import { SlideRightBuilder } from "./Builder.js";
+import { SlideRightController } from "../../controllers/slideRight/Controller.js";
+import { StatsPanel } from "./statsPanel/StatsPanel.js";
 
 export class SlideRight {
   static render(icons, containerSelector = "#slide-right") {
@@ -11,5 +13,7 @@ export class SlideRight {
     }
     container.prepend(SlideRightBuilder.build(icons));
     Logger.log("✅ [SlideRight] Menú renderizado");
+    StatsPanel.render(container);
+    SlideRightController.initialize();
   }
 }

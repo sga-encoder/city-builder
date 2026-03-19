@@ -8,28 +8,34 @@ export class DevUtils {
 
   static init(turnSystem) {
     this.turnSystem = turnSystem;
-    DebugToggleButton.render(this);
-    if (this.isEnabledDevMode()) {
-      if (this.isEnabledDebug()) {
-        this.enable(CONFIG.LOG_TYPES);
-        Logger.log("🛠️ [DevUtils] Modo desarrollador activado");
-        this.render();
-      } else {
-        this.disable();
-        this.destroy();
-        Logger.log("🛠️ [DevUtils] Modo desarrollador desactivado");
-      }
+    if (!this.isEnabledDevMode()) {
+      this.disable();
+      this.destroy();
+      Logger.log("🛠️ [DevUtils] Modo desarrollador desactivado");
+      return;
     }
+
+    // Si está habilitado el modo dev, renderiza el botón toggle
+    DebugToggleButton.render(this);
+    console.log("🛠️ [DevUtils] Modo desarrollador activado");
+
+    // El toggle controla el modo debug
+    if (this.isEnabledDebug()) {
+      this.enable(CONFIG.LOG_TYPES);
+      this.render();
+    } else {
+      this.disable();
+      this.destroy();
+    }
+
   }
 
   static enable(logTypes = []) {
-    CONFIG.DEBUG = true;
     localStorage.setItem("debugMode", "1");
     Logger.enable(logTypes);
   }
 
   static disable() {
-    CONFIG.DEBUG = false;
     localStorage.setItem("debugMode", "0");
     Logger.disable();
   }
@@ -45,11 +51,10 @@ export class DevUtils {
   static isEnabledDebug() {
     const stored = localStorage.getItem("debugMode");
     if (stored !== null) return stored === "1";
-    return CONFIG.DEBUG;
   }
 
   static isEnabledDevMode() {
-    return CONFIG.ENABLED;
+    return !!CONFIG.ENABLED;
   }
 
   static render() {

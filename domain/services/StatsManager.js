@@ -1,5 +1,6 @@
 export class StatsManager {
   static stats = {}; // { [subtipo]: { consumo: {...}, produccion: {...}, ... } }
+  static observers = [];
 
   // Inicializa o resetea las estadísticas
   static reset(subtype = null) {
@@ -7,8 +8,9 @@ export class StatsManager {
       delete this.stats[subtype];
     } else {
       this.stats = {};
-    }   
+    }
     this.save();
+    this.notify();
   }
 
   // Agrega consumo/producción/ocupación para un subtipo
@@ -21,13 +23,13 @@ export class StatsManager {
       for (const key in data) {
         for (const subkey in data[key]) {
           if (!this.stats[subtype][key]) this.stats[subtype][key] = {};
-
           this.stats[subtype][key][subkey] =
             (this.stats[subtype][key][subkey] || 0) + data[key][subkey];
         }
       }
     }
     this.save();
+    this.notify();
   }
 
   // Obtener estadísticas de un subtipo
@@ -49,5 +51,27 @@ export class StatsManager {
   static load() {
     const data = localStorage.getItem("buildingStats");
     if (data) this.stats = JSON.parse(data);
+    this.notify();
+
+  }
+
+  // Métodos de observador
+  static addObserver(callback) {
+    if (typeof callback === "function") this.observers.push(callback);
+  }
+
+  static removeObserver(callback) {
+    this.observers = this.observers.filter(obs => obs !== callback);
+  }
+
+  static notify() {
+    for (const fn of this.observers) {
+      try {
+        fn(this.stats);
+      } catch (e) {
+        // Manejo simple de errores en callbacks
+        console.error("StatsManager observer error:", e);
+      }
+    }
   }
 }

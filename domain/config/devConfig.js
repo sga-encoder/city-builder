@@ -1,6 +1,5 @@
 export const CONFIG = {
-  ENABLED: false,
-  DEBUG: false,
+  ENABLED: true,
   LOG_TYPES: [],
   // LOG_TYPES: ["MapController"], // Ejemplo: ["MapController", "TurnSystem"]
   LOG_PHASES: false,

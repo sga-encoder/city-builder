@@ -40,7 +40,7 @@
         "model": "../../public/icons/resource.svg"
       }
     },
-    "statistics": {
+    "stats": {
       "": {
         "model": "../../public/icons/statistics.svg"
       }
@@ -97,6 +97,7 @@
   "builds": {
     "R": {
       "1": {
+        "name": "Residential",
         "cost": 1000,
         "capacity": 4,
         "energyUsage": 5,
@@ -106,6 +107,7 @@
         "model": "../../public/models/house_land.svg"
       },
       "2": {
+        "name": "Apartments",
         "cost": 3000,
         "capacity": 12,
         "energyUsage": 15,
@@ -117,6 +119,7 @@
     },
     "C": {
       "1": {
+        "name": "Store",
         "cost": 2000,
         "capacity": 6,
         "energyUsage": 8,
@@ -127,6 +130,7 @@
         "model": "../../public/models/store_land.svg"
       },
       "2": {
+        "name": "Mall",
         "cost": 8000,
         "capacity": 20,
         "energyUsage": 25,
@@ -139,6 +143,7 @@
     },
     "I": {
       "1": {
+        "name": "Factory",
         "cost": 5000,
         "capacity": 15,
         "energyUsage": 20,
@@ -149,6 +154,7 @@
         "model": "../../public/models/factory_land.svg"
       },
       "2": {
+        "name": "Farm",
         "cost": 3000,
         "capacity": 8,
         "energyUsage": 0,
@@ -161,6 +167,7 @@
     },
     "P": {
       "1": {
+        "name": "Park",
         "cost": 1500,
         "energyUsage": 0,
         "waterUsage": 0,
@@ -172,6 +179,7 @@
     },
     "S": {
       "1": {
+        "name": "Police Station",
         "cost": 4000,
         "energyUsage": 10,
         "waterUsage": 0,
@@ -182,6 +190,7 @@
         "model": "../../public/models/police_station_land.svg"
       },
       "2": {
+        "name": "Fire Station",
         "cost": 4000,
         "energyUsage": 10,
         "waterUsage": 0,
@@ -192,6 +201,7 @@
         "model": "../../public/models/fire_station_land.svg"
       },
       "3": {
+        "name": "Hospital",
         "cost": 6000,
         "energyUsage": 30,
         "waterUsage": 10,
@@ -204,26 +214,31 @@
     },
     "U": {
       "1": {
+        "name": "Power Plant",
         "cost": 10000,
         "energyUsage": 0,
         "waterUsage": 0,
         "requiredRoad": true,
         "requireEmptyCell": true,
         "production": 200,
+        "unit": "kWh",
         "model": "../../public/models/energy_land.svg"
       },
       "2": {
+        "name": "Water Treatment Plant",
         "cost": 8000,
         "energyUsage": 20,
         "waterUsage": 0,
         "requiredRoad": true,
         "requireEmptyCell": true,
         "production": 150,
+        "unit": "L",
         "model": "../../public/models/water_land.svg"
       }
     },
     "g": {
       "": {
+        "name": "Ground",
         "cost": 0,
         "energyUsage": 0,
         "waterUsage": 0,
@@ -234,6 +249,7 @@
     },
     "r": {
       "": {
+        "name": "Road",
         "cost": 100,
         "energyUsage": 0,
         "waterUsage": 0,

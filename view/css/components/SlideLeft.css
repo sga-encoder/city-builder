@@ -1,3 +1,5 @@
+/* eslint-disable css/no-invalid-properties */
+
 #slide-left{
     position: absolute;
     height: 100vh;
@@ -16,7 +18,7 @@
     bottom: 25vw;
     width: 100vw;
     padding: 5%;
-    z-index: 3500;
+    z-index: 200;
 }
 
 #slide-left .container .resources  
@@ -53,7 +55,7 @@
     justify-content: center;
     align-items: flex-start; 
     gap: 2vw;
-    z-index: 3500;
+    z-index: 200;
     width: 100%;
     flex-shrink: 0;
 }
@@ -121,7 +123,7 @@
     height: 20vw;
     min-width: 44px;
     min-height: 44px;
-    z-index: 3500;
+    z-index: 200;
     bottom: 0;
     left: 0;
 }

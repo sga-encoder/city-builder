@@ -1,4 +1,4 @@
-#slide-right .container {
+#slide-right .buttons-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -8,7 +8,7 @@
     pointer-events: none;
 }
 
-#slide-right .container .button
+#slide-right .buttons-container .button
 {
     position: absolute;
     margin: 2.5vw;
@@ -16,52 +16,75 @@
     height: 20vw;
     min-width: 44px;
     min-height: 44px;
-    z-index: 3500;
+    z-index: 200;
     pointer-events: auto;
 
 }
 
-#slide-right .container .button svg 
+#slide-right .buttons-container .button svg 
 {
     width: 100%;
     height: 100%;
     display: block;
 }
 
-#slide-right .container .button path
+#slide-right .buttons-container .button path
 {
     fill: #fff;
 }
 
 
-#slide-right .container #statistics 
+#slide-right .buttons-container #stats 
 {
     bottom: 0;
     right: 25vw;
 }
 
-#slide-right .container #statistics path
+#slide-right .buttons-container #stats path
 {
     fill: none;
     stroke: #fff;
 }
 
-#slide-right .container #weather {
+#slide-right .buttons-container #weather 
+{
     top: 0;
     right: 0;
 }
 
-#slide-right .container #news {
+#slide-right .buttons-container #news 
+{
     bottom: 0;
     right: 0;
 }
 
+#slide-right #stats-container
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: blue;
+    width: 80vw;
+    height: 75vh;
+    z-index: 250;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#slide-right #stats-container.active
+{
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
 @media (min-width: 746px) {
-    #slide-right .container #statistics
+    #slide-right .buttons-container #stats
     {
         right: 12vw;
     }
-    #slide-right .container .button
+    #slide-right .buttons-container .button
     {
         width: 7vw;
         height: 7vw;

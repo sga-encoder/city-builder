@@ -18,8 +18,8 @@
 @import url("./components/Map.css");
 @import url("./components/SlideLeft.css");
 @import url("./components/SlideRight.css");
-@import url("./components/TurnControlPanel.css");
-@import url("./devMode.css");
+@import url("./utils/devMode/TurnToolsControlPanel.css");
+@import url("./utils/devMode/devMode.css");
 @import url("./toast.css");
 
 .main-container{

@@ -7,7 +7,7 @@ export class Building {
   }
 
   constructor(dict) {
-    const { id, type, subtype, model, cost, energyUsage, waterUsage, requiredRoad, requireEmptyCell } = dict;
+    const { id, type, subtype, model, cost, energyUsage, waterUsage, requiredRoad, requireEmptyCell, name } = dict;
     this.id = id;
     this.type = type;
     this.subtype = subtype;
@@ -15,16 +15,17 @@ export class Building {
 
     // Obtener datos de la configuración si no están en el diccionario
     const configData = Building.getSubtypeData(type, subtype);
-
+    this.name = name ?? configData.name;
     this.cost = cost ?? configData.cost;
     this.energyUsage = energyUsage ?? configData.energyUsage;
     this.waterUsage = waterUsage ?? configData.waterUsage;
     this.requiredRoad = requiredRoad ?? configData.requiredRoad;
     this.requireEmptyCell = requireEmptyCell ?? configData.requireEmptyCell;
+
   }
 
 
-  // Nuevo - polimórfico, implementado en subclases
+// eslint-disable-next-line no-unused-vars
 executeTurnLogic(city, buildingData) {
   // Subclasses implementan su propia lógica
   // Modifica resources, population, etc

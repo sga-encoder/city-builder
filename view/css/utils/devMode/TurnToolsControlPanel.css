@@ -8,7 +8,7 @@
     color: rgb(0, 0, 0);
     display: flex;
     gap: 8px;
-    z-index: 3001;
+    z-index: 101;
   font-family: "Smooch Sans", sans-serif;
 
 }
@@ -21,7 +21,7 @@
     background-color: rgba(255, 255, 255, 0.8);
     padding: 10px;
     border-radius: 5px;
-    z-index: 3001;
+    z-index: 101;
   font-family: "Smooch Sans", sans-serif;
 
 }

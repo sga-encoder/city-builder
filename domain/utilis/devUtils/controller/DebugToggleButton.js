@@ -33,11 +33,13 @@ export class DebugToggleButtonController {
                 DevUtils.disable();
                 btn.textContent = "⚪ Debug OFF";
                 logger?.log("[DebugToggleButton] Debug desactivado.");
+                DevUtils.destroy();
                 if (typeof hidePanels === "function") hidePanels();
             } else {
                 DevUtils.enable(["TurnSystem"]);
                 btn.textContent = "🟢 Debug ON";
                 logger?.log("[DebugToggleButton] Debug activado.");
+                DevUtils.render();
                 if (typeof showPanels === "function") showPanels();
             }
         };

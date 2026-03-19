@@ -14,6 +14,11 @@ export class SelectBuildingMenuHandler {
 
     menuElement.addEventListener("click", (e) => {
       e.stopPropagation();
+
+      if (mapController?.isInteractionLocked?.()) {
+        return;
+      }
+
       const btn = e.target.closest(".button");
 
       logger.log("[SlideLeft][menu-03 click]", {

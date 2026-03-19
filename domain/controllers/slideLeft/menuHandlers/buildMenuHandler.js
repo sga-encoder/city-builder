@@ -11,6 +11,11 @@ export class BuildMenuHandler {
         menuElement.addEventListener("click", (e) => {
             // Evita que el handler global cierre el menú durante este mismo click.
             e.stopPropagation();
+
+            if (context.mapController?.isInteractionLocked?.()) {
+                return;
+            }
+
             const buildBtn = e.target.closest("#build");
             logger.log("[SlideLeft][menu-01 click]", {
                 clicked: !!buildBtn,

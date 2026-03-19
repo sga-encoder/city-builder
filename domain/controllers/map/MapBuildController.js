@@ -4,6 +4,12 @@ import { Logger } from "../../utilis/Logger.js";
 import { ToastService } from "../../services/toast.js";
 export class MapBuildController {
 
+  static syncRoadMatrixCell(mapModel, i, j, buildingType) {
+    if (!mapModel?.roadMatrix?.[i]) return;
+    mapModel.roadMatrix[i][j] =
+      String(buildingType || "").toLowerCase() === "r" ? 1 : 0;
+  }
+
   static hasAdjacentRoad(grid, i, j) {
     const neighbors = [
       [i - 1, j],
@@ -137,7 +143,18 @@ export class MapBuildController {
     });
 
     // Asignar la instancia directamente (no copia plana)
-    mapModel.setBuildingAt(cell.i, cell.j, building);
+    const updated = mapModel.setBuildingAt(cell.i, cell.j, building);
+    if (!updated) {
+      Logger.warn("⚠️ [MapController] No se pudo reemplazar celda ocupada", {
+        i: cell.i,
+        j: cell.j,
+        requested: `${type}${subtype || ""}`,
+      });
+      return { instance: null };
+    }
+
+    // Regla explícita: carretera => 1, cualquier otro edificio => 0.
+    this.syncRoadMatrixCell(mapModel, cell.i, cell.j, type);
 
     Logger.log("✅ [MapController] Edificio cambiado exitosamente");
     return building ;
@@ -155,6 +172,8 @@ export class MapBuildController {
     if (!mapModel || !sourceCell || !targetCell || !builds) return false;
     if (targetCell.cellData?.type !== "g") return false;
 
+    const sourceType = mapModel.grid?.[sourceCell.i]?.[sourceCell.j]?.type;
+
     const moved = mapModel.moveBuilding(
       sourceCell.i,
       sourceCell.j,
@@ -170,6 +189,10 @@ export class MapBuildController {
     );
 
     if (!moved) return false;
+
+    // Al mover: origen siempre 0. Destino 1 solo si lo movido era carretera.
+    this.syncRoadMatrixCell(mapModel, sourceCell.i, sourceCell.j, "g");
+    this.syncRoadMatrixCell(mapModel, targetCell.i, targetCell.j, sourceType);
 
     return true;
   }

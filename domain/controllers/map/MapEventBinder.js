@@ -13,6 +13,8 @@ export class MapEventBinder {
    * @param {() => boolean} params.hasPanned - Indica si hubo paneo reciente.
    * @param {(id: string, cellData: object, i: number, j: number) => void} params.onSelectGround - Callback para celda de terreno.
    * @param {(id: string, cellData: object, i: number, j: number) => void} params.onSelectBuilding - Callback para celda con edificio.
+  * @param {(id: string, cellData: object, i: number, j: number) => boolean} [params.onCellClick] - Interceptor opcional previo; si retorna `true` consume el clic.
+  * @param {() => boolean} [params.isInteractionLocked] - Indica si las interacciones están bloqueadas lógicamente.
    * @param {(cellRef: object) => boolean} params.onTryMove - Callback para intentar mover edificio.
    * @param {() => void} [params.onPersistMap] - Callback opcional para persistencia.
    * @returns {void}
@@ -23,6 +25,8 @@ export class MapEventBinder {
     hasPanned,
     onSelectGround,
     onSelectBuilding,
+    onCellClick,
+    isInteractionLocked,
     onTryMove,
     onPersistMap,
   }) {
@@ -34,6 +38,7 @@ export class MapEventBinder {
     }
 
     this.#mapClickHandler = (e) => {
+      if (isInteractionLocked?.()) return;
       if (hasPanned()) return;
 
       const item = e.target.closest(".map-item");
@@ -48,6 +53,10 @@ export class MapEventBinder {
       const j = Number.parseInt(id.slice(2, 4), 10);
       const cellData = buildingGrid?.[i]?.[j];
       if (!cellData) return;
+
+      if (onCellClick?.(id, cellData, i, j)) {
+        return;
+      }
 
       if (SlideLeftController.moveMode) {
         const moved = onTryMove({ id, cellData, i, j });
@@ -71,6 +80,7 @@ export class MapEventBinder {
    * @param {object} params - Dependencias y callbacks globales.
    * @param {() => (string|null)} params.getActiveCellId - Obtiene el id de la celda activa.
    * @param {() => boolean} params.hasPanned - Indica si hubo paneo reciente.
+   * @param {() => boolean} [params.isInteractionLocked] - Indica si las interacciones están bloqueadas lógicamente.
    * @param {() => void} params.clearSelection - Limpia selección activa.
    * @param {() => void} params.cancelMoveMode - Cancela modo movimiento.
    * @returns {void}
@@ -78,12 +88,15 @@ export class MapEventBinder {
   static bindGlobalClick({
     getActiveCellId,
     hasPanned,
+    isInteractionLocked,
     clearSelection,
     cancelMoveMode,
   }) {
     if (this.#globalClickBound) return;
     this.#globalClickBound = true;
     document.addEventListener("click", (e) => {
+      if (isInteractionLocked?.()) return;
+
       const inSlideLeft = !!e.target.closest("#slide-left");
       const inMap = !!e.target.closest("#map");
       const inMapItem = !!e.target.closest(".map-item");

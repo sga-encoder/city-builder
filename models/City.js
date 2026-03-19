@@ -75,7 +75,14 @@ export class City {
       .flat()
       .filter((building) => building?.type === "R");
   } // Array de edificios residenciales
-  getCommercialBuildings() {} // Array de edificios comerciales
+  getCommercialBuildings() {
+    const grid = this.map?.grid;
+    if (!Array.isArray(grid)) return [];
+
+    return grid
+      .flat()
+      .filter((building) => building?.type === "C");
+  } // Array de edificios comerciales
   getIndustryBuildings() {} // Array de edificios industriales
   getUtilityBuildings() {
     const grid = this.map?.grid;

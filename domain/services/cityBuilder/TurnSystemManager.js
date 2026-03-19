@@ -62,7 +62,26 @@ export class CityBuilderTurnSystemManager {
             building.executeTurnLogic(cityRef, StatsManager);
           }
 
-          Logger.log("[TurnSystemManager] Consumo residencial", StatsManager.getStats("R1"), StatsManager.getStats("R2"));
+       return true;
+        },
+        critical: true,
+      },
+      {
+        name: "Produccion Comercial",
+        phase: (cityRef) => {
+          StatsManager.reset("C1");
+          StatsManager.reset("C2");
+
+          for (const building of cityRef.getCommercialBuildings()) {
+            if (typeof building?.executeTurnLogic !== "function") continue;
+            building.executeTurnLogic(cityRef, StatsManager);
+          }
+
+          Logger.log(
+            "[TurnSystemManager] Produccion comercial",
+            StatsManager.getStats("C1"),
+            StatsManager.getStats("C2"),
+          );
           return true;
         },
         critical: true,

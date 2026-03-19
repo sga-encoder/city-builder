@@ -41,12 +41,7 @@ export const calculateRoute = async ({
     };
   }
 
-  const [maxI, maxJ] = [roadMatrix.length, roadMatrix[0].length];
-  const isInside = ([i, j]) => i >= 0 && j >= 0 && i < maxI && j < maxJ;
-  if (!isInside(normalizedStart) || !isInside(normalizedEnd)) {
-    return { ok: false, error: "start o end fuera de rango" };
-  }
-
+  
   try {
     const response = await fetch(apiUrl, {
       method: "POST",

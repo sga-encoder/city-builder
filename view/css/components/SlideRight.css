@@ -69,15 +69,15 @@
     height: 75vh;
     z-index: 250;
     color: #fff;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-#slide-right #stats-container.active
-{
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
 }
+
+/* #slide-right #stats-container.active
+{
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+} */
 
 @media (min-width: 746px) {
     #slide-right .buttons-container #stats

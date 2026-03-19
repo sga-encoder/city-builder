@@ -39,5 +39,12 @@ export class StatsPanel {
             StatsContainer.appendChild(section);
         }
         container.appendChild(StatsContainer);
+        console.log("StatsPanel renderizado con datos:", stats);
+    }
+
+    static destroy(container) {
+        const oldPanel = container.querySelector('#stats-container');
+        if (oldPanel) oldPanel.remove();
+        console.log("StatsPanel destruido");
     }
 }

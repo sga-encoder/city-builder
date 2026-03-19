@@ -9,12 +9,19 @@ export class SlideLeftSelectionBuildingMenuBuilder {
     price.classList.add("price");
     price.textContent = `$${instance.cost}`;
     btn.appendChild(price);
+
+    const meta = document.createElement("span");
+    meta.classList.add("utility-meta");
     if (instance.type === "U") {
-      const meta = document.createElement("span");
-      meta.classList.add("utility-meta");
       meta.textContent = `${instance.name} | +${Number(instance.production || 0)} ${instance.unit}/turno`;
       btn.appendChild(meta);
     }
+  if (instance.type === "C") {
+      meta.textContent =
+        `${instance.name} | Empleos: ${instance.capacity} | +$${instance.income}/turno`;
+      }
+      
+    btn.appendChild(meta);
     return btn;
   }
 

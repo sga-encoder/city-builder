@@ -65,36 +65,16 @@ export class City {
     }
   }
 
-
-  // Getters para acceder a edificios
-  getResidentialBuildings() {
+  getTypeBuildings(type) {
     const grid = this.map?.grid;
     if (!Array.isArray(grid)) return [];
 
     return grid
       .flat()
-      .filter((building) => building?.type === "R");
-  } // Array de edificios residenciales
-  getCommercialBuildings() {} // Array de edificios comerciales
-  getIndustryBuildings() {} // Array de edificios industriales
-  getUtilityBuildings() {
-    const grid = this.map?.grid;
-    if (!Array.isArray(grid)) return [];
-
-    return grid
-      .flat()
-      .filter((building) => building?.type === "U");
-  } // Array de utilidades
-
-  // Ejecución de turno
-  executeTurn(turnNumber) {
-    // Captura estado antes
-    // Delega a TurnSimulator
-    // Notifica observers
-    // Retorna turnData con cambios
+      .filter((building) => building?.type === type);
   }
 
   // Observers para turnos
-  addTurnObserver(callback) {}
-  notifyTurnObservers(turnData) {}
+  // addTurnObserver(callback) {}
+  // notifyTurnObservers(turnData) {}
 }

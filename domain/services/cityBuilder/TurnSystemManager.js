@@ -43,7 +43,7 @@ export class CityBuilderTurnSystemManager {
           StatsManager.reset("U1");
           StatsManager.reset("U2");
 
-          for (const building of cityRef.getUtilityBuildings()) {
+          for (const building of cityRef.getTypeBuildings("U")) {
             if (typeof building?.executeTurnLogic !== "function") continue;
             building.executeTurnLogic(cityRef, StatsManager);
           }
@@ -57,12 +57,31 @@ export class CityBuilderTurnSystemManager {
         phase: (cityRef) => {
           StatsManager.reset("R1");
           StatsManager.reset("R2");
-          for (const building of cityRef.getResidentialBuildings()) {
+          for (const building of cityRef.getTypeBuildings("R")) {
             if (typeof building?.executeTurnLogic !== "function") continue;
             building.executeTurnLogic(cityRef, StatsManager);
           }
 
-          Logger.log("[TurnSystemManager] Consumo residencial", StatsManager.getStats("R1"), StatsManager.getStats("R2"));
+       return true;
+        },
+        critical: true,
+      },
+      {
+        name: "Produccion Comercial",
+        phase: (cityRef) => {
+          StatsManager.reset("C1");
+          StatsManager.reset("C2");
+
+          for (const building of cityRef.getTypeBuildings("C")) {
+            if (typeof building?.executeTurnLogic !== "function") continue;
+            building.executeTurnLogic(cityRef, StatsManager);
+          }
+
+          Logger.log(
+            "[TurnSystemManager] Produccion comercial",
+            StatsManager.getStats("C1"),
+            StatsManager.getStats("C2"),
+          );
           return true;
         },
         critical: true,

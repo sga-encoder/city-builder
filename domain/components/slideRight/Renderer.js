@@ -13,7 +13,6 @@ export class SlideRight {
     }
     container.prepend(SlideRightBuilder.build(icons));
     Logger.log("✅ [SlideRight] Menú renderizado");
-    StatsPanel.render(container);
-    SlideRightController.initialize();
+    SlideRightController.initialize(container, StatsPanel);
   }
 }

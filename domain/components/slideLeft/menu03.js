@@ -1,5 +1,5 @@
 import { Map } from "../../../models/Map.js";
-import { button } from "../Button.js";
+import { Button } from "../Button.js";
 
 const utilityCatalog = {
   U1: {
@@ -13,7 +13,7 @@ const utilityCatalog = {
 };
 
 const buttonBuy = (id, index, icons, sheets, instance) => { 
-  const btn = button(id, index, icons, sheets, !id[1] ? id : `${id[0]}.${id[1]}`);
+  const btn = Button.render(id, index, icons, sheets, !id[1] ? id : `${id[0]}.${id[1]}`);
 
   const price = document.createElement("span");
   price.classList.add("price");

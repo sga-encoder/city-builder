@@ -19,42 +19,10 @@ export class Building {
     this.cost = cost ?? configData.cost;
     this.energyUsage = energyUsage ?? configData.energyUsage;
     this.waterUsage = waterUsage ?? configData.waterUsage;
-  }
-
-  static create(dict) {
-    const { type, id } = dict;
-    Logger.log("🏭 [Building] Creando edificio tipo", type, "id:", id);
-
-    switch (type) {
-      case "R":
-        return new ResidentialBuilding(dict);
-      case "C":
-        return new CommercialBuilding(dict);
-      case "I":
-        return new IndustryBuilding(dict);
-      case "S":
-        return new ServicesBuilding(dict);
-      case "U":
-        return new UtilityPlants(dict);
-      case "P":
-        return new Park(dict);
-      case "g":
-      case "r":
-        return new Road(dict);
-      default:
-        return new Building(dict);
-    }
     this.requiredRoad = requiredRoad ?? configData.requiredRoad;
     this.requireEmptyCell = requireEmptyCell ?? configData.requireEmptyCell;
   }
 
-  build() {
-    const building = document.createElement("div");
-    building.id = `building-${this.id}`;
-    building.classList.add("building", `${this.type}${this.subtype}`);
-    building.innerHTML = this.model;
-    return building;
-  }
 
   // Nuevo - polimórfico, implementado en subclases
 executeTurnLogic(city, buildingData) {

@@ -1,4 +1,5 @@
 import { createBuilding } from "../../../models/building/buildingFactory.js";
+import { BuildingRenderer } from "../building/BuildingRenderer.js";
 export class MapRenderer {
   /**
    * Renderiza el mapa en el DOM y devuelve la grilla de instancias Building.
@@ -57,7 +58,7 @@ export class MapRenderer {
         const col = document.createElement("div");
         col.classList.add("map-item");
         col.id = `map-item-${id}`;
-        col.appendChild(building.build());
+        col.appendChild(BuildingRenderer.render(building));
         mapContainer.appendChild(col);
 
         row.push(building);

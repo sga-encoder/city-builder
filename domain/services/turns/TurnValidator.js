@@ -1,5 +1,3 @@
-import { Logger } from "../../utilis/Logger.js";
-
 export class TurnValidator {
   static validateCity(city) {
     if (!city) return { valid: false, errors: ["City nula"] };

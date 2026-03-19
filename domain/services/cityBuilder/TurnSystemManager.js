@@ -1,4 +1,4 @@
-import { TurnSystem } from "../../services/turns/turnSystem.js";
+import { TurnSystem } from "../../services/turns/TurnSystem.js";
 import { Logger } from "../../utilis/Logger.js";
 import { StatsManager } from "../StatsManager.js";
 
@@ -62,7 +62,7 @@ export class TurnSystemManager {
             building.executeTurnLogic(cityRef, StatsManager);
           }
 
-          console.log("[TurnSystemManager] Consumo residencial", StatsManager.getStats("R1"), StatsManager.getStats("R2"));
+          Logger.log("[TurnSystemManager] Consumo residencial", StatsManager.getStats("R1"), StatsManager.getStats("R2"));
           return true;
         },
         critical: true,

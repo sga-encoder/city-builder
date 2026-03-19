@@ -178,7 +178,7 @@ export class CityInitializer {
     return turnSystem;
   }
 
-  static initUI(city, icons, builds, turnSystem) {
+  static initUI(city, icons, builds) {
     UIManager.renderMenus(city.resources, icons, builds);
     UIManager.initMenuControllers(city, builds, icons);
   }

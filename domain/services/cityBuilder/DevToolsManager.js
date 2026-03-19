@@ -1,4 +1,4 @@
-import { DevMode } from "../../config/DevMode.js";
+import { DevMode, CONFIG } from "../../config/DevMode.js";
 import { createDebugToggleButton } from "../../utilis/DebugToggleButton.js";
 import { Logger } from "../../utilis/Logger.js";
 import { TurnControlPanel } from "../../components/turnControl/TurnControlPanel.js";
@@ -16,7 +16,7 @@ export class DevToolsManager {
     );
     // Si el modo debug está activo, muestra paneles
     if (DevMode.isEnabledDebug()) {
-      DevMode.enable(["TurnSystem"]);
+      DevMode.enable(CONFIG.LOG_TYPES);
       Logger.log("🛠️ [DevTools] Modo desarrollador activado");
       this.showPanels();
     } else {
@@ -29,7 +29,7 @@ export class DevToolsManager {
   static showPanels() {
     const devToolsContainer = document.getElementById("dev-tools");
     if (devToolsContainer) {
-      TurnControlPanel.render(this.turnSystem, this.city);
+      TurnControlPanel.render(this.turnSystem);
       TurnStats.render();
     }
   }

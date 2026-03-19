@@ -1,18 +1,19 @@
 import { Logger } from "../utilis/Logger.js";
 
 // Si tienes otros loggers, impórtalos aquí
-const DEFAULTS = {
+export const CONFIG = {
   ENABLED: true,
-  DEBUG: false,
+  DEBUG: true,
+  LOG_TYPES: ["MapController"], // Ejemplo: ["MapController", "TurnSystem"]
   LOG_PHASES: false,
   LOG_EACH_TURN: false,
 };
 
 export class DevMode {
-  static enabled = DEFAULTS.ENABLED;
-  static debug = DEFAULTS.DEBUG;
-  static logPhases = DEFAULTS.LOG_PHASES;
-  static logEachTurn = DEFAULTS.LOG_EACH_TURN;
+  static enabled = CONFIG.ENABLED;
+  static debug = CONFIG.DEBUG;
+  static logPhases = CONFIG.LOG_PHASES;
+  static logEachTurn = CONFIG.LOG_EACH_TURN;
 
   static enable(logTypes = []) {
     this.debug = true;

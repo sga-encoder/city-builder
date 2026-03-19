@@ -47,10 +47,6 @@ export class MapBuildController {
         message: "No se puede construir: necesitas una vía adyacente.",
       };
     }
-    console.log(btnid, cell, mapModel, city, buildingToBuy);
-
-
-
     return { ok: true, message: "OK" };
   }
 
@@ -123,6 +119,7 @@ export class MapBuildController {
    */
   static replaceCellBuilding(btnId, builds, cell, mapModel) {
     Logger.log("🏭 [MapController] changeBuild:", btnId, "en celda", cell.id);
+    console.log("🏭 [MapController] changeBuild:", btnId, "en celda", cell.id);
 
     if (!mapModel) {
       Logger.error("❌ [MapController] No hay mapModel");
@@ -143,7 +140,7 @@ export class MapBuildController {
     mapModel.setBuildingAt(cell.i, cell.j, building);
 
     Logger.log("✅ [MapController] Edificio cambiado exitosamente");
-    return { instance: building };
+    return building ;
   }
 
   /**

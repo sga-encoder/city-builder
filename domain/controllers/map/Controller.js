@@ -43,6 +43,9 @@ export class MapController {
       mapContainerElement: this.mapContainerElement,
       buildingGrid: this.buildingGrid || [],
       hasPanned: () => MapCameraController.hasPanned,
+      isInteractionLocked: () => this.isInteractionLocked(),
+      onCellClick: (id, cellData, i, j) =>
+        MapRouteController.handleRouteCellClick(id, cellData, i, j),
       onSelectGround: (id, cellData, i, j) => {
         this.selectMapCell(id, cellData, i, j);
         this.openBuildMenu();
@@ -56,6 +59,10 @@ export class MapController {
       onTryMove: (cellRef) => SlideLeftController.completeMoveBuilding(cellRef),
       onPersistMap: () => this.mapModel?.schedulePersist?.(),
     });
+  }
+
+  static isInteractionLocked() {
+    return MapRouteController.routeCalculating;
   }
 
   // =====================
@@ -191,6 +198,20 @@ export class MapController {
     );
   }
 
+  /**
+   * Solicita cálculo de ruta enviando roadMatrix + start/end al backend.
+   * @param {[number, number]} start - Coordenada origen [i, j].
+   * @param {[number, number]} end - Coordenada destino [i, j].
+   * @returns {Promise<{ok:boolean, route?:number[][], error?:string, status?:number}>}
+   */
+  static async calculateMapRoute(start, end) {
+    return calculateRoute({
+      roadMatrix: this.mapModel?.roadMatrix,
+      start,
+      end,
+    });
+  }
+
   // =====================
   // INTERNAL SETUP
   // =====================
@@ -267,7 +288,19 @@ export class MapController {
     this.setupMapModel(cityModel);
     this.bindMapModelObserver();
 
+    MapRouteController.configure({
+      showToast: (message, type, duration) =>
+        ToastService.mostrarToast(message, type, duration),
+      selectMapCell: (id, cellData, i, j) => this.selectMapCell(id, cellData, i, j),
+      clearCellSelection: () => this.clearCellSelection(),
+      setInteractionMode: (mode) => {
+        this.interactionMode = mode;
+      },
+      calculateMapRoute: (start, end) => this.calculateMapRoute(start, end),
+    });
+
     this.setupMapInteractions();
+    MapRouteController.bindRouteModeTestControls();
 
     // Fallback durante arranque asíncrono
     MapCameraController.initializeCameraRetry(() =>
@@ -277,8 +310,13 @@ export class MapController {
     MapEventBinder.bindGlobalClick({
       getActiveCellId: () => this.activeCell?.id || null,
       hasPanned: () => MapCameraController.hasPanned,
+      isInteractionLocked: () => this.isInteractionLocked(),
       clearSelection: () => this.clearCellSelection(),
       cancelMoveMode: () => SlideLeftController.cancelMoveMode(),
     });
+
+    // API pública para pruebas/manual desde consola del navegador.
+    window.calculateMapRoute = (start, end) =>
+      this.calculateMapRoute(start, end);
   }
 }

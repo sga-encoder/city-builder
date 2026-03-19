@@ -10,6 +10,11 @@ export class ManageMenuController {
 
     menuElement.addEventListener("click", (e) => {
       e.stopPropagation();
+
+      if (mapController?.isInteractionLocked?.()) {
+        return;
+      }
+
       const btn = e.target.closest(".button");
       if (!btn) return;
       const cell = mapController.activeCell;

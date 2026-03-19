@@ -77,7 +77,14 @@ export class City {
   } // Array de edificios residenciales
   getCommercialBuildings() {} // Array de edificios comerciales
   getIndustryBuildings() {} // Array de edificios industriales
-  getUtilityBuildings() {} // Array de utilidades
+  getUtilityBuildings() {
+    const grid = this.map?.grid;
+    if (!Array.isArray(grid)) return [];
+
+    return grid
+      .flat()
+      .filter((building) => building?.type === "U");
+  } // Array de utilidades
 
   // Ejecución de turno
   executeTurn(turnNumber) {

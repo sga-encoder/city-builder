@@ -13,21 +13,29 @@ export class SlideLeftResourceWatcher {
 
     const resourceElements = resourcesDiv._resourceElements;
 
-    const createUpdateCallback = (type, unit) => {
+    const createUpdateCallback = (type, unit, resourceRef) => {
       return (newValue) => {
         if (resourceElements[type]) {
           const li = resourceElements[type];
           const contentP = li.querySelector(".content");
           if (contentP) {
-            contentP.textContent = newValue + unit;
+            const production = Number(resourceRef?.turnProduction || 0);
+            const showTurnGenerationOnly = type === "energy" || type === "water";
+
+            if (showTurnGenerationOnly) {
+              contentP.textContent = `${production}${unit}/turno`;
+            } else {
+              contentP.textContent = `${newValue}${unit}`;
+            }
           }
         }
       };
     };
 
     Object.keys(resourceObjects).forEach((resource) => {
-      const { type, unit, amount } = resourceObjects[resource];
-      const callback = createUpdateCallback(type, unit);
+      const resourceRef = resourceObjects[resource];
+      const { type, unit, amount } = resourceRef;
+      const callback = createUpdateCallback(type, unit, resourceRef);
 
       resourceObjects[resource].addObserver(callback);
 
@@ -36,8 +44,7 @@ export class SlideLeftResourceWatcher {
       }
       resourcesDiv._observerCallbacks[type] = callback;
 
-      const contentP = resourceElements[type]?.querySelector(".content");
-      if (contentP) contentP.textContent = amount + unit;
+      callback(amount);
     });
   }
 }

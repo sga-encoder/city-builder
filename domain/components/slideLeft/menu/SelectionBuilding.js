@@ -2,6 +2,16 @@ import { Map } from "../../../../models/Map.js";
 import { Button } from "../../Button.js";
 
 export class SlideLeftSelectionBuildingMenuBuilder {
+  static utilityCatalog = {
+    U1: {
+      name: "Planta Electrica",
+      unit: "energia",
+    },
+    U2: {
+      name: "Planta de Agua",
+      unit: "agua",
+    },
+  };
   static #buttonBuy(id, index, icons, sheets, instance) {
     const btn = Button.render(id, index, icons, sheets, !id[1] ? id : `${id[0]}.${id[1]}`);
 
@@ -9,6 +19,13 @@ export class SlideLeftSelectionBuildingMenuBuilder {
     price.classList.add("price");
     price.textContent = `$${instance.cost}`;
     btn.appendChild(price);
+    const utilityInfo = this.utilityCatalog[id];
+    if (utilityInfo) {
+      const meta = document.createElement("span");
+      meta.classList.add("utility-meta");
+      meta.textContent = `${utilityInfo.name} | +${Number(instance.production || 0)} ${utilityInfo.unit}/turno`;
+      btn.appendChild(meta);
+    }
     return btn;
   }
 

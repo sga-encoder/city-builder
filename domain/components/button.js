@@ -1,5 +1,5 @@
 export class Button {
-  static render(id, num, icons, sheets, iconName = "") {
+  static build(id, num, icons, sheets, iconName = "") {
     const btn = this.#buildButton(id);
     this.#applyDynamicRule(btn, id, num, sheets);
     const imgContainer = this.#buildImgContainer(id, icons, iconName);

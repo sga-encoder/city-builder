@@ -1,4 +1,4 @@
-export class ManageMenuHandler {
+export class ManageMenuController {
   /**
     * Vincula interacciones de clic para el menu-02 (acciones de gestión).
     * @param {HTMLElement} menuElement - Elemento raíz del menú renderizado.

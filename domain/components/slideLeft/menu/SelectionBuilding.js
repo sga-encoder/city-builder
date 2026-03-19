@@ -13,7 +13,7 @@ export class SlideLeftSelectionBuildingMenuBuilder {
     },
   };
   static #buttonBuy(id, index, icons, sheets, instance) {
-    const btn = Button.render(id, index, icons, sheets, !id[1] ? id : `${id[0]}.${id[1]}`);
+    const btn = Button.build(id, index, icons, sheets, !id[1] ? id : `${id[0]}.${id[1]}`);
 
     const price = document.createElement("span");
     price.classList.add("price");

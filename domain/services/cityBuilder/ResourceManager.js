@@ -1,7 +1,7 @@
 import { LocalStorage } from "../../../../database/LocalStorage.js";
 import { Logger } from "../../utilis/Logger.js";
 
-export class ResourceManager {
+export class CityBuilderResourceManager {
   static getSavedResources() {
     const raw = LocalStorage.loadData("resources");
     if (!raw) return null;
@@ -26,7 +26,7 @@ export class ResourceManager {
   }
 
   static registerObservers(city) {
-    const save = () => ResourceManager.saveResources(city);
+    const save = () => CityBuilderResourceManager.saveResources(city);
     Object.values(city.resources).forEach((resource) => {
       resource.addObserver(save);
     });

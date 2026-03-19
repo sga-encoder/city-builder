@@ -1,6 +1,6 @@
 import { Logger } from "../../utilis/Logger.js";
-import { MapCameraEventBinder } from "./MapCameraEventBinder.js";
-import { MapCameraCalculations } from "./MapCameraCalculations.js";
+import { MapCameraEventBinder } from "./EventBinder.js";
+import { MapCameraCalculations } from "./Calculations.js";
 /**
  * @typedef {Object} MapCameraOptions
  * @property {number} [scale=1]

@@ -5,7 +5,7 @@ export class SlideLeftBuildMenuBuilder {
     const containerButton = document.createElement("div");
     containerButton.classList.add("container-buttons", "menu-01");
 
-    const buildButton = Button.render("build", 0, icons, sheets);
+    const buildButton = Button.build("build", 0, icons, sheets);
 
     containerButton.appendChild(buildButton);
     return containerButton;

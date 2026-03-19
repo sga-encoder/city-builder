@@ -1,10 +1,10 @@
-﻿import { SlideLeftConstants } from "./slideLeft/constants.js";
-import { SlideLeftState } from "./slideLeft/State.js";
-import { SlideLeftMenuRenderer } from "../components/slideLeft/menu/Renderer.js";
-import { SlideLeftMoveBuildingService } from "../services/slideLeft/MoveBuildingService.js";
-import { SlideLeftResourceWatcher } from "../services/slideLeft/ResourceWatcher.js";
-import { MapController } from "./MapController.js";
-import { Logger } from "../utilis/Logger.js";
+﻿import { SlideLeftConstants } from "./Constants.js";
+import { SlideLeftState } from "./State.js";
+import { SlideLeftMenuRenderer } from "../../components/slideLeft/menu/Renderer.js";
+import { SlideLeftMoveBuildingService } from "../../services/slideLeft/MoveBuilding.js";
+import { SlideLeftResourceWatcher } from "../../services/slideLeft/ResourceWatcher.js";
+import { MapController } from "../map/Controller.js";
+import { Logger } from "../../utilis/Logger.js";
 
 export class SlideLeftController {
   /**
@@ -189,7 +189,7 @@ export class SlideLeftController {
    * @param {object} icons - Referencias de iconos/sprites.
    * @returns {void}
    */
-  static initSlideLeftController(city, builds, icons) {
+  static initController(city, builds, icons) {
     Logger.log("🏛️ [SlideLeft] Inicializando controller...");
     this.city = city;
     this.builds = builds;

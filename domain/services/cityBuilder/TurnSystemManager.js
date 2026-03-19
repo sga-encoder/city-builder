@@ -2,7 +2,7 @@ import { TurnSystem } from "../../services/turns/TurnSystem.js";
 import { Logger } from "../../utilis/Logger.js";
 import { StatsManager } from "../StatsManager.js";
 
-export class TurnSystemManager {
+export class CityBuilderTurnSystemManager {
   static createTurnSystem(city, onTurnComplete, onPhaseFailed, onStateChanged) {
     const turnSystem = new TurnSystem();
     turnSystem.initialize(city, {

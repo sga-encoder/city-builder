@@ -1,7 +1,7 @@
 import { Map as CityMap } from "../../../../models/Map.js";
 import { ToastService } from "../../../services/toast.js";
 
-export class SelectBuildingMenuHandler {
+export class SelectBuildingMenuController {
   /**
    * Vincula interacciones de clic para el menu-03 (selección de edificio).
    * @param {HTMLElement} menuElement - Elemento raíz del menú renderizado.

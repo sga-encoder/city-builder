@@ -1,4 +1,4 @@
-import { SlideLeftController } from "../SlideLeftController.js";
+import { SlideLeftController } from "../slideLeft/Controller.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";
 
 export class MapSelectionController {

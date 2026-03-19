@@ -1,6 +1,6 @@
 
-import { Resource } from "./Resource.js";
-import { SlideLeftController } from "../../controllers/SlideLeftController.js";
+import { SlideLeftResourceBuilder } from "./resource/Builder.js";
+import { SlideLeftController } from "../../controllers/slideLeft/Controller.js";
 import { Logger } from "../../utilis/Logger.js";
 
 export class SlideLeft {
@@ -14,7 +14,7 @@ export class SlideLeft {
     menuSlot.classList.add("menu-slot");
     fragment.appendChild(menuSlot);
 
-    fragment.appendChild(Resource.build(resource, icons, sheets));
+    fragment.appendChild(SlideLeftResourceBuilder.build(resource, icons, sheets));
 
     return fragment;
   }

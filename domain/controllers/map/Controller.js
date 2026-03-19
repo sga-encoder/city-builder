@@ -3,11 +3,10 @@ import { MapSelectionController } from "./SelectionController.js";
 import { MapEventBinder } from "./EventBinder.js";
 import { MapModelObserverBinder } from "./ModelObserverBinder.js";
 import { MapBuildController } from "./BuildController.js";
-import { SlideLeftController } from "./SlideLeftController.js";
+import { SlideLeftController } from "../slideLeft/Controller.js";
 import { Logger } from "../../utilis/Logger.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";
 import { BuildingRenderer } from "../../components/building/Renderer.js";
-// import { Building } from "../models/Building.js";
 
 export class MapController {
   /**

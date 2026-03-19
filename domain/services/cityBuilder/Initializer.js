@@ -3,23 +3,23 @@
 // =====================
 import { MapRenderer } from "../../components/map/Renderer.js";
 import { City } from "../../../models/City.js";
-import { MapController } from "../../controllers/map/MapController.js";
+import { MapController } from "../../controllers/map/Controller.js";
 import { Logger } from "../../utilis/Logger.js";
 import { FileManager } from "../../utilis/FileManager.js";
 import { SVGInjector } from "../../utilis/SVGInjector.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";
-import { ResourceManager } from "./ResourceManager.js";
-import { TurnSystemManager } from "./TurnSystemManager.js";
-import { UIManager } from "./UImanager.js";
-import { DevToolsManager } from "./DevToolsManager.js";
+import { CityBuilderResourceManager } from "./ResourceManager.js";
+import { CityBuilderTurnSystemManager } from "./TurnSystemManager.js";
+import { CityBuilderUIManager } from "./UImanager.js";
+import { DevUtils } from "../../utilis/devUtils/DevUtils.js";
 import { setCityConfig } from "../../config/runtimeConfig.js";
-import { TurnStats } from "../../components/turnControl/TurnStats.js";
+import { TurnToolsStats } from "../../utilis/devUtils/components/turnTools/Stats/Renderer.js";
 
 
 // =====================
 // FACHADA: CityInitializer
 // =====================
-export class CityInitializer {
+export class CityBuilderInitializer {
   // =====================
   // CONFIGURACIÓN
   // =====================
@@ -55,7 +55,7 @@ export class CityInitializer {
     const mapRaw = LocalStorage.loadData("map");
     const savedMap = mapRaw ? JSON.parse(mapRaw) : null;
     const savedLayout = this.mapStorageToLayout(savedMap);
-    const savedResources = ResourceManager.getSavedResources();
+    const savedResources = CityBuilderResourceManager.getSavedResources();
     return { savedLayout, savedResources };
   }
 
@@ -106,7 +106,7 @@ export class CityInitializer {
 
     // Importar los componentes
   
-    DevToolsManager.init(turnSystem, city);
+    DevUtils.init(turnSystem);
 
     this.initUI(city, icons, builds, turnSystem);
   }
@@ -131,7 +131,7 @@ export class CityInitializer {
 
   static initObserversAndControllers(city) {
     // Observadores y controladores
-    ResourceManager.registerObservers(city);
+    CityBuilderResourceManager.registerObservers(city);
     city.map.addObserver((change) => {
       Logger.log("🧭 [MapObserver]", change.type, change);
     });
@@ -146,7 +146,7 @@ export class CityInitializer {
       food: city.resources.food.amount,
     };
 
-    const turnSystem = TurnSystemManager.createTurnSystem(
+    const turnSystem = CityBuilderTurnSystemManager.createTurnSystem(
       city,
       (event, turnSystem) => {
         Logger.log(
@@ -160,7 +160,7 @@ export class CityInitializer {
           water: city.resources.water.amount - prevResources.water,
           food: city.resources.food.amount - prevResources.food,
         };
-        TurnStats.updateStats(turnSystem.getState(), city, diff);
+        TurnToolsStats.update(turnSystem.getState(), city, diff);
         prevResources = {
           money: city.resources.money.amount,
           energy: city.resources.energy.amount,
@@ -179,7 +179,7 @@ export class CityInitializer {
   }
 
   static initUI(city, icons, builds) {
-    UIManager.renderMenus(city.resources, icons, builds);
-    UIManager.initMenuControllers(city, builds, icons);
+    CityBuilderUIManager.renderMenus(city.resources, icons, builds);
+    CityBuilderUIManager.initMenuControllers(city, builds, icons);
   }
 }

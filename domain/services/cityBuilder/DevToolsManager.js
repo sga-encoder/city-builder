@@ -1,14 +1,13 @@
-import { DevMode, CONFIG } from "../../config/DevMode.js";
-import { createDebugToggleButton } from "../../utilis/DebugToggleButton.js";
+import { DevMode, CONFIG } from "../../config/devConfig.js";
+import { createDebugToggleButton } from "../../utilis/devUtils/components/debugToggleButton/Renderer.js";
 import { Logger } from "../../utilis/Logger.js";
-import { TurnControlPanel } from "../../components/turnControl/TurnControlPanel.js";
-import { TurnStats } from "../../components/turnControl/TurnStats.js";
+import { TurnControlPanel } from "../../utilis/devUtils/components/turnTools/controlPanel/Renderer.js";
+import { TurnStats } from "../../utilis/devUtils/components/turnTools/Stats/Renderer.js";
 
 export class DevToolsManager {
-  static init(turnSystem, city) {
+  static init(turnSystem) {
     // Centraliza referencias
     this.turnSystem = turnSystem;
-    this.city = city;
     // Crea el botón de debug
     createDebugToggleButton(
       () => this.showPanels(),

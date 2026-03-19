@@ -1,5 +1,5 @@
-export class Resource {
-  static #resourcesContent(id, text, num, icons, sheets) {
+export class SlideLeftResourceBuilder {
+  static #buildResourcesContent(id, text, num, icons, sheets) {
     const li = document.createElement("li");
     li.classList.add("resource");
     li.id = id;
@@ -45,7 +45,7 @@ export class Resource {
     const resourceElements = {};
 
     Object.keys(resource).forEach((id, index) => {
-      const li = this.#resourcesContent(id, "...", index, icons, sheets);
+      const li = this.#buildResourcesContent(id, "...", index, icons, sheets);
       resourceElements[id] = li;
       ul.appendChild(li);
     });

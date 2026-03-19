@@ -1,9 +1,9 @@
 import { SlideLeftBuildMenuBuilder } from "./Build.js";
 import { SlideLeftManageMenuBuilder } from "./Manage.js";
 import { SlideLeftSelectionBuildingMenuBuilder } from "./SelectionBuilding.js";
-import { BuildMenuHandler } from "../../../controllers/slideLeft/menuHandlers/buildMenuHandler.js";
-import { ManageMenuHandler } from "../../../controllers/slideLeft/menuHandlers/manageMenuHandler.js";
-import { SelectBuildingMenuHandler } from "../../../controllers/slideLeft/menuHandlers/selectBuildingMenuHandler.js";
+import { BuildMenuController } from "../../../controllers/slideLeft/menu/Build.js";
+import { ManageMenuController } from "../../../controllers/slideLeft/menu/Manage.js";
+import { SelectBuildingMenuController } from "../../../controllers/slideLeft/menu/SelectBuilding.js";
 
 export class SlideLeftMenuRenderer {
   /**
@@ -57,14 +57,14 @@ export class SlideLeftMenuRenderer {
       hasIcons: !!icons,
       hasBuilds: !!builds,
     });
-    BuildMenuHandler.bind(m01, context);
+    BuildMenuController.bind(m01, context);
     slot.appendChild(m01);
   }
 
   static #renderManageMenu(slot, context, sheets) {
     const { icons } = context;
     const m02 = SlideLeftManageMenuBuilder.build(icons, sheets);
-    ManageMenuHandler.bind(m02, context);
+    ManageMenuController.bind(m02, context);
     slot.appendChild(m02);
   }
 
@@ -77,7 +77,7 @@ export class SlideLeftMenuRenderer {
       hasBuilds: !!builds,
       state: state.menuState,
     });
-    SelectBuildingMenuHandler.bind(m03, context);
+    SelectBuildingMenuController.bind(m03, context);
     slot.appendChild(m03);
     m03.scrollLeft = 0;
   }

@@ -1,4 +1,4 @@
-import { SlideLeftConstants } from "./constants.js";
+import { SlideLeftConstants } from "./Constants.js";
 export class SlideLeftState {
   /**
    * Estado estático compartido para el flujo del controlador del panel izquierdo.

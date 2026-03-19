@@ -5,8 +5,8 @@ export class SlideLeftManageMenuBuilder {
     const containerButton = document.createElement("div");
     containerButton.classList.add("container-buttons", "menu-02");
 
-    const moveButton = Button.render("move", 0, icons, sheets);
-    const destroyButton = Button.render("destroy", 1, icons, sheets);
+    const moveButton = Button.build("move", 0, icons, sheets);
+    const destroyButton = Button.build("destroy", 1, icons, sheets);
 
     containerButton.appendChild(moveButton);
     containerButton.appendChild(destroyButton);

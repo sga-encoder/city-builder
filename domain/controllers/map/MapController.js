@@ -1,12 +1,12 @@
-﻿import { MapCameraController } from "./map/MapCameraController.js";
-import { MapSelectionController } from "./map/MapSelectionController.js";
-import { MapEventBinder } from "./map/MapEventBinder.js";
-import { MapModelObserverBinder } from "./map/MapModelObserverBinder.js";
-import { MapBuildController } from "./map/MapBuildController.js";
+﻿import { MapCameraController } from "./CameraController.js";
+import { MapSelectionController } from "./SelectionController.js";
+import { MapEventBinder } from "./EventBinder.js";
+import { MapModelObserverBinder } from "./ModelObserverBinder.js";
+import { MapBuildController } from "./BuildController.js";
 import { SlideLeftController } from "./SlideLeftController.js";
-import { Logger } from "../utilis/Logger.js";
-import { LocalStorage } from "../../database/LocalStorage.js";
-import { BuildingRenderer } from "../components/building/Renderer.js";
+import { Logger } from "../../utilis/Logger.js";
+import { LocalStorage } from "../../../database/LocalStorage.js";
+import { BuildingRenderer } from "../../components/building/Renderer.js";
 // import { Building } from "../models/Building.js";
 
 export class MapController {

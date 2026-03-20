@@ -1,6 +1,7 @@
 import { TurnSystem } from "../../services/turns/TurnSystem.js";
 import { Logger } from "../../utilis/Logger.js";
 import { StatsManager } from "../StatsManager.js";
+import { CitizenManager } from "./CitizenManager.js";
 
 export class CityBuilderTurnSystemManager {
   static createTurnSystem(city, onTurnComplete, onPhaseFailed, onStateChanged) {
@@ -48,6 +49,14 @@ export class CityBuilderTurnSystemManager {
             building.executeTurnLogic(cityRef, StatsManager);
           }
 
+          return true;
+        },
+        critical: true,
+      },
+      {
+        name: "Dinamica Poblacional",
+        phase: (cityRef) => {
+          CitizenManager.runTurn(cityRef, StatsManager);
           return true;
         },
         critical: true,

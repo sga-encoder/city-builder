@@ -258,5 +258,10 @@
         "model": "../../public/models/way_land.svg"
       }
     }
+  },
+  "population": {
+    "minNewCitizensPerTurn": 1,
+    "maxNewCitizensPerTurn": 3,
+    "happinessThresholdToGrow": 60
   }
 }

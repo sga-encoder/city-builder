@@ -73,7 +73,7 @@ export class Map {
   // -------------------------------------------------------------
 
   isRoadBuilding(building) {
-    return String(building?.type || "").toLowerCase() === "r";
+    return String(building?.type || "") === "r";
   }
 
   buildIdMatrix(grid) {

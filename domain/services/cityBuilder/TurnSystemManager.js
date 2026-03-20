@@ -87,6 +87,26 @@ export class CityBuilderTurnSystemManager {
         critical: true,
       },
       {
+        name: "Produccion Industrial",
+        phase: (cityRef) => {
+          StatsManager.reset("I1");
+          StatsManager.reset("I2");
+
+          for (const building of cityRef.getTypeBuildings("I")) {
+            if (typeof building?.executeTurnLogic !== "function") continue;
+            building.executeTurnLogic(cityRef, StatsManager);
+          }
+
+          Logger.log(
+            "[TurnSystemManager] Produccion industrial",
+            StatsManager.getStats("I1"),
+            StatsManager.getStats("I2"),
+          );
+          return true;
+        },
+        critical: true,
+      },
+      {
         name: "Consumo Basico",
         phase: (cityRef) => {
           cityRef.resources.food.subtract(2);

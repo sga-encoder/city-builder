@@ -5,9 +5,10 @@ import { MapModelObserverBinder } from "./ModelObserverBinder.js";
 import { MapBuildController } from "./BuildController.js";
 import { SlideLeftController } from "../slideLeft/Controller.js";
 import { Logger } from "../../utilis/Logger.js";
-import { LocalStorage } from "../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../database/localStorage.js";
 import { BuildingRenderer } from "../../components/building/Renderer.js";
-import { MapRouteController } from "./RouteController.js";
+import { MapRouteController } from "./DijsktraController.js";
+import { RouteModeController } from "./RouteModeController.js";
 import { calculateRoute } from "../../../database/dijsktra.js";
 import { ToastService } from "../../services/toast.js";
 
@@ -47,8 +48,13 @@ export class MapController {
       buildingGrid: this.buildingGrid || [],
       hasPanned: () => MapCameraController.hasPanned,
       isInteractionLocked: () => this.isInteractionLocked(),
-      onCellClick: (id, cellData, i, j) =>
-        MapRouteController.handleRouteCellClick(id, cellData, i, j),
+      onCellClick: (id, cellData, i, j) => {
+        if (this.isRoadBuildModeActive()) {
+          return RouteModeController.toggleRoadBuildCell(id, cellData, i, j);
+        }
+
+        return MapRouteController.handleRouteCellClick(id, cellData, i, j);
+      },
       onSelectGround: (id, cellData, i, j) => {
         this.selectMapCell(id, cellData, i, j);
         this.openBuildMenu();
@@ -66,6 +72,30 @@ export class MapController {
 
   static isInteractionLocked() {
     return MapRouteController.routeCalculating;
+  }
+
+  static isRoadBuildModeActive() {
+    return RouteModeController.isRoadBuildModeActive();
+  }
+
+  static getRoadBuildSummary() {
+    return RouteModeController.getRoadBuildSummary();
+  }
+
+  static setRoadBuildSidebarVisibility(hidden) {
+    RouteModeController.setRoadBuildSidebarVisibility(hidden);
+  }
+
+  static startRoadBuildMode(btnId = "r") {
+    RouteModeController.startRoadBuildMode(this, btnId);
+  }
+
+  static cancelRoadBuildMode({ silent = false } = {}) {
+    RouteModeController.cancelRoadBuildMode(this, { silent });
+  }
+
+  static confirmRoadBuild(builds) {
+    return RouteModeController.confirmRoadBuild(this, builds);
   }
 
   // =====================

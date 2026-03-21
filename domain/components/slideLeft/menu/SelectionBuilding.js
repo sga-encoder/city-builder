@@ -2,6 +2,28 @@ import { Map } from "../../../../models/Map.js";
 import { Button } from "../../Button.js";
 
 export class SlideLeftSelectionBuildingMenuBuilder {
+
+  static #buildMetaText(instance) {
+    if (instance.type === "U") {
+      return `${instance.name} | +${instance.production || 0} ${instance.unit}/turno`;
+    }
+
+    if (instance.type === "I") {
+      return `${instance.name} | Empleos: ${instance.capacity || 0} | ${instance.production || 0} ${instance.unit}/turno`;
+    }
+
+    if (instance.type === "C") {
+      return `${instance.name} | Empleos: ${instance.capacity || 0} | +${instance.unit} ${instance.production || 0}/turno`;
+    }
+
+    if (instance.type === "R") {
+      return `${instance.name} | Capacidad: ${instance.capacity || 0}`;
+    }
+
+    return "";
+  }
+
+
   static #buttonBuy(id, index, icons, sheets, instance) {
     const btn = Button.build(id, index, icons, sheets, !id[1] ? id : `${id[0]}.${id[1]}`);
 
@@ -10,18 +32,14 @@ export class SlideLeftSelectionBuildingMenuBuilder {
     price.textContent = `$${instance.cost}`;
     btn.appendChild(price);
 
-    const meta = document.createElement("span");
-    meta.classList.add("utility-meta");
-    if (instance.type === "U") {
-      meta.textContent = `${instance.name} | +${Number(instance.production || 0)} ${instance.unit}/turno`;
+    const metaText = this.#buildMetaText(instance);
+    if (metaText) {
+      const meta = document.createElement("span");
+      meta.classList.add("utility-meta");
+      meta.textContent = metaText;
       btn.appendChild(meta);
     }
-  if (instance.type === "C") {
-      meta.textContent =
-        `${instance.name} | Empleos: ${instance.capacity} | +$${instance.income}/turno`;
-      }
-      
-    btn.appendChild(meta);
+
     return btn;
   }
 

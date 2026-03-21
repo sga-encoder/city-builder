@@ -4,6 +4,13 @@
     position: absolute;
     height: 100vh;
     pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#slide-left.road-build-hidden {
+    opacity: 0;
+    transform: translateX(-120%);
+    pointer-events: none;
 }
 
 #slide-left .container
@@ -183,6 +190,7 @@
     background: rgba(0, 0, 0, 0.38);
     padding: 3px 6px;
     border-radius: 8px;
+    color: #fff;
 }
 
 #slide-left .container .container-buttons .button .img-container 
@@ -209,6 +217,44 @@
 #slide-left .container .container-buttons.menu-03 .button
 {
     animation-delay: calc(var(--i) * 0.03s);
+}
+
+.road-build-actions {
+    position: fixed;
+    left: 2.5vw;
+    right: 2.5vw;
+    bottom: 23vw;
+    z-index: 260;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.45rem;
+    border-radius: 12px;
+    background: rgba(10, 12, 22, 0.84);
+    border: 1px solid rgba(240, 180, 41, 0.45);
+}
+
+.road-build-actions .road-build-helper {
+    flex: 1;
+    font-size: 0.68rem;
+    line-height: 1.2;
+    color: #fff;
+}
+
+.road-build-actions .road-build-action {
+    border: 0;
+    border-radius: 9px;
+    padding: 0.35rem 0.55rem;
+    font-size: 0.7rem;
+    color: #ffffff;
+}
+
+.road-build-actions .road-build-action.confirm {
+    background: #2f9e44;
+}
+
+.road-build-actions .road-build-action.cancel {
+    background: #c92a2a;
 }
 
 @keyframes slide-left-menu-enter {
@@ -300,6 +346,13 @@
         width: 7vw;
         height: 7vw;
         border-radius: 7.5vw;
+    }
+
+    .road-build-actions {
+        width: 25vw;
+        left: 1vw;
+        right: auto;
+        bottom: 7vh;
     }
 
 }

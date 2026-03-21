@@ -1,6 +1,7 @@
 import { TurnSystem } from "../../services/turns/TurnSystem.js";
 import { Logger } from "../../utilis/Logger.js";
 import { StatsManager } from "../StatsManager.js";
+import { CitizenManager } from "./CitizenManager.js";
 
 export class CityBuilderTurnSystemManager {
   static #createPhase({ name, statsKeys, buildingType }) {
@@ -55,6 +56,11 @@ export class CityBuilderTurnSystemManager {
         name: "Produccion Comercial",
         statsKeys: ["C1", "C2"],
         buildingType: "C",
+      }),
+      this.#createPhase({
+        name: "Produccion Industrial",
+        statsKeys: ["I1", "I2"],
+        buildingType: "I",
       }),
     ];
     turnSystem.registerPhases(gamePhases);

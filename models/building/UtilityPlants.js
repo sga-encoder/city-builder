@@ -6,6 +6,8 @@ export class UtilityPlants extends Building {
     const subtypeData = Building.getSubtypeData(type, subtype);
     const instance = { ...subtypeData, ...dict };
     super(instance);
+    this.unit = instance.unit;
+    this.productionType = instance.productionType;
     this.production = instance.production;
   }
 

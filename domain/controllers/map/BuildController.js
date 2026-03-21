@@ -4,10 +4,14 @@ import { Logger } from "../../utilis/Logger.js";
 import { ToastService } from "../../services/toast.js";
 export class MapBuildController {
 
+  static getBuildingToBuy(btnid) {
+    const [selectedEntry] = CityMap.buildingInstanceMap(btnid);
+    return selectedEntry?.[1] || null;
+  }
+
   static syncRoadMatrixCell(mapModel, i, j, buildingType) {
     if (!mapModel?.roadMatrix?.[i]) return;
-    mapModel.roadMatrix[i][j] =
-      String(buildingType || "").toLowerCase() === "r" ? 1 : 0;
+    mapModel.roadMatrix[i][j] = String(buildingType || "") === "r" ? 1 : 0;
   }
 
   static hasAdjacentRoad(grid, i, j) {
@@ -66,8 +70,7 @@ export class MapBuildController {
    * @returns {object|boolean}
    */
   static buyBuildingCell(btnid, builds, cell, mapModel, city) {
-    const [selectedEntry] = CityMap.buildingInstanceMap(btnid);
-    const buildingToBuy = selectedEntry?.[1] || null;
+    const buildingToBuy = this.getBuildingToBuy(btnid);
 
     if (!buildingToBuy) {
       Logger.warn("⚠️ [MapController] No se encontró building para", btnid);
@@ -100,7 +103,7 @@ export class MapBuildController {
 
     const result = this.replaceCellBuilding(btnid, builds, cell, mapModel);
     
-    if (!result?.instance) {
+    if (!result || result?.instance === null) {
       // Revertir descuento si no se pudo colocar en el mapa.
       city.resources.money.add(buildingToBuy.cost);
       Logger.warn(
@@ -113,6 +116,76 @@ export class MapBuildController {
     Logger.log("✅ [MapController] Edificio comprado y colocado en el mapa");
     ToastService.mostrarToast("Edificio comprado y colocado en el mapa", "success", 3000);
     return result;
+  }
+
+  /**
+   * Compra y coloca un mismo edificio en múltiples celdas de una sola vez.
+   * Se cobra solo una vez al confirmar por el total de celdas válidas.
+   * @param {string} btnid - Id del botón/tipo de edificio.
+   * @param {object} builds - Registro de modelos de edificios.
+   * @param {object[]} cells - Celdas destino.
+   * @param {object} mapModel - Modelo del mapa.
+   * @param {object} city - Modelo de ciudad.
+   * @returns {{ok: boolean, builtCount?: number, cost?: number, message?: string}}
+   */
+  static buyBuildingCellsBatch(btnid, builds, cells, mapModel, city) {
+    const buildingToBuy = this.getBuildingToBuy(btnid);
+    if (!buildingToBuy) {
+      return { ok: false, message: "No se encontró el edificio seleccionado." };
+    }
+
+    if (!Array.isArray(cells) || cells.length === 0) {
+      return { ok: false, message: "No hay celdas seleccionadas para construir." };
+    }
+
+    const invalidCell = cells.find((cell) =>
+      !this.validateBuildPlacement({
+        btnid,
+        cell,
+        mapModel,
+        city,
+        buildingToBuy: {
+          ...buildingToBuy,
+          cost: 0,
+        },
+      }).ok,
+    );
+
+    if (invalidCell) {
+      return {
+        ok: false,
+        message: `No se puede construir en la celda ${invalidCell.id}.`,
+      };
+    }
+
+    const totalCost = Number(buildingToBuy.cost || 0) * cells.length;
+    if ((city?.resources?.money?.amount ?? 0) < totalCost) {
+      return {
+        ok: false,
+        message: `Fondos insuficientes: necesitas $${totalCost}.`,
+      };
+    }
+
+    city.resources.money.subtract(totalCost);
+
+    let builtCount = 0;
+    for (const cell of cells) {
+      const result = this.replaceCellBuilding(btnid, builds, cell, mapModel);
+      if (!result || result?.instance === null) {
+        city.resources.money.add(totalCost);
+        return {
+          ok: false,
+          message: "No se pudo colocar una o más vías en el mapa.",
+        };
+      }
+      builtCount += 1;
+    }
+
+    return {
+      ok: true,
+      builtCount,
+      cost: totalCost,
+    };
   }
 
   /**

@@ -19,6 +19,8 @@ export class City {
       water: new Resources(initial.water, "water", "L", []),
       food: new Resources(initial.food, "food", "Kg", []),
     };
+    this.citizens = [];
+    this.citizenCounter = 0;
     this.score = score;
     if (turn !== undefined) {
       this.turn = turn;

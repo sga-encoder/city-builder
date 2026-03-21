@@ -109,6 +109,17 @@ export class SlideLeftController {
    * @returns {void}
    */
   static setMenuState(newState) {
+    const leavingSelectBuildingMenu =
+      this.menuState === SlideLeftConstants.MENU_STATE.SELECT_BUILDING &&
+      newState !== SlideLeftConstants.MENU_STATE.SELECT_BUILDING;
+
+    if (
+      leavingSelectBuildingMenu &&
+      MapController.isRoadBuildModeActive()
+    ) {
+      MapController.cancelRoadBuildMode({ silent: true });
+    }
+
     Logger.log("🎛️ [SlideLeft] menuState:", this.menuState, "→", newState);
     Logger.log("[SlideLeft][setMenuState]", {
       from: this.menuState,

@@ -6,14 +6,16 @@ export class CommercialBuilding extends Building {
     const subtypeData = Building.getSubtypeData(type, subtype);
     const instance = { ...subtypeData, ...dict };
     super(instance);
+    this.unit = instance.unit;
+    this.productionType = instance.productionType;
     this.capacity = instance.capacity;
-    this.income = instance.income;
+    this.production = instance.production;
     this.citizens = [];
   }
 
   executeTurnLogic(city, StatsManager) {
     const energyUsage = this.energyUsage
-    const income = Number(this.income || 0);
+    const production = Number(this.production || 0);
 
     const energyResource = city?.resources?.energy;
     const moneyResource = city?.resources?.money;
@@ -26,10 +28,10 @@ export class CommercialBuilding extends Building {
         Number(energyResource.turnConsumption || 0) + energyUsage;
     }
 
-    if (hasElectricity && moneyResource && income > 0) {
-      moneyResource.add(income);
+    if (hasElectricity && moneyResource && production > 0) {
+      moneyResource.add(production);
       moneyResource.turnProduction =
-        Number(moneyResource.turnProduction || 0) + income;
+        Number(moneyResource.turnProduction || 0) + production;
     }
 
     StatsManager.addStats(`C${this.subtype}`, {
@@ -40,7 +42,7 @@ export class CommercialBuilding extends Building {
         energy: energyUsage
       },
       production: {
-        money: hasElectricity ? income : 0,
+        money: hasElectricity ? production : 0,
       },
       employment: {
         jobCapacity: this.capacity || 0,

@@ -90,6 +90,11 @@
         "model": "../../public/icons/person/filled/personShield.svg"
       }
     },
+    "percentage": {
+      "": {
+        "model": "../../public/icons/percent.svg"
+      }
+    },
     "weather": {
       "drizzle": {
         "model": "../../public/icons/weather/weather-drizzle.svg"
@@ -159,7 +164,9 @@
         "capacity": 6,
         "energyUsage": 8,
         "waterUsage": 0,
-        "income": 500,
+        "production": 500,
+        "productionType": "money",
+        "unit": "$",
         "requiredRoad": true,
         "requireEmptyCell": true,
         "model": "../../public/models/store_land.svg"
@@ -170,7 +177,9 @@
         "capacity": 20,
         "energyUsage": 25,
         "waterUsage": 0,
-        "income": 2000,
+        "production": 2000,
+        "productionType": "money",
+        "unit": "$",
         "requiredRoad": true,
         "requireEmptyCell": true,
         "model": "../../public/models/mall_land.svg"
@@ -185,7 +194,9 @@
         "waterUsage": 15,
         "requiredRoad": true,
         "requireEmptyCell": true,
-        "benefit": 800,
+        "production": 800,
+        "productionType": "money",
+        "unit": "$",
         "model": "../../public/models/factory_land.svg"
       },
       "2": {
@@ -197,6 +208,9 @@
         "requiredRoad": true,
         "requireEmptyCell": true,
         "benefit": 50,
+        "production": 50,
+        "productionType": "food",
+        "unit": "kg",
         "model": "../../public/models/farm_land.svg"
       }
     },
@@ -256,6 +270,7 @@
         "requiredRoad": true,
         "requireEmptyCell": true,
         "production": 200,
+        "productionType": "energy",
         "unit": "kWh",
         "model": "../../public/models/energy_land.svg"
       },
@@ -267,6 +282,7 @@
         "requiredRoad": true,
         "requireEmptyCell": true,
         "production": 150,
+        "productionType": "water",
         "unit": "L",
         "model": "../../public/models/water_land.svg"
       }
@@ -293,5 +309,10 @@
         "model": "../../public/models/way_land.svg"
       }
     }
+  },
+  "population": {
+    "minNewCitizensPerTurn": 1,
+    "maxNewCitizensPerTurn": 3,
+    "happinessThresholdToGrow": 60
   }
 }

@@ -1,10 +1,10 @@
 import { Logger } from "../../utilis/Logger.js";
 import { SlideRightBuilder } from "./Builder.js";
 import { SlideRightController } from "../../controllers/slideRight/Controller.js";
-import { StatsPanel } from "./statsPanel/StatsPanel.js";
+import { StatsPanel } from "./statsPanel/Renderer.js";
 
 export class SlideRight {
-  static render(icons, containerSelector = "#slide-right") {
+  static render(icons, builds, containerSelector = "#slide-right") {
     Logger.log("🔲 [SlideRight] Renderizando menú...");
     const container = document.querySelector(containerSelector);
     if (!container) {
@@ -13,6 +13,6 @@ export class SlideRight {
     }
     container.prepend(SlideRightBuilder.build(icons));
     Logger.log("✅ [SlideRight] Menú renderizado");
-    SlideRightController.initialize(container, StatsPanel);
+    SlideRightController.initialize(container, StatsPanel, icons, builds);
   }
 }

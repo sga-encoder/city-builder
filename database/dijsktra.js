@@ -1,4 +1,4 @@
-const DEFAULT_ROUTE_API_URL = "http://127.0.0.1:5000/api/calculate-route";
+const DEFAULT_ROUTE_API_URL = "https://city-builder-dijsktra.onrender.com/api/calculate-route";
 
 const toPoint = (value) => {
   if (!Array.isArray(value) || value.length !== 2) return null;

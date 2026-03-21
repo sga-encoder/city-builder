@@ -55,6 +55,41 @@
         "model": "../../public/icons/water.svg"
       }
     },
+    "close": {
+      "": {
+        "model": "../../public/icons/close.svg"
+      }
+    },
+    "amount": {
+      "": {
+        "model": "../../public/icons/number.svg"
+      }
+    },
+    "workers": {
+      "": {
+        "model": "../../public/icons/person/filled/personDelete.svg"
+      }
+    },
+    "residents": {
+      "": {
+        "model": "../../public/icons/person/filled/personError.svg"
+      }
+    },
+    "housingCapacity": {
+      "": {
+        "model": "../../public/icons/person/filled/personHome.svg"
+      }
+    },
+    "jobCapacity": {
+      "": {
+        "model": "../../public/icons/person/filled/personMoney.svg"
+      }
+    },
+    "personShield": {
+      "": {
+        "model": "../../public/icons/person/filled/personShield.svg"
+      }
+    },
     "weather": {
       "drizzle": {
         "model": "../../public/icons/weather/weather-drizzle.svg"

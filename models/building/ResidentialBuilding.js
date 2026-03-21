@@ -28,25 +28,9 @@ export class ResidentialBuilding extends Building {
     this.citizens = [];
   }
 
-  static getResidentialSubtypeInfo(subtype) {
-    const normalizedSubtype = String(subtype);
-    const subtypeData = Building.getSubtypeData("R", normalizedSubtype);
-    const isHouse = normalizedSubtype === "1";
-    return {
-      subtype: normalizedSubtype,
-      key: `R${normalizedSubtype}`,
-      typeResidential: isHouse ? "Casa" : "Apartamento",
-      capacity: subtypeData.capacity ?? (isHouse ? 4 : 12),
-      cost: subtypeData.cost ?? (isHouse ? 1000 : 3000),
-      energyUsage: subtypeData.energyUsage ?? (isHouse ? 5 : 15),
-      waterUsage: subtypeData.waterUsage ?? (isHouse ? 3 : 10),
-    };
-  }
-
   executeTurnLogic(city, StatsManager) {
-    const subtypeInfo = ResidentialBuilding.getResidentialSubtypeInfo(this.subtype);
-    const energyUsage = Number(subtypeInfo.energyUsage || 0);
-    const waterUsage = Number(subtypeInfo.waterUsage || 0);
+    const energyUsage = Number(this.energyUsage || 0);
+    const waterUsage = Number(this.waterUsage || 0);
 
     const energyResource = city?.resources?.energy;
     const waterResource = city?.resources?.water;
@@ -68,22 +52,22 @@ export class ResidentialBuilding extends Building {
         Number(waterResource.turnConsumption || 0) + waterUsage;
     }
 
+    const consumption = {};
+    if (energyUsage > 0) consumption.energy = energyUsage;
+    if (waterUsage > 0) consumption.water = waterUsage;
+
     StatsManager.addStats(
       `R${this.subtype}`,
       {
         building: {
           amount: 1,
         },
-        consumo: {
-          energia: canConsumeEnergy ? energyUsage : 0,
-          agua: canConsumeWater ? waterUsage : 0,
-        },
-        ocupacion: {
-          actual: this.citizens?.length || 0,
-          max: this.capacity || 0,
-        },
+        consumption,
+        housing: {
+          housingCapacity: this.capacity || 0,
+          residents: this.citizens?.length || 0,
+        }
       },
     );
   }
 }
-  

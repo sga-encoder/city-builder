@@ -27,20 +27,18 @@ export class UtilityPlants extends Building {
 
       StatsManager.addStats("U1", {
         building: { amount: 1 },
-        consumo: { energia: 0 },
-        produccion: { energia: production },
+        production: { energy: production },
       });
       return;
     }
 
     if (this.subtype === "2") {
-      const energyCost = 20;
-      const canOperate = !!energyResource && energyResource.canConsume(energyCost);
+      const canOperate = !!energyResource && energyResource.canConsume(this.energyUsage);
 
       if (canOperate) {
-        energyResource.subtract(energyCost);
+        energyResource.subtract(this.energyUsage);
         energyResource.turnConsumption =
-          Number(energyResource.turnConsumption || 0) + energyCost;
+          Number(energyResource.turnConsumption || 0) + this.energyUsage;
 
         if (waterResource && production > 0) {
           waterResource.add(production);
@@ -51,8 +49,8 @@ export class UtilityPlants extends Building {
 
       StatsManager.addStats("U2", {
         building: { amount: 1 },
-        consumo: { energia: canOperate ? energyCost : 0 },
-        produccion: { agua: canOperate ? production : 0 },
+        consumption: { energy: this.energyUsage },
+        production: { water: canOperate ? production : 0 },
       });
     }
   }

@@ -5,7 +5,7 @@ import { SlideLeftController } from "../../controllers/slideLeft/Controller.js";
 export class CityBuilderUIManager {
   static renderMenus(resources, icons, builds) {
     SlideLeft.render(resources, icons, builds);
-    SlideRight.render(icons);
+    SlideRight.render(icons, builds);
   }
 
   static initMenuControllers(city, builds, icons) {

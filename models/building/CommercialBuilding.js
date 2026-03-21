@@ -11,26 +11,9 @@ export class CommercialBuilding extends Building {
     this.citizens = [];
   }
 
-  static getCommercialSubtypeInfo(subtype) {
-    const normalizedSubtype = String(subtype);
-    const subtypeData = Building.getSubtypeData("C", normalizedSubtype);
-    const isStore = normalizedSubtype === "1";
-
-    return {
-      subtype: normalizedSubtype,
-      key: `C${normalizedSubtype}`,
-      typeCommercial: isStore ? "Tienda" : "Centro Comercial",
-      capacity: subtypeData.capacity ?? (isStore ? 6 : 20),
-      cost: subtypeData.cost ?? (isStore ? 2000 : 8000),
-      energyUsage: subtypeData.energyUsage ?? (isStore ? 8 : 25),
-      income: subtypeData.income ?? (isStore ? 500 : 2000),
-    };
-  }
-
   executeTurnLogic(city, StatsManager) {
-    const subtypeInfo = CommercialBuilding.getCommercialSubtypeInfo(this.subtype);
-    const energyUsage = Number(subtypeInfo.energyUsage || 0);
-    const income = Number(subtypeInfo.income || 0);
+    const energyUsage = this.energyUsage
+    const income = Number(this.income || 0);
 
     const energyResource = city?.resources?.energy;
     const moneyResource = city?.resources?.money;
@@ -53,16 +36,16 @@ export class CommercialBuilding extends Building {
       building: {
         amount: 1,
       },
-      consumo: {
-        energia: hasElectricity ? energyUsage : 0,
+      consumption: {
+        energy: energyUsage
       },
-      produccion: {
-        dinero: hasElectricity ? income : 0,
+      production: {
+        money: hasElectricity ? income : 0,
       },
-      empleos: {
-        ofrecidos: Number(this.capacity || subtypeInfo.capacity || 0),
-        ocupados: Number(this.citizens?.length || 0),
-      },
+      employment: {
+        jobCapacity: this.capacity || 0,
+        workers: this.citizens?.length || 0,
+      }
     });
   }
 }

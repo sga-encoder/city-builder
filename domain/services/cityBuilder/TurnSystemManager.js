@@ -40,7 +40,15 @@ export class CityBuilderTurnSystemManager {
           return true;
         },
         critical: true,
+      }, {
+        name: "Dinamica Poblacional",
+        phase: (cityRef) => {
+          CitizenManager.runTurn(cityRef, StatsManager);
+          return true;
+        },
+        critical: true,
       },
+      
       this.#createPhase({
         name: "Produccion Utilidades",
         statsKeys: ["U1", "U2"],

@@ -37,13 +37,8 @@ export class CityBuilderTurnSystemManager {
             resource.turnProduction = 0;
             resource.turnConsumption = 0;
           });
-          return true;
-        },
-        critical: true,
-      }, {
-        name: "Dinamica Poblacional",
-        phase: (cityRef) => {
-          CitizenManager.runTurn(cityRef, StatsManager);
+          cityRef.activeServicesCount = 0;
+          cityRef.activeServiceBonus = 0;
           return true;
         },
         critical: true,
@@ -54,6 +49,21 @@ export class CityBuilderTurnSystemManager {
         statsKeys: ["U1", "U2"],
         buildingType: "U"
       }),
+
+      this.#createPhase({
+        name: "Soporte de Servicios",
+        statsKeys: ["S1", "S2", "S3"],
+        buildingType: "S",
+      }),
+
+      {
+        name: "Dinamica Poblacional",
+        phase: (cityRef) => {
+          CitizenManager.runTurn(cityRef, StatsManager);
+          return true;
+        },
+        critical: true,
+      },
 
       this.#createPhase({
         name: "Consumo Residencial",

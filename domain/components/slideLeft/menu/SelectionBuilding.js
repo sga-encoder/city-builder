@@ -20,6 +20,12 @@ export class SlideLeftSelectionBuildingMenuBuilder {
       return `${instance.name} | Capacidad: ${instance.capacity || 0}`;
     }
 
+    if (instance.type === "S") {
+      const radius = Number(instance.radius || 0);
+      const happiness = Number(instance.benefit || 10);
+      return `${instance.name} | Radio: ${radius}x${radius} | +${happiness} felicidad`;
+    }
+
     return "";
   }
 

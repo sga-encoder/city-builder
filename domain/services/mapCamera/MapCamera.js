@@ -1,6 +1,7 @@
 import { Logger } from "../../utilis/Logger.js";
 import { MapCameraEventBinder } from "./EventBinder.js";
 import { MapCameraCalculations } from "./Calculations.js";
+import { CameraInstanceManager } from "./CameraInstance.js";
 /**
  * @typedef {Object} MapCameraOptions
  * @property {number} [scale=1]
@@ -24,6 +25,7 @@ export class MapCamera {
   #didDeselectDuringPan = false;
   #onPanStartCallback = null;
   #panBounds;
+  #hasSavedState
 
   /**
    * @param {string} viewportSelector Selector del contenedor del mapa.
@@ -43,15 +45,28 @@ export class MapCamera {
       );
     }
 
+
     const config = MapCameraCalculations.createConfig(options);
+    // Intentar cargar estado guardado
+    const saved = CameraInstanceManager.loadState();
+    let hasSavedState = false;
+    if (saved && typeof saved.zoom === 'number' && saved.pan) {
+      config.state.zoomScale = saved.zoom;
+      config.state.panX = saved.pan.x;
+      config.state.panY = saved.pan.y;
+      hasSavedState = true;
+    }
     this.#state = config.state;
     this.#panBounds = config.bounds;
+    this.#hasSavedState = hasSavedState;
 
     Logger.log(
       "✅ [MapCamera] Configuración completa, zoomScale:",
       this.#state.zoomScale,
     );
     this.#initialize();
+    // Registrar instancia global
+    CameraInstanceManager.setInstance(this);
   }
 
   /**
@@ -189,9 +204,46 @@ export class MapCamera {
     return targetScale;
   }
 
+  // Métodos públicos para persistencia de estado
+  getZoom() {
+    return this.zoomScale;
+  }
+  getPan() {
+    return this.panPosition;
+  }
+  setZoom(zoom) {
+    console.log("[MapCamera.setZoom]", zoom);
+    this.#state.zoomScale = this.#clampZoom(zoom);
+    this.#commitTransform();
+    CameraInstanceManager.saveState({
+      zoom: this.#state.zoomScale,
+      pan: { x: this.#state.panX, y: this.#state.panY },
+    });
+  }
+  setPan(x, y) {
+    console.log("[MapCamera.setPan]", { x, y });
+    this.#state.panX = x;
+    this.#state.panY = y;
+    this.#commitTransform();
+    CameraInstanceManager.saveState({
+      zoom: this.#state.zoomScale,
+      pan: { x: this.#state.panX, y: this.#state.panY },
+    });
+  }
+
+  reattach(styleSheet) {
+    this.#styleSheet = styleSheet;
+    this.#cssTransformRuleIndex = null; // resetear el índice
+    this.#commitTransform(); // reinsertar la regla en el nuevo stylesheet
+  }
+
   #initialize() {
     Logger.log("🔧 [MapCamera] Inicializando...");
-    this.#fitContentToViewport();
+    if (!this.#hasSavedState) {
+      this.#fitContentToViewport();
+    } else {
+      this.#commitTransform();
+    }
     this.#bindEventListeners();
     Logger.log("✅ [MapCamera] Inicializado correctamente");
   }
@@ -206,6 +258,11 @@ export class MapCamera {
       rule,
       this.#styleSheet.cssRules.length,
     );
+    // Guardar estado cada vez que se aplica un cambio visual
+    CameraInstanceManager.saveState({
+      zoom: this.#state.zoomScale,
+      pan: { x: this.#state.panX, y: this.#state.panY },
+    });
   }
 
   #clampPanPosition(nextX, nextY, scale = this.#state.zoomScale) {
@@ -225,6 +282,7 @@ export class MapCamera {
     const sizeVar = Number.parseFloat(
       getComputedStyle(this.#mapElement).getPropertyValue("--size"),
     );
+
 
     const fitResult = MapCameraCalculations.fitContentToViewport({
       mapWidth: this.#mapElement.offsetWidth,

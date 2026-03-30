@@ -1,3 +1,4 @@
+/* eslint-disable css/no-important */
 /* eslint-disable css/no-invalid-properties */
 
 #slide-left{
@@ -393,4 +394,18 @@
         flex-direction: row;
     }
 
+}
+
+#slide-left .container .container-buttons.menu-02 {
+    display: flex !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    animation: none !important;
+    transform: none !important;
+}
+
+#slide-left .container .container-buttons.menu-02 .button {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
 }

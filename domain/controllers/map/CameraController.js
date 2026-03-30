@@ -1,5 +1,6 @@
 import { Logger } from "../../utilis/Logger.js";
 import { MapCamera } from "../../services/mapCamera/MapCamera.js";
+import { CameraInstanceManager } from "../../services/mapCamera/CameraInstance.js";
 
 export class MapCameraController {
   /**
@@ -9,7 +10,7 @@ export class MapCameraController {
   static mapCamera = null;
 
   /** @type {number|null} */
-  static resizeDebounceTimer = null;
+  static resizeDebounceTimer = null;4
 
   /** @type {number} */
   static cameraRetryCount = 0;
@@ -42,7 +43,7 @@ export class MapCameraController {
       const responsiveInitialScale = {
         756: 8,
         1024: 4,
-        99999: 1,
+        99999: .6,
       };
 
       Logger.log("📱 [MapController] Escalas:", {
@@ -56,6 +57,8 @@ export class MapCameraController {
         maxScale,
         scale: 1,
       });
+      CameraInstanceManager.setInstance(this.mapCamera);
+
       Logger.log("✅ [MapController] MapCamera creado exitosamente");
 
       this.mapCamera.onPanStart(onPanStart);
@@ -109,5 +112,16 @@ export class MapCameraController {
         clearInterval(this.cameraRetryTimer);
       }
     }, 100);
+  }
+
+  /**
+   * Llama a reattach en la instancia de MapCamera con el nuevo stylesheet tras hot reload de CSS.
+   * @param {CSSStyleSheet} [styleSheet=document.styleSheets[0]]
+   */
+  static onStyleSheetReplaced(styleSheet = document.styleSheets[0]) {
+    if (this.mapCamera) {
+      this.mapCamera.reattach(styleSheet);
+      Logger.log("♻️ [MapController] reattach() ejecutado tras reemplazo de CSS");
+    }
   }
 }

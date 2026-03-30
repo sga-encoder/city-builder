@@ -24,6 +24,7 @@ export class CityBuilderInitializer {
   // CONFIGURACIÓN
   // =====================
   static CityConfig = null;
+  static mapRenderParams = null;
 
   static async initConfig() {
     if (!this.CityConfig) {
@@ -76,6 +77,7 @@ export class CityBuilderInitializer {
   // =====================
   static async buildCity() {
     Logger.log("🏗️ [CityBuilder] Iniciando buildCity()");
+    MapRenderer.stopObserveCSSReload();
     const { savedLayout, savedResources } = this.loadSavedData();
     Logger.log(
       "📦 [CityBuilder] savedLayout:",
@@ -90,13 +92,25 @@ export class CityBuilderInitializer {
     const builds = await SVGInjector.create(data.builds);
     const icons = await SVGInjector.create(data.icons);
 
-    const layout = savedLayout || this.createDefaultLayout(30);
+    const layout = savedLayout || this.createDefaultLayout();
 
-    const { grid } = MapRenderer.render({
+
+    // Guardar los parámetros globalmente para re-render
+    const mapRenderParams = {
       containerSelector: "#map",
       layout,
       svgModels: builds,
+    };
+    this.mapRenderParams = mapRenderParams;
+
+    const { grid } = MapRenderer.render(mapRenderParams);
+
+    MapRenderer.observeCSSReload(() => {
+      if (this.mapRenderParams) {
+        MapRenderer.rehydrateCSS(this.mapRenderParams);
+      }
     });
+
 
     const city = this.createCity(grid, data.builds, initialResources);
 

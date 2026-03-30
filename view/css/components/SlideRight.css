@@ -155,6 +155,20 @@
     justify-content: center;
     align-items: center;
     margin-left: 1vw;
+    border: 5px solid #fff;
+    border-radius: 10px;
+}
+
+#slide-right #stats-container .stats-section .data-container .production-container>p,
+#slide-right #stats-container .stats-section .data-container .consumption-container>p,
+#slide-right #stats-container .stats-section .data-container .employment-container>p,
+#slide-right #stats-container .stats-section .data-container .housing-container>p,
+#slide-right #stats-container .stats-section .data-container .efficiency-container>p
+{
+    width: 100%;
+    border-bottom: 2px solid #fff;
+    padding: 1vw 3vw;
+    text-align: center;
 }
 
 #slide-right #stats-container .stats-section .data-container .production-container .production-module,
@@ -167,8 +181,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     margin: 0.5vw;
     gap: 5vw;
+    padding: 1vw 2vw;
+    width: 50vw;
+
 }
 
 #slide-right #stats-container .stats-section .data-container .production-container .icon-value-container,
@@ -176,7 +194,6 @@
 #slide-right #stats-container .stats-section .data-container .employment-container .icon-value-container,
 #slide-right #stats-container .stats-section .data-container .housing-container .icon-value-container,
 #slide-right #stats-container .stats-section .data-container .efficiency-container .icon-value-container
-
 
 {
     display: flex;

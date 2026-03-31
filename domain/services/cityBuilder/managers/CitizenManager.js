@@ -1,5 +1,5 @@
-import { Citizen } from "../../../models/person/Citizens.js";
-import { getCityConfig } from "../../config/runtimeConfig.js";
+import { Citizen } from "../../../../models/person/Citizens.js";
+import { getCityConfig } from "../../../config/runtimeConfig.js";
 
 export class CitizenManager {
   static DEFAULTS = {

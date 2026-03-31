@@ -1,7 +1,7 @@
-import { Map as CityMap } from "../../../models/Map.js";
-import { createBuilding } from "../../../models/building/buildingFactory.js";
-import { Logger } from "../../utilis/Logger.js";
-import { ToastService } from "../../services/toast.js";
+import { Map as CityMap } from "../../../../models/Map.js";
+import { createBuilding } from "../../../../models/building/buildingFactory.js";
+import { Logger } from "../../../utilis/Logger.js";
+import { ToastService } from "../../../services/toast.js";
 export class MapBuildController {
 
   static getBuildingToBuy(btnid) {

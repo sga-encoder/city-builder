@@ -5,7 +5,7 @@ import { MapRenderer } from "../../components/map/Renderer.js";
 import { Logger } from "../../utilis/Logger.js";
 import { FileManager } from "../../utilis/FileManager.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";
-import { CityBuilderResourceManager } from "./ResourceManager.js";
+import { CityBuilderResourceManager } from "./managers/ResourceManager.js";
 import { ConfigPhase } from "./phases/ConfigPhase.js";
 import { AssetsPhase } from "./phases/AssetsPhase.js";
 import { MapPhase } from "./phases/MapPhase.js";

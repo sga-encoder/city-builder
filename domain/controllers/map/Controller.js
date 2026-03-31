@@ -1,8 +1,8 @@
 ﻿import { MapCameraController } from "./subControllers/CameraController.js";
 import { MapSelectionController } from "./subControllers/SelectionController.js";
-import { MapEventBinder } from "./EventBinder.js";
+import { MapEventBinder } from "./binders/EventBinder.js";
 import { MapModelObserverBinder } from "./binders/ModelObserverBinder.js";
-import { MapBuildController } from "./BuildController.js";
+import { MapBuildController } from "./subControllers/BuildController.js";
 import { SlideLeftController } from "../slideLeft/Controller.js";
 import { Logger } from "../../utilis/Logger.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";

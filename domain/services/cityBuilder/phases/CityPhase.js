@@ -1,7 +1,7 @@
 import { City } from "../../../../models/City.js";
 import { MapController } from "../../../controllers/map/Controller.js";
 import { Logger } from "../../../utilis/Logger.js";
-import { CityBuilderResourceManager } from "../ResourceManager.js";
+import { CityBuilderResourceManager } from "../managers/ResourceManager.js";
 import { CityBuilderTurnSystemManager } from "../managers/TurnSystemManager.js";
 import { TurnToolsStats } from "../../../utilis/devUtils/components/turnTools/Stats/Renderer.js";
 

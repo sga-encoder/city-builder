@@ -1,0 +1,27 @@
+
+
+
+#slide-right .icon-container
+{
+    width: 8vw;
+    height: 8vw;
+    margin-right: 0.5vw;
+}
+
+#slide-right .icon-container .img-container
+{
+    width: 100%;
+    height: 100%;
+}
+
+#slide-right .icon-container .img-container svg
+{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#slide-right .icon-container .img-container svg path
+{
+    fill: #fff;
+}

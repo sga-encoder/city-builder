@@ -2,25 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Smooch+Sans:wght@100..900&family=WindSong:wght@400;500&display=swap');
 @import url("./rest.css");
 @import url("./themes/default.css");
-@import url("./models/apartaments.css");
-@import url("./models/energy.css");
-@import url("./models/factory.css");
-@import url("./models/farm.css");
-@import url("./models/fire.css");
-@import url("./models/ground.css");
-@import url("./models/house.css");
-@import url("./models/mall.css");
-@import url("./models/park.css");
-@import url("./models/police.css");
-@import url("./models/store.css");
-@import url("./models/water.css");
-@import url("./models/way.css");
-@import url("./components/Map.css");
-@import url("./components/SlideLeft.css");
-@import url("./components/SlideRight.css");
-@import url("./utils/devMode/TurnToolsControlPanel.css");
-@import url("./utils/devMode/devMode.css");
-@import url("./toast.css");
+@import url("./models/Models.css");
+@import url("./components/map/index.css");
+@import url("./components/slideLeft/index.css");
+@import url("./components/slideRight/index.css");
+@import url("./utils/utils.css");
 
 .main-container{
     width: 100vw;
@@ -29,12 +15,5 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    background: hsl(209, 67%, 8%) ;
-}
-
-.smooch-sans-400 {
-  font-family: "Smooch Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
+    background: hsl(209, 67%, 8%);
 }

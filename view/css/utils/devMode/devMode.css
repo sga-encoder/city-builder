@@ -1,4 +1,6 @@
 /* eslint-disable css/use-baseline */
+@import url('./TurnToolsControlPanel.css');
+
 #debug-toggle-btn{
     position: fixed;
     bottom: 50%;

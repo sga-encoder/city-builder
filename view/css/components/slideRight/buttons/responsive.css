@@ -1,0 +1,7 @@
+@media (min-width: 746px) {
+    #slide-right .buttons-container .button
+    {
+        width: 7vw;
+        height: 7vw;
+    }
+}

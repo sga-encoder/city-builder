@@ -1,0 +1,22 @@
+
+
+
+.map-item {
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+
+}
+
+.building {
+    pointer-events: none;
+    display: block;
+}
+
+.building svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    shape-rendering: geometricPrecision;
+    text-rendering: geometricPrecision;
+}

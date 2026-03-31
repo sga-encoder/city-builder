@@ -1,0 +1,32 @@
+@media (min-width: 746px) {
+    #slide-left .container .container-buttons .button .utility-meta
+    {
+        font-size: 0.6rem;
+        bottom: 24px;
+    }
+
+    #slide-left .container .container-buttons.menu-01,
+    #slide-left .container .container-buttons.menu-02,
+    #slide-left .container .container-buttons.menu-03
+    {
+        flex-direction: column;
+        bottom: 50%;
+        width: inherit;
+        height: 56vh;
+        left: 3vw;
+    }
+
+    #slide-left .container .container-buttons .button
+    {
+        width: 7vw;
+        height: 7vw;
+        border-radius: 7.5vw;
+    }
+}
+
+@media (min-width: 1024px) {
+    #slide-left .container .container-buttons .button .utility-meta
+    {
+        font-size: 0.58rem;
+    }
+}

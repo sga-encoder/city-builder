@@ -72,57 +72,38 @@ export class CityBuilderInitializer {
     };
   }
 
-  // =====================
-  // FLUJO PRINCIPAL DE INICIALIZACIÓN
-  // =====================
-  static async buildCity() {
-    Logger.log("🏗️ [CityBuilder] Iniciando buildCity()");
-    MapRenderer.stopObserveCSSReload();
-    const { savedLayout, savedResources } = this.loadSavedData();
-    Logger.log(
-      "📦 [CityBuilder] savedLayout:",
-      savedLayout ? `${savedLayout.length}x${savedLayout[0]?.length}` : "null",
-    );
-
-    const initialResources = this.getInitialResources(savedResources);
-
+  static async loadConfig() {
     const data = await this.initConfig();
     setCityConfig(data);
+    return data;
+  }
 
+  static async loadAssets(data) {
     const builds = await SVGInjector.create(data.builds);
     const icons = await SVGInjector.create(data.icons);
+    return { builds, icons };
+  }
 
+  static prepareMapParams(savedLayout, builds) {
     const layout = savedLayout || this.createDefaultLayout();
-
-
-    // Guardar los parámetros globalmente para re-render
-    const mapRenderParams = {
-      containerSelector: "#map",
-      layout,
-      svgModels: builds,
+    return {
+    containerSelector: "#map",
+    layout,
+    svgModels: builds,
     };
+  }
+
+  static renderMap(mapRenderParams) {
     this.mapRenderParams = mapRenderParams;
+    return MapRenderer.render(mapRenderParams);
+  }
 
-    const { grid } = MapRenderer.render(mapRenderParams);
-
+  static setupCssRehydrate() {
     MapRenderer.observeCSSReload(() => {
       if (this.mapRenderParams) {
         MapRenderer.rehydrateCSS(this.mapRenderParams);
       }
     });
-
-
-    const city = this.createCity(grid, data.builds, initialResources);
-
-    this.initObserversAndControllers(city);
-
-    const turnSystem = this.initTurnSystem(city);
-
-    // Importar los componentes
-  
-    DevUtils.init(turnSystem);
-
-    this.initUI(city, icons, builds, turnSystem);
   }
 
   static createCity(grid, buildsConfig, initialResources) {
@@ -195,5 +176,36 @@ export class CityBuilderInitializer {
   static initUI(city, icons, builds) {
     CityBuilderUIManager.renderMenus(city.resources, icons, builds);
     CityBuilderUIManager.initMenuControllers(city, builds, icons);
+  }
+
+  
+  // =====================
+  // FLUJO PRINCIPAL DE INICIALIZACIÓN
+  // =====================
+ static async buildCity() {
+    Logger.log("🏗️ [CityBuilder] Iniciando buildCity()");
+    MapRenderer.stopObserveCSSReload();
+
+    const { savedLayout, savedResources } = this.loadSavedData();
+    Logger.log(
+    "📦 [CityBuilder] savedLayout:", savedLayout ? `${savedLayout.length}x${savedLayout[0]?.length}` : "null",
+    );
+
+    const initialResources = this.getInitialResources(savedResources);
+    const data = await this.loadConfig();
+    const { builds, icons } = await this.loadAssets(data);
+
+    const mapRenderParams = this.prepareMapParams(savedLayout, builds);
+    const { grid } = this.renderMap(mapRenderParams);
+    this.setupCssRehydrate();
+
+    const city = this.createCity(grid, data.builds, initialResources);
+    this.initObserversAndControllers(city);
+
+
+    const turnSystem = this.initTurnSystem(city);
+    DevUtils.init(turnSystem);
+
+    this.initUI(city, icons, builds);
   }
 }

@@ -1,0 +1,85 @@
+/* eslint-disable css/no-invalid-properties */
+#slide-left .container .container-buttons
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    pointer-events: auto;
+    animation: slide-left-menu-enter 0.45s ease-out both;
+}
+
+#slide-left .container .container-buttons .button
+{
+    flex-shrink: 0;
+    width: 21vw;
+    height: 21vw;
+    border-radius: 10.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    background-color: hsla(0, 0%, 45%, 0.16);
+    opacity: 0;
+    animation: slide-left-button-enter 0.35s ease-out both;
+    animation-delay: calc(var(--i) * 0.06s);
+    position: relative;
+    overflow: hidden;
+}
+
+#slide-left .container .container-buttons .button .price
+{
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+    font-size: 0.7rem;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 2px 6px;
+    border-radius: 10px;
+    line-height: 1;
+}
+
+#slide-left .container .container-buttons .button .utility-meta
+{
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 26px;
+    font-size: 0.54rem;
+    line-height: 1.2;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.38);
+    padding: 3px 6px;
+    border-radius: 8px;
+    color: #fff;
+}
+
+#slide-left .container .container-buttons .button .img-container
+{
+    width: 70%;
+    height: 70%;
+}
+
+#slide-left .container .container-buttons .button .img-container svg
+{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#slide-left .container .container-buttons.menu-03
+{
+    overflow-x: scroll;
+}
+
+#slide-left .container .container-buttons.menu-03::-webkit-scrollbar {
+    display: none;
+}
+
+#slide-left .container .container-buttons.menu-03 .button
+{
+    animation-delay: calc(var(--i) * 0.03s);
+}

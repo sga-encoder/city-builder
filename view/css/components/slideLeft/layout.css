@@ -1,0 +1,11 @@
+#slide-left{
+    position: absolute;
+    height: 100vh;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#slide-left .container
+{
+    pointer-events: auto;
+}

@@ -1,0 +1,5 @@
+#slide-left.road-build-hidden {
+	opacity: 0;
+	transform: translateX(-120%);
+	pointer-events: none;
+}

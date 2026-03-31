@@ -1,0 +1,8 @@
+@media (min-width: 746px) {
+    .road-build-actions {
+        width: 25vw;
+        left: 1vw;
+        right: auto;
+        bottom: 7vh;
+    }
+}

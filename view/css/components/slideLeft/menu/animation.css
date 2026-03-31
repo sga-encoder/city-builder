@@ -1,0 +1,21 @@
+@keyframes slide-left-menu-enter {
+    from {
+        opacity: 0;
+        transform: translateX(-12vw);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-left-button-enter {
+    from {
+        opacity: 0;
+        transform: translateX(-4vw) scale(0.85);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}

@@ -41,7 +41,7 @@ export class MapRenderer {
     
   }
 
-  static builder(container) {
+  static buildMapContainer(container) {
     const mapEl = document.createElement("div");
     mapEl.classList.add("map");
     container.appendChild(mapEl);
@@ -50,6 +50,32 @@ export class MapRenderer {
     mapContainer.classList.add("map-container");
     mapEl.appendChild(mapContainer);
     return mapContainer;
+  }
+
+    static buildGrid({ layout, width, height, svgModels, mapContainer, sheet }) {
+    const grid = [];
+    for (let i = 0; i < layout.length; i++) {
+      const row = [];
+      for (let j = 0; j < layout.length; j++) {
+        const building = CellBuilder.build({
+          i, j, width, height, layout, svgModels, mapContainer, sheet
+        });
+        row.push(building);
+      }
+      grid.push(row);
+    }
+    return grid;
+  }
+
+  // Nuevo helper: rehydrateCellRules
+  static rehydrateCellRules({ layout, width, height, sheet }) {
+    for (let i = 0; i < layout.length; i++) {
+      for (let j = 0; j < layout.length; j++) {
+        const { left, top, indexZ } = CellBuilder.getCellPosition(i, j, width, layout.length);
+        const id = CellBuilder.getCellId(i, j);
+        CellBuilder.insertCellRule(sheet, id, i, j, left, top, width, height, indexZ);
+      }
+    }
   }
 
   static render({ containerSelector, layout, svgModels }) {
@@ -62,20 +88,10 @@ export class MapRenderer {
     this.applyGlobalMapRules(sheet, layout, size);
 
     // ── Crear elemento raíz del mapa ──────────────────────────────────────
-    const mapContainer = this.builder(container);
+    const mapContainer = this.buildMapContainer(container);
 
     // ── Crear celdas ──────────────────────────────────────────────────────
-    const grid = [];
-    for (let i = 0; i < layout.length; i++) {
-      const row = [];
-      for (let j = 0; j < layout.length; j++) {
-        const building = CellBuilder.build({
-          i, j, width, height, layout, svgModels, mapContainer, sheet
-        });
-        row.push(building);
-      }
-      grid.push(row);
-    }
+    const grid = this.buildGrid({ layout, width, height, svgModels, mapContainer, sheet });
 
     return { grid };
   }
@@ -110,13 +126,7 @@ export class MapRenderer {
     this.applyGlobalMapRules(sheet, layout, size);
 
     // Re-inserta reglas de celdas
-    for (let i = 0; i < layout.length; i++) {
-      for (let j = 0; j < layout.length; j++) {
-        const { left, top, indexZ } = CellBuilder.getCellPosition(i, j, width, layout.length);
-        const id = CellBuilder.getCellId(i, j);
-        CellBuilder.insertCellRule(sheet, id, i, j, left, top, width, height, indexZ);
-      }
-    }
+    this.rehydrateCellRules({ layout, width, height, sheet });
 
     // --- Hot reload CSS: reconectar MapCamera al nuevo stylesheet ---
     MapCameraController.onStyleSheetReplaced(document.styleSheets[0]);

@@ -1,6 +1,6 @@
-import { SlideLeft } from "../../components/slideLeft/Renderer.js";
-import { SlideRight } from "../../components/slideRight/Renderer.js";
-import { SlideLeftController } from "../../controllers/slideLeft/Controller.js";
+import { SlideLeft } from "../../../components/slideLeft/Renderer.js";
+import { SlideRight } from "../../../components/slideRight/Renderer.js";
+import { SlideLeftController } from "../../../controllers/slideLeft/Controller.js";
 
 export class CityBuilderUIManager {
   static renderMenus(resources, icons, builds) {

@@ -1,7 +1,7 @@
-import { MapCameraController } from "../../controllers/map/CameraController.js";
 import { CellBuilder } from "./CellBuilder.js";
-import { CssManagerRule } from "../../utilis/CssManager/RuleManager.js";
 import { CssReloadObserverManager } from "../../utilis/CssManager/ObserverManager.js";
+import { LayoutCalculator } from "./LayoutCalculator.js";
+import { RehydrateService } from "./RehydrateService.js";
 
 export class MapRenderer {
   static _cssReloadUnsubscribe = null;
@@ -13,33 +13,6 @@ export class MapRenderer {
    * @param {object}   params.svgModels          Modelos SVG cargados
    * @returns {{ grid: Building[][] }}
    */
-
-  static calculateCellSize(container, layout) {
-    let rawWidth = container.offsetWidth / layout.length;
-    let width = Math.max(20, Math.round(rawWidth / 20) * 20);
-    let height = width * 0.6;
-    return { width, height };
-  }
-
-  static applyGlobalMapRules(sheet, layout, { width, height }) {
-
-    const widthMap = width * layout.length;
-    const heightMap = height * layout.length;
-
-    // ── Usar CssRuleManager para la regla global del mapa ────────────────────────────────
-    CssManagerRule.insertCssRule(
-      sheet,
-      ".map",
-      `width:${widthMap}px; height:${heightMap}px; --size:${layout.length};`
-    );
-
-    CssManagerRule.insertCssRule(
-      sheet,
-      ".building",
-      `width:${width}px; height:${width}px;`
-    );
-    
-  }
 
   static buildMapContainer(container) {
     const mapEl = document.createElement("div");
@@ -67,25 +40,14 @@ export class MapRenderer {
     return grid;
   }
 
-  // Nuevo helper: rehydrateCellRules
-  static rehydrateCellRules({ layout, width, height, sheet }) {
-    for (let i = 0; i < layout.length; i++) {
-      for (let j = 0; j < layout.length; j++) {
-        const { left, top, indexZ } = CellBuilder.getCellPosition(i, j, width, layout.length);
-        const id = CellBuilder.getCellId(i, j);
-        CellBuilder.insertCellRule(sheet, id, i, j, left, top, width, height, indexZ);
-      }
-    }
-  }
-
   static render({ containerSelector, layout, svgModels }) {
     const container = document.querySelector(containerSelector);
     const sheet = document.styleSheets[0];
 
     // ── Calcular tamaño de celdas ──────────────────────────────────────────
-    const size = this.calculateCellSize(container, layout);
+    const size = LayoutCalculator.calculateCellSize(container, layout);
     const { width, height } = size;
-    this.applyGlobalMapRules(sheet, layout, size);
+    LayoutCalculator.applyGlobalMapRules(sheet, layout, size);
 
     // ── Crear elemento raíz del mapa ──────────────────────────────────────
     const mapContainer = this.buildMapContainer(container);
@@ -114,21 +76,6 @@ export class MapRenderer {
 
 
   static rehydrateCSS({ containerSelector, layout }) {
-    const container = document.querySelector(containerSelector);
-    if (!container) return;
-    const sheet = document.styleSheets[0];
-
-    // 1. Calcular tamaño de celdas
-    const size = this.calculateCellSize(container, layout);
-    const { width, height } = size;
-
-    // 2. Re-aplicar reglas globales
-    this.applyGlobalMapRules(sheet, layout, size);
-
-    // Re-inserta reglas de celdas
-    this.rehydrateCellRules({ layout, width, height, sheet });
-
-    // --- Hot reload CSS: reconectar MapCamera al nuevo stylesheet ---
-    MapCameraController.onStyleSheetReplaced(document.styleSheets[0]);
+    RehydrateService.rehydrateCSS({ containerSelector, layout });
   }
 };

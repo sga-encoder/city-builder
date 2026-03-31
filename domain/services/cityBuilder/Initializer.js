@@ -2,18 +2,15 @@
 // IMPORTS
 // =====================
 import { MapRenderer } from "../../components/map/Renderer.js";
-import { City } from "../../../models/City.js";
-import { MapController } from "../../controllers/map/Controller.js";
 import { Logger } from "../../utilis/Logger.js";
 import { FileManager } from "../../utilis/FileManager.js";
-import { SVGInjector } from "../../utilis/SVGInjector.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";
 import { CityBuilderResourceManager } from "./ResourceManager.js";
-import { CityBuilderTurnSystemManager } from "./TurnSystemManager.js";
-import { CityBuilderUIManager } from "./UImanager.js";
-import { DevUtils } from "../../utilis/devUtils/DevUtils.js";
-import { setCityConfig } from "../../config/runtimeConfig.js";
-import { TurnToolsStats } from "../../utilis/devUtils/components/turnTools/Stats/Renderer.js";
+import { ConfigPhase } from "./phases/ConfigPhase.js";
+import { AssetsPhase } from "./phases/AssetsPhase.js";
+import { MapPhase } from "./phases/MapPhase.js";
+import { CityPhase } from "./phases/CityPhase.js";
+import { UIPhase } from "./phases/UIPhase.js";
 
 
 // =====================
@@ -72,113 +69,6 @@ export class CityBuilderInitializer {
     };
   }
 
-  static async loadConfig() {
-    const data = await this.initConfig();
-    setCityConfig(data);
-    return data;
-  }
-
-  static async loadAssets(data) {
-    const builds = await SVGInjector.create(data.builds);
-    const icons = await SVGInjector.create(data.icons);
-    return { builds, icons };
-  }
-
-  static prepareMapParams(savedLayout, builds) {
-    const layout = savedLayout || this.createDefaultLayout();
-    return {
-    containerSelector: "#map",
-    layout,
-    svgModels: builds,
-    };
-  }
-
-  static renderMap(mapRenderParams) {
-    this.mapRenderParams = mapRenderParams;
-    return MapRenderer.render(mapRenderParams);
-  }
-
-  static setupCssRehydrate() {
-    MapRenderer.observeCSSReload(() => {
-      if (this.mapRenderParams) {
-        MapRenderer.rehydrateCSS(this.mapRenderParams);
-      }
-    });
-  }
-
-  static createCity(grid, buildsConfig, initialResources) {
-    Logger.log("🏙️ [CityBuilder] Creando instancia de City...");
-    const city = new City({
-      id: 1,
-      mayor: "John Doe",
-      name: "New City",
-      location: "USA",
-      map: {
-        grid,
-        buildsConfig,
-      },
-      initial: initialResources,
-      score: 0,
-    });
-    Logger.log("✅ [CityBuilder] City creada, grid:", city.map?.grid?.length);
-    return city;
-  }
-
-  static initObserversAndControllers(city) {
-    // Observadores y controladores
-    CityBuilderResourceManager.registerObservers(city);
-    city.map.addObserver((change) => {
-      Logger.log("🧭 [MapObserver]", change.type, change);
-    });
-    MapController.initialize(city);
-  }
-
-  static initTurnSystem(city) {
-    let prevResources = {
-      money: city.resources.money.amount,
-      energy: city.resources.energy.amount,
-      water: city.resources.water.amount,
-      food: city.resources.food.amount,
-    };
-
-    const turnSystem = CityBuilderTurnSystemManager.createTurnSystem(
-      city,
-      (event, turnSystem) => {
-        Logger.log(
-          "Turno completado:",
-          event.turnNumber,
-          event.data?.changes?.total,
-        );
-        const diff = {
-          money: city.resources.money.amount - prevResources.money,
-          energy: city.resources.energy.amount - prevResources.energy,
-          water: city.resources.water.amount - prevResources.water,
-          food: city.resources.food.amount - prevResources.food,
-        };
-        TurnToolsStats.update(turnSystem.getState(), city, diff);
-        prevResources = {
-          money: city.resources.money.amount,
-          energy: city.resources.energy.amount,
-          water: city.resources.water.amount,
-          food: city.resources.food.amount,
-        };
-      },
-      (event) => {
-        Logger.warn("Fase falló:", event.phaseName, event.error);
-      },
-      (event) => {
-        Logger.info("Estado del sistema:", event.state);
-      },
-    );
-    return turnSystem;
-  }
-
-  static initUI(city, icons, builds) {
-    CityBuilderUIManager.renderMenus(city.resources, icons, builds);
-    CityBuilderUIManager.initMenuControllers(city, builds, icons);
-  }
-
-  
   // =====================
   // FLUJO PRINCIPAL DE INICIALIZACIÓN
   // =====================
@@ -192,20 +82,30 @@ export class CityBuilderInitializer {
     );
 
     const initialResources = this.getInitialResources(savedResources);
-    const data = await this.loadConfig();
-    const { builds, icons } = await this.loadAssets(data);
+    const { data } = await ConfigPhase.execute({
+      loadConfig: () => this.initConfig(),
+    });
+    const { builds, icons } = await AssetsPhase.execute({ data });
 
-    const mapRenderParams = this.prepareMapParams(savedLayout, builds);
-    const { grid } = this.renderMap(mapRenderParams);
-    this.setupCssRehydrate();
+    const { grid, mapRenderParams } = MapPhase.execute({
+      savedLayout,
+      builds,
+      createDefaultLayout: () => this.createDefaultLayout(),
+    });
+    this.mapRenderParams = mapRenderParams;
+    MapPhase.setupCssRehydrate(() => this.mapRenderParams);
 
-    const city = this.createCity(grid, data.builds, initialResources);
-    this.initObserversAndControllers(city);
+    const { city, turnSystem } = CityPhase.execute({
+      grid,
+      buildsConfig: data.builds,
+      initialResources,
+    });
 
-
-    const turnSystem = this.initTurnSystem(city);
-    DevUtils.init(turnSystem);
-
-    this.initUI(city, icons, builds);
+    UIPhase.execute({
+      city,
+      icons,
+      builds,
+      turnSystem,
+    });
   }
 }

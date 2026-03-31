@@ -1,14 +1,14 @@
-﻿import { MapCameraController } from "./CameraController.js";
-import { MapSelectionController } from "./SelectionController.js";
+﻿import { MapCameraController } from "./subControllers/CameraController.js";
+import { MapSelectionController } from "./subControllers/SelectionController.js";
 import { MapEventBinder } from "./EventBinder.js";
-import { MapModelObserverBinder } from "./ModelObserverBinder.js";
+import { MapModelObserverBinder } from "./binders/ModelObserverBinder.js";
 import { MapBuildController } from "./BuildController.js";
 import { SlideLeftController } from "../slideLeft/Controller.js";
 import { Logger } from "../../utilis/Logger.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";
 import { BuildingRenderer } from "../../components/building/Renderer.js";
-import { MapRouteController } from "./DijsktraController.js";
-import { RouteModeController } from "./RouteModeController.js";
+import { MapRouteController } from "./subControllers/DijsktraController.js";
+import { RouteModeController } from "./subControllers/RouteModeController.js";
 import { calculateRoute } from "../../../database/dijsktra.js";
 import { ToastService } from "../../services/toast.js";
 

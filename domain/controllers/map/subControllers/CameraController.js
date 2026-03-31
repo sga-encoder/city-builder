@@ -1,6 +1,6 @@
-import { Logger } from "../../utilis/Logger.js";
-import { MapCamera } from "../../services/mapCamera/MapCamera.js";
-import { CameraInstanceManager } from "../../services/mapCamera/CameraInstance.js";
+import { Logger } from "../../../utilis/Logger.js";
+import { MapCamera } from "../../../services/mapCamera/MapCamera.js";
+import { CameraInstanceManager } from "../../../services/mapCamera/CameraInstance.js";
 
 export class MapCameraController {
   /**

@@ -1,6 +1,6 @@
-import { TurnSystem } from "../../services/turns/TurnSystem.js";
-import { Logger } from "../../utilis/Logger.js";
-import { StatsManager } from "../StatsManager.js";
+import { TurnSystem } from "../../turns/TurnSystem.js";
+import { Logger } from "../../../utilis/Logger.js";
+import { StatsManager } from "../../StatsManager.js";
 import { CitizenManager } from "./CitizenManager.js";
 
 export class CityBuilderTurnSystemManager {

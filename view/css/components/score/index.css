@@ -1,0 +1,24 @@
+#slide-right #score-text {
+  position: absolute;
+  top: 1rem;
+  right: clamp(4.5rem, 10vw, 8rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  pointer-events: none;
+  color: #fff;
+  text-transform: lowercase;
+  z-index: 210;
+}
+
+#slide-right #score-text .score-label {
+  font-family: "Smooch Sans", sans-serif;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+#slide-right #score-text .score-value {
+  font-family: "Smooch Sans", sans-serif;
+  font-size: 1.5rem;
+  line-height: 1;
+}

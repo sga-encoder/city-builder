@@ -1,5 +1,6 @@
 import { TurnSimulator } from "./Simulator.js";
 import { TurnLogger } from "./Logger.js";
+import { ScoringSystem } from "../../components/score/ScoringSystem.js";
 import { TURN_CONFIG } from "../../config/turnConfig.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";
 import { Logger } from "../../utilis/Logger.js";
@@ -12,6 +13,7 @@ export class TurnSystem {
 
     this.simulator = new TurnSimulator();
     this.logger = new TurnLogger(this.config);
+    this.scoringSystem = new ScoringSystem();
 
     this.state = "stopped";
     this.currentTurn = 0;
@@ -104,6 +106,8 @@ export class TurnSystem {
 
     this.currentTurn = nextTurn;
     this.city.turn = nextTurn;
+    const scoreResult = this.scoringSystem.calculateScore(this.city);
+    turnData.score = scoreResult;
 
     this.logger.recordTurn(turnData);
     this.#saveState();
@@ -159,6 +163,7 @@ export class TurnSystem {
       speedKey: this.speedKey,
       speedValue: this.config.SPEEDS[this.speedKey],
       intervalMs: this.#getEffectiveInterval(),
+      score: this.city?.score ?? null,
     };
   }
 

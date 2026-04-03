@@ -39,6 +39,8 @@ export class CityBuilderTurnSystemManager {
           });
           cityRef.activeServicesCount = 0;
           cityRef.activeServiceBonus = 0;
+          cityRef.activeParksCount = 0;
+          cityRef.activeParkBonus = 0;
           return true;
         },
         critical: true,
@@ -54,6 +56,12 @@ export class CityBuilderTurnSystemManager {
         name: "Soporte de Servicios",
         statsKeys: ["S1", "S2", "S3"],
         buildingType: "S",
+      }),
+
+      this.#createPhase({
+        name: "Bienestar Parques",
+        statsKeys: ["P1"],
+        buildingType: "P",
       }),
 
       {

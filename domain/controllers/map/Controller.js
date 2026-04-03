@@ -11,6 +11,8 @@ import { MapRouteController } from "./subControllers/DijsktraController.js";
 import { RouteModeController } from "./subControllers/RouteModeController.js";
 import { calculateRoute } from "../../../database/dijsktra.js";
 import { ToastService } from "../../services/toast.js";
+import { BuildingInfoPanel } from "../../components/slideRight/buildingInfo/Renderer.js";
+import { createBuilding } from "../../../models/building/buildingFactory.js";
 
 export class MapController {
   /**
@@ -59,11 +61,13 @@ export class MapController {
         this.selectMapCell(id, cellData, i, j);
         this.openBuildMenu();
         this.interactionMode = "build";
+        this.closeBuildingInfoPanel();
       },
       onSelectBuilding: (id, cellData, i, j) => {
         this.selectMapCell(id, cellData, i, j);
         this.openManageMenu();
         this.interactionMode = "manage";
+        this.openBuildingInfoPanel({ id, cellData, i, j });
       },
       onTryMove: (cellRef) => SlideLeftController.completeMoveBuilding(cellRef),
       onPersistMap: () => this.mapModel?.schedulePersist?.(),
@@ -144,7 +148,148 @@ export class MapController {
    * @returns {void}
    */
   static clearCellSelection() {
+    this.closeBuildingInfoPanel();
     return MapSelectionController.clearCellSelection();
+  }
+
+  static getBuildingDisplayType(type) {
+    const map = {
+      R: "Residencial",
+      C: "Comercial",
+      I: "Industrial",
+      U: "Utilidad",
+      S: "Servicio",
+      P: "Parque",
+      r: "Via",
+      g: "Terreno",
+    };
+
+    return map[String(type || "")] || "Desconocido";
+  }
+
+  static formatResourceMap(resourceMap = {}) {
+    const parts = Object.entries(resourceMap)
+      .filter(([, value]) => Number(value) > 0)
+      .map(([key, value]) => `${key}: ${Number(value)}`);
+
+    return parts.length ? parts.join(" | ") : "-";
+  }
+
+  static buildInfoPayload(cellRef) {
+    const building = cellRef?.cellData;
+    if (!building) return null;
+
+    const citizens = Array.isArray(building.citizens) ? building.citizens : [];
+    const capacity = Number(building.capacity || 0);
+    const occupancy = citizens.length;
+
+    const consumption = {
+      energia: Number(building.energyUsage || 0),
+      agua: Number(building.waterUsage || 0),
+    };
+
+    const production = {};
+    const productionValue = Number(building.production || 0);
+    const productionType = String(building.productionType || "").toLowerCase();
+    if (productionValue > 0) {
+      if (productionType === "money") production.dinero = productionValue;
+      else if (productionType === "food") production.alimentos = productionValue;
+      else if (productionType === "water") production.agua = productionValue;
+      else if (productionType === "energy") production.energia = productionValue;
+      else if (String(building.type) === "U" && String(building.subtype) === "1") production.energia = productionValue;
+      else if (String(building.type) === "U" && String(building.subtype) === "2") production.agua = productionValue;
+      else production.produccion = productionValue;
+    }
+
+    const rows = [
+      { label: "Tipo", value: this.getBuildingDisplayType(building.type) },
+      { label: "Nombre", value: building.name || `${building.type}${building.subtype || ""}` },
+      { label: "Costo construccion", value: `$${Number(building.cost || 0)}` },
+      { label: "Mantenimiento/turno", value: `$${Number(building.maintenanceCost || 0)}` },
+      { label: "Consume", value: this.formatResourceMap(consumption) },
+      { label: "Produce", value: this.formatResourceMap(production) },
+      { label: "Capacidad", value: String(capacity) },
+      { label: "Ocupacion", value: String(occupancy) },
+    ];
+
+    if (String(building.type) === "R") {
+      const avgHappiness = citizens.length
+        ? citizens.reduce((acc, c) => acc + Number(c?.happiness || 0), 0) / citizens.length
+        : 0;
+
+      rows.push(
+        { label: "Ciudadanos", value: String(citizens.length) },
+        { label: "Felicidad promedio", value: `${avgHappiness.toFixed(1)}` },
+      );
+    }
+
+    if (String(building.type) === "C" || String(building.type) === "I") {
+      rows.push({ label: "Empleados", value: String(citizens.length) });
+    }
+
+    return {
+      title: "Informacion del edificio",
+      rows,
+      onClose: () => {},
+      onDemolish: () => this.demolishCellWithConfirm(cellRef),
+    };
+  }
+
+  static getGroundModel() {
+    const flat = this.mapModel?.grid?.flat?.() || [];
+    const ground = flat.find((building) => String(building?.type) === "g");
+    return ground?.model || "";
+  }
+
+  static demolishCell(cellRef) {
+    if (!cellRef || !this.mapModel) return false;
+
+    const ground = createBuilding({
+      id: cellRef.id,
+      type: "g",
+      subtype: "",
+      model: this.getGroundModel(),
+    });
+
+    const updated = this.mapModel.setBuildingAt(cellRef.i, cellRef.j, ground);
+    if (!updated) return false;
+
+    if (this.mapModel?.roadMatrix?.[cellRef.i]) {
+      this.mapModel.roadMatrix[cellRef.i][cellRef.j] = 0;
+    }
+
+    return true;
+  }
+
+  static demolishCellWithConfirm(cellRef) {
+    const confirmed = window.confirm("Confirmar demolicion del edificio?");
+    if (!confirmed) return;
+
+    const ok = this.demolishCell(cellRef);
+    if (!ok) {
+      ToastService.mostrarToast("No se pudo demoler el edificio.", "error", 2500);
+      return;
+    }
+
+    this.closeBuildingInfoPanel();
+    this.clearCellSelection();
+    ToastService.mostrarToast("Edificio demolido.", "success", 2500);
+  }
+
+  static openBuildingInfoPanel(cellRef) {
+    const container = document.querySelector("#slide-right");
+    if (!container) return;
+
+    const payload = this.buildInfoPayload(cellRef);
+    if (!payload) return;
+
+    BuildingInfoPanel.render(container, payload);
+  }
+
+  static closeBuildingInfoPanel() {
+    const container = document.querySelector("#slide-right");
+    if (!container) return;
+    BuildingInfoPanel.destroy(container);
   }
 
   /**

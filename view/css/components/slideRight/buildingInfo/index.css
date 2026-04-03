@@ -1,0 +1,69 @@
+#slide-right #building-info-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 260;
+    background: rgba(8, 12, 22, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+#slide-right #building-info-panel {
+    width: min(92vw, 440px);
+    max-height: 84vh;
+    overflow: auto;
+    background: rgba(16, 22, 40, 0.92);
+    border: 1px solid rgba(147, 197, 253, 0.35);
+    border-radius: 12px;
+    color: #f8fafc;
+    padding: 0.9rem;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+}
+
+#slide-right #building-info-panel .building-info-title {
+    margin: 0 0 0.7rem 0;
+    font-family: "Smooch Sans", sans-serif;
+    font-size: 1.45rem;
+}
+
+#slide-right #building-info-panel .building-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.42rem 0.7rem;
+    font-family: "Smooch Sans", sans-serif;
+    font-size: 1.05rem;
+}
+
+#slide-right #building-info-panel .building-info-grid .label {
+    opacity: 0.8;
+}
+
+#slide-right #building-info-panel .building-info-grid .value {
+    text-align: right;
+    font-weight: 600;
+}
+
+#slide-right #building-info-panel .building-info-actions {
+    margin-top: 0.85rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+#slide-right #building-info-panel .building-info-actions button {
+    border: 0;
+    border-radius: 8px;
+    padding: 0.45rem 0.8rem;
+    color: #fff;
+    font-family: "Smooch Sans", sans-serif;
+    font-size: 1rem;
+}
+
+#slide-right #building-info-panel .building-info-actions .close-btn {
+    background: rgba(71, 85, 105, 0.9);
+}
+
+#slide-right #building-info-panel .building-info-actions .destroy-btn {
+    background: rgba(185, 28, 28, 0.95);
+}

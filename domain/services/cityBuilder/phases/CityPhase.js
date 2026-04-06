@@ -4,6 +4,7 @@ import { Logger } from "../../../utilis/Logger.js";
 import { CityBuilderResourceManager } from "../managers/ResourceManager.js";
 import { CityBuilderTurnSystemManager } from "../managers/TurnSystemManager.js";
 import { TurnToolsStats } from "../../../utilis/devUtils/components/turnTools/Stats/Renderer.js";
+import { LocalStorage } from "../../../../database/localStorage.js";
 
 export class CityPhase {
   static execute({ grid, buildsConfig, initialResources }) {
@@ -15,20 +16,37 @@ export class CityPhase {
 
   static createCity({ grid, buildsConfig, initialResources }) {
     Logger.log("🏙️ [CityBuilder] Creando instancia de City...");
+    
+    // Intentar cargar configuración de ciudañ desde localStorage
+    let cityConfig = this.loadCityConfig();
+
     const city = new City({
-      id: 1,
-      mayor: "John Doe",
-      name: "New City",
-      location: "USA",
+      id: cityConfig?.id || 1,
+      mayor: cityConfig?.mayor || { name: "John Doe", joinDate: new Date().toISOString() },
+      name: cityConfig?.name || "New City",
+      location: cityConfig?.location || { name: "USA", latitude: 0, longitude: 0 },
       map: {
         grid,
         buildsConfig,
       },
       initial: initialResources,
-      score: 0,
+      score: cityConfig?.score || 0,
+      turn: cityConfig?.turn || 0,
     });
     Logger.log("✅ [CityBuilder] City creada, grid:", city.map?.grid?.length);
     return city;
+  }
+
+  static loadCityConfig() {
+    try {
+      const cityConfigRaw = LocalStorage.loadData("cityConfig");
+      if (cityConfigRaw) {
+        return JSON.parse(cityConfigRaw);
+      }
+    } catch (error) {
+      Logger.error("❌ [CityPhase] Error al cargar configuración de ciudad:", error);
+    }
+    return null;
   }
 
   static initControllers(city) {

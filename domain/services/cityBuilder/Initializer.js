@@ -3,8 +3,8 @@
 // =====================
 import { MapRenderer } from "../../components/map/Renderer.js";
 import { Logger } from "../../utilis/Logger.js";
-import { FileManager } from "../../utilis/FileManager.js";
-import { LocalStorage } from "../../../database/LocalStorage.js";
+import { FileManager } from "../../utilis/fileManager.js";
+import { LocalStorage } from "../../../database/localStorage.js";
 import { CityBuilderResourceManager } from "./managers/ResourceManager.js";
 import { ConfigPhase } from "./phases/ConfigPhase.js";
 import { AssetsPhase } from "./phases/AssetsPhase.js";
@@ -37,6 +37,19 @@ export class CityBuilderInitializer {
     return Array(size)
       .fill(null)
       .map(() => Array(size).fill("g"));
+  }
+
+  static getMapSize() {
+    try {
+      const cityConfigRaw = LocalStorage.loadData("cityConfig");
+      if (cityConfigRaw) {
+        const cityConfig = JSON.parse(cityConfigRaw);
+        return cityConfig.mapSize || 30;
+      }
+    } catch (error) {
+      Logger.error("❌ [Initializer] Error al cargar tamaño de mapa:", error);
+    }
+    return 30;
   }
 
   static mapStorageToLayout(savedMap) {
@@ -81,6 +94,9 @@ export class CityBuilderInitializer {
     "📦 [CityBuilder] savedLayout:", savedLayout ? `${savedLayout.length}x${savedLayout[0]?.length}` : "null",
     );
 
+    const mapSize = this.getMapSize();
+    Logger.log("🗺️ [CityBuilder] Tamaño del mapa:", mapSize);
+
     const initialResources = this.getInitialResources(savedResources);
     const { data } = await ConfigPhase.execute({
       loadConfig: () => this.initConfig(),
@@ -90,7 +106,7 @@ export class CityBuilderInitializer {
     const { grid, mapRenderParams } = MapPhase.execute({
       savedLayout,
       builds,
-      createDefaultLayout: () => this.createDefaultLayout(),
+      createDefaultLayout: () => this.createDefaultLayout(mapSize),
     });
     this.mapRenderParams = mapRenderParams;
     MapPhase.setupCssRehydrate(() => this.mapRenderParams);

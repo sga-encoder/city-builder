@@ -223,7 +223,7 @@ export class CitizenManager {
 
   static updateCitizensHappiness(city) {
     const serviceBonus = Number(city.activeServiceBonus || 0);
-    const parksCount = city.getTypeBuildings("P").length;
+    const parksBonus = Number(city.activeParkBonus || city.getTypeBuildings("P").length * 5 || 0);
 
     for (const citizen of city.citizens) {
       let happiness = 0;
@@ -232,7 +232,7 @@ export class CitizenManager {
       if (citizen.hasJob) happiness += 15;
 
       happiness += serviceBonus;
-      happiness += parksCount * 5;
+      happiness += parksBonus;
 
       citizen.happiness = Math.max(0, Math.min(100, happiness));
     }

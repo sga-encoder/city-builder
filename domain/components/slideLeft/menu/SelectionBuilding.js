@@ -26,6 +26,11 @@ export class SlideLeftSelectionBuildingMenuBuilder {
       return `${instance.name} | Radio: ${radius}x${radius} | +${happiness} felicidad`;
     }
 
+    if (instance.type === "P") {
+      const happiness = Number(instance.benefit || 5);
+      return `${instance.name} | +${happiness} felicidad | Sin consumo`;
+    }
+
     return "";
   }
 

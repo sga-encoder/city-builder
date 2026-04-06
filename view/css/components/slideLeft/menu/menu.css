@@ -7,3 +7,17 @@
     padding: 5%;
     z-index: 200;
 }
+
+#slide-left .container .menu-01,
+#slide-left .container .menu-02,
+#slide-left .container .menu-03
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    pointer-events: auto;
+    animation: slide-left-menu-enter 0.45s ease-out both;
+}

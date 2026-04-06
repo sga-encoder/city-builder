@@ -1,13 +1,13 @@
 /* eslint-disable css/use-baseline */
 
 
-#slide-right .buttons-container #stats 
+#slide-right .buttons-container-bottom #stats 
 {
-    bottom: 0;
-    right: 25vw;
+    /* bottom: 0; */
+    /* right: 25vw; */
 }
 
-#slide-right .buttons-container #stats path
+#slide-right .buttons-container-bottom #stats path
 {
     fill: none;
     stroke: #fff;

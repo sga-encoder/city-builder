@@ -1,4 +1,12 @@
-@import url('./buttons/index.css');
+@import url('./slideRight.css');
+@import url('./responsive.css');
 @import url('./stats/index.css');
 @import url('./weather/index.css');
 @import url('./news/index.css');
+@import url('./buttons/index.css');
+
+*{
+    --color-primary: #fff;
+    --color-secondary: #ccc;
+    --color-tertiary: #aaa;
+}

@@ -1,6 +1,6 @@
 @media (min-width: 746px) {
     #slide-right .buttons-container #stats
     {
-        right: 12vw;
+        /* right: 12vw; */
     }
 }

@@ -1,3 +1,4 @@
+import { runPressAnimation } from "../../../utilis/runPressAnimation.js";
 export class ManageMenuController {
   /**
     * Vincula interacciones de clic para el menu-02 (acciones de gestión).
@@ -8,7 +9,7 @@ export class ManageMenuController {
   static bind(menuElement, context) {
     const { state, constants, mapController, setMenuState } = context;
 
-    menuElement.addEventListener("click", (e) => {
+    menuElement.addEventListener("click", async (e) => {
       e.stopPropagation();
 
       if (mapController?.isInteractionLocked?.()) {
@@ -17,6 +18,7 @@ export class ManageMenuController {
 
       const btn = e.target.closest(".button");
       if (!btn) return;
+      await runPressAnimation(btn);
       const cell = mapController.activeCell;
       if (!cell) return;
 

@@ -5,22 +5,19 @@
         bottom: 24px;
     }
 
-    #slide-left .container .container-buttons.menu-01,
-    #slide-left .container .container-buttons.menu-02,
-    #slide-left .container .container-buttons.menu-03
-    {
-        flex-direction: column;
-        bottom: 50%;
-        width: inherit;
-        height: 56vh;
-        left: 3vw;
-    }
+
 
     #slide-left .container .container-buttons .button
     {
         width: 7vw;
         height: 7vw;
         border-radius: 7.5vw;
+        transform: rotateZ(90deg);
+    }
+
+     #slide-left .container .container-buttons.menu-03 .button
+    {
+        transform: rotateZ(0deg);
     }
 }
 

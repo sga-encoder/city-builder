@@ -36,6 +36,8 @@ export class SlideLeftMenuRenderer {
         this.#renderSelectBuildingMenu(slot, context, sheets);
         break;
       default:
+        // this.#renderManageMenu(slot, context, sheets);
+        this.#renderSelectBuildingMenu(slot, context, sheets);
         break;
     }
   }

@@ -1,9 +1,11 @@
 import { Logger } from "../../utilis/Logger.js";
+import { runPressAnimation } from "../../utilis/runPressAnimation.js";
 
 export class SlideRightController {
     static handleClickStatsButton(btn, MainContainer, statsPanel, icons, builds) {
         if (btn && MainContainer) {
-            btn.addEventListener("click", () => {
+            btn.addEventListener("click", async () => {
+                await runPressAnimation(btn);
                 const statsContainer = MainContainer.querySelector("#stats-container");
                 const imgContainer = btn.querySelector(".img-container");
                 if (statsContainer) {
@@ -19,10 +21,19 @@ export class SlideRightController {
         }
     }
 
+    static handleClickNewsButton(btn) {
+        if (!btn) return;
+        btn.addEventListener("click", async () => {
+            await runPressAnimation(btn);
+        });
+    }
+
     static initialize(MainContainer, statsManager, icons, builds) {
         Logger.log("🎛️ [SlideRight] Initializing controller...");
         const statsButton = document.querySelector("#stats");
+        const newsButton = document.querySelector("#news");
         this.handleClickStatsButton(statsButton, MainContainer, statsManager, icons, builds);
+        this.handleClickNewsButton(newsButton);
         Logger.log("✅ [SlideRight] Controller initialized");
     }
 }

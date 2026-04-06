@@ -1,0 +1,97 @@
+#slide-left .container .container-buttons .button:hover::before
+{
+    transform: translate(18px,18px);
+    border-right-width: 4px ;
+    border-bottom-width: 4px ;
+}
+
+#slide-left .container .container-buttons .button:hover::after
+{
+    border-right-width: 4px ;
+    border-bottom-width: 4px ;
+}
+
+#slide-left .container .container-buttons .button:hover .img-container
+{
+    transform: translate(16px, 16px);
+}
+
+#slide-left .container .container-buttons .button.is-pressing-down-hover::before
+{
+    animation: button-menu-before-down-hover .35s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-down-rest::before
+{
+    animation: button-menu-before-down-rest .35s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-end-hover::before
+{
+    animation: button-menu-before-end-hover .45s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-end-rest::before
+{
+    animation: button-menu-before-end-rest .45s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-down-hover::after
+{
+    animation: button-menu-after-down-hover .35s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-down-rest::after
+{
+    animation: button-menu-after-down-rest .35s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-end-hover::after
+{
+    animation: button-menu-after-end-hover .45s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-end-rest::after
+{
+    animation: button-menu-after-end-rest .45s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-down-hover .img-container
+{
+    animation: button-menu-img-down-hover .35s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-down-rest .img-container
+{
+    animation: button-menu-img-down-rest .35s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-end-hover .img-container
+{
+    animation: button-menu-img-end-hover .45s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-end-rest .img-container
+{
+    animation: button-menu-img-end-rest .45s ease-out both;
+}
+
+#slide-left .container .container-buttons .button.is-pressing-down-hover,
+#slide-left .container .container-buttons .button.is-pressing-down-rest,
+#slide-left .container .container-buttons .button.is-pressing-end-hover,
+#slide-left .container .container-buttons .button.is-pressing-end-rest,
+#slide-left .container .container-buttons .button.is-pressing-down-hover::before,
+#slide-left .container .container-buttons .button.is-pressing-down-rest::before,
+#slide-left .container .container-buttons .button.is-pressing-end-hover::before,
+#slide-left .container .container-buttons .button.is-pressing-end-rest::before,
+#slide-left .container .container-buttons .button.is-pressing-down-hover::after,
+#slide-left .container .container-buttons .button.is-pressing-down-rest::after,
+#slide-left .container .container-buttons .button.is-pressing-end-hover::after,
+#slide-left .container .container-buttons .button.is-pressing-end-rest::after,
+#slide-left .container .container-buttons .button.is-pressing-down-hover .img-container,
+#slide-left .container .container-buttons .button.is-pressing-down-rest .img-container,
+#slide-left .container .container-buttons .button.is-pressing-end-hover .img-container,
+#slide-left .container .container-buttons .button.is-pressing-end-rest .img-container
+{
+    transition: none;
+}

@@ -1,0 +1,20 @@
+@media (min-width: 746px) {
+    #slide-right .buttons-container-bottom
+    {
+        width: auto;
+        height: 65vh;
+        perspective: 1500px;
+        perspective-origin: 80% 80%;
+    }
+
+    #slide-right .buttons-container-bottom .container
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        width: inherit;
+        height: inherit;
+        transform: translate(-20vw, 0%) rotateX(45deg) rotateZ(48deg) skew(4deg, -19deg);
+    }
+}

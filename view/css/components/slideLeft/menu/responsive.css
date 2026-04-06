@@ -3,12 +3,39 @@
     {
         bottom: 50%;
         width: auto;
-        left: 3vw;
-        transform: translateY(50%);
+        left: 10vw;
+        perspective: 1500px;
+        perspective-origin: 80% 80%; /* cámara desde abajo-derecha */
     }
+
+    
+    #slide-left .container .menu-01,
+    #slide-left .container .menu-02,
+    #slide-left .container .menu-03
+    {
+        flex-direction: column;
+        bottom: 50%;
+        width: inherit;
+        height: 65vh;
+        left: 3vw;
+        transform: translate(15vw, 80%) rotateX(45deg) rotateZ(-48deg) skew(9deg, 19deg);
+        /* background-color: aquamarine; */
+
+    }
+    #slide-left .container .menu-03
+    {
+        width: 20vw;
+        height: 40vh;
+        flex-wrap: wrap;
+        flex-direction: row;
+        transform: translate(-10vw ,20%) rotateX(0deg) rotateY(50deg) skew(0deg, -20deg);
+        background-color: antiquewhite;
+
+    }
+
 }
 
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
     #slide-left .container .menu-slot .menu-03
     {
         width: 30vw;
@@ -16,4 +43,4 @@
         flex-wrap: wrap;
         flex-direction: row;
     }
-}
+} */

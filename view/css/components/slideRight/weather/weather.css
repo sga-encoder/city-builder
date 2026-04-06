@@ -1,5 +1,62 @@
-#slide-right .buttons-container #weather 
+#slide-right .buttons-container-top #weather 
 {
+    position: absolute;
+    margin: 1vw;
+    width: 21vw;
+    height: 21vw;
+    border-radius: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    z-index: 200;
+    pointer-events: auto;
+    position: relative;
+    transition: transform .28s ease, opacity .28s ease;
     top: 0;
     right: 0;
+}
+
+#slide-right .buttons-container-top #weather svg
+{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#slide-right .buttons-container-top #weather path
+{
+    fill: #fff;
+}
+
+#slide-right .buttons-container-top #weather .img-container
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 1vw;
+    /* border: #fff 4px solid; */
+    z-index: 305;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        transform .28s ease,
+        opacity .28s ease,
+        box-shadow .28s ease;
+}
+
+#slide-right .buttons-container-top #weather .img-container svg
+{
+    width: 70%;
+    height: 70%;
+    display: block;
+}
+
+@media (min-width: 746px) {
+    #slide-right .buttons-container-top #weather
+    {
+        border-radius: 7.5vw;
+    }
 }

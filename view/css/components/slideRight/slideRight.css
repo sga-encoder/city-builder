@@ -1,0 +1,25 @@
+#slide-right .buttons-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    pointer-events: none;
+}
+
+#slide-right .buttons-container-top
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+#slide-right .buttons-container-bottom 
+{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+}

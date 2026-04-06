@@ -1,7 +1,18 @@
 @media (min-width: 746px) {
-    #slide-right .buttons-container .button
+    #slide-right .buttons-container-bottom #stats,
+    #slide-right .buttons-container-bottom #news,
+    #slide-right .buttons-container-top #weather
     {
-        width: 7vw;
-        height: 7vw;
+        width: 7.5vw;
+        height: 7.5vw;
+        border-radius: 7.5vw;
+
     }
+
+    #slide-right .buttons-container-bottom #stats .img-container svg,
+    #slide-right .buttons-container-bottom #news .img-container svg
+    {
+        transform: rotateZ(-90deg);
+    }
+
 }

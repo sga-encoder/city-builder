@@ -1,4 +1,4 @@
-@keyframes slide-left-menu-enter {
+/* @keyframes slide-left-menu-enter {
     from {
         opacity: 0;
         transform: translateX(-12vw);
@@ -18,4 +18,4 @@
         opacity: 1;
         transform: translateX(0) scale(1);
     }
-}
+} */

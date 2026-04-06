@@ -1,0 +1,99 @@
+/* eslint-disable css/no-invalid-properties */
+#slide-right .buttons-container-bottom #stats
+{
+    position: relative;
+    margin: 2.5vw;
+    width: 21vw;
+    height: 21vw;
+    border-radius: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    z-index: 200;
+    pointer-events: auto;
+    transition: transform .28s ease, opacity .28s ease;
+}
+
+#slide-right .buttons-container-bottom #stats::before
+{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 1vw;
+    border-right: var(--color-secondary) 15px solid;
+    border-bottom: var(--color-secondary) 15px solid;
+    transform: translate(10px,10px);
+    z-index: 300;
+    transition:
+        transform .28s ease,
+        opacity .28s ease,
+        border-right-width .28s ease,
+        border-bottom-width .28s ease;
+    opacity: 1;
+}
+
+#slide-right .buttons-container-bottom #stats::after
+{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 1vw;
+    border-right: var(--color-tertiary) 15px solid;
+    border-bottom: var(--color-tertiary) 15px solid;
+    transform: translate(20px,20px);
+    z-index: 295;
+    transition:
+        transform .28s ease,
+        opacity .28s ease,
+        border-right-width .28s ease,
+        border-bottom-width .28s ease;
+    opacity: 1;
+}
+
+#slide-right .buttons-container-bottom #stats svg
+{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#slide-right .buttons-container-bottom #stats path
+{
+    fill: none;
+    stroke: var(--color-primary);
+}
+
+#slide-right .buttons-container-bottom #stats .img-container
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 1vw;
+    border: var(--color-primary) 4px solid;
+    z-index: 305;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        transform .28s ease,
+        opacity .28s ease,
+        box-shadow .28s ease;
+}
+
+#slide-right .buttons-container-bottom #stats .img-container svg
+{
+    width: 70%;
+    height: 70%;
+    display: block;
+}
+
+@media (min-width: 746px) {
+    #slide-right .buttons-container-bottom #stats
+    {
+        border-radius: 7.5vw;
+    }
+}

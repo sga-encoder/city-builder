@@ -1,5 +1,6 @@
 import { LocalStorage } from "../../../../../database/LocalStorage.js";
 import { Logger } from "../../../utilis/Logger.js";
+import { CitySelectionController } from "../../../controllers/citySelection/Controller.js";
 
 export class CityBuilderResourceManager {
   static getSavedResources() {
@@ -23,6 +24,8 @@ export class CityBuilderResourceManager {
         food: city.resources.food.amount,
       }),
     );
+
+    CitySelectionController.syncActiveCitySnapshot();
   }
 
   static registerObservers(city) {

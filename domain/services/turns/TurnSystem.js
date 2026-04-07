@@ -5,6 +5,7 @@ import { TURN_CONFIG } from "../../config/turnConfig.js";
 import { LocalStorage } from "../../../database/LocalStorage.js";
 import { Logger } from "../../utilis/Logger.js";
 import { TurnValidator } from "./Validator.js";
+import { CitySelectionController } from "../../controllers/citySelection/Controller.js";
 
 export class TurnSystem {
   constructor(config = TURN_CONFIG) {
@@ -109,8 +110,17 @@ export class TurnSystem {
     const scoreResult = this.scoringSystem.calculateScore(this.city);
     turnData.score = scoreResult;
 
+    LocalStorage.saveData("turn", JSON.stringify(this.currentTurn));
+    LocalStorage.saveData("score", JSON.stringify(Number(this.city.score || 0)));
+    LocalStorage.saveData("citizens", JSON.stringify(this.city.citizens || []));
+
     this.logger.recordTurn(turnData);
     this.#saveState();
+    CitySelectionController.syncActiveCitySnapshot({
+      turn: this.currentTurn,
+      score: Number(this.city.score || 0),
+      citizens: this.city.citizens || [],
+    });
 
     this.#emit({
       type: "turnComplete",

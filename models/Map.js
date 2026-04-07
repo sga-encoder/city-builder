@@ -1,5 +1,6 @@
 import { createBuilding } from "./building/buildingFactory.js";
 import { LocalStorage } from "../database/LocalStorage.js";
+import { CitySelectionController } from "../domain/controllers/citySelection/Controller.js";
 
 export class Map {
   static typeBuildingAcceptedMap = [];
@@ -67,6 +68,7 @@ export class Map {
     clearTimeout(this.persistDebounce);
     this.persistDebounce = setTimeout(() => {
       LocalStorage.saveData("map", JSON.stringify(this.toSerializableGrid()));
+      CitySelectionController.syncActiveCitySnapshot();
     }, 120);
   }
 

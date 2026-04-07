@@ -94,7 +94,8 @@ export class CitySelectionController {
       }));
 
       // Cargar mapa
-      LocalStorage.saveData("map", JSON.stringify(cityData.map?.layout || []));
+      const mapData = this.resolveMapDataForStorage(cityData);
+      LocalStorage.saveData("map", JSON.stringify(mapData));
 
       // Cargar turno
       LocalStorage.saveData("turn", JSON.stringify(cityData.turn || 0));
@@ -111,6 +112,26 @@ export class CitySelectionController {
     }
   }
 
+  resolveMapDataForStorage(cityData) {
+    const cityMap = cityData?.map;
+
+    if (Array.isArray(cityMap)) {
+      return cityMap;
+    }
+
+    if (Array.isArray(cityMap?.layout)) {
+      return cityMap.layout;
+    }
+
+    if (Array.isArray(cityMap?.grid)) {
+      return cityMap.grid.map((row) =>
+        row.map((building) => ({ ...building })),
+      );
+    }
+
+    return [];
+  }
+
   // =====================
   // OBTENER TODAS LAS CIUDADES GUARDADAS (ESTÁTICO)
   // =====================
@@ -124,6 +145,75 @@ export class CitySelectionController {
       Logger.error("❌ [CitySelection] Error al cargar ciudades guardadas:", error);
     }
     return [];
+  }
+
+  static parseJsonSafe(rawValue, fallback = null) {
+    if (!rawValue) return fallback;
+    try {
+      return JSON.parse(rawValue);
+    } catch {
+      return fallback;
+    }
+  }
+
+  static syncActiveCitySnapshot(overrides = {}) {
+    try {
+      const cityConfig = CitySelectionController.parseJsonSafe(
+        LocalStorage.loadData("cityConfig"),
+      );
+      if (!cityConfig?.id) return false;
+
+      const allCities = CitySelectionController.getAllSavedCities();
+      const cityIndex = allCities.findIndex((city) => city?.id === cityConfig.id);
+      if (cityIndex === -1) return false;
+
+      const resources =
+        overrides.initialResources ??
+        CitySelectionController.parseJsonSafe(LocalStorage.loadData("resources"), {
+          money: 50000,
+          energy: 0,
+          water: 0,
+          food: 0,
+        });
+
+      const mapRaw = overrides.map ?? CitySelectionController.parseJsonSafe(LocalStorage.loadData("map"), []);
+      const map = Array.isArray(mapRaw) ? { layout: mapRaw } : mapRaw;
+
+      const turn =
+        overrides.turn ??
+        CitySelectionController.parseJsonSafe(LocalStorage.loadData("turn"), cityConfig.turn || 0);
+
+      const citizens =
+        overrides.citizens ??
+        CitySelectionController.parseJsonSafe(LocalStorage.loadData("citizens"), []);
+
+      const score =
+        overrides.score ??
+        CitySelectionController.parseJsonSafe(LocalStorage.loadData("score"), 0);
+
+      const existing = allCities[cityIndex] || {};
+      allCities[cityIndex] = {
+        ...existing,
+        id: cityConfig.id,
+        name: cityConfig.name,
+        mayor: cityConfig.mayor,
+        location: cityConfig.location,
+        mapSize: cityConfig.mapSize,
+        createdAt: existing.createdAt || cityConfig.createdAt,
+        updatedAt: new Date().toISOString(),
+        turn,
+        score,
+        citizens,
+        initialResources: resources,
+        map,
+      };
+
+      LocalStorage.saveData("savedCities", JSON.stringify(allCities));
+      return true;
+    } catch (error) {
+      Logger.error("❌ [CitySelection] Error al sincronizar snapshot activo:", error);
+      return false;
+    }
   }
 
   // =====================

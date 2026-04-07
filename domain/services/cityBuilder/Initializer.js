@@ -54,9 +54,26 @@ export class CityBuilderInitializer {
 
   static mapStorageToLayout(savedMap) {
     if (!Array.isArray(savedMap) || savedMap.length === 0) return null;
-    return savedMap.map((row) =>
-      row.map((cell) => `${cell.type}${cell.subtype || ""}` || "g"),
-    );
+
+    const firstCell = savedMap[0]?.[0];
+
+    // Formato layout directo: [["g", "R1", ...], ...]
+    if (typeof firstCell === "string") {
+      return savedMap;
+    }
+
+    // Formato serializado de edificios: [[{ type, subtype, ... }, ...], ...]
+    if (firstCell && typeof firstCell === "object") {
+      return savedMap.map((row) =>
+        row.map((cell) => {
+          const type = cell?.type || "g";
+          const subtype = cell?.subtype || "";
+          return `${type}${subtype}`;
+        }),
+      );
+    }
+
+    return null;
   }
 
   // =====================

@@ -2,16 +2,7 @@
 // CITY CREATION FORM RENDERER
 // =====================
 
-const CITY_OPTIONS = [
-  { name: "Bogotá", lat: 4.7110, lon: -74.0055 },
-  { name: "Medellín", lat: 6.2442, lon: -75.5898 },
-  { name: "Cali", lat: 3.4372, lon: -76.5196 },
-  { name: "Barranquilla", lat: 10.9639, lon: -74.7964 },
-  { name: "Cartagena", lat: 10.3910, lon: -75.5139 },
-  { name: "Santa Marta", lat: 11.2401, lon: -74.2273 },
-  { name: "Cúcuta", lat: 7.8854, lon: -72.5078 },
-  { name: "Especificar Coordenadas", lat: null, lon: null },
-];
+import { ColombiaApi } from "../../../database/colombiaApi.js";
 
 const MAP_SIZES = [
   { value: 15, label: "15x15 (Pequeño - Fácil)" },
@@ -25,6 +16,7 @@ export class CityCreationRenderer {
     this.containerId = containerId;
     this.form = null;
     this.onSubmit = null;
+    this.capitalCities = [];
   }
 
   // =====================
@@ -166,25 +158,17 @@ export class CityCreationRenderer {
     citySelect.name = "citySelect";
     citySelect.className = "form-select";
 
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "";
-    defaultOption.textContent = "-- Selecciona una ciudad --";
-    citySelect.appendChild(defaultOption);
-
-    CITY_OPTIONS.forEach((city) => {
-      const option = document.createElement("option");
-      option.value = JSON.stringify({
-        name: city.name,
-        lat: city.lat,
-        lon: city.lon,
-      });
-      option.textContent = city.name;
-      citySelect.appendChild(option);
-    });
+    citySelect.disabled = true;
+    this.setCitySelectOptions(citySelect, []);
 
     citySelect.addEventListener("change", (e) => {
       const coordsContainer = document.getElementById("coords-container");
-      const selected = JSON.parse(e.target.value);
+      const selected = this.parseCityOptionValue(e.target.value);
+      if (!selected) {
+        coordsContainer.classList.remove("is-visible");
+        return;
+      }
+
       if (selected.lat === null) {
         coordsContainer.classList.add("is-visible");
       } else {
@@ -221,7 +205,61 @@ export class CityCreationRenderer {
     group.appendChild(radioContainer);
     group.appendChild(coordsContainer);
 
+    this.loadCapitalsFromApi(citySelect);
+
     return group;
+  }
+
+  setCitySelectOptions(citySelect, capitals) {
+    citySelect.innerHTML = "";
+
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = capitals.length
+      ? "-- Selecciona una ciudad --"
+      : "Cargando capitales desde API...";
+    citySelect.appendChild(defaultOption);
+
+    capitals.forEach((city) => {
+      const option = document.createElement("option");
+      option.value = JSON.stringify({
+        name: city.name,
+        lat: city.lat,
+        lon: city.lon,
+      });
+      option.textContent = city.name;
+      citySelect.appendChild(option);
+    });
+
+    const customOption = document.createElement("option");
+    customOption.value = JSON.stringify({
+      name: "Especificar Coordenadas",
+      lat: null,
+      lon: null,
+    });
+    customOption.textContent = "Especificar Coordenadas";
+    citySelect.appendChild(customOption);
+  }
+
+  async loadCapitalsFromApi(citySelect) {
+    try {
+      this.capitalCities = await ColombiaApi.getDepartmentCapitals();
+      this.setCitySelectOptions(citySelect, this.capitalCities);
+      citySelect.disabled = false;
+    } catch {
+      this.setCitySelectOptions(citySelect, []);
+      citySelect.disabled = false;
+      this.showError("No se pudieron cargar capitales desde la API de Colombia");
+    }
+  }
+
+  parseCityOptionValue(rawValue) {
+    if (!rawValue) return null;
+    try {
+      return JSON.parse(rawValue);
+    } catch {
+      return null;
+    }
   }
 
   createCoordinateInputGroup(id, labelText, min, max, placeholder) {
@@ -337,7 +375,16 @@ export class CityCreationRenderer {
     const mayorName = document.getElementById("mayorName").value.trim();
     const mapSize = parseInt(document.getElementById("mapSize").value);
     const citySelectValue = document.getElementById("citySelect").value;
-    let region = JSON.parse(citySelectValue);
+    let region = this.parseCityOptionValue(citySelectValue);
+
+    if (!region) {
+      return {
+        cityName,
+        mayorName,
+        region: null,
+        mapSize,
+      };
+    }
 
     // Si se especificaron coordenadas manualmente
     if (region.lat === null) {

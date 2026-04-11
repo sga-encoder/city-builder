@@ -244,6 +244,8 @@ export class CitizenManager {
     const unemployed = totalCitizens - employed;
     const avgHappiness = this.getAverageHappiness(city.citizens);
 
+    city.resources?.citizens?.setAmount?.(totalCitizens);
+
     StatsManager.reset("POP");
     StatsManager.addStats("POP", {
       poblacion: {

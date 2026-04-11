@@ -12,13 +12,14 @@ export class CityPhase {
     StatsManager.reset();
     TurnToolsStats.lastPayload = null;
 
-    const city = this.createCity({ grid, buildsConfig, initialResources });
+    const citizens = this.loadCitizens();
+    const city = this.createCity({ grid, buildsConfig, initialResources, citizens });
     this.initControllers(city);
     const turnSystem = this.initTurnSystem(city);
     return { city, turnSystem };
   }
 
-  static createCity({ grid, buildsConfig, initialResources }) {
+  static createCity({ grid, buildsConfig, initialResources, citizens }) {
     Logger.log("🏙️ [CityBuilder] Creando instancia de City...");
     
     // Intentar cargar configuración de ciudañ desde localStorage
@@ -34,11 +35,25 @@ export class CityPhase {
         buildsConfig,
       },
       initial: initialResources,
+      citizens,
       score: cityConfig?.score || 0,
       turn: cityConfig?.turn || 0,
     });
     Logger.log("✅ [CityBuilder] City creada, grid:", city.map?.grid?.length);
     return city;
+  }
+
+  static loadCitizens() {
+    try {
+      const citizensRaw = LocalStorage.loadData("citizens");
+      if (!citizensRaw) return [];
+
+      const parsedCitizens = JSON.parse(citizensRaw);
+      return Array.isArray(parsedCitizens) ? parsedCitizens : [];
+    } catch (error) {
+      Logger.error("❌ [CityPhase] Error al cargar ciudadanos:", error);
+      return [];
+    }
   }
 
   static loadCityConfig() {

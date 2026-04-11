@@ -5,7 +5,7 @@ import { Logger } from "../domain/utilis/Logger.js";
 export class City {
   constructor(dict) {
     Logger.log("🏛️ [City] Constructor llamado");
-    const { id, mayor, name, location, map, initial, score, turn } = dict;
+    const { id, mayor, name, location, map, initial, score, turn, citizens } = dict;
     this.id = id;
     this.mayor = mayor;
     this.name = name;
@@ -18,9 +18,10 @@ export class City {
       energy: new Resources(initial.energy, "energy", "kWh", []),
       water: new Resources(initial.water, "water", "L", []),
       food: new Resources(initial.food, "food", "Kg", []),
+      citizens: new Resources(Array.isArray(citizens) ? citizens.length : 0, "citizens", "", []),
     };
-    this.citizens = [];
-    this.citizenCounter = 0;
+    this.citizens = Array.isArray(citizens) ? citizens : [];
+    this.citizenCounter = this.citizens.length;
     this.score = score;
     if (turn !== undefined) {
       this.turn = turn;

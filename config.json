@@ -40,6 +40,11 @@
         "model": "../../public/icons/resource.svg"
       }
     },
+    "citizens": {
+      "": {
+        "model": "../../public/icons/person-svgrepo-com.svg"
+      }
+    },
     "stats": {
       "": {
         "model": "../../public/icons/statistics.svg"

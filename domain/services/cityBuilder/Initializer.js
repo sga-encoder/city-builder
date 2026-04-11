@@ -22,6 +22,8 @@ export class CityBuilderInitializer {
   // =====================
   static CityConfig = null;
   static mapRenderParams = null;
+  static currentTurnSystem = null;
+  static unloadHandler = null;
 
   static async initConfig() {
     if (!this.CityConfig) {
@@ -81,7 +83,17 @@ export class CityBuilderInitializer {
   // =====================
   static loadSavedData() {
     const mapRaw = LocalStorage.loadData("map");
-    const savedMap = mapRaw ? JSON.parse(mapRaw) : null;
+    let savedMap = null;
+
+    if (mapRaw) {
+      try {
+        savedMap = JSON.parse(mapRaw);
+      } catch (error) {
+        Logger.error("❌ [CityBuilder] Error parseando mapa guardado:", error);
+        savedMap = null;
+      }
+    }
+
     const savedLayout = this.mapStorageToLayout(savedMap);
     const savedResources = CityBuilderResourceManager.getSavedResources();
     return { savedLayout, savedResources };
@@ -134,11 +146,29 @@ export class CityBuilderInitializer {
       initialResources,
     });
 
+    this.#bindUnloadPersistence(turnSystem);
+
     UIPhase.execute({
       city,
       icons,
       builds,
       turnSystem,
     });
+  }
+
+  static #bindUnloadPersistence(turnSystem) {
+    this.currentTurnSystem = turnSystem;
+
+    if (this.unloadHandler) {
+      window.removeEventListener("beforeunload", this.unloadHandler);
+      window.removeEventListener("pagehide", this.unloadHandler);
+    }
+
+    this.unloadHandler = () => {
+      this.currentTurnSystem?.dispose?.();
+    };
+
+    window.addEventListener("beforeunload", this.unloadHandler);
+    window.addEventListener("pagehide", this.unloadHandler);
   }
 }

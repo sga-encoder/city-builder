@@ -30,6 +30,7 @@ import { Logger } from "./utilis/Logger.js";
       // Callback: Crear nueva ciudad
       async () => {
         Logger.log("📝 [Main] Creando nueva ciudad desde selección");
+        selectionController.destroy();
         
         const creationController = new CityCreationController();
         

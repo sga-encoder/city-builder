@@ -63,9 +63,19 @@ export class CitySelectionController {
   // =====================
   handleNewGame() {
     Logger.log("✨ [CitySelection] Creando nueva ciudad");
+    this.destroy();
     if (this.onNewGame) {
       this.onNewGame();
     }
+  }
+
+  destroy() {
+    if (this.renderer) {
+      this.renderer.destroy();
+      this.renderer = null;
+    }
+    this.onCitySelected = null;
+    this.onNewGame = null;
   }
 
   // =====================
@@ -164,8 +174,9 @@ export class CitySelectionController {
       if (!cityConfig?.id) return false;
 
       const allCities = CitySelectionController.getAllSavedCities();
-      const cityIndex = allCities.findIndex((city) => city?.id === cityConfig.id);
-      if (cityIndex === -1) return false;
+      let cityIndex = allCities.findIndex(
+        (city) => String(city?.id) === String(cityConfig.id),
+      );
 
       const resources =
         overrides.initialResources ??
@@ -192,7 +203,7 @@ export class CitySelectionController {
         CitySelectionController.parseJsonSafe(LocalStorage.loadData("score"), 0);
 
       const existing = allCities[cityIndex] || {};
-      allCities[cityIndex] = {
+      const nextSnapshot = {
         ...existing,
         id: cityConfig.id,
         name: cityConfig.name,
@@ -207,6 +218,12 @@ export class CitySelectionController {
         initialResources: resources,
         map,
       };
+
+      if (cityIndex === -1) {
+        allCities.push(nextSnapshot);
+      } else {
+        allCities[cityIndex] = nextSnapshot;
+      }
 
       LocalStorage.saveData("savedCities", JSON.stringify(allCities));
       return true;

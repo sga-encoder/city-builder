@@ -1,6 +1,6 @@
 import { MapBuildController } from "./BuildController.js";
 import { MapSelectionController } from "./SelectionController.js";
-import { LocalStorage } from "../../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../../database/localStorage.js";
 import { ToastService } from "../../../services/toast.js";
 
 export class RouteModeController {

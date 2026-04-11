@@ -1,6 +1,7 @@
 import { City } from "../../../../models/City.js";
 import { MapController } from "../../../controllers/map/Controller.js";
 import { Logger } from "../../../utilis/Logger.js";
+import { StatsManager } from "../../StatsManager.js";
 import { CityBuilderResourceManager } from "../managers/ResourceManager.js";
 import { CityBuilderTurnSystemManager } from "../managers/TurnSystemManager.js";
 import { TurnToolsStats } from "../../../utilis/devUtils/components/turnTools/Stats/Renderer.js";
@@ -8,6 +9,9 @@ import { LocalStorage } from "../../../../database/localStorage.js";
 
 export class CityPhase {
   static execute({ grid, buildsConfig, initialResources }) {
+    StatsManager.reset();
+    TurnToolsStats.lastPayload = null;
+
     const city = this.createCity({ grid, buildsConfig, initialResources });
     this.initControllers(city);
     const turnSystem = this.initTurnSystem(city);
@@ -58,13 +62,6 @@ export class CityPhase {
   }
 
   static initTurnSystem(city) {
-    let prevResources = {
-      money: city.resources.money.amount,
-      energy: city.resources.energy.amount,
-      water: city.resources.water.amount,
-      food: city.resources.food.amount,
-    };
-
     const turnSystem = CityBuilderTurnSystemManager.createTurnSystem(
       city,
       (event, turnSystemRef) => {
@@ -73,19 +70,14 @@ export class CityPhase {
           event.turnNumber,
           event.data?.changes?.total,
         );
-        const diff = {
-          money: city.resources.money.amount - prevResources.money,
-          energy: city.resources.energy.amount - prevResources.energy,
-          water: city.resources.water.amount - prevResources.water,
-          food: city.resources.food.amount - prevResources.food,
+        const diff = event?.data?.changes?.total || {
+          money: 0,
+          energy: 0,
+          water: 0,
+          food: 0,
         };
+
         TurnToolsStats.update(turnSystemRef.getState(), city, diff);
-        prevResources = {
-          money: city.resources.money.amount,
-          energy: city.resources.energy.amount,
-          water: city.resources.water.amount,
-          food: city.resources.food.amount,
-        };
       },
       (event) => {
         Logger.warn("Fase falló:", event.phaseName, event.error);
@@ -94,6 +86,13 @@ export class CityPhase {
         Logger.info("Estado del sistema:", event.state);
       },
     );
+
+    TurnToolsStats.update(turnSystem.getState(), city, {
+      money: 0,
+      energy: 0,
+      water: 0,
+      food: 0,
+    });
 
     return turnSystem;
   }

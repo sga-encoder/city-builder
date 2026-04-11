@@ -3,7 +3,11 @@ export class TurnValidator {
     if (!city) return { valid: false, errors: ["City nula"] };
     const errors = [];
 
-    if (typeof city.id !== "number") errors.push("City.id inválido");
+    const hasValidId =
+      (typeof city.id === "number" && Number.isFinite(city.id)) ||
+      (typeof city.id === "string" && city.id.trim().length > 0);
+
+    if (!hasValidId) errors.push("City.id inválido");
     if (!city.name || typeof city.name !== "string")
       errors.push("City.name inválido");
     if (!city.map) errors.push("City.map ausente");

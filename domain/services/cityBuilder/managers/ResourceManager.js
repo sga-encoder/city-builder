@@ -1,4 +1,4 @@
-import { LocalStorage } from "../../../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../../../database/localStorage.js";
 import { Logger } from "../../../utilis/Logger.js";
 import { CitySelectionController } from "../../../controllers/citySelection/Controller.js";
 

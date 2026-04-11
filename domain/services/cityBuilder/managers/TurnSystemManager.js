@@ -25,7 +25,7 @@ export class CityBuilderTurnSystemManager {
   static createTurnSystem(city, onTurnComplete, onPhaseFailed, onStateChanged) {
     const turnSystem = new TurnSystem();
     turnSystem.initialize(city, {
-      interval: 5000,
+      DEFAULT_INTERVAL: 1000,
       SPEEDS: { X1: 1.0, X2: 0.5, X3: 0.33 },
     });
 
@@ -102,6 +102,9 @@ export class CityBuilderTurnSystemManager {
         onStateChanged(event);
       }
     });
+
+    // Iniciar conteo automático de turnos al crear/cargar la partida.
+    turnSystem.play();
 
     Logger.log("🕑 [TurnSystemManager] Sistema de turnos inicializado");
     return turnSystem;

@@ -22,6 +22,7 @@ export class MapEventBinder {
   static bindMapClick({
     mapContainerElement,
     buildingGrid,
+    getCellData,
     hasPanned,
     onSelectGround,
     onSelectBuilding,
@@ -51,7 +52,9 @@ export class MapEventBinder {
 
       const i = Number.parseInt(id.slice(0, 2), 10);
       const j = Number.parseInt(id.slice(2, 4), 10);
-      const cellData = buildingGrid?.[i]?.[j];
+      const cellData =
+        (typeof getCellData === "function" ? getCellData(i, j) : null) ||
+        buildingGrid?.[i]?.[j];
       if (!cellData) return;
 
       if (onCellClick?.(id, cellData, i, j)) {

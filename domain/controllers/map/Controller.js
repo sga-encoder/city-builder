@@ -5,7 +5,7 @@ import { MapModelObserverBinder } from "./binders/ModelObserverBinder.js";
 import { MapBuildController } from "./subControllers/BuildController.js";
 import { SlideLeftController } from "../slideLeft/Controller.js";
 import { Logger } from "../../utilis/Logger.js";
-import { LocalStorage } from "../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../database/localStorage.js";
 import { BuildingRenderer } from "../../components/building/Renderer.js";
 import { MapRouteController } from "./subControllers/DijsktraController.js";
 import { RouteModeController } from "./subControllers/RouteModeController.js";
@@ -48,6 +48,7 @@ export class MapController {
     MapEventBinder.bindMapClick({
       mapContainerElement: this.mapContainerElement,
       buildingGrid: this.buildingGrid || [],
+      getCellData: (i, j) => this.mapModel?.grid?.[i]?.[j] || null,
       hasPanned: () => MapCameraController.hasPanned,
       isInteractionLocked: () => this.isInteractionLocked(),
       onCellClick: (id, cellData, i, j) => {
@@ -67,7 +68,7 @@ export class MapController {
         this.selectMapCell(id, cellData, i, j);
         this.openManageMenu();
         this.interactionMode = "manage";
-        this.openBuildingInfoPanel({ id, cellData, i, j });
+        this.closeBuildingInfoPanel();
       },
       onTryMove: (cellRef) => SlideLeftController.completeMoveBuilding(cellRef),
       onPersistMap: () => this.mapModel?.schedulePersist?.(),
@@ -280,7 +281,8 @@ export class MapController {
     const container = document.querySelector("#slide-right");
     if (!container) return;
 
-    const payload = this.buildInfoPayload(cellRef);
+    const activeCell = cellRef || this.activeCell;
+    const payload = this.buildInfoPayload(activeCell);
     if (!payload) return;
 
     BuildingInfoPanel.render(container, payload);

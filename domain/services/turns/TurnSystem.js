@@ -2,7 +2,7 @@ import { TurnSimulator } from "./Simulator.js";
 import { TurnLogger } from "./Logger.js";
 import { ScoringSystem } from "../../components/score/ScoringSystem.js";
 import { TURN_CONFIG } from "../../config/turnConfig.js";
-import { LocalStorage } from "../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../database/localStorage.js";
 import { Logger } from "../../utilis/Logger.js";
 import { TurnValidator } from "./Validator.js";
 import { CitySelectionController } from "../../controllers/citySelection/Controller.js";
@@ -30,7 +30,9 @@ export class TurnSystem {
     this.config = this.#mergeConfig({ ...this.config, ...customConfig });
 
     const saved = this.#loadState();
-    if (saved) {
+    const isSameCity = String(saved?.cityId || "") === String(city.id || "");
+
+    if (saved && isSameCity) {
       this.currentTurn = Number(saved.currentTurn || city.turn || 0);
       this.state = saved.state || "paused";
       this.speedKey = this.#isValidSpeed(saved.speedKey)
@@ -191,8 +193,29 @@ export class TurnSystem {
   dispose() {
     this.#stopInterval();
     this.state = "stopped";
+    this.#persistCurrentProgress();
     this.#saveState();
     this.observers = [];
+  }
+
+  #persistCurrentProgress() {
+    if (!this.city) return;
+
+    LocalStorage.saveData("turn", JSON.stringify(this.currentTurn));
+    LocalStorage.saveData(
+      "score",
+      JSON.stringify(Number(this.city.score || 0)),
+    );
+    LocalStorage.saveData(
+      "citizens",
+      JSON.stringify(this.city.citizens || []),
+    );
+
+    CitySelectionController.syncActiveCitySnapshot({
+      turn: this.currentTurn,
+      score: Number(this.city.score || 0),
+      citizens: this.city.citizens || [],
+    });
   }
 
   #emit(event) {
@@ -234,6 +257,7 @@ export class TurnSystem {
 
   #saveState() {
     const payload = {
+      cityId: this.city?.id ?? null,
       currentTurn: this.currentTurn,
       state: this.state,
       speedKey: this.speedKey,
@@ -259,20 +283,27 @@ export class TurnSystem {
   }
 
   #mergeConfig(config) {
+    const normalizedConfig = {
+      ...(config || {}),
+      ...(config?.interval !== undefined
+        ? { DEFAULT_INTERVAL: config.interval }
+        : {}),
+    };
+
     return {
       ...TURN_CONFIG,
-      ...config,
+      ...normalizedConfig,
       SPEEDS: {
         ...TURN_CONFIG.SPEEDS,
-        ...(config?.SPEEDS || {}),
+        ...(normalizedConfig.SPEEDS || {}),
       },
       STORAGE_KEYS: {
         ...TURN_CONFIG.STORAGE_KEYS,
-        ...(config?.STORAGE_KEYS || {}),
+        ...(normalizedConfig.STORAGE_KEYS || {}),
       },
       DEBUG: {
         ...TURN_CONFIG.DEBUG,
-        ...(config?.DEBUG || {}),
+        ...(normalizedConfig.DEBUG || {}),
       },
     };
   }

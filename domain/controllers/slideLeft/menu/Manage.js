@@ -33,6 +33,9 @@ export class ManageMenuController {
         setMenuState(constants.MENU_STATE.NONE);
         mapController.clearCellSelection();
       }
+      if (btn.id === "info") {
+        mapController.openBuildingInfoPanel(cell);
+      }
       if (btn.id === "destroy") {
         mapController.replaceCellBuilding("g", state.builds, cell);
         setMenuState(constants.MENU_STATE.NONE);

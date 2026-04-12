@@ -7,14 +7,18 @@ export class CitySelectionRenderer {
     this.containerId = containerId;
     this.onCitySelected = null;
     this.onNewGame = null;
+    this.onBackToMainMenu = null;
+    this.savedCities = [];
   }
 
   // =====================
   // RENDERIZAR PANTALLA DE SELECCIÓN
   // =====================
-  render(savedCities, onCitySelectedCallback, onNewGameCallback) {
+  render(savedCities, onCitySelectedCallback, onNewGameCallback, onBackToMainMenuCallback = null) {
+    this.savedCities = Array.isArray(savedCities) ? savedCities : [];
     this.onCitySelected = onCitySelectedCallback;
     this.onNewGame = onNewGameCallback;
+    this.onBackToMainMenu = onBackToMainMenuCallback;
 
     // Crear overlay
     const overlay = document.createElement("div");
@@ -38,13 +42,11 @@ export class CitySelectionRenderer {
     container.appendChild(title);
     container.appendChild(subtitle);
 
-    // Contenedor de ciudades
     const citiesContainer = document.createElement("div");
     citiesContainer.className = "cities-grid";
 
-    // Mostrar ciudades guardadas
-    if (savedCities && savedCities.length > 0) {
-      savedCities.forEach((city) => {
+    if (this.savedCities.length > 0) {
+      this.savedCities.forEach((city) => {
         const cityCard = this.createCityCard(city);
         citiesContainer.appendChild(cityCard);
       });
@@ -54,8 +56,6 @@ export class CitySelectionRenderer {
       noCitiesMsg.textContent = "No hay ciudades guardadas";
       citiesContainer.appendChild(noCitiesMsg);
     }
-
-    container.appendChild(citiesContainer);
 
     // Botón para crear nueva ciudad
     const buttonContainer = document.createElement("div");
@@ -72,7 +72,21 @@ export class CitySelectionRenderer {
       }
     });
 
+    const backButton = document.createElement("button");
+    backButton.type = "button";
+    backButton.className = "city-selection-back-btn";
+    backButton.textContent = "Volver al menu principal";
+    backButton.addEventListener("click", () => {
+      this.destroy();
+      if (this.onBackToMainMenu) {
+        this.onBackToMainMenu();
+      }
+    });
+
+    buttonContainer.appendChild(backButton);
     buttonContainer.appendChild(newCityButton);
+
+    container.appendChild(citiesContainer);
     container.appendChild(buttonContainer);
 
     // Agregar elementos al overlay

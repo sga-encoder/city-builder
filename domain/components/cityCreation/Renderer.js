@@ -16,14 +16,16 @@ export class CityCreationRenderer {
     this.containerId = containerId;
     this.form = null;
     this.onSubmit = null;
+    this.onBack = null;
     this.capitalCities = [];
   }
 
   // =====================
   // CREAR FORMULARIO
   // =====================
-  render(onSubmitCallback) {
+  render(onSubmitCallback, onBackCallback = null) {
     this.onSubmit = onSubmitCallback;
+    this.onBack = onBackCallback;
 
     // Crear overlay
     const overlay = document.createElement("div");
@@ -70,6 +72,17 @@ export class CityCreationRenderer {
     submitButton.className = "city-creation-submit";
     submitButton.textContent = "Crear Ciudad";
 
+    const backButton = document.createElement("button");
+    backButton.type = "button";
+    backButton.className = "city-creation-back";
+    backButton.textContent = "Volver al menu principal";
+    backButton.addEventListener("click", () => {
+      if (this.onBack) {
+        this.onBack();
+      }
+    });
+
+    buttonContainer.appendChild(backButton);
     buttonContainer.appendChild(submitButton);
     this.form.appendChild(buttonContainer);
 

@@ -11,15 +11,30 @@ export class CityCreationController {
   constructor() {
     this.renderer = null;
     this.onCityCreated = null;
+    this.onBackToMainMenu = null;
   }
 
   // =====================
   // MOSTRAR FORMULARIO
   // =====================
-  show(onCityCreatedCallback) {
+  show(onCityCreatedCallback, onBackToMainMenuCallback = null) {
     this.onCityCreated = onCityCreatedCallback;
+    this.onBackToMainMenu = onBackToMainMenuCallback;
     this.renderer = new CityCreationRenderer();
-    this.renderer.render((formData) => this.handleCityCreation(formData));
+    this.renderer.render(
+      (formData) => this.handleCityCreation(formData),
+      () => this.handleBackToMainMenu(),
+    );
+  }
+
+  handleBackToMainMenu() {
+    if (this.renderer) {
+      this.renderer.destroy();
+    }
+
+    if (this.onBackToMainMenu) {
+      this.onBackToMainMenu();
+    }
   }
 
   // =====================

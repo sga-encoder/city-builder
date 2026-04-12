@@ -1,0 +1,72 @@
+/* =====================
+   MAIN MENU STYLES
+   ===================== */
+
+.main-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.84);
+  backdrop-filter: blur(5px);
+}
+
+.main-menu-container {
+  width: min(92vw, 520px);
+  padding: 2rem;
+  border-radius: 16px;
+  background: linear-gradient(160deg, #102f5e 0%, #24508f 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.main-menu-title {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  text-align: center;
+}
+
+.main-menu-subtitle {
+  margin: 0.5rem 0 1.6rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
+.main-menu-actions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.main-menu-btn {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.main-menu-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+}
+
+.main-menu-btn-primary {
+  background: linear-gradient(135deg, #59c26d 0%, #2ea043 100%);
+  color: #ffffff;
+}
+
+.main-menu-btn-secondary {
+  background: linear-gradient(135deg, #69b7ff 0%, #3f8ad7 100%);
+  color: #ffffff;
+}
+
+.main-menu-btn-tertiary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}

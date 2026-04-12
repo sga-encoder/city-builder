@@ -254,6 +254,29 @@
   box-shadow: 0 2px 10px rgba(102, 187, 106, 0.3);
 }
 
+.city-selection-back-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.city-selection-back-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.city-selection-back-btn:active {
+  transform: translateY(0);
+}
+
 /* =====================
    ANIMATIONS
    ===================== */
@@ -328,6 +351,11 @@
   }
 
   .city-selection-new-btn {
+    width: 100%;
+    padding: 0.9rem 1.5rem;
+  }
+
+  .city-selection-back-btn {
     width: 100%;
     padding: 0.9rem 1.5rem;
   }

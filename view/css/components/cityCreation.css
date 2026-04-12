@@ -249,6 +249,30 @@
   transform: none;
 }
 
+.city-creation-back {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.9rem 1.5rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.city-creation-back:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.city-creation-back:active {
+  transform: translateY(0);
+}
+
 /* =====================
    MESSAGES
    ===================== */

@@ -5,8 +5,13 @@
 
 export class LocalStorage {
     static saveData(clave, data) {
-         try {
-            localStorage.setItem(clave,data);
+        try {
+            if (data === null || data === undefined) {
+                localStorage.removeItem(clave);
+                return true;
+            }
+
+            localStorage.setItem(clave, data);
             return true;
         } catch (error) {
             console.error("Error guardando en localStorage:", error);
@@ -17,12 +22,10 @@ export class LocalStorage {
     static loadData(clave) {
         try {
             const data = localStorage.getItem(clave);
-            return data
+            return data;
         } catch (error) {
             console.error("Error cargando desde localStorage:", error);
             return null;
         }
     }
-
-    
 }

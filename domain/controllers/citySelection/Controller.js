@@ -11,14 +11,16 @@ export class CitySelectionController {
     this.renderer = null;
     this.onCitySelected = null;
     this.onNewGame = null;
+    this.onBackToMainMenu = null;
   }
 
   // =====================
   // MOSTRAR PANTALLA DE SELECCIÓN
   // =====================
-  show(onCitySelectedCallback, onNewGameCallback) {
+  show(onCitySelectedCallback, onNewGameCallback, onBackToMainMenuCallback = null) {
     this.onCitySelected = onCitySelectedCallback;
     this.onNewGame = onNewGameCallback;
+    this.onBackToMainMenu = onBackToMainMenuCallback;
 
     const savedCities = CitySelectionController.getAllSavedCities();
     Logger.log("🏙️ [CitySelection] Ciudades guardadas encontradas:", savedCities.length);
@@ -28,7 +30,17 @@ export class CitySelectionController {
       savedCities,
       (cityData) => this.handleCitySelection(cityData),
       () => this.handleNewGame(),
+      () => this.handleBackToMainMenu(),
     );
+  }
+
+  handleBackToMainMenu() {
+    Logger.log("↩️ [CitySelection] Volviendo al menú principal");
+    const onBack = this.onBackToMainMenu;
+    this.destroy();
+    if (onBack) {
+      onBack();
+    }
   }
 
   // =====================
@@ -76,6 +88,7 @@ export class CitySelectionController {
     }
     this.onCitySelected = null;
     this.onNewGame = null;
+    this.onBackToMainMenu = null;
   }
 
   // =====================
@@ -149,7 +162,8 @@ export class CitySelectionController {
     try {
       const citiesRaw = LocalStorage.loadData("savedCities");
       if (citiesRaw) {
-        return JSON.parse(citiesRaw);
+        const parsedCities = JSON.parse(citiesRaw);
+        return Array.isArray(parsedCities) ? parsedCities : [];
       }
     } catch (error) {
       Logger.error("❌ [CitySelection] Error al cargar ciudades guardadas:", error);

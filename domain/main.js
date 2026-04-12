@@ -1,58 +1,81 @@
 ﻿import { CityBuilderInitializer } from "./services/cityBuilder/Initializer.js";
 import { CitySelectionController } from "./controllers/citySelection/Controller.js";
 import { CityCreationController } from "./controllers/cityCreation/Controller.js";
+import { MainMenuController } from "./controllers/mainMenu/Controller.js";
+import { LeaderboardController } from "./controllers/leaderBoard/Controller.js";
+import { ToastService } from "./services/toast.js";
 import { Logger } from "./utilis/Logger.js";
 
 (async () => {
   Logger.log("🎮 [Main] Iniciando aplicación");
 
-  // Verificar si hay ciudades guardadas
-  const hasSavedCities = CitySelectionController.hasSavedCities();
-  Logger.log("💾 [Main] ¿Ciudades guardadas?", hasSavedCities);
+  const mainMenuController = new MainMenuController();
+  const leaderboardController = new LeaderboardController();
 
-  if (hasSavedCities) {
-    // Mostrar pantalla de selección de ciudad
-    Logger.log("🏛️ [Main] Mostrando pantalla de selección de ciudades");
-    
-    const selectionController = new CitySelectionController();
-    
-    selectionController.show(
-      // Callback: Cargar ciudad seleccionada
-      async (selectedCityData) => {
-        Logger.log("✅ [Main] Ciudad seleccionada:", selectedCityData.name);
-        
-        // Cargar ciudadanos, mapa, recursos, etc de la ciudad seleccionada
-        // (Esto será manejado por el controlador de selección)
-        
-        // Inicializar juego con la ciudad cargada
+  const openMainMenu = () => {
+    mainMenuController.show({
+      onCreate: async () => {
+        Logger.log("📝 [Main] Opción: crear ciudad");
+        mainMenuController.destroy();
+        await openCityCreation();
+      },
+      onLoad: async () => {
+        Logger.log("📂 [Main] Opción: cargar ciudad");
+        const hasSavedCities = CitySelectionController.hasSavedCities();
+        if (!hasSavedCities) {
+          ToastService.mostrarToast("No hay ciudades guardadas para cargar", "warn");
+          return;
+        }
+
+        mainMenuController.destroy();
+        await openCitySelection();
+      },
+      onLeaderboard: () => {
+        Logger.log("🏆 [Main] Opción: leaderboard");
+        mainMenuController.destroy();
+        leaderboardController.show(() => {
+          Logger.log("↩️ [Main] Volviendo al menú principal desde leaderboard");
+          openMainMenu();
+        });
+      },
+      onSettings: () => {
+        ToastService.mostrarToast("Ajustes en construccion", "info");
+      },
+    });
+  };
+
+  const openCityCreation = async () => {
+    const creationController = new CityCreationController();
+    creationController.show(
+      async (cityData) => {
+        Logger.log("✅ [Main] Ciudad creada:", cityData);
         await CityBuilderInitializer.buildCity();
       },
-      // Callback: Crear nueva ciudad
+      () => {
+        Logger.log("↩️ [Main] Volviendo al menú principal desde creación");
+        openMainMenu();
+      },
+    );
+  };
+
+  const openCitySelection = async () => {
+    const selectionController = new CitySelectionController();
+    selectionController.show(
+      async (selectedCityData) => {
+        Logger.log("✅ [Main] Ciudad seleccionada:", selectedCityData.name);
+        await CityBuilderInitializer.buildCity();
+      },
       async () => {
         Logger.log("📝 [Main] Creando nueva ciudad desde selección");
         selectionController.destroy();
-        
-        const creationController = new CityCreationController();
-        
-        creationController.show(async (cityData) => {
-          Logger.log("✅ [Main] Nueva ciudad creada:", cityData);
-          
-          // Inicializar juego con la ciudad creada
-          await CityBuilderInitializer.buildCity();
-        });
-      }
+        await openCityCreation();
+      },
+      () => {
+        Logger.log("↩️ [Main] Volviendo al menú principal desde carga de ciudad");
+        openMainMenu();
+      },
     );
-  } else {
-    // No hay ciudades guardadas, mostrar formulario de creación
-    Logger.log("📝 [Main] Mostrando formulario de creación de ciudad");
-    
-    const creationController = new CityCreationController();
-    
-    creationController.show(async (cityData) => {
-      Logger.log("✅ [Main] Ciudad creada:", cityData);
-      
-      // Inicializar juego con la ciudad creada
-      await CityBuilderInitializer.buildCity();
-    });
-  }
+  };
+
+  openMainMenu();
 })();

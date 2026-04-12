@@ -1,0 +1,128 @@
+/* =====================
+   LEADERBOARD STYLES
+   ===================== */
+
+.leaderboard-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(5px);
+}
+
+.leaderboard-container {
+  width: min(94vw, 980px);
+  max-height: 88vh;
+  overflow: auto;
+  border-radius: 16px;
+  padding: 1.6rem;
+  background: linear-gradient(160deg, #143364 0%, #285a9d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.leaderboard-title {
+  margin: 0;
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.8rem;
+}
+
+.leaderboard-subtitle {
+  margin: 0.35rem 0 1.2rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.leaderboard-table {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: 70px minmax(120px, 1fr) minmax(120px, 1fr) 120px 120px 120px;
+  gap: 0.55rem;
+  align-items: center;
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.leaderboard-row-header {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.leaderboard-cell {
+  color: #ffffff;
+  font-size: 0.9rem;
+  word-break: break-word;
+}
+
+.leaderboard-row-header .leaderboard-cell {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 700;
+}
+
+.leaderboard-empty {
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.leaderboard-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.leaderboard-back-btn {
+  border: none;
+  border-radius: 9px;
+  padding: 0.9rem 1.2rem;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.leaderboard-back-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.24);
+}
+
+@media (max-width: 900px) {
+  .leaderboard-row {
+    grid-template-columns: 55px 1fr 1fr;
+  }
+
+  .leaderboard-row .leaderboard-cell:nth-child(4),
+  .leaderboard-row .leaderboard-cell:nth-child(5),
+  .leaderboard-row .leaderboard-cell:nth-child(6) {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .leaderboard-container {
+    padding: 1rem;
+  }
+
+  .leaderboard-row {
+    grid-template-columns: 1fr;
+  }
+
+  .leaderboard-row-header {
+    display: none;
+  }
+}

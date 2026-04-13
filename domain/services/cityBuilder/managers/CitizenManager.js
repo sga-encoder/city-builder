@@ -1,5 +1,6 @@
 import { Citizen } from "../../../../models/person/Citizens.js";
 import { getCityConfig } from "../../../config/runtimeConfig.js";
+import { loadGameplaySettings } from "../../../config/gameplaySettings.js";
 
 export class CitizenManager {
   static DEFAULTS = {
@@ -16,6 +17,7 @@ export class CitizenManager {
 
     this.assignHomelessCitizens(city);
     this.assignUnemployedCitizens(city);
+    const needsResult = this.consumeCitizenNeeds(city);
     this.updateCitizensHappiness(city);
 
     const avgHappinessBeforeGrowth = this.getAverageHappiness(city.citizens);
@@ -26,10 +28,11 @@ export class CitizenManager {
       createdThisTurn = this.createNewCitizens(city);
       this.assignHomelessCitizens(city);
       this.assignUnemployedCitizens(city);
+      this.consumeCitizenNeeds(city);
       this.updateCitizensHappiness(city);
     }
 
-    this.recordPopulationStats(city, createdThisTurn, StatsManager);
+    this.recordPopulationStats(city, createdThisTurn, StatsManager, needsResult);
   }
 
   static ensureCityPopulationState(city) {
@@ -44,17 +47,25 @@ export class CitizenManager {
 
   static getPopulationConfig() {
     const config = getCityConfig()?.population || {};
+    const gameplaySettings = loadGameplaySettings();
     const min = Number(config.minNewCitizensPerTurn);
     const max = Number(config.maxNewCitizensPerTurn);
     const threshold = Number(config.happinessThresholdToGrow);
+    const maxGeneratedSetting = Number(
+      gameplaySettings?.maxCitizensGeneratedPerTurn,
+    );
 
     const minNewCitizensPerTurn = Number.isFinite(min)
       ? Math.max(0, Math.floor(min))
       : this.DEFAULTS.minNewCitizensPerTurn;
 
-    const maxNewCitizensPerTurn = Number.isFinite(max)
+    const maxConfig = Number.isFinite(max)
       ? Math.max(minNewCitizensPerTurn, Math.floor(max))
       : this.DEFAULTS.maxNewCitizensPerTurn;
+
+    const maxNewCitizensPerTurn = Number.isFinite(maxGeneratedSetting)
+      ? Math.max(1, Math.floor(maxGeneratedSetting))
+      : maxConfig;
 
     const happinessThresholdToGrow = Number.isFinite(threshold)
       ? Math.max(0, Math.min(100, threshold))
@@ -62,9 +73,55 @@ export class CitizenManager {
 
     return {
       minNewCitizensPerTurn,
-      maxNewCitizensPerTurn,
+      maxNewCitizensPerTurn: Math.max(minNewCitizensPerTurn, maxNewCitizensPerTurn),
       happinessThresholdToGrow,
     };
+  }
+
+  static consumeCitizenNeeds(city) {
+    const citizensCount = Array.isArray(city?.citizens) ? city.citizens.length : 0;
+    if (citizensCount <= 0) {
+      return {
+        expected: { energy: 0, water: 0, food: 0 },
+        consumed: { energy: 0, water: 0, food: 0 },
+      };
+    }
+
+    const gameplaySettings = loadGameplaySettings();
+    const needs = gameplaySettings?.citizenNeedsPerTurn || {};
+
+    const perCitizen = {
+      energy: Math.max(0, Number(needs.electricity || 0)),
+      water: Math.max(0, Number(needs.water || 0)),
+      food: Math.max(0, Number(needs.food || 0)),
+    };
+
+    const expected = {
+      energy: perCitizen.energy * citizensCount,
+      water: perCitizen.water * citizensCount,
+      food: perCitizen.food * citizensCount,
+    };
+
+    const consumed = {
+      energy: this.#consumeResource(city?.resources?.energy, expected.energy),
+      water: this.#consumeResource(city?.resources?.water, expected.water),
+      food: this.#consumeResource(city?.resources?.food, expected.food),
+    };
+
+    return { expected, consumed };
+  }
+
+  static #consumeResource(resource, requiredAmount) {
+    if (!resource || requiredAmount <= 0) return 0;
+    const available = Math.max(0, Number(resource.amount || 0));
+    const consumed = Math.min(available, requiredAmount);
+
+    if (consumed > 0) {
+      resource.subtract(consumed);
+      resource.turnConsumption = Number(resource.turnConsumption || 0) + consumed;
+    }
+
+    return consumed;
   }
 
   static getAverageHappiness(citizens) {
@@ -238,7 +295,7 @@ export class CitizenManager {
     }
   }
 
-  static recordPopulationStats(city, createdThisTurn, StatsManager) {
+  static recordPopulationStats(city, createdThisTurn, StatsManager, needsResult) {
     const totalCitizens = city.citizens.length;
     const employed = city.citizens.filter((citizen) => citizen.hasJob).length;
     const unemployed = totalCitizens - employed;
@@ -258,6 +315,11 @@ export class CitizenManager {
       },
       felicidad: {
         promedio: Number(avgHappiness.toFixed(2)),
+      },
+      necesidades: {
+        energiaConsumida: Number(needsResult?.consumed?.energy || 0),
+        aguaConsumida: Number(needsResult?.consumed?.water || 0),
+        comidaConsumida: Number(needsResult?.consumed?.food || 0),
       },
     });
   }

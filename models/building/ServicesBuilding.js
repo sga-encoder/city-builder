@@ -1,4 +1,5 @@
 import { Building } from "./Building.js";
+import { loadGameplaySettings } from "../../domain/config/gameplaySettings.js";
 
 export class ServicesBuilding extends Building {
   constructor(dict) {
@@ -33,9 +34,12 @@ export class ServicesBuilding extends Building {
 
   executeTurnLogic(city, StatsManager) {
     const subtypeInfo = ServicesBuilding.getServiceSubtypeInfo(this.subtype);
+    const gameplaySettings = loadGameplaySettings();
     const energyUsage = Number(subtypeInfo.energyUsage || 0);
     const waterUsage = Number(subtypeInfo.waterUsage || 0);
-    const benefit = Number(subtypeInfo.benefit || 0);
+    const benefit = Number(
+      gameplaySettings?.serviceHappinessPerTurn ?? subtypeInfo.benefit ?? 0,
+    );
 
     const energyResource = city?.resources?.energy;
     const waterResource = city?.resources?.water;

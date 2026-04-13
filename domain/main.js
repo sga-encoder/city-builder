@@ -3,14 +3,44 @@ import { CitySelectionController } from "./controllers/citySelection/Controller.
 import { CityCreationController } from "./controllers/cityCreation/Controller.js";
 import { MainMenuController } from "./controllers/mainMenu/Controller.js";
 import { LeaderboardController } from "./controllers/leaderBoard/Controller.js";
+import { SettingsController } from "./controllers/settings/Controller.js";
 import { ToastService } from "./services/toast.js";
 import { Logger } from "./utilis/Logger.js";
+import {
+  getDefaultGameplaySettings,
+  loadGameplaySettings,
+  saveGameplaySettings,
+} from "./config/gameplaySettings.js";
 
 (async () => {
   Logger.log("🎮 [Main] Iniciando aplicación");
 
   const mainMenuController = new MainMenuController();
   const leaderboardController = new LeaderboardController();
+  const settingsController = new SettingsController();
+
+  const openSettings = () => {
+    const currentSettings = loadGameplaySettings();
+    settingsController.show(currentSettings, {
+      onSave: (newSettings) => {
+        saveGameplaySettings(newSettings);
+        ToastService.mostrarToast("Ajustes guardados correctamente", "success");
+        settingsController.destroy();
+        openMainMenu();
+      },
+      onReset: () => {
+        const defaultSettings = getDefaultGameplaySettings();
+        saveGameplaySettings(defaultSettings);
+        ToastService.mostrarToast("Valores restablecidos por defecto", "info");
+        settingsController.destroy();
+        openSettings();
+      },
+      onBack: () => {
+        settingsController.destroy();
+        openMainMenu();
+      },
+    });
+  };
 
   const openMainMenu = () => {
     mainMenuController.show({
@@ -39,7 +69,9 @@ import { Logger } from "./utilis/Logger.js";
         });
       },
       onSettings: () => {
-        ToastService.mostrarToast("Ajustes en construccion", "info");
+        Logger.log("⚙️ [Main] Opción: ajustes");
+        mainMenuController.destroy();
+        openSettings();
       },
     });
   };

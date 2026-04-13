@@ -10,6 +10,7 @@ const DEFAULT_GAMEPLAY_SETTINGS = {
     food: 1,
   },
   maxCitizensGeneratedPerTurn: 3,
+  turnDurationMs: 5000,
 };
 
 function toNumber(value, fallback) {
@@ -25,6 +26,11 @@ function normalizeNeed(value, fallback) {
 function normalizeMaxCitizens(value, fallback) {
   const normalized = Math.floor(toNumber(value, fallback));
   return Math.max(1, normalized);
+}
+
+function normalizeTurnDuration(value, fallback) {
+  const normalized = Math.floor(toNumber(value, fallback));
+  return Math.max(100, normalized); // Mínimo 100ms para evitar turnos demasiado rápidos
 }
 
 export function normalizeGameplaySettings(rawSettings = {}) {
@@ -50,6 +56,10 @@ export function normalizeGameplaySettings(rawSettings = {}) {
     maxCitizensGeneratedPerTurn: normalizeMaxCitizens(
       safe.maxCitizensGeneratedPerTurn,
       DEFAULT_GAMEPLAY_SETTINGS.maxCitizensGeneratedPerTurn,
+    ),
+    turnDurationMs: normalizeTurnDuration(
+      safe.turnDurationMs,
+      DEFAULT_GAMEPLAY_SETTINGS.turnDurationMs,
     ),
   };
 }

@@ -11,6 +11,8 @@ import { AssetsPhase } from "./phases/AssetsPhase.js";
 import { MapPhase } from "./phases/MapPhase.js";
 import { CityPhase } from "./phases/CityPhase.js";
 import { UIPhase } from "./phases/UIPhase.js";
+import { SaveManager } from "./managers/SaveManager.js";
+import { loadGameplaySettings } from "../../../domain/config/gameplaySettings.js";
 
 
 // =====================
@@ -127,6 +129,8 @@ export class CityBuilderInitializer {
     Logger.log("🗺️ [CityBuilder] Tamaño del mapa:", mapSize);
 
     const initialResources = this.getInitialResources(savedResources);
+    const gameplaySettings = loadGameplaySettings();
+    
     const { data } = await ConfigPhase.execute({
       loadConfig: () => this.initConfig(),
     });
@@ -144,6 +148,7 @@ export class CityBuilderInitializer {
       grid,
       buildsConfig: data.builds,
       initialResources,
+      gameplaySettings,
     });
 
     this.#bindUnloadPersistence(turnSystem);
@@ -153,7 +158,12 @@ export class CityBuilderInitializer {
       icons,
       builds,
       turnSystem,
-      onReturnToMainMenu: options?.onReturnToMainMenu,
+      onReturnToMainMenu: () => {
+        SaveManager.stopAutoSave();
+        if (options?.onReturnToMainMenu) {
+          options.onReturnToMainMenu();
+        }
+      },
     });
   }
 

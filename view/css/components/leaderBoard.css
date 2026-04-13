@@ -43,7 +43,7 @@
 
 .leaderboard-row {
   display: grid;
-  grid-template-columns: 70px minmax(120px, 1fr) minmax(120px, 1fr) 120px 120px 120px;
+  grid-template-columns: 50px minmax(100px, 1fr) minmax(100px, 1fr) 90px 80px 70px 100px;
   gap: 0.55rem;
   align-items: center;
   border-radius: 10px;
@@ -82,9 +82,11 @@
   margin-top: 1rem;
   display: flex;
   justify-content: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
 }
 
-.leaderboard-back-btn {
+.leaderboard-btn {
   border: none;
   border-radius: 9px;
   padding: 0.9rem 1.2rem;
@@ -94,22 +96,78 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: transform 0.2s ease, background 0.2s ease;
+  font-size: 0.85rem;
 }
 
-.leaderboard-back-btn:hover {
+.leaderboard-btn:hover {
   transform: translateY(-1px);
   background: rgba(255, 255, 255, 0.24);
 }
 
+.leaderboard-btn-primary {
+  background: rgba(66, 165, 245, 0.4);
+}
+
+.leaderboard-btn-primary:hover {
+  background: rgba(66, 165, 245, 0.6);
+}
+
+.leaderboard-btn-export {
+  background: rgba(76, 175, 80, 0.4);
+}
+
+.leaderboard-btn-export:hover {
+  background: rgba(76, 175, 80, 0.6);
+}
+
+.leaderboard-btn-danger {
+  background: rgba(255, 82, 82, 0.4);
+}
+
+.leaderboard-btn-danger:hover {
+  background: rgba(255, 82, 82, 0.6);
+}
+
+.leaderboard-row-current {
+  background: rgba(76, 175, 80, 0.15) !important;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.leaderboard-current-city {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard-current-label {
+  text-align: center;
+  color: #76ff03;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+}
+
+.leaderboard-table-current {
+  background: rgba(118, 255, 3, 0.06);
+  border-radius: 10px;
+  padding: 0.5rem;
+}
+
 @media (max-width: 900px) {
   .leaderboard-row {
-    grid-template-columns: 55px 1fr 1fr;
+    grid-template-columns: 50px 1fr 1fr 80px;
   }
 
-  .leaderboard-row .leaderboard-cell:nth-child(4),
   .leaderboard-row .leaderboard-cell:nth-child(5),
-  .leaderboard-row .leaderboard-cell:nth-child(6) {
-    grid-column: span 1;
+  .leaderboard-row .leaderboard-cell:nth-child(6),
+  .leaderboard-row .leaderboard-cell:nth-child(7) {
+    display: none;
+  }
+
+  .leaderboard-row-header .leaderboard-cell:nth-child(5),
+  .leaderboard-row-header .leaderboard-cell:nth-child(6),
+  .leaderboard-row-header .leaderboard-cell:nth-child(7) {
+    display: none;
   }
 }
 

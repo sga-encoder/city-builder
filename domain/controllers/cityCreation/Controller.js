@@ -6,6 +6,9 @@ import { CityCreationRenderer } from "../../components/cityCreation/Renderer.js"
 import { CitySelectionController } from "../citySelection/Controller.js";
 import { LocalStorage } from "../../../database/localStorage.js";
 import { Logger } from "../../utilis/Logger.js";
+import { MapResourceCalculator } from "../../services/mapResourceCalculator.js";
+import { MapPersistenceService } from "../../services/mapPersistenceService.js";
+import { FileManager } from "../../utilis/fileManager.js";
 
 export class CityCreationController {
   constructor() {
@@ -47,8 +50,11 @@ export class CityCreationController {
       this.renderer.disableForm(true);
       this.renderer.showSuccess("Creando ciudad...");
 
+      // Cargar configuración
+      const config = await FileManager.loadJSON("../../config.json");
+
       // Crear objeto ciudad con datos iniciales
-      const cityData = this.createCityData(formData);
+      const cityData = this.createCityData(formData, config);
 
       // Guardar en localStorage
       this.saveCityData(cityData);
@@ -80,7 +86,41 @@ export class CityCreationController {
   // =====================
   // CREAR OBJETO CIUDAD
   // =====================
-  createCityData(formData) {
+  createCityData(formData, config) {
+    // Determinar el layout del mapa
+    let mapLayout = formData.mapLayout 
+      ? formData.mapLayout 
+      : this.createDefaultLayout(formData.mapSize);
+
+    // Determinar el tamaño del mapa (usar tamaño del layout cargado si existe)
+    const mapSize = formData.mapLayout ? formData.mapLayout.length : formData.mapSize;
+
+    // Calcular recursos iniciales
+    let initialResources = {
+      money: 50000,
+      energy: Number(formData?.initialResources?.energy ?? 0),
+      water: Number(formData?.initialResources?.water ?? 0),
+      food: Number(formData?.initialResources?.food ?? 0),
+    };
+
+    // Si se cargó un mapa, calcular recursos basado en los edificios
+    if (formData.mapLayout && config?.builds) {
+      const calculatedResources = MapResourceCalculator.calculateInitialResources(
+        mapLayout,
+        config.builds
+      );
+      
+      // Usar recursos calculados + los recursos especificados manualmente
+      initialResources.energy += calculatedResources.energy;
+      initialResources.water += calculatedResources.water;
+      initialResources.food += calculatedResources.food;
+      
+      Logger.log(
+        "🗺️ [CityCreation] Recursos calculados del mapa:",
+        calculatedResources
+      );
+    }
+
     const cityData = {
       id: `city_${Date.now()}`,
       name: formData.cityName,
@@ -93,15 +133,10 @@ export class CityCreationController {
         latitude: formData.region.lat,
         longitude: formData.region.lon,
       },
-      mapSize: formData.mapSize,
-      initialResources: {
-        money: 50000,
-        energy: 0,
-        water: 0,
-        food: 0,
-      },
+      mapSize: mapSize,
+      initialResources,
       map: {
-        layout: this.createDefaultLayout(formData.mapSize),
+        layout: mapLayout,
       },
       score: 0,
       turn: 0,
@@ -151,8 +186,11 @@ export class CityCreationController {
 
       LocalStorage.saveData("resources", JSON.stringify(resources));
 
-      // Guardar mapa vacío
-      LocalStorage.saveData("map", JSON.stringify([]));
+      // Guardar mapa usando MapPersistenceService
+      MapPersistenceService.saveMapLayout(cityData.map.layout, {
+        cityId: cityData.id,
+        cityName: cityData.name,
+      });
 
       // Guardar turno
       LocalStorage.saveData("turn", JSON.stringify(cityData.turn));

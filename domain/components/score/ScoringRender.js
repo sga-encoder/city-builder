@@ -1,3 +1,6 @@
+import { ScoreBreakdown } from "./ScoreBreakdown.js";
+import { ScoringSystem } from "./ScoringSystem.js";
+
 export class ScoringRender {
 	static render(city, turnSystem, containerSelector = "#slide-right") {
 		const container = document.querySelector(containerSelector);
@@ -5,6 +8,13 @@ export class ScoringRender {
 
 		const scoreRoot = this.#ensureRoot(container);
 		this.#updateScore(scoreRoot, city?.score ?? 0);
+
+		// Hacer clickeable el indicador
+		const scorer = new ScoringSystem();
+		scoreRoot.style.cursor = "pointer";
+		scoreRoot.addEventListener("click", () => {
+			ScoreBreakdown.show(scorer, city);
+		});
 
 		if (turnSystem && !turnSystem.__scoreObserverBound) {
 			turnSystem.addObserver((event) => {

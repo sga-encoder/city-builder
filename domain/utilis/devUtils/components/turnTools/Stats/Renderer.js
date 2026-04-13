@@ -3,9 +3,11 @@ import { TurnToolsStatsController } from "../../../controller/turnTools/Stats.js
 
 export class TurnToolsStats {
   static lastPayload = null;
+  static statsHistory = [];
 
   static reset() {
     this.lastPayload = null;
+    this.statsHistory = [];
   }
 
   static render() {
@@ -31,6 +33,12 @@ export class TurnToolsStats {
   }
 
   static update(state, city, diff) {
+    // Mantener sólo el historial simple (dinero, energia, etc. del diff)
+    this.statsHistory.push({ turn: state.currentTurn, diff });
+    if (this.statsHistory.length > 20) {
+      this.statsHistory.shift();
+    }
+    
     this.lastPayload = { state, city, diff };
     TurnToolsStatsController.update(state, city, diff);
   }

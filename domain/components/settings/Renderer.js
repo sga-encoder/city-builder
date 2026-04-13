@@ -21,7 +21,7 @@ export class SettingsRenderer {
     const subtitle = document.createElement("p");
     subtitle.className = "settings-subtitle";
     subtitle.textContent =
-      "Configura felicidad de servicios, necesidades por ciudadano y crecimiento por turno.";
+      "Configura felicidad de servicios, necesidades por ciudadano, crecimiento por turno y duración de turnos.";
 
     const form = document.createElement("form");
     form.className = "settings-form";
@@ -77,6 +77,18 @@ export class SettingsRenderer {
         min: 1,
         step: 1,
         value: initialValues.maxCitizensGeneratedPerTurn,
+      }),
+    );
+
+    form.appendChild(this.#buildSectionTitle("Duración de turnos"));
+
+    form.appendChild(
+      this.#buildField({
+        id: "turnDurationMs",
+        label: "Duración del turno (milisegundos)",
+        min: 100,
+        step: 100,
+        value: initialValues.turnDurationMs,
       }),
     );
 
@@ -166,6 +178,7 @@ export class SettingsRenderer {
         food: getNum("citizenNeedFood"),
       },
       maxCitizensGeneratedPerTurn: getNum("maxCitizensGeneratedPerTurn"),
+      turnDurationMs: getNum("turnDurationMs"),
     };
   }
 

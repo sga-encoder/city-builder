@@ -9,6 +9,7 @@
 @import url("./components/slideLeft/index.css");
 @import url("./components/slideRight/index.css");
 @import url("./utils/utils.css");
+@import url("./components/saveIndicator.css");
 
 
 body {

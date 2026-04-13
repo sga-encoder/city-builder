@@ -1,4 +1,5 @@
-﻿import { CityBuilderInitializer } from "./services/cityBuilder/Initializer.js";
+﻿import { SaveManager } from "./services/cityBuilder/managers/SaveManager.js";
+import { CityBuilderInitializer } from "./services/cityBuilder/Initializer.js";
 import { CitySelectionController } from "./controllers/citySelection/Controller.js";
 import { CityCreationController } from "./controllers/cityCreation/Controller.js";
 import { MainMenuController } from "./controllers/mainMenu/Controller.js";
@@ -60,13 +61,30 @@ import {
         mainMenuController.destroy();
         await openCitySelection();
       },
+      onContinue: async () => {
+        mainMenuController.destroy();
+        // The data is already in localStorage. We just start the game
+        await CityBuilderInitializer.buildCity({
+          onReturnToMainMenu: () => {
+            window.location.reload();
+          },
+        });
+      },
       onLeaderboard: () => {
         Logger.log("🏆 [Main] Opción: leaderboard");
         mainMenuController.destroy();
+        const cityConfig = localStorage.getItem("cityConfig");
+        let currentCityId = null;
+        if (cityConfig) {
+          try {
+            currentCityId = JSON.parse(cityConfig).id;
+          } catch (e) {}
+        }
+        
         leaderboardController.show(() => {
           Logger.log("↩️ [Main] Volviendo al menú principal desde leaderboard");
           openMainMenu();
-        });
+        }, currentCityId);
       },
       onSettings: () => {
         Logger.log("⚙️ [Main] Opción: ajustes");

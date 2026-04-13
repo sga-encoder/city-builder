@@ -37,6 +37,15 @@ export class MainMenuRenderer {
       }),
     );
 
+    const hasSave = localStorage.getItem("cityConfig");
+    if (hasSave) {
+      actions.appendChild(
+        this.#buildButton("main-menu-btn main-menu-btn-continue", "Continuar partida anterior", () => {
+             this.callbacks?.onContinue?.();
+        }),
+      );
+    }
+
     actions.appendChild(
       this.#buildButton("main-menu-btn main-menu-btn-tertiary", "Ver leaderboard", () => {
         this.callbacks?.onLeaderboard?.();

@@ -18,6 +18,7 @@ export class CityCreationRenderer {
     this.onSubmit = null;
     this.onBack = null;
     this.capitalCities = [];
+    this.mapLayout = null; // Store loaded map layout
   }
 
   // =====================
@@ -62,6 +63,12 @@ export class CityCreationRenderer {
 
     // Campo: Tamaño del mapa
     this.form.appendChild(this.createMapSizeGroup());
+
+    // Campo: Cargar mapa desde archivo
+    this.form.appendChild(this.createMapLoaderGroup());
+
+    // Campo: Recursos iniciales configurables
+    this.form.appendChild(this.createInitialResourcesGroup());
 
     // Botones
     const buttonContainer = document.createElement("div");
@@ -359,6 +366,270 @@ export class CityCreationRenderer {
     return group;
   }
 
+  createMapLoaderGroup() {
+    const group = document.createElement("div");
+    group.className = "form-group";
+
+    const label = document.createElement("label");
+    label.textContent = "Cargar Mapa desde Archivo (Opcional)";
+
+    const loaderContainer = document.createElement("div");
+    loaderContainer.className = "map-loader-container";
+
+    // Input file oculto
+    const fileInput = document.createElement("input");
+    fileInput.id = "mapFileInput";
+    fileInput.type = "file";
+    fileInput.accept = ".txt";
+    fileInput.style.display = "none";
+
+    // Botón visible para cargar archivo
+    const loadButton = document.createElement("button");
+    loadButton.type = "button";
+    loadButton.className = "map-load-button";
+    loadButton.textContent = "📁 Seleccionar archivo .txt";
+    loadButton.addEventListener("click", () => fileInput.click());
+
+    // Contenedor de estado del archivo
+    const statusDiv = document.createElement("div");
+    statusDiv.id = "mapLoadStatus";
+    statusDiv.className = "map-load-status";
+
+    // Mensaje de información
+    const infoDiv = document.createElement("p");
+    infoDiv.className = "map-loader-info";
+    infoDiv.textContent = "Carga un archivo .txt con el mapa. Los recursos se calcularán automáticamente basándose en los edificios.";
+
+    // Handle file selection
+    fileInput.addEventListener("change", (e) => {
+      if (e.target.files && e.target.files[0]) {
+        this.handleMapFileUpload(e.target.files[0], loadButton, statusDiv);
+      }
+    });
+
+    loaderContainer.appendChild(loadButton);
+    loaderContainer.appendChild(statusDiv);
+    loaderContainer.appendChild(infoDiv);
+    loaderContainer.appendChild(fileInput);
+
+    group.appendChild(label);
+    group.appendChild(loaderContainer);
+
+    return group;
+  }
+
+  async handleMapFileUpload(file, loadButton, statusDiv) {
+    try {
+      const content = await this.readFileAsText(file);
+      
+      // Import map parser dynamically
+      const { MapFileParser } = await import("../../services/mapFileParser.js");
+      
+      // Parse the file
+      const result = MapFileParser.parseMapFile(content);
+      
+      if (!result.valid) {
+        this.showMapLoadError(statusDiv, result.error, result.errorRow);
+        loadButton.classList.remove("success");
+        this.mapLayout = null;
+        return;
+      }
+      
+      // Validate that map size matches selected size (or update it)
+      const selectedMapSize = parseInt(document.getElementById("mapSize").value);
+      if (selectedMapSize && selectedMapSize !== result.size) {
+        // Auto-update map size to match loaded map
+        document.getElementById("mapSize").value = result.size;
+      }
+      
+      // Store the layout
+      this.mapLayout = result.layout;
+
+      // Habilitar botón de auto-llenado de recursos si existe
+      const autoFillButton = document.getElementById("auto-fill-resources-button");
+      if (autoFillButton) {
+        autoFillButton.disabled = false;
+        autoFillButton.title = "Calcular recursos en base al mapa cargado";
+      }
+      
+      // Count buildings in the loaded map
+      const buildingCount = this.getMapBuildingCount(result.stats);
+      const groundCount = result.stats?.groundCells || 0;
+      const roadCount = result.stats?.roadCells || 0;
+      
+      // Show success status with detailed information
+      statusDiv.innerHTML = `
+        <div class="map-load-success">
+          ✅ Mapa cargado correctamente
+          <br />
+          <small>
+            Tamaño: ${result.size}x${result.size} | 
+            Terreno: ${groundCount} | 
+            Caminos: ${roadCount} | 
+            Edificios: ${buildingCount}
+          </small>
+        </div>
+      `;
+      statusDiv.classList.add("is-visible");
+      loadButton.classList.add("success");
+      
+    } catch (error) {
+      this.showMapLoadError(statusDiv, `Error al leer el archivo: ${error.message}`);
+      loadButton.classList.remove("success");
+      this.mapLayout = null;
+
+      const autoFillButton = document.getElementById("auto-fill-resources-button");
+      if (autoFillButton) {
+        autoFillButton.disabled = true;
+        autoFillButton.title = "Corrige el archivo de mapa para habilitar el auto-llenado";
+      }
+    }
+  }
+
+  readFileAsText(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = () => reject(new Error("No se pudo leer el archivo"));
+      reader.readAsText(file);
+    });
+  }
+
+  getMapBuildingCount(stats) {
+    if (!stats || !stats.buildings) return 0;
+    return Object.values(stats.buildings).reduce((sum, count) => sum + count, 0);
+  }
+
+  showMapLoadError(statusDiv, error, errorRow = null) {
+    const errorMessage = errorRow 
+      ? `Error en Fila ${errorRow}: ${error}` 
+      : error;
+    statusDiv.innerHTML = `
+      <div class="map-load-error">
+        ❌ ${errorMessage}
+      </div>
+    `;
+    statusDiv.classList.add("is-visible");
+  }
+
+  createInitialResourcesGroup() {
+    const group = document.createElement("div");
+    group.className = "form-group";
+
+    const label = document.createElement("label");
+    label.textContent = "Recursos Iniciales";
+
+    const resourcesGrid = document.createElement("div");
+    resourcesGrid.className = "initial-resources-grid";
+
+    const energyGroup = this.createResourceInputGroup(
+      "initialEnergy",
+      "Energia",
+      0,
+      0,
+    );
+    const waterGroup = this.createResourceInputGroup(
+      "initialWater",
+      "Agua",
+      0,
+      0,
+    );
+    const foodGroup = this.createResourceInputGroup(
+      "initialFood",
+      "Alimento",
+      0,
+      0,
+    );
+
+    resourcesGrid.appendChild(energyGroup);
+    resourcesGrid.appendChild(waterGroup);
+    resourcesGrid.appendChild(foodGroup);
+
+    const labelContainer = document.createElement("div");
+    labelContainer.style.display = "flex";
+    labelContainer.style.justifyContent = "space-between";
+    labelContainer.style.alignItems = "center";
+    labelContainer.style.marginBottom = "0.5rem";
+
+    labelContainer.appendChild(label);
+
+    // Botón para auto-llenar recursos en base al mapa cargado
+    const autoFillButton = document.createElement("button");
+    autoFillButton.type = "button";
+    autoFillButton.id = "auto-fill-resources-button";
+    autoFillButton.className = "auto-fill-resources-button";
+    autoFillButton.textContent = "🎯 Auto-Llenar";
+    autoFillButton.disabled = true; // Se habilita al cargar un mapa válido
+    autoFillButton.title = "Carga un mapa para habilitar el auto-llenado";
+    autoFillButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.autoFillResourcesFromMap();
+    });
+    labelContainer.appendChild(autoFillButton);
+
+    group.appendChild(labelContainer);
+    group.appendChild(resourcesGrid);
+
+    return group;
+  }
+
+  async autoFillResourcesFromMap() {
+    if (!this.mapLayout) {
+      return;
+    }
+
+    try {
+      const { MapResourceCalculator } = await import("../../services/mapResourceCalculator.js");
+      // Load config using fetch with root-relative path
+      const response = await fetch("/config.json");
+      if (!response.ok) {
+        this.showError("Error al cargar configuración");
+        return;
+      }
+      const config = await response.json();
+      
+      if (!config.builds) {
+        this.showError("Configuración de construcciones no encontrada");
+        return;
+      }
+      
+      const calculated = MapResourceCalculator.calculateInitialResources(this.mapLayout, config.builds);
+      
+      document.getElementById("initialEnergy").value = Math.max(0, calculated.energy) || 0;
+      document.getElementById("initialWater").value = Math.max(0, calculated.water) || 0;
+      document.getElementById("initialFood").value = Math.max(0, calculated.food) || 0;
+      
+      // Mostrar mensaje de éxito
+      this.showSuccess("✨ Recursos calculados automáticamente desde el mapa");
+    } catch (error) {
+      this.showError("Error al calcular recursos: " + error.message);
+    }
+  }
+
+  createResourceInputGroup(id, labelText, min = 0, defaultValue = 0) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "resource-input-group";
+
+    const label = document.createElement("label");
+    label.htmlFor = id;
+    label.textContent = labelText;
+
+    const input = document.createElement("input");
+    input.id = id;
+    input.name = id;
+    input.type = "number";
+    input.min = String(min);
+    input.step = "1";
+    input.required = true;
+    input.value = String(defaultValue);
+    input.className = "form-input";
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(input);
+
+    return wrapper;
+  }
+
   // =====================
   // MANEJAR ENVÍO DEL FORMULARIO
   // =====================
@@ -387,6 +658,9 @@ export class CityCreationRenderer {
     const cityName = document.getElementById("cityName").value.trim();
     const mayorName = document.getElementById("mayorName").value.trim();
     const mapSize = parseInt(document.getElementById("mapSize").value);
+    const initialEnergy = Number(document.getElementById("initialEnergy").value);
+    const initialWater = Number(document.getElementById("initialWater").value);
+    const initialFood = Number(document.getElementById("initialFood").value);
     const citySelectValue = document.getElementById("citySelect").value;
     let region = this.parseCityOptionValue(citySelectValue);
 
@@ -396,6 +670,12 @@ export class CityCreationRenderer {
         mayorName,
         region: null,
         mapSize,
+        mapLayout: this.mapLayout ? [...this.mapLayout] : null,
+        initialResources: {
+          energy: initialEnergy,
+          water: initialWater,
+          food: initialFood,
+        },
       };
     }
 
@@ -419,6 +699,12 @@ export class CityCreationRenderer {
       mayorName,
       region,
       mapSize,
+      mapLayout: this.mapLayout ? [...this.mapLayout] : null,
+      initialResources: {
+        energy: initialEnergy,
+        water: initialWater,
+        food: initialFood,
+      },
     };
   }
 
@@ -452,8 +738,26 @@ export class CityCreationRenderer {
       return { valid: false, message: "Debe seleccionar una región" };
     }
 
-    if (!data.mapSize || data.mapSize < 15 || data.mapSize > 30) {
+    // Si hay mapa cargado, usar ese tamaño. Si no, validar el tamaño seleccionado
+    const mapSize = data.mapLayout ? data.mapLayout.length : data.mapSize;
+    if (!mapSize || mapSize < 15 || mapSize > 30) {
       return { valid: false, message: "El tamaño del mapa debe estar entre 15 y 30" };
+    }
+
+    const energy = Number(data?.initialResources?.energy);
+    const water = Number(data?.initialResources?.water);
+    const food = Number(data?.initialResources?.food);
+
+    if (!Number.isFinite(energy) || energy < 0) {
+      return { valid: false, message: "La energia inicial debe ser un número mayor o igual a 0" };
+    }
+
+    if (!Number.isFinite(water) || water < 0) {
+      return { valid: false, message: "El agua inicial debe ser un número mayor o igual a 0" };
+    }
+
+    if (!Number.isFinite(food) || food < 0) {
+      return { valid: false, message: "El alimento inicial debe ser un número mayor o igual a 0" };
     }
 
     return { valid: true };

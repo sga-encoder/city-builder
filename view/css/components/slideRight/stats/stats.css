@@ -75,3 +75,57 @@
     flex-wrap: wrap;
     gap: 3vw;
 }
+
+@media (max-width: 900px) {
+    #slide-right #stats-container
+    {
+        width: 88vw;
+        height: 78vh;
+    }
+
+    #slide-right #stats-container .stats-title
+    {
+        font-size: 1.4rem;
+        margin: 0.75rem 0;
+    }
+
+    #slide-right #stats-container .stats-section
+    {
+        font-size: 1.2rem;
+    }
+
+    #slide-right #stats-container .stats-section .building
+    {
+        height: 40vw;
+    }
+
+    #slide-right #stats-container .stats-section .building .img-container
+    {
+        width: 32vw;
+        height: 32vw;
+    }
+}
+
+@media (max-width: 600px) {
+    #slide-right #stats-container
+    {
+        width: 94vw;
+        height: 80vh;
+    }
+
+    #slide-right #stats-container .stats-section
+    {
+        font-size: 1rem;
+    }
+
+    #slide-right #stats-container .stats-section .building
+    {
+        height: 55vw;
+    }
+
+    #slide-right #stats-container .stats-section .building .img-container
+    {
+        width: 45vw;
+        height: 45vw;
+    }
+}

@@ -3,12 +3,13 @@ import { MapController } from "../../../controllers/map/Controller.js";
 import { Logger } from "../../../utilis/Logger.js";
 import { StatsManager } from "../../StatsManager.js";
 import { CityBuilderResourceManager } from "../managers/ResourceManager.js";
+import { SaveManager } from "../managers/SaveManager.js";
 import { CityBuilderTurnSystemManager } from "../managers/TurnSystemManager.js";
 import { TurnToolsStats } from "../../../utilis/devUtils/components/turnTools/Stats/Renderer.js";
 import { LocalStorage } from "../../../../database/localStorage.js";
 
 export class CityPhase {
-  static execute({ grid, buildsConfig, initialResources }) {
+  static execute({ grid, buildsConfig, initialResources, gameplaySettings = {} }) {
     StatsManager.reset();
     TurnToolsStats.lastPayload = null;
 
@@ -16,7 +17,7 @@ export class CityPhase {
     const savedScore = this.loadScore();
     const city = this.createCity({ grid, buildsConfig, initialResources, citizens, savedScore });
     this.initControllers(city);
-    const turnSystem = this.initTurnSystem(city);
+    const turnSystem = this.initTurnSystem(city, gameplaySettings);
     return { city, turnSystem };
   }
 
@@ -98,7 +99,7 @@ export class CityPhase {
     MapController.initialize(city);
   }
 
-  static initTurnSystem(city) {
+  static initTurnSystem(city, gameplaySettings = {}) {
     const turnSystem = CityBuilderTurnSystemManager.createTurnSystem(
       city,
       (event, turnSystemRef) => {
@@ -128,6 +129,7 @@ export class CityPhase {
       (event) => {
         Logger.info("Estado del sistema:", event.state);
       },
+      gameplaySettings,
     );
 
     TurnToolsStats.update(turnSystem.getState(), city, {
@@ -136,6 +138,8 @@ export class CityPhase {
       water: 0,
       food: 0,
     });
+
+    SaveManager.init(city, turnSystem);
 
     return turnSystem;
   }

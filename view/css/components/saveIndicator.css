@@ -1,0 +1,30 @@
+.save-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: inherit;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.save-indicator.hidden {
+  opacity: 0;
+}
+
+.save-indicator span {
+  animation: spin-save 2s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin-save {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

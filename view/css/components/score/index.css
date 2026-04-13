@@ -2,13 +2,21 @@
   position: absolute;
   top: 1rem;
   right: clamp(4.5rem, 10vw, 8rem);
+  left: auto;
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
-  pointer-events: none;
+  pointer-events: auto;
   color: #fff;
   text-transform: lowercase;
   z-index: 210;
+  cursor: pointer;
+  transition: transform 0.2s ease, text-shadow 0.2s ease;
+}
+
+#slide-right #score-text:hover {
+  transform: scale(1.08);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
 }
 
 #slide-right #score-text .score-label {
@@ -21,4 +29,30 @@
   font-family: "Smooch Sans", sans-serif;
   font-size: 1.5rem;
   line-height: 1;
+}
+
+@media (max-width: 900px) {
+  #slide-right #score-text {
+    right: 1rem;
+    top: 0.75rem;
+    align-items: flex-end;
+  }
+
+  #slide-right #score-text .score-label,
+  #slide-right #score-text .score-value {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 740px) {
+  #slide-right #score-text {
+    right: 10rem;
+    left: auto;
+    top: 1rem;
+  }
+
+  #slide-right #score-text .score-label,
+  #slide-right #score-text .score-value {
+    font-size: 1.2rem;
+  }
 }

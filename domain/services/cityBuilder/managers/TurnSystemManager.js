@@ -22,10 +22,13 @@ export class CityBuilderTurnSystemManager {
       critical: true,
     };
   }
-  static createTurnSystem(city, onTurnComplete, onPhaseFailed, onStateChanged) {
+  static createTurnSystem(city, onTurnComplete, onPhaseFailed, onStateChanged, gameplaySettings = {}) {
     const turnSystem = new TurnSystem();
+    const turnDuration = gameplaySettings.turnDurationMs || 5000;
+    const defaultInterval = Math.max(100, turnDuration);
+    
     turnSystem.initialize(city, {
-      DEFAULT_INTERVAL: 1000,
+      DEFAULT_INTERVAL: defaultInterval,
       SPEEDS: { X1: 1.0, X2: 0.5, X3: 0.33 },
     });
 

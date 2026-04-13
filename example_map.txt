@@ -1,0 +1,15 @@
+g g g g g g g g g g g g g g g
+g g g g g g g g g g g g g g g
+g R1 r C1 r R2 r g g g g g g g g
+g r S1 r S1 r g g g g g g g g g
+g g r g r g g g g g g g g g g
+g U1 r I1 r P1 g g g g g g g g g
+g r r r r r g g g g g g g g g
+g g g g g g g g g g g g g g g
+g g g g g g g g g g g g g g g
+g g g g g g g g g g g g g g g
+g g g g g g g g g g g g g g g
+g g g g g g g g g g g g g g g
+g g g g g g g g g g g g g g g
+g g g g g g g g g g g g g g g
+g g g g g g g g g g g g g g g

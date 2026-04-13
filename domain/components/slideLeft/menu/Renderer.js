@@ -47,9 +47,9 @@ export class SlideLeftMenuRenderer {
         this.#renderSelectBuildingMenu(slot, context, sheets);
         break;
       default:
-        console.log("[SlideLeftMenuRenderer.render] Default case, renderizando SELECT_BUILDING");
-        // this.#renderManageMenu(slot, context, sheets);
-        this.#renderSelectBuildingMenu(slot, context, sheets);
+        console.log("[SlideLeftMenuRenderer.render] Estado NONE u otro, dejando el slot vacío");
+        // No renderizar menú por defecto para que la barra de construcción
+        // solo aparezca cuando el estado lo solicite explícitamente.
         break;
     }
   }

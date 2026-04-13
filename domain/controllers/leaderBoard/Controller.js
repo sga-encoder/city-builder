@@ -7,21 +7,21 @@ export class LeaderboardController {
     this.renderer = null;
   }
 
-  show(onBackCallback = null) {
-    const entries = this.getEntries();
+  show(onBackCallback = null, currentCityId = null) {
+    const entries = this.getEntries(currentCityId);
     this.renderer = new LeaderboardRenderer();
     this.renderer.render(entries, onBackCallback);
   }
 
-  getEntries() {
+  getEntries(currentCityId = null) {
     const rawCities = LocalStorage.loadData("savedCities");
-    if (!rawCities) return [];
+    if (!rawCities) return { top10: [], currentCity: null, totalCities: 0 };
 
     try {
       const cities = JSON.parse(rawCities);
-      return LeaderboardService.buildEntries(cities);
+      return LeaderboardService.buildEntries(cities, currentCityId);
     } catch {
-      return [];
+      return { top10: [], currentCity: null, totalCities: 0 };
     }
   }
 

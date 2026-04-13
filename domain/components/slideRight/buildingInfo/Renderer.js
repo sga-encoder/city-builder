@@ -6,24 +6,28 @@ export class BuildingInfoPanel {
 
     this.destroy(container);
 
-    const overlay = BuildingInfoPanelBuilder.build(payload);
+    try {
+      const overlay = BuildingInfoPanelBuilder.build(payload);
 
-    overlay.addEventListener("click", (event) => {
-      if (event.target === overlay) {
+      overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) {
+          this.destroy(container);
+        }
+      });
+
+      overlay._closeBtn?.addEventListener("click", () => {
         this.destroy(container);
-      }
-    });
+        payload.onClose?.();
+      });
 
-    overlay._closeBtn?.addEventListener("click", () => {
-      this.destroy(container);
-      payload.onClose?.();
-    });
+      overlay._destroyBtn?.addEventListener("click", () => {
+        payload.onDemolish?.();
+      });
 
-    overlay._destroyBtn?.addEventListener("click", () => {
-      payload.onDemolish?.();
-    });
-
-    container.appendChild(overlay);
+      container.appendChild(overlay);
+    } catch (error) {
+      console.error("[BuildingInfoPanel] Error renderizando panel:", error);
+    }
   }
 
   static destroy(container) {

@@ -9,8 +9,12 @@ export class ScoringRender {
 		if (turnSystem && !turnSystem.__scoreObserverBound) {
 			turnSystem.addObserver((event) => {
 				if (event?.type !== "turnComplete") return;
-				const nextScore = event?.data?.score?.score ?? city?.score ?? 0;
-				this.#updateScore(scoreRoot, nextScore);
+				const liveContainer = document.querySelector(containerSelector);
+				if (!liveContainer) return;
+
+				const liveRoot = this.#ensureRoot(liveContainer);
+				const nextScore = event?.data?.score?.score ?? event?.data?.score ?? city?.score ?? 0;
+				this.#updateScore(liveRoot, nextScore);
 			});
 			turnSystem.__scoreObserverBound = true;
 		}

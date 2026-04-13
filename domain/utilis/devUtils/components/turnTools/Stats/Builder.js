@@ -5,6 +5,7 @@ export class TurnToolsStatsBuilder {
         [
             { id: "turn-number", icon: "🎟️", value: "Turno actual:" },
             { id: "turn-speed", icon: "⏱️", value: "Velocidad:" },
+            { id: "turn-score", icon: "🏆", value: "Puntaje:" },
             { id: "turn-residential", icon: "🏠", value: "Residenciales:" },
             { id: "turn-money", icon: "💰", value: "Recursos:" },
             { id: "turn-energy", icon: "⚡", value: "Energía:" },

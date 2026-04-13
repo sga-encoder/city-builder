@@ -4,8 +4,17 @@ export class TurnToolsStatsController {
             ? city.getTypeBuildings("R").length
             : 0;
 
-        this.setStat("turn-number", state?.currentTurn ?? 0);
+        const turnNumber = Number.isFinite(Number(state?.currentTurn))
+            ? Number(state.currentTurn)
+            : Number(city?.turn || 0);
+
+        const score = Number.isFinite(Number(state?.score))
+            ? Number(state.score)
+            : Number(city?.score || 0);
+
+        this.setStat("turn-number", turnNumber);
         this.setStat("turn-speed", state?.speedKey ?? "X1");
+        this.setStat("turn-score", score);
         this.setStat("turn-residential", residentialCount);
         this.setStat("turn-money", `💰 ${diff.money > 0 ? "+" : ""}${diff.money ?? 0}`);
         this.setStat("turn-energy", `⚡ ${diff.energy > 0 ? "+" : ""}${diff.energy ?? 0}`);

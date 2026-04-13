@@ -127,7 +127,15 @@ export class SlideLeftController {
       hasActiveCell: !!MapController.activeCell,
       activeCellId: MapController.activeCell?.id || null,
     });
+
+    const oldState = this.menuState;
     this.menuState = newState;
+    console.log("[SlideLeftController] menuState actualizado:", {
+      before: oldState,
+      after: this.menuState,
+      aboutToRender: true,
+    });
+    
     this.renderMenu();
   }
 
@@ -136,6 +144,9 @@ export class SlideLeftController {
    * @returns {void}
    */
   static renderMenu() {
+    console.log("[SlideLeftController.renderMenu] Called, menuState is:", this.menuState);
+    console.log("[SlideLeftController.renderMenu] SlideLeftState.menuState is:", SlideLeftState.menuState);
+    
     const context = {
       state: SlideLeftState,
       constants: SlideLeftConstants,
@@ -145,6 +156,10 @@ export class SlideLeftController {
       builds: this.builds,
       setMenuState: (next) => this.setMenuState(next),
     };
+
+    console.log("[SlideLeftController.renderMenu] Context created, about to call SlideLeftMenuRenderer.render");
+    console.log("[SlideLeftController.renderMenu] state.menuState in context:", context.state.menuState);
+    console.log("[SlideLeftController.renderMenu] MANAGE constant:", context.constants.MENU_STATE.MANAGE);
 
     return SlideLeftMenuRenderer.render(context);
   }

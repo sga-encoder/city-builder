@@ -49,7 +49,11 @@ import { Logger } from "./utilis/Logger.js";
     creationController.show(
       async (cityData) => {
         Logger.log("✅ [Main] Ciudad creada:", cityData);
-        await CityBuilderInitializer.buildCity();
+        await CityBuilderInitializer.buildCity({
+          onReturnToMainMenu: () => {
+            window.location.reload();
+          },
+        });
       },
       () => {
         Logger.log("↩️ [Main] Volviendo al menú principal desde creación");
@@ -63,7 +67,11 @@ import { Logger } from "./utilis/Logger.js";
     selectionController.show(
       async (selectedCityData) => {
         Logger.log("✅ [Main] Ciudad seleccionada:", selectedCityData.name);
-        await CityBuilderInitializer.buildCity();
+        await CityBuilderInitializer.buildCity({
+          onReturnToMainMenu: () => {
+            window.location.reload();
+          },
+        });
       },
       async () => {
         Logger.log("📝 [Main] Creando nueva ciudad desde selección");

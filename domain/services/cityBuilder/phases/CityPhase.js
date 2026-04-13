@@ -13,17 +13,26 @@ export class CityPhase {
     TurnToolsStats.lastPayload = null;
 
     const citizens = this.loadCitizens();
-    const city = this.createCity({ grid, buildsConfig, initialResources, citizens });
+    const savedScore = this.loadScore();
+    const city = this.createCity({ grid, buildsConfig, initialResources, citizens, savedScore });
     this.initControllers(city);
     const turnSystem = this.initTurnSystem(city);
     return { city, turnSystem };
   }
 
-  static createCity({ grid, buildsConfig, initialResources, citizens }) {
+  static createCity({ grid, buildsConfig, initialResources, citizens, savedScore = 0 }) {
     Logger.log("🏙️ [CityBuilder] Creando instancia de City...");
     
     // Intentar cargar configuración de ciudañ desde localStorage
     let cityConfig = this.loadCityConfig();
+
+    const persistedScore = Number(savedScore);
+    const configScore = Number(cityConfig?.score);
+    const initialScore = Number.isFinite(configScore)
+      ? configScore
+      : Number.isFinite(persistedScore)
+        ? persistedScore
+        : 0;
 
     const city = new City({
       id: cityConfig?.id || 1,
@@ -36,7 +45,7 @@ export class CityPhase {
       },
       initial: initialResources,
       citizens,
-      score: cityConfig?.score || 0,
+      score: initialScore,
       turn: cityConfig?.turn || 0,
     });
     Logger.log("✅ [CityBuilder] City creada, grid:", city.map?.grid?.length);
@@ -53,6 +62,19 @@ export class CityPhase {
     } catch (error) {
       Logger.error("❌ [CityPhase] Error al cargar ciudadanos:", error);
       return [];
+    }
+  }
+
+  static loadScore() {
+    try {
+      const scoreRaw = LocalStorage.loadData("score");
+      if (!scoreRaw) return 0;
+
+      const parsedScore = Number(JSON.parse(scoreRaw));
+      return Number.isFinite(parsedScore) ? parsedScore : 0;
+    } catch (error) {
+      Logger.error("❌ [CityPhase] Error al cargar score:", error);
+      return 0;
     }
   }
 
@@ -92,7 +114,13 @@ export class CityPhase {
           food: 0,
         };
 
-        TurnToolsStats.update(turnSystemRef.getState(), city, diff);
+        const nextState = {
+          ...turnSystemRef.getState(),
+          currentTurn: Number(event?.turnNumber ?? turnSystemRef.city?.turn ?? 0),
+          score: Number(event?.data?.score?.score ?? turnSystemRef.city?.score ?? 0),
+        };
+
+        TurnToolsStats.update(nextState, city, diff);
       },
       (event) => {
         Logger.warn("Fase falló:", event.phaseName, event.error);

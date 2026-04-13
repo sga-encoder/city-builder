@@ -25,16 +25,54 @@ function createInfoButton(sheets) {
 
 export class SlideLeftManageMenuBuilder {
   static build(icons, sheets) {
-    const containerButton = document.createElement("div");
-    containerButton.classList.add("container-buttons", "menu-02");
+    try {
+      const containerButton = document.createElement("div");
+      containerButton.classList.add("container-buttons", "menu-02");
 
-    const moveButton = Button.build("move", 0, icons, sheets);
-    const infoButton = createInfoButton(sheets);
-    const destroyButton = Button.build("destroy", 3, icons, sheets);
+      let moveButton, infoButton, destroyButton;
+      try {
+        moveButton = Button.build("move", 0, icons, sheets);
+      } catch (err) {
+        console.error("[SlideLeftManageMenuBuilder] Error creando botón move:", err);
+        moveButton = this.#createFallbackButton("move", 0);
+      }
 
-    containerButton.appendChild(moveButton);
-    containerButton.appendChild(infoButton);
-    containerButton.appendChild(destroyButton);
-    return containerButton;
+      try {
+        infoButton = createInfoButton(sheets);
+      } catch (err) {
+        console.error("[SlideLeftManageMenuBuilder] Error creando botón info:", err);
+        infoButton = this.#createFallbackButton("info", 1);
+      }
+
+      try {
+        destroyButton = Button.build("destroy", 3, icons, sheets);
+      } catch (err) {
+        console.error("[SlideLeftManageMenuBuilder] Error creando botón destroy:", err);
+        destroyButton = this.#createFallbackButton("destroy", 2);
+      }
+
+      if (moveButton) containerButton.appendChild(moveButton);
+      if (infoButton) containerButton.appendChild(infoButton);
+      if (destroyButton) containerButton.appendChild(destroyButton);
+
+      return containerButton;
+    } catch (error) {
+      console.error("[SlideLeftManageMenuBuilder] Error total en build:", error);
+      const fallback = document.createElement("div");
+      fallback.classList.add("container-buttons", "menu-02");
+      fallback.textContent = "Error al cargar menú de gestión";
+      return fallback;
+    }
+  }
+
+  static #createFallbackButton(id, num) {
+    const btn = document.createElement("div");
+    btn.id = id;
+    btn.classList.add("button", id);
+    const imgContainer = document.createElement("div");
+    imgContainer.classList.add("img-container");
+    imgContainer.textContent = id.charAt(0).toUpperCase() + id.slice(1);
+    btn.appendChild(imgContainer);
+    return btn;
   }
 }

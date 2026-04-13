@@ -180,7 +180,16 @@ export class MapController {
     const building = cellRef?.cellData;
     if (!building) return null;
 
-    const citizens = Array.isArray(building.citizens) ? building.citizens : [];
+    let citizens = [];
+    try {
+      if (Array.isArray(building.citizens)) {
+        citizens = building.citizens.filter((c) => c && typeof c === "object");
+      }
+    } catch (error) {
+      console.warn("[MapController] Error accediendo a ciudadanos:", error);
+      citizens = [];
+    }
+
     const capacity = Number(building.capacity || 0);
     const occupancy = citizens.length;
 
@@ -214,13 +223,20 @@ export class MapController {
     ];
 
     if (String(building.type) === "R") {
-      const avgHappiness = citizens.length
-        ? citizens.reduce((acc, c) => acc + Number(c?.happiness || 0), 0) / citizens.length
-        : 0;
+      let avgHappiness = 0;
+      try {
+        avgHappiness =
+          citizens.length > 0
+            ? citizens.reduce((acc, c) => acc + Number(c?.happiness || 0), 0) / citizens.length
+            : 0;
+      } catch (error) {
+        console.warn("[MapController] Error calculando felicidad promedio:", error);
+        avgHappiness = 0;
+      }
 
       rows.push(
         { label: "Ciudadanos", value: String(citizens.length) },
-        { label: "Felicidad promedio", value: `${avgHappiness.toFixed(1)}` },
+        { label: "Felicidad promedio", value: String(Number.isFinite(avgHappiness) ? avgHappiness.toFixed(1) : "0") },
       );
     }
 

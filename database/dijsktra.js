@@ -1,4 +1,7 @@
-const DEFAULT_ROUTE_API_URL = "https://city-builder-dijsktra.onrender.com/api/calculate-route";
+// Para arrancar el backend local:
+// py ./domain/utilis/dijsktra/ms_smart_city-main/main.py
+const DEFAULT_ROUTE_API_URL = "http://127.0.0.1:5000/api/calculate-route";
+const REQUEST_TIMEOUT_MS = 30000;
 
 const toPoint = (value) => {
   if (!Array.isArray(value) || value.length !== 2) return null;
@@ -9,7 +12,6 @@ const toPoint = (value) => {
 
   return [i, j];
 };
-
 
 export const calculateRoute = async ({
   roadMatrix,
@@ -41,7 +43,9 @@ export const calculateRoute = async ({
     };
   }
 
-  
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
   try {
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -51,6 +55,7 @@ export const calculateRoute = async ({
         start: normalizedStart,
         end: normalizedEnd,
       }),
+      signal: controller.signal,
     });
 
     const payload = await response.json().catch(() => null);
@@ -58,7 +63,9 @@ export const calculateRoute = async ({
       return {
         ok: false,
         status: response.status,
-        error: payload?.error || "No se pudo calcular ruta",
+        error:
+          payload?.error ||
+          "No se pudo calcular la ruta usando el backend Python de Dijkstra.",
       };
     }
 
@@ -69,17 +76,31 @@ export const calculateRoute = async ({
     };
   } catch (error) {
     const message = String(error?.message || "").toLowerCase();
-    if (message.includes("failed to fetch") || message.includes("networkerror")) {
+    const isTimeout = error?.name === "AbortError";
+    const isNetworkError =
+      message.includes("failed to fetch") || message.includes("networkerror");
+
+    if (isTimeout) {
       return {
         ok: false,
         error:
-          "No hay conexión con Flask (Dijkstra). Inicia el backend en domain/utilis/dijsktra/ms_smart_city-main con: python main.py",
+          "Timeout esperando el backend Python de Dijkstra. Arráncalo con: py ./domain/utilis/dijsktra/ms_smart_city-main/main.py",
+      };
+    }
+
+    if (isNetworkError) {
+      return {
+        ok: false,
+        error:
+          "No hay conexión con el backend Python de Dijkstra. Arráncalo con: py ./domain/utilis/dijsktra/ms_smart_city-main/main.py",
       };
     }
 
     return {
       ok: false,
-      error: error?.message || "No se pudo conectar al servicio de rutas",
+      error: error?.message || "No se pudo conectar al backend Python de Dijkstra",
     };
+  } finally {
+    clearTimeout(timeoutId);
   }
 };

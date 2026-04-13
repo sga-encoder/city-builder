@@ -20,6 +20,22 @@ export class TurnToolsControlPanelController {
             if (event.type === "stateChanged") {
                 refs.stateLabel.textContent = `Estado: ${event.state}`;
             }
+
+            if (event.type === "turnComplete") {
+                const turnNumber = Number(event?.turnNumber || turnSystem.city?.turn || 0);
+                const eventScore = Number(event?.data?.score?.score ?? turnSystem.city?.score ?? 0);
+                const nextState = {
+                    ...turnSystem.getState(),
+                    currentTurn: Number.isFinite(turnNumber) ? turnNumber : 0,
+                    score: Number.isFinite(eventScore) ? eventScore : 0,
+                };
+
+                TurnToolsStats.update(
+                    nextState,
+                    turnSystem.city,
+                    event?.data?.changes?.total || { money: 0, energy: 0, water: 0, food: 0 },
+                );
+            }
         });
     }
 }

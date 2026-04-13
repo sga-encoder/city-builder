@@ -55,7 +55,15 @@ export class TurnSystem {
 
   play() {
     if (!this.city) throw new Error("TurnSystem no inicializado");
-    if (this.state === "running") return;
+
+    // Al restaurar partidas, el estado puede quedar en "running" sin intervalo activo.
+    // En ese caso reactivamos el loop de turnos en lugar de salir temprano.
+    if (this.state === "running") {
+      if (!this.intervalId) {
+        this.#restartInterval();
+      }
+      return;
+    }
 
     this.state = "running";
     this.#restartInterval();
@@ -112,16 +120,18 @@ export class TurnSystem {
     const scoreResult = this.scoringSystem.calculateScore(this.city);
     turnData.score = scoreResult;
 
+    const serializedCitizens = this.#serializeCitizens(this.city.citizens || []);
+
     LocalStorage.saveData("turn", JSON.stringify(this.currentTurn));
     LocalStorage.saveData("score", JSON.stringify(Number(this.city.score || 0)));
-    LocalStorage.saveData("citizens", JSON.stringify(this.city.citizens || []));
+    LocalStorage.saveData("citizens", JSON.stringify(serializedCitizens));
 
     this.logger.recordTurn(turnData);
     this.#saveState();
     CitySelectionController.syncActiveCitySnapshot({
       turn: this.currentTurn,
       score: Number(this.city.score || 0),
-      citizens: this.city.citizens || [],
+      citizens: serializedCitizens,
     });
 
     this.#emit({
@@ -201,6 +211,8 @@ export class TurnSystem {
   #persistCurrentProgress() {
     if (!this.city) return;
 
+    const serializedCitizens = this.#serializeCitizens(this.city.citizens || []);
+
     LocalStorage.saveData("turn", JSON.stringify(this.currentTurn));
     LocalStorage.saveData(
       "score",
@@ -208,14 +220,38 @@ export class TurnSystem {
     );
     LocalStorage.saveData(
       "citizens",
-      JSON.stringify(this.city.citizens || []),
+      JSON.stringify(serializedCitizens),
     );
 
     CitySelectionController.syncActiveCitySnapshot({
       turn: this.currentTurn,
       score: Number(this.city.score || 0),
-      citizens: this.city.citizens || [],
+      citizens: serializedCitizens,
     });
+  }
+
+  #serializeCitizens(citizens) {
+    if (!Array.isArray(citizens)) return [];
+
+    return citizens.map((citizen) => ({
+      id: citizen?.id ?? null,
+      name: citizen?.name ?? "Ciudadano",
+      happiness: Number(citizen?.happiness || 0),
+      hasJob: Boolean(citizen?.hasJob),
+      hasHome: Boolean(citizen?.hasHome),
+      home: citizen?.home
+        ? {
+            type: citizen.home.type ?? null,
+            subtype: citizen.home.subtype ?? null,
+          }
+        : null,
+      job: citizen?.job
+        ? {
+            type: citizen.job.type ?? null,
+            subtype: citizen.job.subtype ?? null,
+          }
+        : null,
+    }));
   }
 
   #emit(event) {

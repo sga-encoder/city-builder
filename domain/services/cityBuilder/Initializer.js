@@ -114,7 +114,7 @@ export class CityBuilderInitializer {
   // =====================
   // FLUJO PRINCIPAL DE INICIALIZACIÓN
   // =====================
- static async buildCity() {
+ static async buildCity(options = {}) {
     Logger.log("🏗️ [CityBuilder] Iniciando buildCity()");
     MapRenderer.stopObserveCSSReload();
 
@@ -153,6 +153,7 @@ export class CityBuilderInitializer {
       icons,
       builds,
       turnSystem,
+      onReturnToMainMenu: options?.onReturnToMainMenu,
     });
   }
 

@@ -1,0 +1,57 @@
+/* =====================
+   IN-GAME RETURN BUTTON
+   ===================== */
+
+.in-game-return-btn {
+  position: fixed;
+  left: 50%;
+  top: 0.65rem;
+  z-index: 120;
+  border: none;
+  border-radius: 999px;
+  min-width: 72px;
+  padding: 0.42rem 0.7rem;
+  background: rgba(8, 20, 40, 0.62);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(2px);
+  opacity: 0.78;
+  transform: translateX(-50%);
+  transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.in-game-return-btn.in-panel {
+  position: absolute;
+  left: 50%;
+  top: 0.55rem;
+  transform: translateX(-50%);
+  z-index: 30;
+}
+
+.in-game-return-btn:hover {
+  transform: translateX(-50%) translateY(-1px);
+  background: rgba(12, 32, 62, 0.82);
+  opacity: 1;
+}
+
+.in-game-return-btn.in-panel:hover {
+  transform: translateX(-50%) translateY(-1px);
+}
+
+.in-game-return-btn:active {
+  transform: translateX(-50%);
+}
+
+@media (max-width: 600px) {
+  .in-game-return-btn {
+    top: 0.5rem;
+    min-width: 66px;
+    padding: 0.38rem 0.58rem;
+    font-size: 0.62rem;
+  }
+}

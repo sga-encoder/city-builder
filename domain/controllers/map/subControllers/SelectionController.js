@@ -26,7 +26,15 @@ export class MapSelectionController {
 
     this.activeCell = { id, cellData, i, j };
     document.querySelector(`#map-item-${id}`).classList.add("selected");
-    LocalStorage.saveData("selectedCell", JSON.stringify(this.activeCell));
+    
+    // Solo guardar datos simples para evitar error de referencias circulares
+    // cellData contiene ciudadanos con referencias bidireccionales
+    try {
+      LocalStorage.saveData("selectedCell", JSON.stringify({ id, i, j }));
+    } catch (error) {
+      console.warn("[SelectionController] Error guardando celda seleccionada:", error);
+      // No bloquear el flujo si falla el guardado
+    }
   }
 
   /**

@@ -123,8 +123,9 @@ export class CitySelectionController {
       // Cargar turno
       LocalStorage.saveData("turn", JSON.stringify(cityData.turn || 0));
 
-      // Cargar ciudadanos
-      LocalStorage.saveData("citizens", JSON.stringify(cityData.citizens || []));
+      // Cargar ciudadanos (serializados para evitar referencias circulares)
+      const serializedCitizens = this.#serializeCitizens(cityData.citizens || []);
+      LocalStorage.saveData("citizens", JSON.stringify(serializedCitizens));
 
       // Cargar score
       LocalStorage.saveData("score", JSON.stringify(cityData.score || 0));
@@ -133,6 +134,30 @@ export class CitySelectionController {
     } catch (error) {
       Logger.error("❌ [CitySelection] Error al cargar ciudad:", error);
     }
+  }
+
+  #serializeCitizens(citizens) {
+    if (!Array.isArray(citizens)) return [];
+
+    return citizens.map((citizen) => ({
+      id: citizen?.id ?? null,
+      name: citizen?.name ?? "Ciudadano",
+      happiness: Number(citizen?.happiness || 0),
+      hasJob: Boolean(citizen?.hasJob),
+      hasHome: Boolean(citizen?.hasHome),
+      home: citizen?.home
+        ? {
+            type: citizen.home.type ?? null,
+            subtype: citizen.home.subtype ?? null,
+          }
+        : null,
+      job: citizen?.job
+        ? {
+            type: citizen.job.type ?? null,
+            subtype: citizen.job.subtype ?? null,
+          }
+        : null,
+    }));
   }
 
   resolveMapDataForStorage(cityData) {

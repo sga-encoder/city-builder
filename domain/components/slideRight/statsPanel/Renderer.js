@@ -7,10 +7,16 @@ export class StatsPanel {
             StatsManager.addObserver(() => {
                 const statsPanel = container.querySelector("#stats-container");
                 if (statsPanel) {
-                    // Actualiza el contenido interno, por ejemplo:
+                    const previousScrollTop = statsPanel.scrollTop;
+                    const previousScrollLeft = statsPanel.scrollLeft;
+
                     const stats = StatsManager.getAllStats();
                     const newPanel = StatsPanelBuilder.build(stats, builds, icons);
-                    statsPanel.replaceWith(newPanel);
+                    statsPanel.replaceChildren(...newPanel.childNodes);
+
+                    // Mantiene la posicion de lectura cuando llegan updates por turno.
+                    statsPanel.scrollTop = previousScrollTop;
+                    statsPanel.scrollLeft = previousScrollLeft;
                 }
             });
             container._statsPanelSubscribed = true;

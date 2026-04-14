@@ -1,0 +1,48 @@
+@media (min-width: 746px) {
+    #slide-right .buttons-container-top #weather
+    {
+        border-radius: 7.5vw;
+    }
+}
+
+@media (max-width: 745px) {
+    #slide-right #weather-container
+    {
+        top: 3.6rem;
+        right: 0.6rem;
+        width: min(68vw, 260px);
+        padding: 0.65rem 0.7rem;
+    }
+
+    #slide-right #weather-container .weather-title
+    {
+        font-size: 1.05rem;
+    }
+
+    #slide-right #weather-container .weather-city
+    {
+        font-size: 0.92rem;
+        margin: 0.25rem 0 0.45rem 0;
+    }
+
+    #slide-right #weather-container .weather-row
+    {
+        gap: 0.45rem;
+    }
+
+    #slide-right #weather-container .weather-key,
+    #slide-right #weather-container .weather-value,
+    #slide-right #weather-container .weather-footnote,
+    #slide-right #weather-container .weather-loading,
+    #slide-right #weather-container .weather-empty
+    {
+        font-size: 0.86rem;
+    }
+
+    #slide-right #weather-container .weather-value
+    {
+        text-align: right;
+        max-width: 52%;
+        overflow-wrap: anywhere;
+    }
+}

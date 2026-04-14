@@ -18,3 +18,13 @@
         transform: translate(-20vw, 0%) rotateX(45deg) rotateZ(48deg) skew(4deg, -19deg);
     }
 }
+
+@media (max-width: 745px) {
+    #slide-right .buttons-container-bottom .container
+    {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+    }
+}

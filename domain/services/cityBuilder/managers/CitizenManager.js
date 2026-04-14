@@ -305,21 +305,21 @@ export class CitizenManager {
 
     StatsManager.reset("POP");
     StatsManager.addStats("POP", {
-      poblacion: {
-        total: totalCitizens,
-        nuevos: createdThisTurn,
+      housing: {
+        residents: totalCitizens,
+        never: createdThisTurn,
       },
-      empleo: {
-        empleados: employed,
-        desempleados: unemployed,
+      employment: {
+        workers: employed,
+        never: unemployed,
       },
-      felicidad: {
-        promedio: Number(avgHappiness.toFixed(2)),
+      happiness: {
+        percentage: Number(avgHappiness.toFixed(2)),
       },
-      necesidades: {
-        energiaConsumida: Number(needsResult?.consumed?.energy || 0),
-        aguaConsumida: Number(needsResult?.consumed?.water || 0),
-        comidaConsumida: Number(needsResult?.consumed?.food || 0),
+      needs: {
+        energy: Number(needsResult?.consumed?.energy || 0),
+        water: Number(needsResult?.consumed?.water || 0),
+        food: Number(needsResult?.consumed?.food || 0),
       },
     });
   }

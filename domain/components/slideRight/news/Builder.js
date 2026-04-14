@@ -57,11 +57,15 @@ export class NewsPanelBuilder {
     title.textContent = "Noticias regionales";
     panel.appendChild(title);
 
+    const scroll = document.createElement("div");
+    scroll.classList.add("news-scroll");
+    panel.appendChild(scroll);
+
     if (snapshot?.status === "loading") {
       const loading = document.createElement("p");
       loading.classList.add("news-loading");
       loading.textContent = "Actualizando noticias...";
-      panel.appendChild(loading);
+      scroll.appendChild(loading);
       return panel;
     }
 
@@ -70,19 +74,19 @@ export class NewsPanelBuilder {
       const empty = document.createElement("p");
       empty.classList.add("news-empty");
       empty.textContent = snapshot?.error || "No hay noticias disponibles.";
-      panel.appendChild(empty);
+      scroll.appendChild(empty);
       return panel;
     }
 
     const list = document.createElement("div");
     list.classList.add("news-list");
     newsItems.forEach((article) => list.appendChild(buildArticleCard(article)));
-    panel.appendChild(list);
+    scroll.appendChild(list);
 
     const footer = document.createElement("p");
     footer.classList.add("news-footnote");
     footer.textContent = `Actualizado: ${formatDate(snapshot.updatedAt)} (${snapshot.source || "live"})`;
-    panel.appendChild(footer);
+    scroll.appendChild(footer);
 
     return panel;
   }

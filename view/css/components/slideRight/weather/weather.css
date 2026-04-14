@@ -22,16 +22,20 @@
 {
     position: absolute;
     top: 1rem;
-    right: 4.5rem;
+    right: 7rem;
     width: min(88vw, 360px);
-    background: rgba(15, 22, 38, 0.92);
-    border: 1px solid rgba(148, 163, 184, 0.35);
+    background-color: rgba(100, 100, 100, 0.432);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: #fff solid 1px;
     border-radius: 12px;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
-    color: #e2e8f0;
+    color: #fff;
     z-index: 255;
     padding: 0.8rem;
     font-family: "Smooch Sans", sans-serif;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
 }
 
 #slide-right #weather-container .weather-title
@@ -109,11 +113,4 @@
     width: 70%;
     height: 70%;
     display: block;
-}
-
-@media (min-width: 746px) {
-    #slide-right .buttons-container-top #weather
-    {
-        border-radius: 7.5vw;
-    }
 }

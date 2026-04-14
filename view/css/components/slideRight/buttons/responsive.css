@@ -16,3 +16,74 @@
     }
 
 }
+
+@media (max-width: 745px) {
+    #slide-right .buttons-container-bottom #stats,
+    #slide-right .buttons-container-bottom #news,
+    #slide-right .buttons-container-top #weather,
+    #slide-right .buttons-container-bottom #stats::before,
+    #slide-right .buttons-container-bottom #news::before,
+    #slide-right .buttons-container-top #weather::before,
+    #slide-right .buttons-container-bottom #stats::after,
+    #slide-right .buttons-container-bottom #news::after,
+    #slide-right .buttons-container-top #weather::after,
+    #slide-right .buttons-container-bottom #stats .img-container,
+    #slide-right .buttons-container-bottom #news .img-container,
+    #slide-right .buttons-container-top #weather .img-container {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+    }
+
+    #slide-right .buttons-container-bottom #stats::before,
+    #slide-right .buttons-container-bottom #news::before,
+    #slide-right .buttons-container-top #weather::before,
+    #slide-right .buttons-container-bottom #stats::after,
+    #slide-right .buttons-container-bottom #news::after,
+    #slide-right .buttons-container-top #weather::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    #slide-right .buttons-container-bottom #stats:hover::before,
+    #slide-right .buttons-container-bottom #news:hover::before,
+    #slide-right .buttons-container-bottom #stats:hover::after,
+    #slide-right .buttons-container-bottom #news:hover::after,
+    #slide-right .buttons-container-bottom #stats:hover .img-container,
+    #slide-right .buttons-container-bottom #news:hover .img-container,
+    #slide-right .buttons-container-bottom #stats.is-pressing-down-hover,
+    #slide-right .buttons-container-bottom #stats.is-pressing-down-rest,
+    #slide-right .buttons-container-bottom #stats.is-pressing-end-hover,
+    #slide-right .buttons-container-bottom #stats.is-pressing-end-rest,
+    #slide-right .buttons-container-bottom #news.is-pressing-down-hover,
+    #slide-right .buttons-container-bottom #news.is-pressing-down-rest,
+    #slide-right .buttons-container-bottom #news.is-pressing-end-hover,
+    #slide-right .buttons-container-bottom #news.is-pressing-end-rest,
+    #slide-right .buttons-container-bottom #stats.is-pressing-down-hover::before,
+    #slide-right .buttons-container-bottom #stats.is-pressing-down-rest::before,
+    #slide-right .buttons-container-bottom #stats.is-pressing-end-hover::before,
+    #slide-right .buttons-container-bottom #stats.is-pressing-end-rest::before,
+    #slide-right .buttons-container-bottom #news.is-pressing-down-hover::before,
+    #slide-right .buttons-container-bottom #news.is-pressing-down-rest::before,
+    #slide-right .buttons-container-bottom #news.is-pressing-end-hover::before,
+    #slide-right .buttons-container-bottom #news.is-pressing-end-rest::before,
+    #slide-right .buttons-container-bottom #stats.is-pressing-down-hover::after,
+    #slide-right .buttons-container-bottom #stats.is-pressing-down-rest::after,
+    #slide-right .buttons-container-bottom #stats.is-pressing-end-hover::after,
+    #slide-right .buttons-container-bottom #stats.is-pressing-end-rest::after,
+    #slide-right .buttons-container-bottom #news.is-pressing-down-hover::after,
+    #slide-right .buttons-container-bottom #news.is-pressing-down-rest::after,
+    #slide-right .buttons-container-bottom #news.is-pressing-end-hover::after,
+    #slide-right .buttons-container-bottom #news.is-pressing-end-rest::after,
+    #slide-right .buttons-container-bottom #stats.is-pressing-down-hover .img-container,
+    #slide-right .buttons-container-bottom #stats.is-pressing-down-rest .img-container,
+    #slide-right .buttons-container-bottom #stats.is-pressing-end-hover .img-container,
+    #slide-right .buttons-container-bottom #stats.is-pressing-end-rest .img-container,
+    #slide-right .buttons-container-bottom #news.is-pressing-down-hover .img-container,
+    #slide-right .buttons-container-bottom #news.is-pressing-down-rest .img-container,
+    #slide-right .buttons-container-bottom #news.is-pressing-end-hover .img-container,
+    #slide-right .buttons-container-bottom #news.is-pressing-end-rest .img-container {
+        transform: none !important;
+        animation: none !important;
+    }
+}

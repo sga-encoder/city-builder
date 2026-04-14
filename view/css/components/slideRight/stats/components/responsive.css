@@ -1,0 +1,39 @@
+@media (min-width: 746px) {
+    #slide-right .icon-container {
+        width: 2vw;
+        height: 2vw;
+    }
+    
+
+    #slide-right #stats-container .stats-section .data-container .production-container>p,
+    #slide-right #stats-container .stats-section .data-container .consumption-container>p,
+    #slide-right #stats-container .stats-section .data-container .employment-container>p,
+    #slide-right #stats-container .stats-section .data-container .housing-container>p,
+    #slide-right #stats-container .stats-section .data-container .efficiency-container>p,
+    #slide-right #stats-container .stats-section .data-container .happiness-container>p,
+    #slide-right #stats-container .stats-section .data-container .needs-container>p
+    {
+        padding: 0.1vw 0;
+    }
+
+    #slide-right #stats-container .stats-section .data-container .building-container>p
+    {
+        display: none;
+    }
+
+    
+
+
+    #slide-right #stats-container .stats-section .data-container [class$="-container"] [class$="-module"]
+    {
+        width: 15vw;
+        padding: 0;
+        gap: 1vw;
+    }
+
+    #slide-right #stats-container .stats-section .data-container [class$="-container"] .icon-value-container
+    {
+        gap: 1.5vw;
+    }
+    
+}

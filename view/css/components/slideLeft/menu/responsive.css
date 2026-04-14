@@ -29,7 +29,6 @@
         flex-wrap: wrap;
         flex-direction: row;
         transform: translate(-10vw ,20%) rotateX(0deg) rotateY(50deg) skew(0deg, -20deg);
-        background-color: antiquewhite;
 
     }
 

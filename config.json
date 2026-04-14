@@ -42,7 +42,7 @@
     },
     "citizens": {
       "": {
-        "model": "../../public/icons/person-svgrepo-com.svg"
+        "model": "../../public/icons/person/filled/person.svg"
       }
     },
     "stats": {
@@ -72,22 +72,27 @@
     },
     "workers": {
       "": {
-        "model": "../../public/icons/person/filled/personDelete.svg"
+        "model": "../../public/icons/person/filled/personMoney.svg"
       }
     },
     "residents": {
+      "": {
+        "model": "../../public/icons/person/filled/personHome.svg"
+      }
+    },
+    "never":{
       "": {
         "model": "../../public/icons/person/filled/personError.svg"
       }
     },
     "housingCapacity": {
       "": {
-        "model": "../../public/icons/person/filled/personHome.svg"
+        "model": "../../public/icons/person/filled/person.svg"
       }
     },
     "jobCapacity": {
       "": {
-        "model": "../../public/icons/person/filled/personMoney.svg"
+        "model": "../../public/icons/person/filled/person.svg"
       }
     },
     "personShield": {

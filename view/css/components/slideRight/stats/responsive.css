@@ -1,6 +1,52 @@
 @media (min-width: 746px) {
-    #slide-right .buttons-container #stats
+    #slide-right #stats-container
     {
-        /* right: 12vw; */
+        width: 50vw;
+    }
+
+    #slide-right #stats-container .stats-section
+    {
+        flex-direction: row;
+    }
+    #slide-right #stats-container .stats-section .data-container
+    {
+        gap: .5vw;
+        margin: 1vw 0;
+    }
+    #slide-right #stats-container .stats-section .building
+    {
+        height: 20vw;
+        width: 20vw;
+        margin: 2vw;
+    }
+}
+
+@media (max-width: 745px) {
+    #slide-right #stats-container
+    {
+        width: 94vw;
+        height: 75vh;
+    }
+
+    #slide-right #stats-container .stats-title
+    {
+        font-size: 1.2rem;
+        margin: 0.6rem 0;
+    }
+
+    #slide-right #stats-container .stats-section
+    {
+        font-size: 1rem;
+    }
+
+    #slide-right #stats-container .stats-section .building
+    {
+        height: 55vw;
+    }
+
+    #slide-right #stats-container .stats-section .building .img-container
+    {
+        width: 45vw;
+        height: 45vw;
     }
 }

@@ -21,9 +21,9 @@
 #slide-right #stats-container .stats-section .data-container .consumption-container,
 #slide-right #stats-container .stats-section .data-container .employment-container,
 #slide-right #stats-container .stats-section .data-container .housing-container,
-#slide-right #stats-container .stats-section .data-container .efficiency-container
-
-
+#slide-right #stats-container .stats-section .data-container .efficiency-container,
+#slide-right #stats-container .stats-section .data-container .happiness-container,
+#slide-right #stats-container .stats-section .data-container .needs-container
 {
     display: inline-flex;
     flex-direction: column;
@@ -38,7 +38,9 @@
 #slide-right #stats-container .stats-section .data-container .consumption-container>p,
 #slide-right #stats-container .stats-section .data-container .employment-container>p,
 #slide-right #stats-container .stats-section .data-container .housing-container>p,
-#slide-right #stats-container .stats-section .data-container .efficiency-container>p
+#slide-right #stats-container .stats-section .data-container .efficiency-container>p,
+#slide-right #stats-container .stats-section .data-container .happiness-container>p,
+#slide-right #stats-container .stats-section .data-container .needs-container>p
 {
     width: 100%;
     border-bottom: 2px solid #fff;
@@ -46,11 +48,7 @@
     text-align: center;
 }
 
-#slide-right #stats-container .stats-section .data-container .production-container .production-module,
-#slide-right #stats-container .stats-section .data-container .consumption-container .consumption-module,
-#slide-right #stats-container .stats-section .data-container .employment-container .employment-module,
-#slide-right #stats-container .stats-section .data-container .housing-container .housing-module,
-#slide-right #stats-container .stats-section .data-container .efficiency-container .efficiency-module
+#slide-right #stats-container .stats-section .data-container [class$="-container"] [class$="-module"]
 
 {
     display: flex;
@@ -64,11 +62,7 @@
 
 }
 
-#slide-right #stats-container .stats-section .data-container .production-container .icon-value-container,
-#slide-right #stats-container .stats-section .data-container .consumption-container .icon-value-container,
-#slide-right #stats-container .stats-section .data-container .employment-container .icon-value-container,
-#slide-right #stats-container .stats-section .data-container .housing-container .icon-value-container,
-#slide-right #stats-container .stats-section .data-container .efficiency-container .icon-value-container
+#slide-right #stats-container .stats-section .data-container [class$="-container"] .icon-value-container
 
 {
     display: flex;

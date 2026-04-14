@@ -55,3 +55,33 @@
         font-size: 2vw;
     }
 }
+
+@media (max-width: 745px) {
+    #slide-left .container .resources > .resource
+    {
+        border-radius: 1vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+    }
+
+    #slide-left .container .resources > .resource .img-container
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 1vw;
+        border: #fff 4px solid;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #slide-left .container .resources > .resource .img-container svg
+    {
+        width: 70%;
+        height: 70%;
+        display: block;
+    }
+}

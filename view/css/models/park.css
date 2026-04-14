@@ -1,0 +1,11 @@
+.P1 svg .park-top {
+    fill: var(--park-top);
+}
+
+.P1 svg .park-right {
+    fill: var(--park-right);
+}
+
+.P1 svg .park-left {
+    fill: var(--park-left);
+}

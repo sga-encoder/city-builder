@@ -4,7 +4,10 @@
 @import url("./themes/default.css");
 @import url("./models/Models.css");
 @import url("./components/map/index.css");
+@import url("./components/score/happiness.css");
+@import url("./components/score/breakdown.css");
 @import url("./components/score/index.css");
+@import url('./components/score/responsive.css');
 @import url("./components/slideLeft/index.css");
 @import url("./components/slideRight/index.css");
 @import url("./utils/utils.css");
@@ -16,8 +19,7 @@
 @import url("./components/cityCreation.css");
 @import url("./components/citySelection.css");
 @import url("./components/settings.css");
-@import url("./components/score/happiness.css");
-@import url("./components/score/breakdown.css");
+
 
 body {
   background-image: url(../../public/images/background.jpg);
@@ -35,3 +37,57 @@ body {
     position: relative;
     /* background: hsl(209, 67%, 8%); */
 }
+
+  /* Unified subtle scrollbar for scrollable UI panels */
+  .city-selection-container::-webkit-scrollbar,
+  .city-creation-container::-webkit-scrollbar,
+  .leaderboard-container::-webkit-scrollbar,
+  .settings-container::-webkit-scrollbar,
+  .score-breakdown-container::-webkit-scrollbar,
+  #slide-right #stats-container::-webkit-scrollbar,
+  #slide-right #news-container .news-scroll::-webkit-scrollbar,
+  #slide-right #building-info-panel::-webkit-scrollbar,
+  #slide-left .container .container-buttons.menu-03::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .city-selection-container::-webkit-scrollbar-track,
+  .city-creation-container::-webkit-scrollbar-track,
+  .leaderboard-container::-webkit-scrollbar-track,
+  .settings-container::-webkit-scrollbar-track,
+  .score-breakdown-container::-webkit-scrollbar-track,
+  #slide-right #stats-container::-webkit-scrollbar-track,
+  #slide-right #news-container .news-scroll::-webkit-scrollbar-track,
+  #slide-right #building-info-panel::-webkit-scrollbar-track,
+  #slide-left .container .container-buttons.menu-03::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+  }
+
+  .city-selection-container::-webkit-scrollbar-thumb,
+  .city-creation-container::-webkit-scrollbar-thumb,
+  .leaderboard-container::-webkit-scrollbar-thumb,
+  .settings-container::-webkit-scrollbar-thumb,
+  .score-breakdown-container::-webkit-scrollbar-thumb,
+  #slide-right #stats-container::-webkit-scrollbar-thumb,
+  #slide-right #news-container .news-scroll::-webkit-scrollbar-thumb,
+  #slide-right #building-info-panel::-webkit-scrollbar-thumb,
+  #slide-left .container .container-buttons.menu-03::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.34);
+    border-radius: 999px;
+    border: 2px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+  }
+
+  .city-selection-container::-webkit-scrollbar-thumb:hover,
+  .city-creation-container::-webkit-scrollbar-thumb:hover,
+  .leaderboard-container::-webkit-scrollbar-thumb:hover,
+  .settings-container::-webkit-scrollbar-thumb:hover,
+  .score-breakdown-container::-webkit-scrollbar-thumb:hover,
+  #slide-right #stats-container::-webkit-scrollbar-thumb:hover,
+  #slide-right #news-container .news-scroll::-webkit-scrollbar-thumb:hover,
+  #slide-right #building-info-panel::-webkit-scrollbar-thumb:hover,
+  #slide-left .container .container-buttons.menu-03::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }

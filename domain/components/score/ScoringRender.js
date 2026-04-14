@@ -30,7 +30,9 @@ export class ScoringRender {
 	}
 
 	static #ensureRoot(container) {
-		let root = container.querySelector("#score-text");
+		const hudContainer = this.#ensureHudContainer(container);
+
+		let root = hudContainer.querySelector("#score-text");
 		if (root) return root;
 
 		root = document.createElement("div");
@@ -46,9 +48,20 @@ export class ScoringRender {
 
 		root.appendChild(label);
 		root.appendChild(value);
-		container.appendChild(root);
+		hudContainer.appendChild(root);
 
 		return root;
+	}
+
+	static #ensureHudContainer(container) {
+		let hudContainer = container.querySelector("#score-happiness-container");
+		if (hudContainer) return hudContainer;
+
+		hudContainer = document.createElement("div");
+		hudContainer.id = "score-happiness-container";
+		container.appendChild(hudContainer);
+
+		return hudContainer;
 	}
 
 	static #updateScore(root, value) {

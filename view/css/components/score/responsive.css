@@ -1,0 +1,25 @@
+@media (min-width: 746px) {
+    #slide-right #score-happiness-container
+    {
+        right: 8vw;
+        left: auto;
+        top: 2vw;
+        transform: translateX(0);
+    }
+    
+    #slide-right #score-text .score-label,
+    #slide-right #score-text .score-value,
+    #slide-right #happiness-indicator .happiness-label, 
+    #slide-right #happiness-indicator .happiness-value
+    {
+        font-size: 2vw;
+
+    }
+}
+
+@media (min-width: 1054px) {
+    #slide-right #score-happiness-container
+    {
+        top: 1.7vw;
+    }
+}

@@ -1,0 +1,13 @@
+/* eslint-disable css/no-invalid-properties */
+
+.g svg .ground-top {
+    fill: var(--ground-top);
+}
+
+.g svg .ground-right {
+	fill: var(--ground-right);
+}
+
+.g svg .ground-left {
+	fill: var(--ground-left);
+}

@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.84);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(5px);
 }
 
@@ -17,9 +17,13 @@
   width: min(92vw, 520px);
   padding: 2rem;
   border-radius: 16px;
-  background: linear-gradient(160deg, #102f5e 0%, #24508f 100%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  background-color: rgba(100, 100, 100, 0.432);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: #fff solid 1px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-family: "Smooch Sans", sans-serif;
 }
 
 .main-menu-title {
@@ -42,37 +46,54 @@
 
 .main-menu-btn {
   width: 100%;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 10px;
   padding: 0.9rem 1rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease;
+  font-family: "Smooch Sans", sans-serif;
+  font-size: 1.05rem;
+  background: transparent;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .main-menu-btn:hover {
   transform: translateY(-1px);
-  filter: brightness(1.06);
 }
 
 .main-menu-btn-primary {
-  background: linear-gradient(135deg, #59c26d 0%, #2ea043 100%);
-  color: #ffffff;
+  color: #7ad88b;
+  border-color: #7ad88b;
+}
+
+.main-menu-btn-primary:hover {
+  background: rgba(122, 216, 139, 0.22);
 }
 
 .main-menu-btn-continue {
-  background: linear-gradient(135deg, #f5b041 0%, #f39c12 100%);
-  color: #ffffff;
-  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.4);
+  color: #ffd08a;
+  border-color: #ffd08a;
+}
+
+.main-menu-btn-continue:hover {
+  background: rgba(255, 208, 138, 0.22);
 }
 
 .main-menu-btn-secondary {
-  background: linear-gradient(135deg, #69b7ff 0%, #3f8ad7 100%);
-  color: #ffffff;
+  color: #8ec9ff;
+  border-color: #8ec9ff;
+}
+
+.main-menu-btn-secondary:hover {
+  background: rgba(142, 201, 255, 0.22);
 }
 
 .main-menu-btn-tertiary {
-  background: rgba(255, 255, 255, 0.12);
   color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.main-menu-btn-tertiary:hover {
+  background: rgba(255, 255, 255, 0.18);
 }

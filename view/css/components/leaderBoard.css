@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.86);
+  background: rgba(0, 0, 0, 0.62);
   backdrop-filter: blur(5px);
 }
 
@@ -19,8 +19,14 @@
   overflow: auto;
   border-radius: 16px;
   padding: 1.6rem;
-  background: linear-gradient(160deg, #143364 0%, #285a9d 100%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background-color: rgba(100, 100, 100, 0.432);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: #fff solid 1px;
+  color: #fff;
+  font-family: "Smooch Sans", sans-serif;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .leaderboard-title {
@@ -48,11 +54,12 @@
   align-items: center;
   border-radius: 10px;
   padding: 0.7rem 0.8rem;
-  background: rgba(255, 255, 255, 0.06);
+  background-color: rgba(100, 100, 100, 0.2);
+  border: #fff solid 1px;
 }
 
 .leaderboard-row-header {
-  background: rgba(255, 255, 255, 0.12);
+  background-color: rgba(100, 100, 100, 0.32);
 }
 
 .leaderboard-cell {
@@ -73,9 +80,10 @@
   margin: 0;
   padding: 1rem;
   text-align: center;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08);
+  background-color: rgba(100, 100, 100, 0.2);
+  border: #fff solid 1px;
 }
 
 .leaderboard-actions {
@@ -87,45 +95,49 @@
 }
 
 .leaderboard-btn {
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 9px;
   padding: 0.9rem 1.2rem;
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.16);
+  background: transparent;
   font-weight: 700;
+  font-family: "Smooch Sans", sans-serif;
   text-transform: uppercase;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   font-size: 0.85rem;
 }
 
 .leaderboard-btn:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .leaderboard-btn-primary {
-  background: rgba(66, 165, 245, 0.4);
+  color: #8ec9ff;
+  border-color: #8ec9ff;
 }
 
 .leaderboard-btn-primary:hover {
-  background: rgba(66, 165, 245, 0.6);
+  background: rgba(142, 201, 255, 0.22);
 }
 
 .leaderboard-btn-export {
-  background: rgba(76, 175, 80, 0.4);
+  color: #7ad88b;
+  border-color: #7ad88b;
 }
 
 .leaderboard-btn-export:hover {
-  background: rgba(76, 175, 80, 0.6);
+  background: rgba(122, 216, 139, 0.22);
 }
 
 .leaderboard-btn-danger {
-  background: rgba(255, 82, 82, 0.4);
+  color: #ffb3ad;
+  border-color: #ff8f88;
 }
 
 .leaderboard-btn-danger:hover {
-  background: rgba(255, 82, 82, 0.6);
+  background: rgba(255, 143, 136, 0.2);
 }
 
 .leaderboard-row-current {

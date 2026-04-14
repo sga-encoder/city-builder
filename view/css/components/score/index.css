@@ -1,11 +1,23 @@
-#slide-right #score-text {
+
+#slide-right #score-happiness-container {
   position: absolute;
-  top: 1rem;
-  right: clamp(4.5rem, 10vw, 8rem);
-  left: auto;
+  top: 6vw;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  z-index: 210;
   display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+  gap: 3vw;
+  pointer-events: none;
+}
+
+#slide-right #score-text {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
   pointer-events: auto;
   color: #fff;
   text-transform: lowercase;
@@ -19,40 +31,11 @@
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
 }
 
-#slide-right #score-text .score-label {
+#slide-right #score-text .score-label,
+#slide-right #score-text .score-value
+{
   font-family: "Smooch Sans", sans-serif;
-  font-size: 1.5rem;
+  font-size: 6vw;
   line-height: 1;
 }
 
-#slide-right #score-text .score-value {
-  font-family: "Smooch Sans", sans-serif;
-  font-size: 1.5rem;
-  line-height: 1;
-}
-
-@media (max-width: 900px) {
-  #slide-right #score-text {
-    right: 1rem;
-    top: 0.75rem;
-    align-items: flex-end;
-  }
-
-  #slide-right #score-text .score-label,
-  #slide-right #score-text .score-value {
-    font-size: 1.2rem;
-  }
-}
-
-@media (max-width: 740px) {
-  #slide-right #score-text {
-    right: 10rem;
-    left: auto;
-    top: 1rem;
-  }
-
-  #slide-right #score-text .score-label,
-  #slide-right #score-text .score-value {
-    font-size: 1.2rem;
-  }
-}

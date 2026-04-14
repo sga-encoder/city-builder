@@ -21,7 +21,9 @@ export class HappinessIndicator {
 	}
 
 	static #ensureRoot(container) {
-		let root = container.querySelector("#happiness-indicator");
+		const hudContainer = this.#ensureHudContainer(container);
+
+		let root = hudContainer.querySelector("#happiness-indicator");
 		if (root) return root;
 
 		root = document.createElement("div");
@@ -37,9 +39,20 @@ export class HappinessIndicator {
 
 		root.appendChild(label);
 		root.appendChild(value);
-		container.appendChild(root);
+		hudContainer.appendChild(root);
 
 		return root;
+	}
+
+	static #ensureHudContainer(container) {
+		let hudContainer = container.querySelector("#score-happiness-container");
+		if (hudContainer) return hudContainer;
+
+		hudContainer = document.createElement("div");
+		hudContainer.id = "score-happiness-container";
+		container.appendChild(hudContainer);
+
+		return hudContainer;
 	}
 
 	static #updateHappiness(root, citizens) {

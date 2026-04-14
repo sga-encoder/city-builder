@@ -7,18 +7,18 @@
   left: 0.9rem;
   bottom: 0.9rem;
   z-index: 220;
-  border: none;
+  border: 1px solid #8ec9ff;
   border-radius: 999px;
   min-width: 110px;
   padding: 0.55rem 1.1rem;
-  background: linear-gradient(135deg, rgba(66, 165, 245, 0.95) 0%, rgba(33, 150, 243, 0.95) 100%);
-  color: #ffffff;
+  background: transparent;
+  color: #8ec9ff;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-family: "Smooch Sans", sans-serif;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(4px);
   opacity: 0.98;
@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
-  transition: transform 0.18s ease, background 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.18s ease, background 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
 }
 
@@ -42,7 +42,8 @@
 
 .in-game-return-btn:hover {
   transform: translateY(-1px);
-  background: linear-gradient(135deg, rgba(100, 181, 246, 1) 0%, rgba(66, 165, 245, 1) 100%);
+  background: rgba(142, 201, 255, 0.22);
+  border-color: #b7dcff;
   opacity: 1;
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55);
 }
@@ -85,17 +86,17 @@
   left: 150px;
   bottom: 0.9rem;
   z-index: 220;
-  border: none;
+  border: 1px solid #8ec9ff;
   border-radius: 8px;
   padding: 0.55rem 1.1rem;
-  background: linear-gradient(135deg, rgba(66, 165, 245, 0.95) 0%, rgba(33, 150, 243, 0.95) 100%);
-  color: #ffffff;
+  background: transparent;
+  color: #8ec9ff;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-family: "Smooch Sans", sans-serif;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(4px);
   opacity: 0.98;
@@ -111,7 +112,8 @@
 
 .in-game-save-btn:hover {
   transform: translateY(-1px);
-  background: linear-gradient(135deg, rgba(100, 181, 246, 1) 0%, rgba(66, 165, 245, 1) 100%);
+  background: rgba(142, 201, 255, 0.22);
+  border-color: #b7dcff;
   opacity: 1;
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55);
 }
@@ -125,17 +127,17 @@
   left: 280px;
   bottom: 0.9rem;
   z-index: 220;
-  border: none;
+  border: 1px solid #ff8f88;
   border-radius: 8px;
   padding: 0.55rem 1.1rem;
-  background: linear-gradient(135deg, rgba(245, 66, 66, 0.95) 0%, rgba(243, 33, 33, 0.95) 100%);
-  color: #ffffff;
+  background: transparent;
+  color: #ffb3ad;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-family: "Smooch Sans", sans-serif;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(4px);
   opacity: 0.98;
@@ -151,7 +153,8 @@
 
 .in-game-delete-btn:hover {
   transform: translateY(-1px);
-  background: linear-gradient(135deg, rgba(250, 100, 100, 1) 0%, rgba(245, 66, 66, 1) 100%);
+  background: rgba(255, 143, 136, 0.2);
+  border-color: #ffb3ad;
   opacity: 1;
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55);
 }

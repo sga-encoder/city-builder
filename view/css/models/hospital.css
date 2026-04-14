@@ -1,134 +1,134 @@
 /* eslint-disable css/no-invalid-properties */
 
-.R2 svg .ground-top {
+.S3 svg .ground-top {
     fill: var(--ground-top);
 }
 
-.R2 svg .ground-right {
+.S3 svg .ground-right {
     fill: var(--ground-right);
 }
 
-.R2 svg .ground-left {
+.S3 svg .ground-left {
     fill: var(--ground-left);
 }
 
-.R2 svg .building-top {
+.S3 svg .building-top {
     fill: var(--base-top);
 }
 
-.R2 svg .building-left {
+.S3 svg .building-left {
     fill: var(--base-left);
 }
 
-.R2 svg .building-right {
+.S3 svg .building-right {
     fill: var(--base-right);
 }
 
-.R2 svg .window-background {
+.S3 svg .window-background {
     fill: var(--window-background);
 }
 
-.R2 svg .window-frame-left {
+.S3 svg .window-frame-left {
     fill: var(--window-frame-left);
 }
 
-.R2 svg .window-frame-top {
+.S3 svg .window-frame-top {
     fill: var(--window-frame-top);
 }
 
-.R2 svg .window-frame-right {
+.S3 svg .window-frame-right {
     fill: var(--window-frame-right);
 }
 
-.R2 svg .shelf-left {
+.S3 svg .shelf-left {
     fill: var(--shelf-left);
 }
 
-.R2 svg .shelf-top {
+.S3 svg .shelf-top {
     fill: var(--shelf-top);
 }
 
-.R2 svg .shelf-right {
+.S3 svg .shelf-right {
     fill: var(--shelf-right);
 }
 
-.R2 svg .flowerpots-top {
+.S3 svg .flowerpots-top {
     fill: var(--flowerpots-top);
 }
 
-.R2 svg .flowerpots-left {
+.S3 svg .flowerpots-left {
     fill: var(--flowerpots-left);
 }
 
-.R2 svg .flowerpots-right {
+.S3 svg .flowerpots-right {
     fill: var(--flowerpots-right);
 }
 
-.R2 svg .stem-top {
+.S3 svg .stem-top {
     fill: var(--stem-top);
 }
 
-.R2 svg .stem-right {
+.S3 svg .stem-right {
     fill: var(--stem-right);
 }
 
-.R2 svg .stem-left {
+.S3 svg .stem-left {
     fill: var(--stem-left);
 }
 
-.R2 svg .flower-left {
+.S3 svg .flower-left {
     fill: var(--flower-left) !important;
 }
 
-.R2 svg .flower-right {
+.S3 svg .flower-right {
     fill: var(--flower-right) !important;
 }
 
-.R2 svg .flower-top {
+.S3 svg .flower-top {
     fill: var(--flower-top) !important;
 }
 
-.R2 svg path.flower {
+.S3 svg path.flower {
     fill: var(--flower-center) !important;
 }
 
-.R2 svg .cactus-right {
+.S3 svg .cactus-right {
     fill: var(--cactus-right);
 }
 
-.R2 svg .cactus-top {
+.S3 svg .cactus-top {
     fill: var(--cactus-top);
 }
 
-.R2 svg .cactus-left {
+.S3 svg .cactus-left {
     fill: var(--cactus-left);
 }
 
-.R2 svg .door-body {
+.S3 svg .door-body {
     fill: var(--door-body);
 }
 
-.R2 svg .door-01-path-01 {
+.S3 svg .door-01-path-01 {
     fill: var(--door-path-01);
 }
 
-.R2 svg .door-01-path-02,
-.R2 svg .door-01-path-03 {
+.S3 svg .door-01-path-02,
+.S3 svg .door-01-path-03 {
     fill: var(--door-path-02);
 }
 
-.R2 svg .door-01-path-04 {
+.S3 svg .door-01-path-04 {
     fill: var(--door-path-04);
 }
 
-.R2 svg .railing-top {
+.S3 svg .railing-top {
     fill: var(--railing-top);
 }
 
-.R2 svg .railing-right {
+.S3 svg .railing-right {
     fill: var(--railing-right);
 }
 
-.R2 svg .railing-left {
+.S3 svg .railing-left {
     fill: var(--railing-left);
 }

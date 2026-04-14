@@ -1,6 +1,9 @@
 @media (min-width: 746px) {
     #slide-right .buttons-container-top #weather
     {
+        margin: 0;
+        top: -1vw;
+        right: 0;
         border-radius: 7.5vw;
     }
 }

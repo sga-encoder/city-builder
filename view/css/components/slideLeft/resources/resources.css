@@ -83,6 +83,56 @@
     opacity: 0.88;
 }
 
+#slide-left .container .resources ul .resource .content.money-high
+{
+    color: #49e17b;
+}
+
+#slide-left .container .resources ul .resource .content.money-mid
+{
+    color: #ffd85e;
+}
+
+#slide-left .container .resources ul .resource .content.money-low
+{
+    color: #ff6d6d;
+}
+
+#slide-left .container .resources ul .resource.has-tooltip
+{
+    position: relative;
+}
+
+#slide-left .container .resources ul .resource.has-tooltip::after
+{
+    content: attr(data-tooltip);
+    position: absolute;
+    top: calc(100% + 0.45rem);
+    left: 0;
+    width: max-content;
+    max-width: 280px;
+    white-space: pre-line;
+    background: rgba(7, 18, 26, 0.95);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.88rem;
+    line-height: 1.25;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 400;
+}
+
+#slide-left .container .resources ul .resource.has-tooltip:hover::after
+{
+    opacity: 1;
+    transform: translateY(0);
+}
+
 #slide-left .container .resources.active ul .resource .content
 {
     transform: translateX(0);

@@ -16,7 +16,7 @@ export class MainMenuRenderer {
 
     const title = document.createElement("h1");
     title.className = "main-menu-title";
-    title.textContent = "City Builder";
+    title.textContent = "Migajeros City Builder 🍪";
 
     const subtitle = document.createElement("p");
     subtitle.className = "main-menu-subtitle";

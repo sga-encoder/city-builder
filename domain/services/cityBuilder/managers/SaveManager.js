@@ -87,15 +87,10 @@ export class SaveManager {
    */
   static saveGame() {
     try {
-      this.showIndicator();
       const success = this.#performSave(true);
-      if (success) {
-        ToastService.mostrarToast("✅ Partida guardada", "success");
-      }
       return success;
     } catch (error) {
       Logger.error("❌ [SaveManager] Error guardando:", error);
-      ToastService.mostrarToast("❌ Error al guardar", "error");
       return false;
     }
   }

@@ -13,12 +13,9 @@ export class SaveControls {
     const saveButton = document.createElement("button");
     saveButton.id = this.SAVE_BUTTON_ID;
     saveButton.type = "button";
-    saveButton.className = "in-game-return-btn";
+    saveButton.className = "in-game-save-btn";
     if (mountTarget.id === "slide-right") {
       saveButton.classList.add("in-panel");
-      saveButton.style.left = "130px";
-    } else {
-      saveButton.style.left = "150px";
     }
 
     saveButton.textContent = "Guardar";
@@ -31,16 +28,12 @@ export class SaveControls {
     const deleteButton = document.createElement("button");
     deleteButton.id = this.DELETE_BUTTON_ID;
     deleteButton.type = "button";
-    deleteButton.className = "in-game-return-btn";
+    deleteButton.className = "in-game-delete-btn";
 
     if (mountTarget.id === "slide-right") {
       deleteButton.classList.add("in-panel");
-      deleteButton.style.left = "250px";
-      deleteButton.style.background = "linear-gradient(135deg, rgba(245, 66, 66, 0.95) 0%, rgba(243, 33, 33, 0.95) 100%)";
-    } else {
-      deleteButton.style.left = "280px";
-      deleteButton.style.background = "linear-gradient(135deg, rgba(245, 66, 66, 0.95) 0%, rgba(243, 33, 33, 0.95) 100%)";
     }
+
     deleteButton.textContent = "Borrar Save";
     deleteButton.title = "Eliminar progreso guardado";
     

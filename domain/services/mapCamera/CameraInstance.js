@@ -1,6 +1,6 @@
 
 
-import { LocalStorage } from "../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../database/localStorage.js";
 
 export class CameraInstanceManager {
   static #camera = null;

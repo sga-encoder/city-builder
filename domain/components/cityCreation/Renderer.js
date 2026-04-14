@@ -381,7 +381,7 @@ export class CityCreationRenderer {
     fileInput.id = "mapFileInput";
     fileInput.type = "file";
     fileInput.accept = ".txt";
-    fileInput.style.display = "none";
+    fileInput.classList.add("hidden-input");
 
     // Botón visible para cargar archivo
     const loadButton = document.createElement("button");
@@ -444,13 +444,6 @@ export class CityCreationRenderer {
       
       // Store the layout
       this.mapLayout = result.layout;
-
-      // Habilitar botón de auto-llenado de recursos si existe
-      const autoFillButton = document.getElementById("auto-fill-resources-button");
-      if (autoFillButton) {
-        autoFillButton.disabled = false;
-        autoFillButton.title = "Calcular recursos en base al mapa cargado";
-      }
       
       // Count buildings in the loaded map
       const buildingCount = this.getMapBuildingCount(result.stats);
@@ -477,12 +470,6 @@ export class CityCreationRenderer {
       this.showMapLoadError(statusDiv, `Error al leer el archivo: ${error.message}`);
       loadButton.classList.remove("success");
       this.mapLayout = null;
-
-      const autoFillButton = document.getElementById("auto-fill-resources-button");
-      if (autoFillButton) {
-        autoFillButton.disabled = true;
-        autoFillButton.title = "Corrige el archivo de mapa para habilitar el auto-llenado";
-      }
     }
   }
 
@@ -546,64 +533,14 @@ export class CityCreationRenderer {
     resourcesGrid.appendChild(foodGroup);
 
     const labelContainer = document.createElement("div");
-    labelContainer.style.display = "flex";
-    labelContainer.style.justifyContent = "space-between";
-    labelContainer.style.alignItems = "center";
-    labelContainer.style.marginBottom = "0.5rem";
+    labelContainer.className = "map-loader-label-container";
 
     labelContainer.appendChild(label);
-
-    // Botón para auto-llenar recursos en base al mapa cargado
-    const autoFillButton = document.createElement("button");
-    autoFillButton.type = "button";
-    autoFillButton.id = "auto-fill-resources-button";
-    autoFillButton.className = "auto-fill-resources-button";
-    autoFillButton.textContent = "🎯 Auto-Llenar";
-    autoFillButton.disabled = true; // Se habilita al cargar un mapa válido
-    autoFillButton.title = "Carga un mapa para habilitar el auto-llenado";
-    autoFillButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      this.autoFillResourcesFromMap();
-    });
-    labelContainer.appendChild(autoFillButton);
 
     group.appendChild(labelContainer);
     group.appendChild(resourcesGrid);
 
     return group;
-  }
-
-  async autoFillResourcesFromMap() {
-    if (!this.mapLayout) {
-      return;
-    }
-
-    try {
-      const { MapResourceCalculator } = await import("../../services/mapResourceCalculator.js");
-      // Load config using fetch with root-relative path
-      const response = await fetch("/config.json");
-      if (!response.ok) {
-        this.showError("Error al cargar configuración");
-        return;
-      }
-      const config = await response.json();
-      
-      if (!config.builds) {
-        this.showError("Configuración de construcciones no encontrada");
-        return;
-      }
-      
-      const calculated = MapResourceCalculator.calculateInitialResources(this.mapLayout, config.builds);
-      
-      document.getElementById("initialEnergy").value = Math.max(0, calculated.energy) || 0;
-      document.getElementById("initialWater").value = Math.max(0, calculated.water) || 0;
-      document.getElementById("initialFood").value = Math.max(0, calculated.food) || 0;
-      
-      // Mostrar mensaje de éxito
-      this.showSuccess("✨ Recursos calculados automáticamente desde el mapa");
-    } catch (error) {
-      this.showError("Error al calcular recursos: " + error.message);
-    }
   }
 
   createResourceInputGroup(id, labelText, min = 0, defaultValue = 0) {

@@ -16,7 +16,7 @@ export class MainMenuRenderer {
 
     const title = document.createElement("h1");
     title.className = "main-menu-title";
-    title.textContent = "City Builder";
+    title.textContent = "Migajeros City Builder 🍪";
 
     const subtitle = document.createElement("p");
     subtitle.className = "main-menu-subtitle";
@@ -49,6 +49,12 @@ export class MainMenuRenderer {
     actions.appendChild(
       this.#buildButton("main-menu-btn main-menu-btn-tertiary", "Ver leaderboard", () => {
         this.callbacks?.onLeaderboard?.();
+      }),
+    );
+
+    actions.appendChild(
+      this.#buildButton("main-menu-btn main-menu-btn-tertiary", "📥 Exportar ciudad", () => {
+        this.callbacks?.onExport?.();
       }),
     );
 

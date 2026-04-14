@@ -2,6 +2,7 @@ import { Map as CityMap } from "../../../../models/Map.js";
 import { createBuilding } from "../../../../models/building/buildingFactory.js";
 import { Logger } from "../../../utilis/Logger.js";
 import { ToastService } from "../../../services/toast.js";
+import { SaveManager } from "../../../services/cityBuilder/managers/SaveManager.js";
 export class MapBuildController {
 
   static getBuildingToBuy(btnid) {
@@ -115,6 +116,10 @@ export class MapBuildController {
 
     Logger.log("✅ [MapController] Edificio comprado y colocado en el mapa");
     ToastService.mostrarToast("Edificio comprado y colocado en el mapa", "success", 3000);
+    
+    // 💾 Guardar después de construir
+    SaveManager.saveGame();
+    
     return result;
   }
 
@@ -180,6 +185,9 @@ export class MapBuildController {
       }
       builtCount += 1;
     }
+
+    // 💾 Guardar después de construcción en lote
+    SaveManager.saveGame();
 
     return {
       ok: true,

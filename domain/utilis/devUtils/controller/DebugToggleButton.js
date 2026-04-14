@@ -8,21 +8,21 @@ export class DebugToggleButtonController {
             moved = false;
             offsetX = e.clientX - btn.getBoundingClientRect().left;
             offsetY = e.clientY - btn.getBoundingClientRect().top;
-            document.body.style.userSelect = "none";
+            document.body.classList.add("debug-dragging");
         };
         document.onmousemove = function (e) {
             if (isDragging) {
-                btn.style.left = e.clientX - offsetX + "px";
-                btn.style.top = e.clientY - offsetY + "px";
-                btn.style.right = "auto";
-                btn.style.bottom = "auto";
-                btn.style.position = "fixed";
+                btn.style.setProperty("--debug-left", e.clientX - offsetX + "px");
+                btn.style.setProperty("--debug-top", e.clientY - offsetY + "px");
+                btn.style.setProperty("--debug-right", "auto");
+                btn.style.setProperty("--debug-bottom", "auto");
+                btn.style.setProperty("--debug-position", "fixed");
                 moved = true;
             }
         };
         document.onmouseup = function () {
             isDragging = false;
-            document.body.style.userSelect = "";
+            document.body.classList.remove("debug-dragging");
         };
         btn._dragMoved = () => moved;
 

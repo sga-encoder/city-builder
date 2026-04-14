@@ -162,9 +162,9 @@
 
   <!-- Edificio principal (espejado respecto a apartamentos) -->
   <g class="building building-main">
-    <path class="building-top" d="M249 714V291L627 102V525.5L249 714Z" fill="#E67070"/>
-    <path class="building-left" d="M249 291L123 228V651L249 714V291Z" fill="#CA2B2B"/>
-    <path class="building-right" d="M123 228L249 291L627 102L501 39L123 228Z" fill="#F04949"/>
+    <path class="building-left" d="M249 714V291L627 102V525.5L249 714Z" fill="#E67070"/>
+    <path class="building-right" d="M249 291L123 228V651L249 714V291Z" fill="#CA2B2B"/>
+    <path class="building-top" d="M123 228L249 291L627 102L501 39L123 228Z" fill="#F04949"/>
   </g>
 
 
@@ -182,9 +182,9 @@
 
     <!-- Edificio secundario (espejado) -->
   <g class="building building-secondary">
-    <path class="building-top" d="M499 839V557L877 368V650.5L499 839Z" fill="#E67070"/>
-    <path class="building-left" d="M499 557L373 494V778L499 839V557Z" fill="#CA2B2B"/>
-    <path class="building-right" d="M373 494L499 557L877 368L751 305L373 494Z" fill="#F04949"/>
+    <path class="building-left" d="M499 839V557L877 368V650.5L499 839Z" fill="#E67070"/>
+    <path class="building-right" d="M499 557L373 494V778L499 839V557Z" fill="#CA2B2B"/>
+    <path class="building-top" d="M373 494L499 557L877 368L751 305L373 494Z" fill="#F04949"/>
   </g>
   
   <use href="#window-unit-s3" transform="translate(1249,125) scale(-1,1)"/>
@@ -199,7 +199,7 @@
 
     <path class="railing-right" d="M573.602 458.805L577.602 460.805L577.589 427.811L573.576 429.805L573.602 458.805Z" fill="#3B3B3B"/>
     <path class="railing-right" d="M681.576 404.919L685.602 406.805L685.589 373.811L681.576 375.805V404.919Z" fill="#3B3B3B"/>
-    <path class="railing-top" d="M539.603 438.805V318.805L705.603 236.805V355.805L539.603 438.805Z" fill="#D9D9D9"/>
+    <path class="railing-background" d="M539.603 438.805V318.805L705.603 236.805V355.805L539.603 438.805Z" fill="#D9D9D9"/>
     <path class="railing-right" d="M531.603 446.804L535.603 448.804V316.805L531.603 314.805V446.804Z" fill="#3B3B3B"/>
     <path class="railing-left" fill-rule="evenodd" clip-rule="evenodd" d="M535.589 448.844L535.603 448.805L577.603 427.805V460.805L581.603 458.805V425.805L685.603 373.805V406.805L689.603 404.805V371.805L713.603 359.805V228.805L535.589 316.805V448.844ZM709.603 357.805L539.603 442.805V318.805L709.603 234.805V357.805Z" fill="#A6A6A6"/>
     <path class="railing-top" d="M539.602 438.805L539.602 442.805L709.602 357.805L705.602 355.805L539.602 438.805Z" fill="#676767"/>

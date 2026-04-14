@@ -121,6 +121,10 @@
     fill: var(--door-path-04);
 }
 
+.S3 svg .railing-background {
+    fill: var(--railing-background);
+}
+
 .S3 svg .railing-top {
     fill: var(--railing-top);
 }

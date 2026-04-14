@@ -3,11 +3,15 @@
 export class CssManagerRule {
 
     static insertCssRule(sheet, selector, styles) {
-        // Verifica si ya existe una regla para ese selector
-        if (!this.ruleExists(sheet, selector)) {
-            // Inserta la regla si no existe
-            sheet.insertRule(`${selector}{${styles}}`, sheet.cssRules.length);
+        // Upsert: si existe, se reemplaza; si no, se inserta.
+        for (let i = 0; i < sheet.cssRules.length; i++) {
+            if (sheet.cssRules[i].selectorText === selector) {
+                sheet.deleteRule(i);
+                break;
+            }
         }
+
+        sheet.insertRule(`${selector}{${styles}}`, sheet.cssRules.length);
     }
 
     static removeCssRule(sheet, selector) {

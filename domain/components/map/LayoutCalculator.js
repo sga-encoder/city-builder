@@ -3,8 +3,9 @@ import { CssManagerRule } from "../../utilis/CssManager/RuleManager.js";
 export class LayoutCalculator {
   static calculateCellSize(container, layout) {
     const rawWidth = container.offsetWidth / layout.length;
-    const width = Math.max(20, Math.round(rawWidth / 20) * 20);
-    const height = width * 0.6;
+    const unit = Math.max(1, Math.round(rawWidth / 20));
+    const width = unit * 20;
+    const height = unit * 10;
     return { width, height };
   }
 

@@ -1,0 +1,67 @@
+/* eslint-disable css/no-invalid-properties */
+
+.C2 svg .ground .ground-top {
+    fill: var(--ground-top);
+}
+
+.C2 svg .ground .ground-left {
+    fill: var(--ground-left);
+}
+
+.C2 svg .ground .ground-right {
+    fill: var(--ground-right);
+}
+
+.C2 svg .base .base-top,
+.C2 svg .wing-left .wing-top,
+.C2 svg .roof .roof-top {
+    fill: var(--base-top);
+}
+
+.C2 svg .base .base-left,
+.C2 svg .wing-left .wing-left,
+.C2 svg .roof .roof-left {
+    fill: var(--base-left);
+}
+
+.C2 svg .base .base-right,
+.C2 svg .wing-left .wing-right,
+.C2 svg .roof .roof-right {
+    fill: var(--base-right);
+}
+
+.C2 svg .window-background {
+    fill: var(--window-background);
+}
+
+.C2 svg .window-frame-left {
+    fill: var(--window-frame-left);
+}
+
+.C2 svg .window-frame-right {
+    fill: var(--window-frame-right);
+}
+
+.C2 svg .window-frame-top {
+    fill: var(--window-frame-top);
+}
+
+.C2 svg .door-background {
+    fill: var(--door-background);
+}
+
+.C2 svg .door-frame-top {
+    fill: var(--door-frame-top);
+}
+
+.C2 svg .door-frame-left {
+    fill: var(--door-frame-left);
+}
+
+.C2 svg .door-frame-right {
+    fill: var(--door-frame-right);
+}
+
+.C2 svg .decorations-path {
+    fill: var(--decorations-path);
+}

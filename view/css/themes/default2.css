@@ -1,0 +1,368 @@
+*{
+    --ground-top-base: hsl(112, 90%, 28%);
+    --ground-right-base: hsl(32, 100%, 10%);
+    --ground-left-base: hsl(32, 90%, 46%);
+}
+
+.R1 {
+    --base-top: hsl(197, 100%, 64%);
+    --base-left: hsl(197, 100%, 50%);
+    --base-right: hsl(197, 100%, 27%);
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+    --window-background: hsl(180, 100%, 90%);
+    --window-frame-left: hsl(0, 0%, 65%);
+    --window-frame-right: hsl(0, 0%, 23%);
+    --window-frame-top: hsl(0, 0%, 40%);
+    --brush-top: hsl(110, 75%, 35%);
+    --brush-left: hsl(108, 100%, 39%);
+    --brush-right: hsl(109, 53%, 27%);
+    --decorations-path: hsl(58, 93%, 43%);
+    --door-background: hsl(37, 100%, 24%);
+    --door-frame-top: hsl(0, 0%, 40%);
+    --door-frame-left: hsl(0, 0%, 65%);
+    --door-frame-right: hsl(0, 0%, 23%);
+}
+
+.R2 {
+    --base-top: hsl(162, 100%, 64%);
+    --base-left: hsl(162, 100%, 50%);
+    --base-right: hsl(162, 100%, 27%);
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+    --window-background: hsl(180, 100%, 90%);
+    --window-frame-left: hsl(0, 0%, 65%);
+    --window-frame-right: hsl(0, 0%, 23%);
+    --window-frame-top: hsl(0, 0%, 40%);
+    --brush-top: hsl(110, 75%, 35%);
+    --brush-left: hsl(108, 100%, 39%);
+    --brush-right: hsl(109, 53%, 27%);
+    --decorations-path: hsl(58, 93%, 43%);
+    --door-background: hsl(37, 100%, 24%);
+    --door-frame-top: hsl(0, 0%, 40%);
+    --door-frame-left: hsl(0, 0%, 65%);
+    --door-frame-right: hsl(0, 0%, 23%);
+    --shelf-left: hsl(30, 100%, 25%);
+    --shelf-top: hsl(30, 100%, 35%);
+    --shelf-right: hsl(16, 86%, 16%);
+    --flowerpots-top: hsl(0, 0%, 40%);
+    --flowerpots-left: hsl(0, 0%, 65%);
+    --flowerpots-right: hsl(0, 0%, 23%);
+    --stem-top: hsl(30, 100%, 38%);
+    --stem-right: hsl(30, 100%, 25%);
+    --stem-left: hsl(30, 89%, 42%);
+    --flower-left: hsl(232, 100%, 50%);
+    --flower-right: hsl(232, 100%, 27%);
+    --flower-top: hsl(232, 100%, 38%);
+    --flower-center: hsl(50, 100%, 50%);
+    --cactus-right: hsl(120, 61%, 34%);
+    --cactus-top: hsl(120, 100%, 37%);
+    --cactus-left: hsl(120, 100%, 40%);
+    --door-body: hsl(30, 100%, 24%);
+    --door-path-01: hsl(0, 0%, 40%);
+    --door-path-02: hsl(0, 0%, 65%);
+    --door-path-04: hsl(0, 0%, 23%);
+    --railing-top: hsl(217, 32%, 85%);
+    --railing-right: hsl(0, 0%, 23%);
+    --railing-left: hsl(0, 0%, 65%);
+}
+
+.C1 {
+    --base-top: hsl(61, 100%, 64%);
+    --base-left: hsl(61, 100%, 50%);
+    --base-right: hsl(61, 100%, 27%);
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+    --window-background: hsl(180, 100%, 90%);
+    --window-frame-left: hsl(0, 0%, 65%);
+    --window-frame-right: hsl(0, 0%, 23%);
+    --window-frame-top: hsl(0, 0%, 40%);
+    --decorations-path: hsl(58, 100%, 24%);
+    --door-frame-top: hsl(0, 0%, 40%);
+    --door-frame-left: hsl(0, 0%, 65%);
+    --door-frame-right: hsl(0, 0%, 23%);
+    --hoarding-background: hsl(0, 3%, 72%);
+    --door-background: hsl(37, 100%, 24%);
+    --hoarding-frame-right: hsl(0, 0%, 23%);
+    --hoarding-frame-left: hsl(0, 0%, 65%);
+    --hoarding-frame-top: hsl(0, 0%, 40%);
+}
+
+.C2 {
+    --base-top: hsl(240, 100%, 64%);
+    --base-left: hsl(240, 100%, 50%);
+    --base-right: hsl(240, 100%, 27%);
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+    --window-background: hsl(180, 100%, 90%);
+    --window-frame-left: hsl(0, 0%, 65%);
+    --window-frame-right: hsl(0, 0%, 23%);
+    --window-frame-top: hsl(0, 0%, 40%);
+    --brush-top: hsl(110, 75%, 35%);
+    --brush-left: hsl(108, 100%, 39%);
+    --brush-right: hsl(109, 53%, 27%);
+    --decorations-path: hsl(58, 93%, 43%);
+    --door-background: hsl(37, 100%, 24%);
+    --door-frame-top: hsl(0, 0%, 40%);
+    --door-frame-left: hsl(0, 0%, 65%);
+    --door-frame-right: hsl(0, 0%, 23%);
+}
+
+.I1 {
+    --base-top: hsl(267, 100%, 64%);
+    --base-left: hsl(267, 100%, 50%);
+    --base-right: hsl(267, 100%, 27%);
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+    --window-background: hsl(180, 100%, 90%);
+    --window-frame-left: hsl(0, 0%, 65%);
+    --window-frame-right: hsl(0, 0%, 23%);
+    --window-frame-top: hsl(0, 0%, 40%);
+    --door-background: hsl(37, 100%, 24%);
+    --door-frame-top: hsl(0, 0%, 40%);
+    --door-frame-left: hsl(0, 0%, 65%);
+    --door-frame-right: hsl(0, 0%, 23%);
+    --hoarding-background: hsl(0, 3%, 72%);
+    --hoarding-frame-right: hsl(0, 0%, 23%);
+    --hoarding-frame-left: hsl(0, 0%, 65%);
+    --hoarding-frame-top: hsl(0, 0%, 40%);
+    --garage-background: hsl(0, 3%, 72%);
+    --garage-frame-top: hsl(0, 0%, 23%);
+    --garage-frame-left: hsl(0, 0%, 65%);
+    --garage-frame-right: hsl(0, 0%, 40%);
+    --chimney-top: hsl(0, 0%, 40%);
+    --chimney-left: hsl(0, 0%, 65%);
+    --chimney-right: hsl(0, 0%, 23%);
+    --plataform-base: hsl(0, 0%, 65%);
+}
+
+.I2 {
+    --base-top: hsl(340, 100%, 64%);
+    --base-left: hsl(340, 100%, 50%);
+    --base-right: hsl(340, 100%, 27%);
+    --roof-top: hsl(0, 0%, 65%);
+    --roof-left: hsl(0, 0%, 40%);
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+    --window-background: hsl(180, 100%, 90%);
+    --window-frame-left: hsl(0, 0%, 65%);
+    --window-frame-right: hsl(0, 0%, 23%);
+    --window-frame-top: hsl(0, 0%, 40%);
+    --door-background: hsl(37, 100%, 24%);
+    --door-frame-top: hsl(0, 0%, 40%);
+    --door-frame-left: hsl(0, 0%, 65%);
+    --door-frame-right: hsl(0, 0%, 23%);
+    --pergola-top: hsl(0, 0%, 40%);
+    --pergola-right: hsl(0, 0%, 23%);
+    --railing-left: hsl(0, 0%, 65%);
+    --railing-right: hsl(0, 0%, 23%);
+    --railing-top: hsl(0, 0%, 40%);
+    --water-tank-top: hsl(240, 100%, 35%);
+    --water-tank-left: hsl(240, 100%, 50%);
+    --water-tank-right: hsl(240, 42%, 25%);
+    --water-tank-divicion-left: hsl(58, 100%, 50%);
+    --water-tank-divicion-right: hsl(58, 74%, 39%);
+    --tree-trunk-left: hsl(30, 100%, 25%);
+    --tree-trunk-right: hsl(30, 100%, 20%); 
+    --tree-foliage-top: hsl(110, 75%, 35%);
+    --tree-foliage-left: hsl(108, 100%, 39%);
+    --tree-foliage-right: hsl(109, 53%, 27%);
+}
+
+.P1 {
+    --park-top: hsl(109, 69%, 13%);
+    --park-right: hsl(120, 61%, 34%);
+    --park-left: hsl(120, 100%, 40%);
+}
+
+.S1 {
+    --base-top: hsl(215, 100%, 39%);
+    --base-left: hsl(240, 100%, 50%);
+    --base-right: hsl(240, 100%, 27%);
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+    --window-background: hsl(180, 100%, 90%);
+    --window-frame-left: hsl(0, 0%, 65%);
+    --window-frame-right: hsl(0, 0%, 23%);
+    --window-frame-top: hsl(0, 0%, 40%);
+    --brush-top: hsl(110, 75%, 35%);
+    --brush-left: hsl(108, 100%, 39%);
+    --brush-right: hsl(109, 53%, 27%);
+    --decorations-path: hsl(58, 93%, 43%);
+    --door-background: hsl(37, 100%, 24%);
+    --door-frame-top: hsl(0, 0%, 40%);
+    --door-frame-left: hsl(0, 0%, 65%);
+    --door-frame-right: hsl(0, 0%, 23%);
+    --hoarding-background: hsl(0, 3%, 72%);
+    --hoarding-frame-right: hsl(0, 0%, 23%);
+    --hoarding-frame-left: hsl(0, 0%, 65%);
+    --hoarding-frame-top: hsl(0, 0%, 40%);
+    --railing-top: hsl(0, 0%, 40%);
+    --railing-left: hsl(0, 0%, 65%);
+    --railing-right: hsl(0, 0%, 23%);
+    --step-top: hsl(0, 0%, 80%);
+    --step-left: hsl(0, 0%, 100%);
+    --step-right: hsl(0, 0%, 40%);
+    --plataform-base: hsl(0, 0%, 65%);
+}
+
+.S2 {
+    --base-top: hsl(0, 100%, 64%);
+    --base-left: hsl(0, 100%, 50%);
+    --base-right: hsl(0, 100%, 27%);
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+    --window-background: hsl(180, 100%, 90%);
+    --window-frame-left: hsl(0, 0%, 65%);
+    --window-frame-right: hsl(0, 0%, 23%);
+    --window-frame-top: hsl(0, 0%, 40%);
+    --brush-top: hsl(110, 75%, 35%);
+    --brush-left: hsl(108, 100%, 39%);
+    --brush-right: hsl(109, 53%, 27%);
+    --decorations-path: hsl(58, 93%, 43%);
+    --door-background: hsl(37, 100%, 24%);
+    --door-frame-top: hsl(0, 0%, 40%);
+    --door-frame-left: hsl(0, 0%, 65%);
+    --door-frame-right: hsl(0, 0%, 23%);
+    --hoarding-background: hsl(0, 3%, 72%);
+    --hoarding-frame-right: hsl(0, 0%, 23%);
+    --hoarding-frame-left: hsl(0, 0%, 65%);
+    --hoarding-frame-top: hsl(0, 0%, 40%);
+    --railing-top: hsl(0, 0%, 40%);
+    --railing-left: hsl(0, 0%, 65%);
+    --railing-right: hsl(0, 0%, 23%);
+    --step-top: hsl(0, 0%, 80%);
+    --step-left: hsl(0, 0%, 100%);
+    --step-right: hsl(0, 0%, 40%);
+    --plataform-base: hsl(0, 0%, 65%);
+}
+
+.S3 {
+    --base-top: hsl(0, 0%, 99%);
+    --base-left: hsl(0, 3%, 85%);
+    --base-right: hsl(0, 6%, 27%);
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+    --window-background: hsl(180, 100%, 90%);
+    --window-frame-left: hsl(0, 0%, 65%);
+    --window-frame-right: hsl(0, 0%, 23%);
+    --window-frame-top: hsl(0, 0%, 40%);
+    --brush-top: hsl(110, 75%, 35%);
+    --brush-left: hsl(108, 100%, 39%);
+    --brush-right: hsl(109, 53%, 27%);
+    --decorations-path: hsl(58, 93%, 43%);
+    --door-background: hsl(37, 100%, 24%);
+    --door-frame-top: hsl(0, 0%, 40%);
+    --door-frame-left: hsl(0, 0%, 65%);
+    --door-frame-right: hsl(0, 0%, 23%);
+    --hoarding-background: hsl(0, 3%, 72%);
+    --hoarding-frame-right: hsl(0, 0%, 23%);
+    --hoarding-frame-left: hsl(0, 0%, 65%);
+    --hoarding-frame-top: hsl(0, 0%, 40%);
+    --railing-top: hsl(0, 0%, 40%);
+    --railing-left: hsl(0, 0%, 65%);
+    --railing-right: hsl(0, 0%, 23%);
+    --step-top: hsl(0, 0%, 80%);
+    --step-left: hsl(0, 0%, 100%);
+    --step-right: hsl(0, 0%, 40%);
+    --plataform-base: hsl(0, 0%, 65%);
+    --shelf-left: hsl(30, 100%, 25%);
+    --shelf-top: hsl(30, 100%, 35%);
+    --shelf-right: hsl(16, 86%, 16%);
+    --flowerpots-top: hsl(0, 0%, 40%);
+    --flowerpots-left: hsl(0, 0%, 65%);
+    --flowerpots-right: hsl(0, 0%, 23%);
+    --stem-top: hsl(30, 100%, 38%);
+    --stem-right: hsl(30, 100%, 25%);
+    --stem-left: hsl(30, 89%, 42%);
+    --flower-left: hsl(300, 100%, 50%);
+    --flower-right: hsl(300, 100%, 27%);
+    --flower-top: hsl(300, 100%, 38%);
+    --flower-center: hsl(50, 100%, 50%);
+    --cactus-right: hsl(120, 61%, 34%);
+    --cactus-top: hsl(120, 100%, 37%);
+    --cactus-left: hsl(120, 100%, 40%);
+    --door-body: hsl(30, 100%, 24%);
+    --door-path-01: hsl(0, 0%, 40%);
+    --door-path-02: hsl(0, 0%, 65%);
+    --door-path-04: hsl(0, 0%, 23%);
+}
+
+.U1 {
+    --base-top: hsl(71, 56%, 44%);
+    --base-left: hsl(71, 55%, 50%);
+    --base-right: hsl(71, 55%, 27%);
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+    --window-background: hsl(180, 100%, 90%);
+    --window-frame-left: hsl(0, 0%, 65%);
+    --window-frame-right: hsl(0, 0%, 23%);
+    --window-frame-top: hsl(0, 0%, 40%);
+    --door-background: hsl(37, 100%, 24%);
+    --door-frame-top: hsl(0, 0%, 40%);
+    --door-frame-left: hsl(0, 0%, 65%);
+    --door-frame-right: hsl(0, 0%, 23%);
+    --hoarding-background: hsl(0, 3%, 72%);
+    --hoarding-frame-right: hsl(0, 0%, 23%);
+    --hoarding-frame-left: hsl(0, 0%, 65%);
+    --hoarding-frame-top: hsl(0, 0%, 40%);
+    --garage-background: hsl(0, 3%, 72%);
+    --garage-frame-top: hsl(0, 0%, 23%);
+    --garage-frame-left: hsl(0, 0%, 65%);
+    --garage-frame-right: hsl(0, 0%, 40%);
+    --garage-decorations: hsl(0, 0%, 23%);
+    --chimney-top: hsl(0, 0%, 40%);
+    --chimney-left: hsl(0, 0%, 65%);
+    --chimney-right: hsl(0, 0%, 23%);
+    --tower-base: hsl(0, 0%, 65%);
+    --tower-stroke: hsl(0, 0%, 0%);
+    --tower-top: hsl(240, 100%, 35%);
+    --tower-left: hsl(240, 100%, 50%);
+    --tower-right: hsl(240, 42%, 25%);
+}
+
+.U2 {
+    --base-top: hsl(0, 56%, 44%);
+    --base-left: hsl(0, 55%, 50%);
+    --base-right: hsl(0, 55%, 27%);
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+    --window-background: hsl(180, 100%, 90%);
+    --window-frame-left: hsl(0, 0%, 65%);
+    --window-frame-right: hsl(0, 0%, 23%);
+    --window-frame-top: hsl(0, 0%, 40%);
+    --door-background: hsl(0, 3%, 72%);
+    --door-frame-top: hsl(0, 0%, 40%);
+    --door-frame-left: hsl(0, 0%, 65%);
+    --door-frame-right: hsl(0, 0%, 23%);
+    --railing-left: hsl(0, 0%, 65%);
+    --railing-right: hsl(0, 0%, 23%);
+    --pergola-top: hsl(0, 0%, 40%);
+    --pergola-right: hsl(0, 0%, 23%);
+    --water-tank-top: hsl(240, 100%, 35%);
+    --water-tank-left: hsl(240, 100%, 50%);
+    --water-tank-right: hsl(240, 42%, 25%);
+    --water-tank-highlight-left: hsl(0, 0%, 100%);
+    --water-tank-highlight-right: hsl(0, 0%, 0%);
+    --water-tank-divicion-left: hsl(58, 100%, 50%);
+    --water-tank-divicion-right: hsl(58, 74%, 39%);
+}
+
+
+
+.g {
+    --ground-top: var(--ground-top-base);
+    --ground-right: var(--ground-right-base);
+    --ground-left: var(--ground-left-base);
+}

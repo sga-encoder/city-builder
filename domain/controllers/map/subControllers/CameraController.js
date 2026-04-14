@@ -41,8 +41,8 @@ export class MapCameraController {
       const fitMinScale = 0.1;
       const maxScale = 40;
       const responsiveInitialScale = {
-        756: 8,
-        1024: 4,
+        756: 3,
+        1024: 1.5,
         99999: .6,
       };
 

@@ -2,7 +2,7 @@ import { TurnSimulator } from "./Simulator.js";
 import { TurnLogger } from "./Logger.js";
 import { ScoringSystem } from "../../components/score/ScoringSystem.js";
 import { TURN_CONFIG } from "../../config/turnConfig.js";
-import { LocalStorage } from "../../../database/localStorage.js";
+import { LocalStorage } from "../../../database/LocalStorage.js";
 import { Logger } from "../../utilis/Logger.js";
 import { TurnValidator } from "./Validator.js";
 import { CitySelectionController } from "../../controllers/citySelection/Controller.js";

@@ -18,6 +18,63 @@
     right: 0;
 }
 
+#slide-right #weather-container
+{
+    position: absolute;
+    top: 1rem;
+    right: 4.5rem;
+    width: min(88vw, 360px);
+    background: rgba(15, 22, 38, 0.92);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    color: #e2e8f0;
+    z-index: 255;
+    padding: 0.8rem;
+    font-family: "Smooch Sans", sans-serif;
+}
+
+#slide-right #weather-container .weather-title
+{
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+#slide-right #weather-container .weather-city
+{
+    margin: 0.35rem 0 0.55rem 0;
+    opacity: 0.9;
+    font-size: 1.05rem;
+}
+
+#slide-right #weather-container .weather-row
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.15rem 0;
+}
+
+#slide-right #weather-container .weather-key
+{
+    opacity: 0.78;
+}
+
+#slide-right #weather-container .weather-value
+{
+    font-weight: 700;
+}
+
+#slide-right #weather-container .weather-footnote,
+#slide-right #weather-container .weather-loading,
+#slide-right #weather-container .weather-empty
+{
+    margin: 0.65rem 0 0 0;
+    opacity: 0.72;
+    font-size: 0.95rem;
+}
+
 #slide-right .buttons-container-top #weather svg
 {
     width: 100%;

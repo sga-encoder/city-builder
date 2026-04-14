@@ -28,4 +28,23 @@ export class LocalStorage {
             return null;
         }
     }
+    
+    static saveCache(storageKey, payload) {
+        try {
+            this.saveData(storageKey, JSON.stringify(payload));
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    static loadCache(storageKey) {
+        try {
+            const raw = this.loadData(storageKey);
+            if (!raw) return null;
+            return JSON.parse(raw);
+        } catch {
+            return null;
+        }
+    }
 }

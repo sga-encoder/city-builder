@@ -1,5 +1,4 @@
 /* eslint-disable css/use-baseline */
-
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Smooch+Sans:wght@100..900&family=WindSong:wght@400;500&display=swap');
 @import url("./rest.css");
 @import url("./themes/default.css");
@@ -10,7 +9,15 @@
 @import url("./components/slideRight/index.css");
 @import url("./utils/utils.css");
 @import url("./components/saveIndicator.css");
-
+@import url("./components/mainMenu.css");
+@import url("./components/inGameReturnButton.css");
+@import url("./components/mainMenu/routeCalculatorButton.css");
+@import url("./components/leaderBoard.css");
+@import url("./components/cityCreation.css");
+@import url("./components/citySelection.css");
+@import url("./components/settings.css");
+@import url("./components/score/happiness.css");
+@import url("./components/score/breakdown.css");
 
 body {
   background-image: url(../../public/images/background.jpg);

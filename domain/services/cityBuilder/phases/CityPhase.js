@@ -6,7 +6,7 @@ import { CityBuilderResourceManager } from "../managers/ResourceManager.js";
 import { SaveManager } from "../managers/SaveManager.js";
 import { CityBuilderTurnSystemManager } from "../managers/TurnSystemManager.js";
 import { TurnToolsStats } from "../../../utilis/devUtils/components/turnTools/Stats/Renderer.js";
-import { LocalStorage } from "../../../../database/localStorage.js";
+import { LocalStorage } from "../../../../database/LocalStorage.js";
 
 export class CityPhase {
   static execute({ grid, buildsConfig, initialResources, gameplaySettings = {} }) {

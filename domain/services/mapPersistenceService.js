@@ -1,5 +1,5 @@
 import { Logger } from "../utilis/Logger.js";
-import { LocalStorage } from "../../database/localStorage.js";
+import { LocalStorage } from "../../database/LocalStorage.js";
 
 /**
  * Servicio para manejar persistencia de mapas en localStorage.

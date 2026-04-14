@@ -1,4 +1,4 @@
-import { LocalStorage } from "../../../database/localStorage.js";
+import { LocalStorage } from "../../../database/LocalStorage.js";
 import { LeaderboardService } from "../../services/leaderBoard/LeaderboardService.js";
 import { LeaderboardRenderer } from "../../components/leaderBoard/Renderer.js";
 

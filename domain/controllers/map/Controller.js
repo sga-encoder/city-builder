@@ -5,7 +5,7 @@ import { MapModelObserverBinder } from "./binders/ModelObserverBinder.js";
 import { MapBuildController } from "./subControllers/BuildController.js";
 import { SlideLeftController } from "../slideLeft/Controller.js";
 import { Logger } from "../../utilis/Logger.js";
-import { LocalStorage } from "../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../database/localStorage.js";
 import { BuildingRenderer } from "../../components/building/Renderer.js";
 import { MapRouteController } from "./subControllers/DijsktraController.js";
 import { RouteModeController } from "./subControllers/RouteModeController.js";
@@ -261,6 +261,15 @@ export class MapController {
   static demolishCell(cellRef) {
     if (!cellRef || !this.mapModel) return false;
 
+    const currentBuilding = this.mapModel?.grid?.[cellRef.i]?.[cellRef.j];
+    const currentType = String(currentBuilding?.type || "").toLowerCase();
+    if (!currentBuilding || currentType === "g") {
+      return false;
+    }
+
+    const originalCost = Number(currentBuilding?.cost || 0);
+    const refundAmount = Math.max(0, Math.floor(originalCost / 2));
+
     const ground = createBuilding({
       id: cellRef.id,
       type: "g",
@@ -273,6 +282,10 @@ export class MapController {
 
     if (this.mapModel?.roadMatrix?.[cellRef.i]) {
       this.mapModel.roadMatrix[cellRef.i][cellRef.j] = 0;
+    }
+
+    if (refundAmount > 0 && this.city?.resources?.money) {
+      this.city.resources.money.add(refundAmount);
     }
 
     return true;

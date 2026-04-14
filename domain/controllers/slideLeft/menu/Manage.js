@@ -47,7 +47,11 @@ export class ManageMenuController {
           } else if (btn.id === "info") {
             mapController.openBuildingInfoPanel(cell);
           } else if (btn.id === "destroy") {
-            mapController.replaceCellBuilding("g", state.builds, cell);
+            const demolished = mapController.demolishCell(cell);
+            if (!demolished) {
+              console.warn("[ManageMenuController] No se pudo demoler la celda activa");
+              return;
+            }
             setMenuState(constants.MENU_STATE.NONE);
             mapController.clearCellSelection();
           }

@@ -6,29 +6,37 @@ import { CityBuilderResourceManager } from "../managers/ResourceManager.js";
 import { SaveManager } from "../managers/SaveManager.js";
 import { CityBuilderTurnSystemManager } from "../managers/TurnSystemManager.js";
 import { TurnToolsStats } from "../../../utilis/devUtils/components/turnTools/Stats/Renderer.js";
-import { LocalStorage } from "../../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../../database/localStorage.js";
+import { createBuilding } from "../../../../models/building/buildingFactory.js";
 
 export class CityPhase {
-  static execute({ grid, buildsConfig, initialResources, gameplaySettings = {} }) {
+  static execute({ grid, buildsConfig, svgModels, initialResources, gameplaySettings = {} }) {
     StatsManager.reset();
     TurnToolsStats.lastPayload = null;
 
     const citizens = this.loadCitizens();
     const savedScore = this.loadScore();
-    const city = this.createCity({ grid, buildsConfig, initialResources, citizens, savedScore });
+    
+    const city = this.createCity({ 
+      grid, 
+      buildsConfig, 
+      initialResources, 
+      citizens, 
+      savedScore 
+    });
     this.initControllers(city);
     const turnSystem = this.initTurnSystem(city, gameplaySettings);
     return { city, turnSystem };
   }
 
-  static createCity({ grid, buildsConfig, initialResources, citizens, savedScore = 0 }) {
+  static createCity({ grid, buildsConfig, initialResources, citizens, savedScore = 0, cityConfig = null, turn = 0 }) {
     Logger.log("🏙️ [CityBuilder] Creando instancia de City...");
     
-    // Intentar cargar configuración de ciudañ desde localStorage
-    let cityConfig = this.loadCityConfig();
+    // Usar cityConfig si viene de parámetro, sino intentar cargarlo
+    let config = cityConfig || this.loadCityConfig();
 
     const persistedScore = Number(savedScore);
-    const configScore = Number(cityConfig?.score);
+    const configScore = Number(config?.score);
     const initialScore = Number.isFinite(configScore)
       ? configScore
       : Number.isFinite(persistedScore)
@@ -36,10 +44,10 @@ export class CityPhase {
         : 0;
 
     const city = new City({
-      id: cityConfig?.id || 1,
-      mayor: cityConfig?.mayor || { name: "John Doe", joinDate: new Date().toISOString() },
-      name: cityConfig?.name || "New City",
-      location: cityConfig?.location || { name: "USA", latitude: 0, longitude: 0 },
+      id: config?.id || 1,
+      mayor: config?.mayor || { name: "John Doe", joinDate: new Date().toISOString() },
+      name: config?.name || "New City",
+      location: config?.location || { name: "USA", latitude: 0, longitude: 0 },
       map: {
         grid,
         buildsConfig,
@@ -47,10 +55,43 @@ export class CityPhase {
       initial: initialResources,
       citizens,
       score: initialScore,
-      turn: cityConfig?.turn || 0,
+      turn: config?.turn || turn || 0,
     });
     Logger.log("✅ [CityBuilder] City creada, grid:", city.map?.grid?.length);
     return city;
+  }
+
+  /**
+   * Carga el estado unificado desde localStorage
+   * Si existe un gameState completo, lo usa. Si no, carga desde keys antiguas.
+   */
+  static loadGameState() {
+    try {
+      const gameStateRaw = LocalStorage.loadData("gameState");
+      if (gameStateRaw) {
+        const parsed = JSON.parse(gameStateRaw);
+        return {
+          grid: parsed.grid || [],
+          citizens: parsed.citizens || [],
+          resources: parsed.resources || { money: 50000, energy: 100, water: 100, food: 100 },
+          cityConfig: parsed.cityConfig || {},
+          score: Number(parsed.score || 0),
+          turn: Number(parsed.turn || 0),
+        };
+      }
+    } catch (error) {
+      Logger.warn("⚠️ [CityPhase] Error cargando gameState unificado, intentando keys antiguas");
+    }
+
+    // Fallback a sistema antiguo
+    return {
+      grid: [],
+      citizens: this.loadCitizens(),
+      resources: {},
+      cityConfig: this.loadCityConfig(),
+      score: this.loadScore(),
+      turn: 0,
+    };
   }
 
   static loadCitizens() {

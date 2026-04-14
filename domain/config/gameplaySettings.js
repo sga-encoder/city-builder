@@ -1,4 +1,4 @@
-import { LocalStorage } from "../../database/LocalStorage.js";
+import { LocalStorage } from "../../database/localStorage.js";
 
 const GAMEPLAY_SETTINGS_KEY = "gameplaySettings";
 

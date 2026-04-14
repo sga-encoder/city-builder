@@ -1,5 +1,5 @@
 import { ToastService } from "../toast.js";
-import { LocalStorage } from "../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../database/localStorage.js";
 import { fetchTopHeadlines } from "../../../database/newsApi.js";
 import { News } from "../../../models/News.js";
 import {

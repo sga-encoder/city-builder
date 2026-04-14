@@ -1,5 +1,5 @@
 import { createBuilding } from "./building/buildingFactory.js";
-import { LocalStorage } from "../database/LocalStorage.js";
+import { LocalStorage } from "../database/localStorage.js";
 import { CitySelectionController } from "../domain/controllers/citySelection/Controller.js";
 
 export class Map {

@@ -1,4 +1,4 @@
-import { LocalStorage } from "../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../database/localStorage.js";
 
 export const EXTERNAL_API_CONFIG = {
   WEATHER_REFRESH_MS: 30 * 60 * 1000,

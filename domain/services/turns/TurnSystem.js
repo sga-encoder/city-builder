@@ -2,10 +2,11 @@ import { TurnSimulator } from "./Simulator.js";
 import { TurnLogger } from "./Logger.js";
 import { ScoringSystem } from "../../components/score/ScoringSystem.js";
 import { TURN_CONFIG } from "../../config/turnConfig.js";
-import { LocalStorage } from "../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../database/localStorage.js";
 import { Logger } from "../../utilis/Logger.js";
 import { TurnValidator } from "./Validator.js";
 import { CitySelectionController } from "../../controllers/citySelection/Controller.js";
+import { SaveManager } from "../cityBuilder/managers/SaveManager.js";
 
 export class TurnSystem {
   constructor(config = TURN_CONFIG) {
@@ -150,6 +151,9 @@ export class TurnSystem {
         error: criticalError.message,
       });
     }
+
+    // 💾 Guardar estado completo después de turno completado
+    SaveManager.saveGame();
 
     return turnData;
   }

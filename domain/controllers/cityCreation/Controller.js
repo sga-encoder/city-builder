@@ -4,7 +4,7 @@
 
 import { CityCreationRenderer } from "../../components/cityCreation/Renderer.js";
 import { CitySelectionController } from "../citySelection/Controller.js";
-import { LocalStorage } from "../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../database/localStorage.js";
 import { Logger } from "../../utilis/Logger.js";
 import { MapResourceCalculator } from "../../services/mapResourceCalculator.js";
 import { MapPersistenceService } from "../../services/mapPersistenceService.js";

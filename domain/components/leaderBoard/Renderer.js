@@ -190,7 +190,7 @@ export class LeaderboardRenderer {
     if (!confirmed) return;
 
     // Importar LocalStorage
-    import("../../../database/LocalStorage.js").then(({ LocalStorage }) => {
+    import("../../../database/localStorage.js").then(({ LocalStorage }) => {
       LocalStorage.saveData("savedCities", JSON.stringify([]));
       alert("✓ Ranking reiniciado correctamente");
       this.destroy();

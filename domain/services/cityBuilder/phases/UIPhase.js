@@ -4,6 +4,7 @@ import { ScoringRender } from "../../../components/score/ScoringRender.js";
 import { HappinessIndicator } from "../../../components/score/HappinessIndicator.js";
 import { InGameReturnButton } from "../../../components/mainMenu/InGameReturnButton.js";
 import { RouteCalculatorButton } from "../../../components/mainMenu/RouteCalculatorButton.js";
+import { SaveManager } from "../managers/SaveManager.js";
 
 export class UIPhase {
   static execute({ city, icons, builds, turnSystem, onReturnToMainMenu }) {
@@ -16,5 +17,21 @@ export class UIPhase {
     RouteCalculatorButton.render(() => {
       // Acción para calcular rutas (vacío por ahora, será implementado después)
     });
+
+    // 💾 Guardar antes de cerrar la página
+    this.#setupAutoSaveOnClose();
+  }
+
+  /**
+   * Configura guardado automático cuando el usuario cierra la pestaña/ventana
+   * @private
+   */
+  static #setupAutoSaveOnClose() {
+    const handleBeforeUnload = () => {
+      SaveManager.quickSave();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("pagehide", handleBeforeUnload);
   }
 }

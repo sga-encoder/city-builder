@@ -4,7 +4,7 @@
 import { MapRenderer } from "../../components/map/Renderer.js";
 import { Logger } from "../../utilis/Logger.js";
 import { FileManager } from "../../utilis/fileManager.js";
-import { LocalStorage } from "../../../database/LocalStorage.js";
+import { LocalStorage } from "../../../database/localStorage.js";
 import { CityBuilderResourceManager } from "./managers/ResourceManager.js";
 import { ConfigPhase } from "./phases/ConfigPhase.js";
 import { AssetsPhase } from "./phases/AssetsPhase.js";
@@ -147,6 +147,7 @@ export class CityBuilderInitializer {
     const { city, turnSystem } = CityPhase.execute({
       grid,
       buildsConfig: data.builds,
+      svgModels: builds,
       initialResources,
       gameplaySettings,
     });

@@ -230,6 +230,23 @@
   color: rgba(255, 255, 255, 0.85);
 }
 
+.map-loader-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.map-loader-label-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.hidden-input {
+  display: none !important;
+}
+
 /* =====================
    BUTTONS
    ===================== */

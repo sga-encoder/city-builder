@@ -1,5 +1,6 @@
 ﻿import { SaveManager } from "./services/cityBuilder/managers/SaveManager.js";
 import { CityBuilderInitializer } from "./services/cityBuilder/Initializer.js";
+import { CityExportService } from "./services/cityBuilder/CityExportService.js";
 import { CitySelectionController } from "./controllers/citySelection/Controller.js";
 import { CityCreationController } from "./controllers/cityCreation/Controller.js";
 import { MainMenuController } from "./controllers/mainMenu/Controller.js";
@@ -91,6 +92,11 @@ import {
         mainMenuController.destroy();
         openSettings();
       },
+      onExport: () => {
+        Logger.log("📥 [Main] Opción: exportar ciudad");
+        mainMenuController.destroy();
+        openCityExport();
+      },
     });
   };
 
@@ -130,6 +136,31 @@ import {
       },
       () => {
         Logger.log("↩️ [Main] Volviendo al menú principal desde carga de ciudad");
+        openMainMenu();
+      },
+    );
+  };
+
+  const openCityExport = () => {
+    const selectionController = new CitySelectionController();
+    selectionController.show(
+      (selectedCityData) => {
+        Logger.log("📥 [Main] Exportando ciudad:", selectedCityData.name);
+        
+        // Usar CityExportService para exportar
+        CityExportService.exportCity(selectedCityData);
+        
+        selectionController.destroy();
+        openMainMenu();
+      },
+      () => {
+        Logger.log("📝 [Main] Nueva ciudad - No hay nada que exportar");
+        ToastService.mostrarToast("No hay ciudades nuevas para exportar", "info");
+        selectionController.destroy();
+        openMainMenu();
+      },
+      () => {
+        Logger.log("↩️ [Main] Volviendo al menú principal desde exportación");
         openMainMenu();
       },
     );

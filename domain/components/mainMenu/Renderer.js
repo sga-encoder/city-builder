@@ -53,6 +53,12 @@ export class MainMenuRenderer {
     );
 
     actions.appendChild(
+      this.#buildButton("main-menu-btn main-menu-btn-tertiary", "📥 Exportar ciudad", () => {
+        this.callbacks?.onExport?.();
+      }),
+    );
+
+    actions.appendChild(
       this.#buildButton("main-menu-btn main-menu-btn-tertiary", "Ajustes", () => {
         this.callbacks?.onSettings?.();
       }),

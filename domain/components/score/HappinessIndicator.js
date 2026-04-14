@@ -54,10 +54,8 @@ export class HappinessIndicator {
 		const totalHappiness = citizens.reduce((sum, citizen) => sum + (citizen?.happiness ?? 0), 0);
 		const averageHappiness = totalHappiness / citizens.length;
 
-		// Normalizar a porcentaje (suponiendo que happiness está entre -100 y 100)
-		const normalizedHappiness = Math.max(0, Math.min(100, (averageHappiness + 100) / 2));
-		const percentageHappiness = Math.round(normalizedHappiness);
-
-		valueNode.textContent = `${percentageHappiness}%`;
+		// Mostrar el valor directo de felicidad promedio (sin normalización)
+		const displayValue = Math.round(averageHappiness);
+		valueNode.textContent = `${displayValue}%`;
 	}
 }

@@ -75,3 +75,87 @@
     top: 10rem;
   }
 }
+
+/* =====================
+   SAVE AND DELETE BUTTONS
+   ===================== */
+
+.in-game-save-btn {
+  position: fixed;
+  left: 150px;
+  bottom: 0.9rem;
+  z-index: 220;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 1.1rem;
+  background: linear-gradient(135deg, rgba(66, 165, 245, 0.95) 0%, rgba(33, 150, 243, 0.95) 100%);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  opacity: 0.98;
+  transition: transform 0.18s ease, background 0.18s ease, opacity 0.18s ease;
+}
+
+.in-game-save-btn.in-panel {
+  position: absolute;
+  left: 130px;
+  bottom: 0.75rem;
+  top: auto;
+}
+
+.in-game-save-btn:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, rgba(100, 181, 246, 1) 0%, rgba(66, 165, 245, 1) 100%);
+  opacity: 1;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55);
+}
+
+.in-game-save-btn:active {
+  transform: none;
+}
+
+.in-game-delete-btn {
+  position: fixed;
+  left: 280px;
+  bottom: 0.9rem;
+  z-index: 220;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 1.1rem;
+  background: linear-gradient(135deg, rgba(245, 66, 66, 0.95) 0%, rgba(243, 33, 33, 0.95) 100%);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  opacity: 0.98;
+  transition: transform 0.18s ease, background 0.18s ease, opacity 0.18s ease;
+}
+
+.in-game-delete-btn.in-panel {
+  position: absolute;
+  left: 250px;
+  bottom: 0.75rem;
+  top: auto;
+}
+
+.in-game-delete-btn:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, rgba(250, 100, 100, 1) 0%, rgba(245, 66, 66, 1) 100%);
+  opacity: 1;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55);
+}
+
+.in-game-delete-btn:active {
+  transform: none;
+}

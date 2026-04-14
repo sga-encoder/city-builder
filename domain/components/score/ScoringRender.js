@@ -11,7 +11,6 @@ export class ScoringRender {
 
 		// Hacer clickeable el indicador
 		const scorer = new ScoringSystem();
-		scoreRoot.style.cursor = "pointer";
 		scoreRoot.addEventListener("click", () => {
 			ScoreBreakdown.show(scorer, city);
 		});

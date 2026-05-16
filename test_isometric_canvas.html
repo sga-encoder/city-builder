@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Option 1 — SVG → Canvas Isometric Transform</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #a8d8ff;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: #8888aa;
+      margin-bottom: 24px;
+    }
+
+    /* ── Controls ─────────────────────────────────────────── */
+    .controls {
+      background: #16213e;
+      border: 1px solid #2a2a4a;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: flex-end;
+    }
+
+    .ctrl-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 140px;
+    }
+
+    .ctrl-group label {
+      font-size: 0.75rem;
+      color: #9999bb;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .ctrl-group input[type="range"] {
+      accent-color: #5b9bd5;
+      width: 160px;
+    }
+
+    .ctrl-group .val {
+      font-size: 0.75rem;
+      color: #a8d8ff;
+      font-variant-numeric: tabular-nums;
+    }
+
+    button {
+      background: #5b9bd5;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      align-self: flex-end;
+    }
+
+    button:hover { background: #3a7bc8; }
+
+    /* ── Transform test strip ─────────────────────────────── */
+    .transform-strip {
+      background: #16213e;
+      border: 1px solid #2a2a4a;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+
+    .transform-strip h2 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #a8d8ff;
+    }
+
+    .css-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: flex-end;
+    }
+
+    /* ── Comparison grid ──────────────────────────────────── */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .comparison { grid-template-columns: 1fr; }
+    }
+
+    .panel {
+      background: #16213e;
+      border: 1px solid #2a2a4a;
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .panel h2 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #a8d8ff;
+    }
+
+    .panel .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      background: #2a2a4a;
+      color: #8888bb;
+      border-radius: 4px;
+      padding: 2px 7px;
+      margin-bottom: 10px;
+    }
+
+    .canvas-wrapper {
+      display: flex;
+      justify-content: center;
+      background: #0d0d1a;
+      border-radius: 6px;
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    .canvas-wrapper svg,
+    .canvas-wrapper canvas {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Applied to the canvas wrapper to demonstrate CSS transform */
+    .css-transformed { transition: transform 0.3s ease; }
+
+    .info-box {
+      margin-top: 12px;
+      background: #0d1a2d;
+      border-left: 3px solid #5b9bd5;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: #99aabb;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Option 1 — SVG → Canvas with Isometric Matrix Transform</h1>
+<p class="subtitle">
+  The SVG is parsed in JavaScript, each <code>&lt;path&gt;</code> is drawn onto a Canvas with a
+  custom isometric 2D transform matrix. CSS transforms (skew, rotate) can then be applied to the
+  <em>canvas element</em> without distorting the underlying geometry.
+</p>
+
+<!-- ── Isometric matrix controls ──────────────────────────── -->
+<section class="controls">
+  <div class="ctrl-group">
+    <label>Scale X <span class="val" id="val-sx">0.866</span></label>
+    <input type="range" id="ctrl-sx" min="0.3" max="2" step="0.001" value="0.866" />
+  </div>
+  <div class="ctrl-group">
+    <label>Skew X <span class="val" id="val-skx">-0.5</span></label>
+    <input type="range" id="ctrl-skx" min="-2" max="2" step="0.001" value="-0.5" />
+  </div>
+  <div class="ctrl-group">
+    <label>Skew Y <span class="val" id="val-sky">0.433</span></label>
+    <input type="range" id="ctrl-sky" min="-2" max="2" step="0.001" value="0.433" />
+  </div>
+  <div class="ctrl-group">
+    <label>Scale Y <span class="val" id="val-sy">0.75</span></label>
+    <input type="range" id="ctrl-sy" min="0.3" max="2" step="0.001" value="0.75" />
+  </div>
+  <div class="ctrl-group">
+    <label>Translate X <span class="val" id="val-tx">500</span></label>
+    <input type="range" id="ctrl-tx" min="-200" max="1200" step="1" value="500" />
+  </div>
+  <div class="ctrl-group">
+    <label>Translate Y <span class="val" id="val-ty">500</span></label>
+    <input type="range" id="ctrl-ty" min="-200" max="1200" step="1" value="500" />
+  </div>
+  <button id="btn-reset">Reset defaults</button>
+</section>
+
+<!-- ── CSS transform test ─────────────────────────────────── -->
+<section class="transform-strip">
+  <h2>CSS Transforms applied to canvas (no geometry deformation)</h2>
+  <div class="css-controls">
+    <div class="ctrl-group">
+      <label>skewX (deg) <span class="val" id="val-cskx">0</span></label>
+      <input type="range" id="css-skx" min="-45" max="45" step="1" value="0" />
+    </div>
+    <div class="ctrl-group">
+      <label>skewY (deg) <span class="val" id="val-csky">0</span></label>
+      <input type="range" id="css-sky" min="-45" max="45" step="1" value="0" />
+    </div>
+    <div class="ctrl-group">
+      <label>rotateX (deg) <span class="val" id="val-crx">0</span></label>
+      <input type="range" id="css-rx" min="-60" max="60" step="1" value="0" />
+    </div>
+    <div class="ctrl-group">
+      <label>rotateY (deg) <span class="val" id="val-cry">0</span></label>
+      <input type="range" id="css-ry" min="-60" max="60" step="1" value="0" />
+    </div>
+    <button id="btn-reset-css">Reset CSS</button>
+  </div>
+</section>
+
+<!-- ── Comparison ─────────────────────────────────────────── -->
+<div class="comparison">
+  <div class="panel">
+    <h2>Original SVG</h2>
+    <span class="tag">source</span>
+    <div class="canvas-wrapper" id="svg-container"></div>
+    <div class="info-box">
+      The raw <code>store_land.svg</code> rendered directly in the browser. No transformation applied.
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Canvas — Isometric Matrix Transform</h2>
+    <span class="tag">option 1</span>
+    <div class="canvas-wrapper css-transformed" id="canvas-container"></div>
+    <div class="info-box">
+      Each SVG <code>&lt;path&gt;</code> is drawn onto a <code>&lt;canvas&gt;</code> element with
+      <code>ctx.setTransform(a, b, c, d, tx, ty)</code> applying the isometric matrix. The canvas can
+      then receive arbitrary CSS transforms without distorting the projected geometry.
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+//  SVG source (store_land.svg inlined)
+// ─────────────────────────────────────────────────────────────
+const SVG_SOURCE = `<svg id="g-store" width="1000" height="1000" viewBox="0 0 1000 1000" fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <g class="ground">
+        <path class="ground-top" d="M1000 650L500 900L0 650L500 400L1000 650Z" fill="#333333" />
+        <path class="ground-right" d="M500 900V1000L0 750V650L500 900Z" fill="black" />
+        <path class="ground-left" d="M500 900V1000L1000 750V650L500 900Z" fill="#555555" />
+    </g>
+    <g class="building-01">
+        <g class="base">
+            <path class="base-top" d="M870 513L618 639L240 450L492 324L870 513Z" fill="#F04949" />
+            <path class="base-left" d="M870 654L618 780V639L870 513V654Z" fill="#E67070" />
+            <path class="base-right" d="M240 450V591L618 780V639L240 450Z" fill="#CA2B2B" />
+        </g>
+        <g class="door-01">
+            <path class="door-background"
+                d="M457.003 613.151L456.975 699.466L399.025 670.366V584.041L457.003 613.151Z"
+                fill="#7B4C00" />
+            <g class="door-frame">
+                <path class="door-frame-top"
+                    d="M465 609.137L461.003 611.145L391.029 576.012L395.027 574.006L465 609.137Z"
+                    fill="#676767" />
+                <path class="door-frame-left"
+                    d="M399.025 670.368L395.027 668.36V582.035L399.025 584.043V670.368Z"
+                    fill="#A6A6A6" />
+                <path class="door-frame-left"
+                    d="M465 703.492L461.002 701.485V611.144L465 609.137V703.492Z" fill="#A6A6A6" />
+                <path class="door-frame-right"
+                    d="M457.003 699.477L461.002 701.484V611.144L391.028 576.012V666.352L395.027 668.36V582.034L457.003 613.152V699.477Z"
+                    fill="#3B3B3B" />
+            </g>
+        </g>
+        <g class="decorations">
+            <path class="decorations-path"
+                d="M257 734.5L392 667L466 704L405 734.5L619 841.5L545 878.5L257 734.5Z"
+                fill="#CFC909" />
+            <g class="bush">
+                <path class="bush-left" d="M900 655V639L616 781V797L900 655Z" fill="#28C900" />
+                <path class="bush-left" d="M376 675V661L392 652V667L376 675Z" fill="#28C900" />
+                <path class="bush-right" d="M448 713V697L616 781V797L448 713Z" fill="#2E6820" />
+                <path class="bush-right" d="M209 593V576.5L376 661V675L209 593Z" fill="#2E6820" />
+                <path class="bush-top" d="M616 781L900 639L870 624V638L616 765L464 688L448 697L616 781Z" fill="#309C15" />
+                <path class="bush-top" d="M209 577L240 561.5V576L392 652L375 660L209 577Z" fill="#309C15" />
+                <path class="bush-top" d="M209 576.5L240 561V575.5L392 652L376 661L209 576.5Z" fill="#309C15" />
+            </g>
+        </g>
+        <g class="windows-group">
+            <g class="window-01">
+                <path class="window-background" d="M269 561V520L353 562V603L269 561Z" fill="#CAFFFF" />
+                <g class="window-frame">
+                    <path class="window-frame-right" d="M269 561L265 563V518L269 520V561Z" fill="#A6A6A6" />
+                    <path class="window-frame-right" d="M361 611L357 613V556L361 558V611Z" fill="#A6A6A6" />
+                    <path class="window-frame-top" d="M265 510L261 512L357 560L361 558L265 510Z" fill="#676767" />
+                    <path class="window-frame-top" d="M269 561L265 563L353 607V603L269 561Z" fill="#676767" />
+                    <path class="window-frame-left" fill-rule="evenodd" clip-rule="evenodd"
+                        d="M261 565V512L357 560V613L261 565ZM265 518V563L353 607V562L265 518Z"
+                        fill="#3B3B3B" />
+                </g>
+            </g>
+            <g class="window-01">
+                <path class="window-background" d="M505 678V637L589 679V720L505 678Z" fill="#CAFFFF" />
+                <g class="window-frame">
+                    <path class="window-frame-right" d="M505 678L501 680V635L505 637V678Z" fill="#A6A6A6" />
+                    <path class="window-frame-right" d="M597 728L593 730V673L597 675V728Z" fill="#A6A6A6" />
+                    <path class="window-frame-top" d="M501 627L497 629L593 677L597 675L501 627Z" fill="#676767" />
+                    <path class="window-frame-top" d="M505 678L501 680L589 724V720L505 678Z" fill="#676767" />
+                    <path class="window-frame-left" fill-rule="evenodd" clip-rule="evenodd"
+                        d="M497 682V629L593 677V730L497 682ZM501 635V680L589 724V679L501 635Z"
+                        fill="#3B3B3B" />
+                </g>
+            </g>
+        </g>
+        <g class="hoarding">
+            <path class="hoarding-background" d="M546.576 552V484.998L380.576 402V469L546.576 552Z" fill="#D9D9D9" />
+            <g class="hoarding-frame">
+                <path class="hoarding-frame-left" d="M512.576 572L508.576 574V541L512.576 539V572Z" fill="#A6A6A6" />
+                <path class="hoarding-frame-left" d="M404.576 518L400.576 520V487L404.576 485V518Z" fill="#A6A6A6" />
+                <path class="hoarding-frame-left" d="M554.576 560L550.576 562V483L554.576 481V560Z" fill="#A6A6A6" />
+                <path class="hoarding-frame-left" d="M380.576 469L376.576 471V400L380.576 402V469Z" fill="#A6A6A6" />
+                <path class="hoarding-frame-top" d="M554.578 481L550.578 483L372.576 394L376.577 391.999L554.578 481Z"
+                    fill="#676767" />
+                <path class="hoarding-frame-top"
+                    d="M546.576 551.999L546.576 555.999L376.576 471L380.576 468.999L546.576 551.999Z"
+                    fill="#676767" />
+                <path class="hoarding-frame-right" fill-rule="evenodd" clip-rule="evenodd"
+                    d="M550.576 562L508.576 541V574L504.576 572V539L400.576 487V520L396.576 518V485L372.576 473V394L550.576 483V562ZM376.576 471L546.576 556V485L376.576 400V471Z"
+                    fill="#3B3B3B" />
+            </g>
+        </g>
+        <g class="hoarding-stand">
+            <path class="hoarding-background" d="M256 490L108 564V460L256 386V490Z" fill="#D9D9D9" />
+            <g class="hoarding-frame">
+                <path class="hoarding-frame-top" d="M104 458L100 456L260 376L264 378L104 458Z" fill="#676767" />
+                <path class="hoarding-frame-top" d="M108 568V564L256 490L260 492L108 568Z" fill="#676767" />
+                <path class="hoarding-frame-right" d="M104 458L100 456V572L104 574.091V458Z" fill="#3B3B3B" />
+                <path class="hoarding-frame-right" d="M260 384L256 385.999V489.999L260 491.999V384Z" fill="#3B3B3B" />
+                <path class="hoarding-frame-right" d="M182 535L178 537V670.909L182 673V535Z" fill="#3B3B3B" />
+                <path class="hoarding-frame-left" fill-rule="evenodd" clip-rule="evenodd"
+                    d="M264 378V494.182L186 533V671L182 673V535L104 574V458L264 378ZM260 492V384L108 460V568L260 492Z"
+                    fill="#A6A6A6" />
+            </g>
+        </g>
+    </g>
+</svg>`;
+
+// ─────────────────────────────────────────────────────────────
+//  Core function — Option 1
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * SVG → Canvas Isometric Transform
+ * Renders SVG paths onto a canvas with an isometric 2D matrix.
+ *
+ * @param {string} svgString - Raw SVG markup
+ * @param {number} width     - Canvas width  (px)
+ * @param {number} height    - Canvas height (px)
+ * @param {number[]} matrix  - [a, b, c, d, tx, ty] — the six-element 2D transform matrix
+ * @returns {HTMLCanvasElement}
+ */
+function svgToIsometricCanvas(svgString, width = 1000, height = 1000, matrix = null) {
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+
+  // Default isometric matrix: rotateX(60°) + skewX(-30°) + scale
+  const isometricMatrix = matrix || [
+    0.866, -0.5,     // a (scaleX), b (skewY)
+    0.433,  0.75,    // c (skewX),  d (scaleY)
+    width / 2, height / 2  // tx, ty
+  ];
+
+  // Parse the SVG string
+  const parser = new DOMParser();
+  const svgDoc = parser.parseFromString(svgString, 'image/svg+xml');
+
+  // Apply isometric matrix
+  ctx.setTransform(...isometricMatrix);
+
+  // Draw every <path> element preserving its fill colour
+  svgDoc.querySelectorAll('path').forEach(path => {
+    const d    = path.getAttribute('d');
+    const fill = path.getAttribute('fill');
+
+    if (!d) return;
+
+    const pathObj = new Path2D(d);
+
+    // fill
+    ctx.fillStyle = (fill && fill !== 'none') ? fill : 'transparent';
+    if (fill !== 'none') ctx.fill(pathObj);
+
+    // stroke (thin outline so hairlines are visible)
+    const stroke = path.getAttribute('stroke');
+    if (stroke && stroke !== 'none') {
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = parseFloat(path.getAttribute('stroke-width') || '1');
+      ctx.stroke(pathObj);
+    }
+  });
+
+  return canvas;
+}
+
+// ─────────────────────────────────────────────────────────────
+//  UI wiring
+// ─────────────────────────────────────────────────────────────
+
+// Insert original SVG
+const svgContainer = document.getElementById('svg-container');
+svgContainer.innerHTML = SVG_SOURCE;
+svgContainer.querySelector('svg').style.width  = '100%';
+svgContainer.querySelector('svg').style.height = 'auto';
+
+// Matrix sliders
+const ids = ['sx', 'skx', 'sky', 'sy', 'tx', 'ty'];
+const defaults = { sx: 0.866, skx: -0.5, sky: 0.433, sy: 0.75, tx: 500, ty: 500 };
+
+function getMatrix() {
+  return [
+    parseFloat(document.getElementById('ctrl-sx').value),
+    parseFloat(document.getElementById('ctrl-skx').value),
+    parseFloat(document.getElementById('ctrl-sky').value),
+    parseFloat(document.getElementById('ctrl-sy').value),
+    parseFloat(document.getElementById('ctrl-tx').value),
+    parseFloat(document.getElementById('ctrl-ty').value),
+  ];
+}
+
+function render() {
+  const matrix = getMatrix();
+  const container = document.getElementById('canvas-container');
+  container.innerHTML = '';
+  const canvas = svgToIsometricCanvas(SVG_SOURCE, 1000, 1000, matrix);
+  canvas.style.width  = '100%';
+  canvas.style.height = 'auto';
+  container.appendChild(canvas);
+  applyCssTransform();
+}
+
+ids.forEach(id => {
+  const slider = document.getElementById('ctrl-' + id);
+  const valEl  = document.getElementById('val-'  + id);
+  slider.addEventListener('input', () => {
+    valEl.textContent = parseFloat(slider.value).toFixed(3);
+    render();
+  });
+});
+
+document.getElementById('btn-reset').addEventListener('click', () => {
+  ids.forEach(id => {
+    const el = document.getElementById('ctrl-' + id);
+    el.value = defaults[id];
+    document.getElementById('val-' + id).textContent = parseFloat(defaults[id]).toFixed(3);
+  });
+  render();
+});
+
+// CSS transform sliders
+function applyCssTransform() {
+  const skx = document.getElementById('css-skx').value;
+  const sky = document.getElementById('css-sky').value;
+  const rx  = document.getElementById('css-rx').value;
+  const ry  = document.getElementById('css-ry').value;
+
+  document.getElementById('val-cskx').textContent = skx + '°';
+  document.getElementById('val-csky').textContent = sky + '°';
+  document.getElementById('val-crx').textContent  = rx  + '°';
+  document.getElementById('val-cry').textContent  = ry  + '°';
+
+  const wrapper = document.querySelector('.css-transformed');
+  const parts = [];
+  if (+skx !== 0) parts.push(`skewX(${skx}deg)`);
+  if (+sky !== 0) parts.push(`skewY(${sky}deg)`);
+  if (+rx  !== 0) parts.push(`rotateX(${rx}deg)`);
+  if (+ry  !== 0) parts.push(`rotateY(${ry}deg)`);
+  wrapper.style.transform     = parts.join(' ') || 'none';
+  wrapper.style.perspective   = '800px';
+}
+
+['css-skx', 'css-sky', 'css-rx', 'css-ry'].forEach(id => {
+  document.getElementById(id).addEventListener('input', applyCssTransform);
+});
+
+document.getElementById('btn-reset-css').addEventListener('click', () => {
+  ['css-skx', 'css-sky', 'css-rx', 'css-ry'].forEach(id => {
+    document.getElementById(id).value = 0;
+  });
+  applyCssTransform();
+});
+
+// Initial render
+render();
+</script>
+</body>
+</html>
